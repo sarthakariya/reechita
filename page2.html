@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 My Heart's Thoughts About You... 💕</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-pink-soft: #F8BBD0; /* Light Pink */
+            --secondary-peach: #FFECB3; /* Light Yellow/Peach */
+            --text-dark-blue: #283593;
+            --text-brown: #5D4037;
+            --container-bg: rgba(255, 255, 255, 0.97);
+            --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.15);
+            --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
         body {
             font-family: 'Open Sans', sans-serif;
             display: flex;
@@ -13,44 +23,39 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #f8bbd0 0%, #ffecb3 100%); /* Warm peach to pink gradient */
-            color: #311B92; /* Darker purple text */
+            background: linear-gradient(135deg, var(--primary-pink-soft) 0%, var(--secondary-peach) 100%); /* Warm pastel gradient */
+            color: var(--text-dark-blue);
             text-align: center;
             flex-direction: column;
             overflow: hidden;
             position: relative;
         }
 
-        /* Subtle floating hearts animation */
-        .heart {
+        /* Parallax Background Stars/Sparkles */
+        .parallax-sparkle {
             position: absolute;
-            font-size: 2em;
+            font-size: 4vw;
             opacity: 0;
-            animation: floatHeart 10s ease-in infinite;
+            animation: sparkleFloat 15s infinite ease-in-out;
             pointer-events: none;
-            color: #FF69B4; /* Hot pink */
+            z-index: 0;
+            color: #FFD700; /* Gold */
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
         }
 
-        .heart:nth-child(1) { top: 80%; left: 10%; animation-delay: 0s; }
-        .heart:nth-child(2) { top: 50%; left: 30%; animation-delay: 2s; font-size: 1.5em; }
-        .heart:nth-child(3) { top: 90%; left: 60%; animation-delay: 4s; font-size: 2.5em; }
-        .heart:nth-child(4) { top: 20%; left: 80%; animation-delay: 6s; }
-        .heart:nth-child(5) { top: 70%; left: 40%; animation-delay: 8s; font-size: 1.8em; }
-
-        @keyframes floatHeart {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.7; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes sparkleFloat {
+            0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(0, -100vh) rotate(360deg); opacity: 0; }
         }
-
 
         .container {
-            background-color: rgba(255, 255, 255, 0.97);
-            padding: 45px 65px;
+            background-color: var(--container-bg);
+            padding: 4.5vh 6.5vw;
             border-radius: 25px;
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
-            max-width: 750px;
-            margin: 20px;
+            box-shadow: var(--shadow-deep);
+            max-width: 85vw;
+            margin: 2vh;
             transform: scale(0.9);
             opacity: 0;
             animation: zoomInFade 1.5s ease-out forwards;
@@ -64,52 +69,62 @@
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive; /* Elegant script font */
+            font-family: 'Great Vibes', cursive; /* Elegant script font */
             color: #AD1457; /* Deeper pink */
-            font-size: 3.5em;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            font-size: 6.5vw;
+            margin-bottom: 2.5vh;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
             animation: textWave 1.5s ease-out 1s forwards;
             opacity: 0;
+            line-height: 1.2;
         }
 
         @keyframes textWave {
-            0% { transform: translateY(20px); opacity: 0; }
+            0% { transform: translateY(2vh); opacity: 0; }
             100% { transform: translateY(0); opacity: 1; }
         }
 
-
         p {
-            font-size: 1.25em;
-            line-height: 1.9;
-            margin-bottom: 35px;
-            color: #4E342E; /* Darker brown for contrast */
-            animation: fadeInParagraph 2s ease-out forwards; /* Delayed fade in */
+            font-size: 3.8vw;
+            line-height: 1.8;
+            margin-bottom: 3.5vh;
+            color: var(--text-brown);
+            animation: fadeInParagraph 2s ease-out forwards;
             opacity: 0;
         }
-
-        p:nth-child(2) { animation-delay: 1.5s; }
-        p:nth-child(3) { animation-delay: 2s; }
-        p:nth-child(4) { animation-delay: 2.5s; }
+        p:nth-of-type(1) { animation-delay: 1.5s; }
+        p:nth-of-type(2) { animation-delay: 2s; }
+        p:nth-of-type(3) { animation-delay: 2.5s; }
 
 
         @keyframes fadeInParagraph {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(1vh); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .highlight {
+            color: #E91E63; /* Vibrant pink for highlights */
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
+        }
+
         .button-container {
-            margin-top: 45px;
-            animation: fadeIn 2s ease-out 3s forwards;
+            margin-top: 4.5vh;
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center;
+            gap: 2vw; /* Responsive gap */
+            animation: fadeInScale 2s ease-out 3s forwards;
             opacity: 0;
+            transform: scale(0.9);
         }
 
         .button {
             display: inline-block;
-            padding: 16px 32px;
-            font-size: 1.3em;
+            padding: 2.2vh 4.5vw;
+            font-size: 3.8vw;
             font-weight: bold;
-            color: #fff;
+            color: var(--text-light);
             background: linear-gradient(45deg, #F06292, #EC407A); /* Soft pink gradient */
             border: none;
             border-radius: 40px;
@@ -117,9 +132,9 @@
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: 0 6px 12px rgba(236, 64, 122, 0.3);
-            margin: 0 15px; /* Space between buttons */
             position: relative;
             overflow: hidden;
+            flex-shrink: 0; /* Prevent shrinking on small screens */
         }
 
         .button::before {
@@ -143,30 +158,52 @@
 
         .button:hover {
             background: linear-gradient(45deg, #EC407A, #E91E63);
-            transform: translateY(-3px) scale(1.01);
+            transform: translateY(-0.5vh) scale(1.01);
             box-shadow: 0 9px 18px rgba(233, 30, 99, 0.5);
-            color: #FFF; /* Ensure text stays white */
+            color: var(--text-light);
         }
 
         .emoji {
             vertical-align: middle;
-            margin: 0 6px;
+            margin: 0 0.6vw;
             font-size: 1.1em;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 9vw; }
+            p { font-size: 4.5vw; }
+            .button { font-size: 5vw; padding: 2vh 6vw; }
+            .button-container { flex-direction: column; gap: 1.5vh; } /* Stack buttons vertically */
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 10vw; }
+            p { font-size: 5vw; }
+            .button { font-size: 6vw; padding: 1.8vh 5vw; }
+            .container { padding: 3.5vh 4.5vw; }
         }
     </style>
 </head>
 <body>
-    <div class="heart">❤️</div>
-    <div class="heart">💖</div>
-    <div class="heart">✨</div>
-    <div class="heart">💕</div>
-    <div class="heart">💜</div>
+    <script>
+        // JavaScript for dynamic parallax sparkles
+        const numSparkles = 20;
+        for (let i = 0; i < numSparkles; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('parallax-sparkle');
+            sparkle.textContent = '✨';
+            sparkle.style.left = `${Math.random() * 100}vw`;
+            sparkle.style.animationDelay = `${Math.random() * 15}s`;
+            sparkle.style.animationDuration = `${10 + Math.random() * 10}s`;
+            document.body.appendChild(sparkle);
+        }
+    </script>
 
     <div class="container">
-        <h1>Reechita, you're truly special. ✨</h1>
-        <p>Every time I see you, my day just gets a little brighter. Your smile 😄, your laughter 😂, your kindness 😇 – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible. 🥰</p>
-        <p>You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.🌟</p>
-        <p>The truth is, Reechita, I've developed strong feelings for you. More than just a crush, I believe it's something truly meaningful. 💜</p>
+        <h1>Reechita, you're truly special. <span class="emoji">✨</span></h1>
+        <p>Every time I see you, my day just gets a little brighter. Your <span class="highlight">smile</span> <span class="emoji">😄</span>, your <span class="highlight">laughter</span> <span class="emoji">😂</span>, your <span class="highlight">kindness</span> <span class="emoji">😇</span> – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible. <span class="emoji">🥰</span></p>
+        <p>You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.<span class="emoji">🌟</span></p>
+        <p>The truth is, Reechita, I've developed <span class="highlight">strong feelings</span> for you. More than just a crush, I believe it's something truly meaningful. <span class="emoji">💜</span></p>
         <div class="button-container">
             <a href="page1.html" class="button">↩️ Go back (if you want)</a>
             <a href="page3.html" class="button">Continue to the big question ➡️</a>
