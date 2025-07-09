@@ -3,96 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Heart's Desire...</title>
+    <title>🌹 My Heart's Desire... The Question! 💍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #ffcdd2; /* Lightest pink background */
-            color: #1a237e; /* Deep purple text */
+            background: linear-gradient(135deg, #FFC0CB 0%, #BA55D3 100%); /* Pink to purple gradient */
+            color: #1A237E; /* Deep purple text */
             text-align: center;
             flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Confetti effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #FFD700; /* Gold */
+            opacity: 0;
+            border-radius: 50%;
+            animation: confettiFall 5s ease-out infinite forwards;
+            pointer-events: none;
+        }
+
+        .confetti:nth-child(2n) { background-color: #FF69B4; animation-delay: 1s; } /* Hot pink */
+        .confetti:nth-child(3n) { background-color: #98FB98; animation-delay: 2s; } /* Pale green */
+        .confetti:nth-child(4n) { background-color: #ADD8E6; animation-delay: 3s; } /* Light blue */
+        .confetti:nth-child(5n) { background-color: #FFA07A; animation-delay: 4s; } /* Light salmon */
+
+
+        @keyframes confettiFall {
+            0% { transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(var(--x, 0), var(--fall-y, 100vh)) rotate(720deg); opacity: 0; }
+        }
+
+        /* Generate random confetti positions (JavaScript will do this) */
+
         .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 700px;
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 50px 70px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            max-width: 800px;
             margin: 20px;
+            transform: scale(0.8);
+            opacity: 0;
+            animation: fadeInZoomIn 1.5s ease-out forwards;
+            position: relative;
+            z-index: 10;
         }
+
+        @keyframes fadeInZoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
         h1 {
-            color: #d81b60; /* Vibrant pink for heading */
-            margin-bottom: 20px;
+            font-family: 'Great Vibes', cursive; /* Grand, elegant font */
+            color: #D81B60; /* Vibrant pink */
+            font-size: 4em;
+            margin-bottom: 35px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            animation: headingGlow 2s ease-in-out infinite alternate;
         }
+
+        @keyframes headingGlow {
+            from { text-shadow: 0 0 5px #D81B60, 0 0 10px #D81B60; }
+            to { text-shadow: 0 0 10px #D81B60, 0 0 20px #FF4081, 0 0 30px #FF4081; }
+        }
+
         p {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            font-size: 1.3em;
+            line-height: 1.9;
+            margin-bottom: 40px;
+            color: #3E2723; /* Dark brown */
+            animation: textFadeIn 2s ease-out 1s forwards;
+            opacity: 0;
         }
+
         .confession-text {
-            font-size: 1.5em;
+            font-size: 2.2em;
             font-weight: bold;
-            color: #c2185b; /* Stronger pink for the main question */
-            margin: 40px 0;
-            animation: pulse 1.5s infinite;
+            color: #C2185B; /* Stronger pink */
+            margin: 50px 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #FFE0B2, #FFAB91); /* Soft orange gradient */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: revealQuestion 2s ease-out 2s forwards, pulseGlow 1.5s infinite;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+
+        @keyframes revealQuestion {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 10px rgba(255, 64, 129, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(255, 64, 129, 0.8), 0 0 30px rgba(255, 64, 129, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(255, 64, 129, 0.4); }
+        }
+
         .button-container {
-            margin-top: 30px;
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* Space between buttons */
+            animation: fadeInScale 1.5s ease-out 3.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         .button {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 20px 40px;
+            font-size: 1.6em;
+            font-weight: bold;
             color: #fff;
-            background-color: #ff4081; /* Bright pink button */
             border: none;
-            border-radius: 50px;
+            border-radius: 60px;
             text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
-            margin: 0 15px; /* Space between buttons */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
+
         .button.yes {
-            background-color: #4CAF50; /* Green for Yes */
+            background: linear-gradient(45deg, #4CAF50, #66BB6A); /* Green gradient */
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
         }
         .button.yes:hover {
-            background-color: #43a047;
-            transform: translateY(-3px);
+            background: linear-gradient(45deg, #66BB6A, #81C784);
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 15px 25px rgba(76, 175, 80, 0.6);
         }
+
         .button.no {
-            background-color: #F44336; /* Red for No */
+            background: linear-gradient(45deg, #F44336, #EF5350); /* Red gradient */
+            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
         }
         .button.no:hover {
-            background-color: #e53935;
-            transform: translateY(-3px);
+            background: linear-gradient(45deg, #EF5350, #E53935);
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 15px 25px rgba(244, 67, 54, 0.6);
         }
-        .button:hover {
-            background-color: #e91e63; /* Darker pink on hover for the main button */
-            transform: translateY(-3px);
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .button:hover::before {
+            width: 250%;
+            height: 250%;
+            opacity: 0;
         }
     </style>
 </head>
 <body>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+
     <div class="container">
-        <h1>So, here it goes...</h1>
-        <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita.</p>
-        <p class="confession-text">Reechita, would you do me the honor of being my girlfriend?</p>
-        <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely.</p>
+        <h1>So, here it goes, my heart on my sleeve... 💖</h1>
+        <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita, because you mean so much to me. 💫</p>
+        <p class="confession-text">Reechita, would you do me the honor of being my girlfriend? 💘</p>
+        <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. 😊</p>
         <div class="button-container">
-            <a href="acknowledgement.html?response=yes" class="button yes">Yes!</a>
-            <a href="acknowledgement.html?response=no" class="button no">I'm sorry, no.</a>
+            <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! 🥰</a>
+            <a href="acknowledgement.html?response=no" class="button no">I'm so sorry, no. 😔</a>
         </div>
-        <p style="margin-top: 40px; font-size: 0.9em; color: #757575;">(P.S. Sarthak wants you to know this comes from the heart.)</p>
+        <p style="margin-top: 40px; font-size: 1em; color: #757575;">(P.S. Sarthak wants you to know this comes straight from the heart. ❤️)</p>
     </div>
+
+    <script>
+        // JavaScript to create random confetti positions
+        const numConfetti = 50; // More confetti!
+        for (let i = 0; i < numConfetti; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = `${Math.random() * 100}vw`;
+            confetti.style.animationDelay = `${Math.random() * 5}s`;
+            confetti.style.setProperty('--x', `${(Math.random() - 0.5) * 200}px`); // Random horizontal drift
+            confetti.style.setProperty('--y', `${Math.random() * -100}px`); // Start above
+            confetti.style.setProperty('--fall-y', `${window.innerHeight + 100}px`); // Fall off screen
+            document.body.appendChild(confetti);
+        }
+    </script>
 </body>
 </html>
