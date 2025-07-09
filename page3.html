@@ -1,1 +1,98 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Heart's Desire...</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #ffcdd2; /* Lightest pink background */
+            color: #1a237e; /* Deep purple text */
+            text-align: center;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: 20px;
+        }
+        h1 {
+            color: #d81b60; /* Vibrant pink for heading */
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .confession-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #c2185b; /* Stronger pink for the main question */
+            margin: 40px 0;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .button-container {
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #ff4081; /* Bright pink button */
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            margin: 0 15px; /* Space between buttons */
+        }
+        .button.yes {
+            background-color: #4CAF50; /* Green for Yes */
+        }
+        .button.yes:hover {
+            background-color: #43a047;
+            transform: translateY(-3px);
+        }
+        .button.no {
+            background-color: #F44336; /* Red for No */
+        }
+        .button.no:hover {
+            background-color: #e53935;
+            transform: translateY(-3px);
+        }
+        .button:hover {
+            background-color: #e91e63; /* Darker pink on hover for the main button */
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>So, here it goes...</h1>
+        <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita.</p>
+        <p class="confession-text">Reechita, would you do me the honor of being my girlfriend?</p>
+        <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely.</p>
+        <div class="button-container">
+            <a href="acknowledgement.html?response=yes" class="button yes">Yes!</a>
+            <a href="acknowledgement.html?response=no" class="button no">I'm sorry, no.</a>
+        </div>
+        <p style="margin-top: 40px; font-size: 0.9em; color: #757575;">(P.S. Sarthak wants you to know this comes from the heart.)</p>
+    </div>
+</body>
+</html>
