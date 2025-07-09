@@ -4,56 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌹 My Heart's Desire... The Question! 💍</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient-start: #FFC0CB; /* Pink */
+            --primary-gradient-end: #BA55D3; /* Medium Orchid */
+            --text-heading: #D81B60; /* Vibrant Pink */
+            --text-body: #3E2723; /* Dark Brown */
+            --confession-bg-start: #FFE0B2; /* Peach */
+            --confession-bg-end: #FFAB91; /* Salmon */
+            --button-yes-start: #4CAF50; /* Green */
+            --button-yes-end: #66BB6A; /* Light Green */
+            --button-no-start: #F44336; /* Red */
+            --button-no-end: #EF5350; /* Light Red */
+            --container-bg: rgba(255, 255, 255, 0.98);
+            --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.35);
+        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Roboto', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #FFC0CB 0%, #BA55D3 100%); /* Pink to purple gradient */
-            color: #1A237E; /* Deep purple text */
+            background: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
+            color: var(--text-body);
             text-align: center;
             flex-direction: column;
             overflow: hidden;
             position: relative;
         }
 
-        /* Confetti effect */
-        .confetti {
+        /* Parallax Background Confetti/Glow */
+        .parallax-effect {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #FFD700; /* Gold */
+            font-size: 5vw;
             opacity: 0;
-            border-radius: 50%;
-            animation: confettiFall 5s ease-out infinite forwards;
+            animation: confettiFall 20s infinite ease-out;
             pointer-events: none;
+            z-index: 0;
         }
-
-        .confetti:nth-child(2n) { background-color: #FF69B4; animation-delay: 1s; } /* Hot pink */
-        .confetti:nth-child(3n) { background-color: #98FB98; animation-delay: 2s; } /* Pale green */
-        .confetti:nth-child(4n) { background-color: #ADD8E6; animation-delay: 3s; } /* Light blue */
-        .confetti:nth-child(5n) { background-color: #FFA07A; animation-delay: 4s; } /* Light salmon */
-
 
         @keyframes confettiFall {
-            0% { transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translate(var(--x, 0), var(--fall-y, 100vh)) rotate(720deg); opacity: 0; }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.7; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Generate random confetti positions (JavaScript will do this) */
-
         .container {
-            background-color: rgba(255, 255, 255, 0.98);
-            padding: 50px 70px;
+            background-color: var(--container-bg);
+            padding: 5vh 7vw;
             border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-            max-width: 800px;
-            margin: 20px;
+            box-shadow: var(--shadow-deep);
+            max-width: 90vw;
+            margin: 2vh;
             transform: scale(0.8);
             opacity: 0;
             animation: fadeInZoomIn 1.5s ease-out forwards;
@@ -67,45 +72,51 @@
         }
 
         h1 {
-            font-family: 'Great Vibes', cursive; /* Grand, elegant font */
-            color: #D81B60; /* Vibrant pink */
-            font-size: 4em;
-            margin-bottom: 35px;
+            font-family: 'Playfair Display', serif; /* Elegant serif font */
+            color: var(--text-heading);
+            font-size: 7vw;
+            margin-bottom: 3.5vh;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
             animation: headingGlow 2s ease-in-out infinite alternate;
+            line-height: 1.2;
         }
 
         @keyframes headingGlow {
-            from { text-shadow: 0 0 5px #D81B60, 0 0 10px #D81B60; }
-            to { text-shadow: 0 0 10px #D81B60, 0 0 20px #FF4081, 0 0 30px #FF4081; }
+            from { text-shadow: 0 0 5px var(--text-heading), 0 0 10px var(--text-heading); }
+            to { text-shadow: 0 0 10px var(--text-heading), 0 0 20px var(--primary-gradient-start), 0 0 30px var(--primary-gradient-start); }
         }
 
         p {
-            font-size: 1.3em;
-            line-height: 1.9;
-            margin-bottom: 40px;
-            color: #3E2723; /* Dark brown */
-            animation: textFadeIn 2s ease-out 1s forwards;
+            font-size: 4vw;
+            line-height: 1.8;
+            margin-bottom: 4vh;
+            color: var(--text-body);
+            animation: textFadeIn 2s ease-out forwards;
             opacity: 0;
         }
+        p:nth-of-type(1) { animation-delay: 1s; }
+        p:nth-of-type(2) { animation-delay: 1.5s; }
+        p:nth-of-type(3) { animation-delay: 2s; }
+
 
         .confession-text {
-            font-size: 2.2em;
+            font-size: 6vw;
             font-weight: bold;
-            color: #C2185B; /* Stronger pink */
-            margin: 50px 0;
-            padding: 20px;
-            background: linear-gradient(45deg, #FFE0B2, #FFAB91); /* Soft orange gradient */
+            color: var(--text-heading);
+            margin: 5vh 0;
+            padding: 2.5vh 3vw;
+            background: linear-gradient(45deg, var(--confession-bg-start), var(--confession-bg-end));
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             animation: revealQuestion 2s ease-out 2s forwards, pulseGlow 1.5s infinite;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(2vh);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.3;
         }
 
         @keyframes revealQuestion {
-            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            from { opacity: 0; transform: translateY(5vh) scale(0.9); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
@@ -116,26 +127,28 @@
         }
 
         .button-container {
-            margin-top: 50px;
+            margin-top: 5vh;
             display: flex;
+            flex-direction: row; /* Keep buttons side-by-side */
             justify-content: center;
-            gap: 30px; /* Space between buttons */
-            animation: fadeInScale 1.5s ease-out 3.5s forwards;
+            gap: 3vw; /* Space between buttons */
+            animation: fadeInScaleButtons 1.5s ease-out 3.5s forwards;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(2vh);
+            position: relative; /* For "no" button positioning */
         }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+        @keyframes fadeInScaleButtons {
+            from { opacity: 0; transform: translateY(3vh) scale(0.9); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .button {
             display: inline-block;
-            padding: 20px 40px;
-            font-size: 1.6em;
+            padding: 2.5vh 5vw;
+            font-size: 4.5vw;
             font-weight: bold;
-            color: #fff;
+            color: var(--text-light);
             border: none;
             border-radius: 60px;
             text-decoration: none;
@@ -146,25 +159,26 @@
             overflow: hidden;
             letter-spacing: 1px;
             text-transform: uppercase;
+            flex-shrink: 0;
         }
 
         .button.yes {
-            background: linear-gradient(45deg, #4CAF50, #66BB6A); /* Green gradient */
+            background: linear-gradient(45deg, var(--button-yes-start), var(--button-yes-end));
             box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
         }
         .button.yes:hover {
-            background: linear-gradient(45deg, #66BB6A, #81C784);
-            transform: translateY(-7px) scale(1.03);
+            background: linear-gradient(45deg, var(--button-yes-end), #81C784);
+            transform: translateY(-0.7vh) scale(1.03);
             box-shadow: 0 15px 25px rgba(76, 175, 80, 0.6);
         }
 
         .button.no {
-            background: linear-gradient(45deg, #F44336, #EF5350); /* Red gradient */
+            background: linear-gradient(45deg, var(--button-no-start), var(--button-no-end));
             box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
+            transition: transform 0.1s ease-out, background 0.4s ease, box-shadow 0.4s ease; /* Faster transition for movement */
         }
         .button.no:hover {
-            background: linear-gradient(45deg, #EF5350, #E53935);
-            transform: translateY(-7px) scale(1.03);
+            background: linear-gradient(45deg, var(--button-no-end), #E53935);
             box-shadow: 0 15px 25px rgba(244, 67, 54, 0.6);
         }
 
@@ -187,45 +201,124 @@
             height: 250%;
             opacity: 0;
         }
+
+        .emoji {
+            vertical-align: middle;
+            margin: 0 0.5vw;
+            font-size: 1.2em;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 10vw; }
+            p { font-size: 4.5vw; }
+            .confession-text { font-size: 7vw; padding: 2vh 4vw; }
+            .button { font-size: 5vw; padding: 2vh 6vw; }
+            .button-container { flex-direction: column; gap: 2vh; } /* Stack buttons vertically */
+            /* Force "Yes" button left, "No" button right for small screens */
+            .button.yes { align-self: flex-start; margin-left: auto; margin-right: auto;}
+            .button.no { align-self: flex-end; margin-left: auto; margin-right: auto;}
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 11vw; }
+            p { font-size: 5vw; }
+            .confession-text { font-size: 8vw; padding: 1.8vh 3.5vw; }
+            .button { font-size: 6vw; padding: 1.8vh 5vw; }
+            .container { padding: 4vh 6vw; }
+        }
     </style>
 </head>
 <body>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
+    <script>
+        // JavaScript for dynamic parallax effects (stars and hearts)
+        const numEffects = 20;
+        const emojis = ['💖', '✨', '🌟', '💫']; // Different emojis for effect
+        for (let i = 0; i < numEffects; i++) {
+            const effect = document.createElement('div');
+            effect.classList.add('parallax-effect');
+            effect.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            effect.style.left = `${Math.random() * 100}vw`;
+            effect.style.animationDelay = `${Math.random() * 20}s`;
+            effect.style.animationDuration = `${15 + Math.random() * 10}s`;
+            effect.style.fontSize = `${3 + Math.random() * 4}vw`; // Varied sizes
+            document.body.appendChild(effect);
+        }
+
+        // JavaScript for "No" button floating effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const noButton = document.getElementById('noButton');
+            const container = document.querySelector('.container');
+
+            if (noButton && container) {
+                let currentX = 0;
+                let currentY = 0;
+
+                noButton.addEventListener('mouseover', (e) => {
+                    const buttonRect = noButton.getBoundingClientRect();
+                    const containerRect = container.getBoundingClientRect();
+
+                    let newX, newY;
+                    let attempts = 0;
+                    const maxAttempts = 100;
+                    const moveDistance = 50; // pixels to move away
+
+                    do {
+                        // Calculate a new random position relative to its current position
+                        const angle = Math.random() * 2 * Math.PI; // Random angle
+                        newX = currentX + Math.cos(angle) * moveDistance;
+                        newY = currentY + Math.sin(angle) * moveDistance;
+
+                        attempts++;
+                        if (attempts > maxAttempts) {
+                            // Fallback if unable to find a valid position after many attempts
+                            newX = Math.random() * (containerRect.width - buttonRect.width);
+                            newY = Math.random() * (containerRect.height - buttonRect.height);
+                            break;
+                        }
+
+                        // Check if the new position is within the *container* boundaries
+                        // (relative to container's top-left)
+                        // Adjust newX, newY to be relative to the button's initial container position
+                        const newButtonLeftInContainer = newX + (buttonRect.left - containerRect.left);
+                        const newButtonTopInContainer = newY + (buttonRect.top - containerRect.top);
+
+                        if (newButtonLeftInContainer >= 0 &&
+                            newButtonLeftInContainer + buttonRect.width <= containerRect.width &&
+                            newButtonTopInContainer >= 0 &&
+                            newButtonTopInContainer + buttonRect.height <= containerRect.height) {
+                            break; // Found a valid position
+                        }
+                    } while (true);
+
+                    // Apply the transformation relative to its original position
+                    noButton.style.transform = `translate(${newX}px, ${newY}px)`;
+                    currentX = newX;
+                    currentY = newY;
+                });
+
+                // Reset position if mouse leaves the button without clicking
+                noButton.addEventListener('mouseout', () => {
+                    // Optional: You can make it stay in its last position or reset
+                    // For this, we'll let it stay until another hover
+                    // To reset:
+                    // noButton.style.transform = `translate(0, 0)`;
+                    // currentX = 0;
+                    // currentY = 0;
+                });
+            }
+        });
+    </script>
 
     <div class="container">
-        <h1>So, here it goes, my heart on my sleeve... 💖</h1>
-        <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita, because you mean so much to me. 💫</p>
-        <p class="confession-text">Reechita, would you do me the honor of being my girlfriend? 💘</p>
-        <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. 😊</p>
+        <h1>So, here it goes, my heart on my sleeve... <span class="emoji">💖</span></h1>
+        <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita, because you mean so much to me. <span class="emoji">💫</span></p>
+        <p class="confession-text">Reechita, would you do me the honor of being my girlfriend? <span class="emoji">💘</span></p>
+        <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span></p>
         <div class="button-container">
-            <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! 🥰</a>
-            <a href="acknowledgement.html?response=no" class="button no">I'm so sorry, no. 😔</a>
+            <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! <span class="emoji">🥰</span></a>
+            <a href="acknowledgement.html?response=no" id="noButton" class="button no">I'm so sorry, no. <span class="emoji">😔</span></a>
         </div>
-        <p style="margin-top: 40px; font-size: 1em; color: #757575;">(P.S. Sarthak wants you to know this comes straight from the heart. ❤️)</p>
+        <p style="margin-top: 5vh; font-size: 3.5vw; color: #757575;">(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
     </div>
-
-    <script>
-        // JavaScript to create random confetti positions
-        const numConfetti = 50; // More confetti!
-        for (let i = 0; i < numConfetti; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            confetti.style.left = `${Math.random() * 100}vw`;
-            confetti.style.animationDelay = `${Math.random() * 5}s`;
-            confetti.style.setProperty('--x', `${(Math.random() - 0.5) * 200}px`); // Random horizontal drift
-            confetti.style.setProperty('--y', `${Math.random() * -100}px`); // Start above
-            confetti.style.setProperty('--fall-y', `${window.innerHeight + 100}px`); // Fall off screen
-            document.body.appendChild(confetti);
-        }
-    </script>
 </body>
 </html>
