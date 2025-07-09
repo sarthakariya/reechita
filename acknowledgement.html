@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #e0f2f7; /* Light blue background */
+            color: #0d47a1; /* Dark blue text */
+            text-align: center;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 20px;
+        }
+        h1 {
+            color: #0288d1; /* Medium blue for heading */
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .response-text {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #00796b; /* Teal color */
+            margin: 30px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #26c6da; /* Light blue button */
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #00bcd4; /* Darker blue on hover */
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="thankYouHeader"></h1>
+        <p id="responseText"></p>
+        <p>Thank you for taking the time to read my feelings, Reechita. Your honesty means the world to me.</p>
+        <div class="button-container">
+            <a href="page1.html" class="button">Go back to the beginning</a>
+        </div>
+    </div>
+
+    <script>
+        // Get the response from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const response = urlParams.get('response');
+        const thankYouHeader = document.getElementById('thankYouHeader');
+        const responseText = document.getElementById('responseText');
+
+        if (response === 'yes') {
+            thankYouHeader.textContent = "OMG, YES! Thank You, Thank You, Thank You!";
+            responseText.textContent = "I'm so incredibly happy to hear that! This means the world to me. I can't wait to see where this goes!";
+            responseText.style.color = '#4CAF50'; // Green for positive response
+        } else if (response === 'no') {
+            thankYouHeader.textContent = "Thank you for your honesty, Reechita.";
+            responseText.textContent = "I understand completely. While I'm a little sad, I truly appreciate you being open with me. Our friendship means a lot, and I hope we can still be good friends.";
+            responseText.style.color = '#F44336'; // Red for negative response
+        } else {
+            thankYouHeader.textContent = "Just checking in!";
+            responseText.textContent = "It seems you landed here without a direct response. Thank you for visiting!";
+        }
+    </script>
+</body>
+</html>
