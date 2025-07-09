@@ -4,67 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 Thank You, Reechita! 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --text-dark-blue: #0D47A1;
+            --button-blue: #26C6DA;
+            --container-bg: rgba(255, 255, 255, 0.98);
+            --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #e0f2f7 0%, #bbdefb 100%); /* Light blue gradient */
-            color: #0D47A1; /* Dark blue text */
+            background: linear-gradient(135deg, #e0f2f7 0%, #bbdefb 100%); /* Light blue gradient (will be overridden by JS) */
+            color: var(--text-dark-blue);
             text-align: center;
             flex-direction: column;
             overflow: hidden;
             position: relative;
         }
 
-        /* Confetti effect for YES, sad rain for NO */
-        .effect {
+        /* Dynamic effect elements (confetti/rain) - handled by JS to create */
+        .dynamic-effect {
             position: absolute;
-            font-size: 2em;
+            font-size: 4vw; /* Responsive size */
             opacity: 0;
-            animation: fallEffect 5s ease-out infinite forwards;
             pointer-events: none;
             z-index: 1; /* Below container */
         }
 
-        /* Specific styles handled by JS */
-        .confetti-yes {
-            color: #FFD700; /* Gold */
-            animation-name: fallConfetti;
-        }
-        .rain-no {
-            color: #ADD8E6; /* Light blue */
-            animation-name: fallRain;
-        }
-
+        /* Specific animations for confetti and rain */
         @keyframes fallConfetti {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             20% { opacity: 0.9; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
         @keyframes fallRain {
-            0% { transform: translateY(-50px); opacity: 0; }
+            0% { transform: translateY(-10vh); opacity: 0; }
             20% { opacity: 0.7; }
-            100% { transform: translateY(100vh); opacity: 0; }
+            100% { transform: translateY(110vh); opacity: 0; }
         }
 
-
         .container {
-            background-color: rgba(255, 255, 255, 0.98);
-            padding: 40px 60px;
+            background-color: var(--container-bg);
+            padding: 4.5vh 6.5vw;
             border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            max-width: 650px;
-            margin: 20px;
+            box-shadow: var(--shadow-light);
+            max-width: 85vw;
+            margin: 2vh;
             transform: scale(0.9);
             opacity: 0;
             animation: fadeInPop 1.5s ease-out forwards;
             position: relative;
-            z-index: 10; /* Bring container to front */
+            z-index: 10; /* Above effects */
         }
 
         @keyframes fadeInPop {
@@ -73,41 +69,42 @@
         }
 
         h1 {
-            font-family: 'Permanent Marker', cursive; /* Playful, handwritten feel */
-            font-size: 3.5em;
-            margin-bottom: 25px;
+            font-family: 'Pacifico', cursive; /* Elegant, flowing font */
+            font-size: 7vw;
+            margin-bottom: 2.5vh;
             text-shadow: 2px 2px 3px rgba(0,0,0,0.1);
             animation: textBounce 1.5s ease-out 1s forwards;
             opacity: 0;
+            line-height: 1.2;
         }
 
         @keyframes textBounce {
-            0% { transform: translateY(-20px); opacity: 0; }
-            60% { transform: translateY(10px); opacity: 1; }
+            0% { transform: translateY(-2vh); opacity: 0; }
+            60% { transform: translateY(1vh); opacity: 1; }
             100% { transform: translateY(0); opacity: 1; }
         }
 
         p {
-            font-size: 1.15em;
+            font-size: 4vw;
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 3vh;
             color: #1565C0; /* Medium blue */
             animation: fadeInText 2s ease-out 1.5s forwards;
             opacity: 0;
         }
 
         #responseText {
-            font-size: 1.6em;
+            font-size: 5vw;
             font-weight: bold;
-            margin: 30px 0;
-            padding: 15px 25px;
+            margin: 3.5vh 0;
+            padding: 1.5vh 2.5vw;
             border-radius: 10px;
-            display: inline-block; /* To apply padding and border */
+            display: inline-block;
             animation: responseGlow 2s ease-in-out infinite alternate;
-            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent background */
+            background-color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Specific glow for responses */
+        /* Specific glow and text colors for responses */
         .yes-glow {
             color: #2E7D32; /* Dark green */
             box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
@@ -116,6 +113,10 @@
             color: #C62828; /* Dark red */
             box-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
         }
+        .neutral-glow {
+            color: #FFC107; /* Amber */
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+        }
 
         @keyframes responseGlow {
             0% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
@@ -123,20 +124,20 @@
             100% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
         }
 
-
         .button-container {
-            margin-top: 40px;
-            animation: fadeIn 2s ease-out 2s forwards;
+            margin-top: 4vh;
+            animation: fadeInScale 2s ease-out 2s forwards;
             opacity: 0;
+            transform: scale(0.9);
         }
 
         .button {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 2vh 4vw;
+            font-size: 3.8vw;
             font-weight: bold;
-            color: #fff;
-            background-color: #26C6DA; /* Light blue button */
+            color: var(--text-light);
+            background-color: var(--button-blue);
             border: none;
             border-radius: 50px;
             text-decoration: none;
@@ -147,27 +148,34 @@
         }
 
         .button:hover {
-            background-color: #00BCD4; /* Darker blue on hover */
-            transform: translateY(-3px) scale(1.02);
+            background-color: #00BCD4;
+            transform: translateY(-0.5vh) scale(1.02);
             box-shadow: 0 8px 15px rgba(0, 188, 212, 0.5);
         }
 
         .emoji {
             vertical-align: middle;
-            margin: 0 4px;
+            margin: 0 0.5vw;
+            font-size: 1.1em;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 9vw; }
+            p { font-size: 4.5vw; }
+            #responseText { font-size: 5.5vw; padding: 1.5vh 4vw; }
+            .button { font-size: 5vw; padding: 1.8vh 6vw; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 10vw; }
+            p { font-size: 5vw; }
+            #responseText { font-size: 6vw; padding: 1.5vh 3.5vw; }
+            .button { font-size: 6vw; padding: 1.5vh 5vw; }
+            .container { padding: 3.5vh 5.5vw; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="thankYouHeader"></h1>
-        <p id="responseText"></p>
-        <p>Thank you for taking the time to read my feelings, Reechita. Your honesty means the world to me. ❤️</p>
-        <div class="button-container">
-            <a href="page1.html" class="button">Go back to the beginning ✨</a>
-        </div>
-    </div>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const response = urlParams.get('response');
@@ -175,46 +183,64 @@
         const responseText = document.getElementById('responseText');
         const body = document.body;
 
-        function createEffectElement(emoji, className, delay) {
-            const effect = document.createElement('div');
-            effect.classList.add('effect', className);
-            effect.textContent = emoji;
-            effect.style.left = `${Math.random() * 100}vw`;
-            effect.style.animationDelay = `${delay + Math.random() * 3}s`;
-            effect.style.fontSize = `${1.5 + Math.random() * 1.5}em`;
-            body.appendChild(effect);
+        function createDynamicEffect(emoji, className, count, animationDelayMultiplier = 1) {
+            for (let i = 0; i < count; i++) {
+                const effect = document.createElement('div');
+                effect.classList.add('dynamic-effect', className);
+                effect.textContent = emoji;
+                effect.style.left = `${Math.random() * 100}vw`;
+                effect.style.animationDelay = `${Math.random() * 5 * animationDelayMultiplier}s`;
+                effect.style.animationDuration = `${5 + Math.random() * 5}s`;
+                effect.style.fontSize = `${2 + Math.random() * 2}vw`; // Varied sizes
+                body.appendChild(effect);
+            }
         }
 
         if (response === 'yes') {
             thankYouHeader.textContent = "OMG, YES! Thank You, Thank You, Thank You! 🥰🎉";
             responseText.textContent = "I'm so incredibly happy to hear that! This means the absolute world to me. My heart is soaring! 💖🚀 I can't wait to see where this amazing journey takes us!";
             responseText.classList.add('yes-glow');
-
-            // Add celebratory confetti
-            for (let i = 0; i < 20; i++) {
-                createEffectElement('🎉', 'confetti-yes', 0);
-                createEffectElement('🌟', 'confetti-yes', 0.5);
-                createEffectElement('🎊', 'confetti-yes', 1);
-            }
             body.style.background = 'linear-gradient(135deg, #A8E063 0%, #56AB2F 100%)'; /* Green gradient */
+
+            createDynamicEffect('🎉', 'confetti-yes', 25);
+            createDynamicEffect('🌟', 'confetti-yes', 15, 0.8);
+            createDynamicEffect('💖', 'confetti-yes', 20, 1.2);
 
         } else if (response === 'no') {
             thankYouHeader.textContent = "Thank you for your honesty, Reechita. 😔";
-            responseText.textContent = "I understand completely. While I'm a little sad 💔, I truly appreciate you being open and honest with me. Our friendship means a lot, and I sincerely hope we can still be good friends.🫂";
+            responseText.textContent = "I understand completely. While I'm a little sad 💔, I truly appreciate you being open and honest with me. Our friendship means a lot, and I sincerely hope we can still be good friends. 🫂";
             responseText.classList.add('no-glow');
-
-            // Add subtle "rain" for sadness
-            for (let i = 0; i < 20; i++) {
-                createEffectElement('💧', 'rain-no', 0);
-                createEffectElement('🌧️', 'rain-no', 0.5);
-            }
             body.style.background = 'linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%)'; /* Greyish blue gradient */
 
+            createDynamicEffect('💧', 'rain-no', 30);
+            createDynamicEffect('🌧️', 'rain-no', 10, 0.7);
+
         } else {
-            thankYouHeader.textContent = "Just checking in!";
-            responseText.textContent = "It seems you landed here without a direct response. Thank you for visiting! ✨";
-            responseText.style.color = '#00796B';
+            thankYouHeader.textContent = "Just checking in! ✨";
+            responseText.textContent = "It seems you landed here without a direct response. Thank you for visiting! 😊";
+            responseText.classList.add('neutral-glow');
+            body.style.background = 'linear-gradient(135deg, #FFECB3 0%, #FFE0B2 100%)'; /* Neutral warm gradient */
+        }
+
+        // Apply animations based on effect type
+        const styleSheet = document.styleSheets[0];
+        if (response === 'yes') {
+            styleSheet.insertRule(`
+                .confetti-yes { animation-name: fallConfetti; }
+            `, styleSheet.cssRules.length);
+        } else if (response === 'no') {
+            styleSheet.insertRule(`
+                .rain-no { animation-name: fallRain; }
+            `, styleSheet.cssRules.length);
         }
     </script>
+    <div class="container">
+        <h1 id="thankYouHeader"></h1>
+        <p id="responseText"></p>
+        <p>Thank you for taking the time to read my feelings, Reechita. Your honesty means the world to me. <span class="emoji">❤️</span></p>
+        <div class="button-container">
+            <a href="page1.html" class="button">Go back to the beginning <span class="emoji">✨</span></a>
+        </div>
+    </div>
 </body>
 </html>
