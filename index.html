@@ -1,67 +1,163 @@
-<!DOCTYPE html>
+<!DOCTYPE = html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Little Something Special...</title>
+    <title>🌟 A Little Something Special for Reechita... 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #fce4ec; /* Light pink background */
-            color: #4a148c; /* Dark purple text */
+            background: linear-gradient(135deg, #FFD1DC 0%, #B0E0E6 100%); /* Soft gradient */
+            color: #4A148C; /* Dark purple text */
             text-align: center;
             flex-direction: column;
+            overflow: hidden; /* Hide overflow from animations */
+            position: relative;
         }
+
+        /* Background animation - flowing hearts/stars */
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-repeat: repeat;
+            background-size: 50px 50px;
+            animation: flowBackground 20s linear infinite;
+        }
+
+        body::before {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><text x="0" y="15" font-size="16" fill="%23FFC0CB">💖</text></svg>');
+            opacity: 0.3;
+            animation-delay: 0s;
+        }
+
+        body::after {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><text x="0" y="15" font-size="16" fill="%23ADD8E6">✨</text></svg>');
+            opacity: 0.2;
+            animation-delay: 10s;
+        }
+
+        @keyframes flowBackground {
+            from { transform: translateX(0) translateY(0); }
+            to { transform: translateX(100px) translateY(100px); }
+        }
+
+
         .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
             margin: 20px;
+            transform: translateY(20px); /* Initial position for animation */
+            opacity: 0; /* Initial opacity for animation */
+            animation: fadeInSlideUp 1.5s ease-out forwards;
+            position: relative; /* For z-index */
+            z-index: 10; /* Bring container to front */
         }
+
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         h1 {
-            color: #880e4f; /* Darker pink for heading */
-            margin-bottom: 20px;
+            font-family: 'Pacifico', cursive; /* Elegant, flowing font */
+            color: #D81B60; /* Vibrant pink */
+            font-size: 3.2em;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: textPop 1s ease-out 1.5s forwards; /* Delayed pop animation */
+            opacity: 0;
         }
+
+        @keyframes textPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         p {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 35px;
+            color: #5D4037; /* Warm brown for readability */
+            animation: fadeIn 2s ease-out 2s forwards; /* Delayed fade in */
+            opacity: 0;
         }
+
         .button-container {
-            margin-top: 30px;
+            margin-top: 40px;
+            animation: fadeIn 2s ease-out 2.5s forwards; /* Delayed fade in */
+            opacity: 0;
         }
+
         .button {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 18px 35px;
+            font-size: 1.4em;
+            font-weight: bold;
             color: #fff;
-            background-color: #e91e63; /* Pink button */
+            background: linear-gradient(45deg, #FF4081, #E91E63); /* Pink gradient */
             border: none;
             border-radius: 50px;
             text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
+            box-shadow: 0 8px 15px rgba(233, 30, 99, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
         }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease;
+            transform: skewX(-20deg);
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
         .button:hover {
-            background-color: #c2185b; /* Darker pink on hover */
-            transform: translateY(-3px);
+            background: linear-gradient(45deg, #E91E63, #D81B60);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 20px rgba(233, 30, 99, 0.6);
+        }
+
+        .emoji {
+            font-size: 1.1em;
+            vertical-align: middle;
+            margin: 0 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Hey Reechita,</h1>
-        <p>There's something I've been wanting to tell you for a while now, and I finally gathered the courage to put it into words. It's a little scary, but also exciting.</p>
-        <p>I hope you'll take a moment to read what I have to say. Just click the button below to continue.</p>
+        <h1>Hey Reechita, 💖</h1>
+        <p>There's something I've been wanting to tell you for a while now, and I finally gathered the courage to put it into words. It's a little scary 😬, but also incredibly exciting! ✨</p>
+        <p>I hope you'll take a moment to read what I have to say. Just click the button below to continue and unlock the next part of my message. 🔐</p>
         <div class="button-container">
-            <a href="page2.html" class="button">Ready to find out?</a>
+            <a href="page2.html" class="button">Ready to find out? 👀</a>
         </div>
     </div>
 </body>
