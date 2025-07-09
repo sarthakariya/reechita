@@ -3,68 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Feelings for You...</title>
+    <title>💌 My Heart's Thoughts About You... 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f8bbd0; /* Medium pink background */
-            color: #311b92; /* Darker purple text */
+            background: linear-gradient(135deg, #f8bbd0 0%, #ffecb3 100%); /* Warm peach to pink gradient */
+            color: #311B92; /* Darker purple text */
             text-align: center;
             flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Subtle floating hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0;
+            animation: floatHeart 10s ease-in infinite;
+            pointer-events: none;
+            color: #FF69B4; /* Hot pink */
+        }
+
+        .heart:nth-child(1) { top: 80%; left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { top: 50%; left: 30%; animation-delay: 2s; font-size: 1.5em; }
+        .heart:nth-child(3) { top: 90%; left: 60%; animation-delay: 4s; font-size: 2.5em; }
+        .heart:nth-child(4) { top: 20%; left: 80%; animation-delay: 6s; }
+        .heart:nth-child(5) { top: 70%; left: 40%; animation-delay: 8s; font-size: 1.8em; }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.7; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+
         .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 650px;
+            background-color: rgba(255, 255, 255, 0.97);
+            padding: 45px 65px;
+            border-radius: 25px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+            max-width: 750px;
             margin: 20px;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: zoomInFade 1.5s ease-out forwards;
+            position: relative;
+            z-index: 10;
         }
+
+        @keyframes zoomInFade {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
         h1 {
-            color: #ad1457; /* Even darker pink for heading */
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1.1em;
-            line-height: 1.6;
+            font-family: 'Dancing Script', cursive; /* Elegant script font */
+            color: #AD1457; /* Deeper pink */
+            font-size: 3.5em;
             margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            animation: textWave 1.5s ease-out 1s forwards;
+            opacity: 0;
         }
+
+        @keyframes textWave {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+
+        p {
+            font-size: 1.25em;
+            line-height: 1.9;
+            margin-bottom: 35px;
+            color: #4E342E; /* Darker brown for contrast */
+            animation: fadeInParagraph 2s ease-out forwards; /* Delayed fade in */
+            opacity: 0;
+        }
+
+        p:nth-child(2) { animation-delay: 1.5s; }
+        p:nth-child(3) { animation-delay: 2s; }
+        p:nth-child(4) { animation-delay: 2.5s; }
+
+
+        @keyframes fadeInParagraph {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .button-container {
-            margin-top: 30px;
+            margin-top: 45px;
+            animation: fadeIn 2s ease-out 3s forwards;
+            opacity: 0;
         }
+
         .button {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 16px 32px;
+            font-size: 1.3em;
+            font-weight: bold;
             color: #fff;
-            background-color: #f06292; /* Medium pink button */
+            background: linear-gradient(45deg, #F06292, #EC407A); /* Soft pink gradient */
             border: none;
-            border-radius: 50px;
+            border-radius: 40px;
             text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
-            margin: 0 10px; /* Space between buttons */
+            box-shadow: 0 6px 12px rgba(236, 64, 122, 0.3);
+            margin: 0 15px; /* Space between buttons */
+            position: relative;
+            overflow: hidden;
         }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .button:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+
         .button:hover {
-            background-color: #e91e63; /* Darker pink on hover */
-            transform: translateY(-3px);
+            background: linear-gradient(45deg, #EC407A, #E91E63);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 9px 18px rgba(233, 30, 99, 0.5);
+            color: #FFF; /* Ensure text stays white */
+        }
+
+        .emoji {
+            vertical-align: middle;
+            margin: 0 6px;
+            font-size: 1.1em;
         }
     </style>
 </head>
 <body>
+    <div class="heart">❤️</div>
+    <div class="heart">💖</div>
+    <div class="heart">✨</div>
+    <div class="heart">💕</div>
+    <div class="heart">💜</div>
+
     <div class="container">
-        <h1>Reechita, you're truly special.</h1>
-        <p>Every time I see you, my day just gets a little brighter. Your smile, your laughter, your kindness – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible.</p>
-        <p>You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.</p>
-        <p>The truth is, Reechita, I've developed strong feelings for you. More than just a crush, I believe it's something truly meaningful.</p>
+        <h1>Reechita, you're truly special. ✨</h1>
+        <p>Every time I see you, my day just gets a little brighter. Your smile 😄, your laughter 😂, your kindness 😇 – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible. 🥰</p>
+        <p>You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.🌟</p>
+        <p>The truth is, Reechita, I've developed strong feelings for you. More than just a crush, I believe it's something truly meaningful. 💜</p>
         <div class="button-container">
-            <a href="page1.html" class="button">Go back (if you want)</a>
-            <a href="page3.html" class="button">Continue to the big question</a>
+            <a href="page1.html" class="button">↩️ Go back (if you want)</a>
+            <a href="page3.html" class="button">Continue to the big question ➡️</a>
         </div>
     </div>
 </body>
