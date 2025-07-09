@@ -3,58 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You!</title>
+    <title>💌 Thank You, Reechita! 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #e0f2f7; /* Light blue background */
-            color: #0d47a1; /* Dark blue text */
+            background: linear-gradient(135deg, #e0f2f7 0%, #bbdefb 100%); /* Light blue gradient */
+            color: #0D47A1; /* Dark blue text */
             text-align: center;
             flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Confetti effect for YES, sad rain for NO */
+        .effect {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0;
+            animation: fallEffect 5s ease-out infinite forwards;
+            pointer-events: none;
+            z-index: 1; /* Below container */
+        }
+
+        /* Specific styles handled by JS */
+        .confetti-yes {
+            color: #FFD700; /* Gold */
+            animation-name: fallConfetti;
+        }
+        .rain-no {
+            color: #ADD8E6; /* Light blue */
+            animation-name: fallRain;
+        }
+
+        @keyframes fallConfetti {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.9; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes fallRain {
+            0% { transform: translateY(-50px); opacity: 0; }
+            20% { opacity: 0.7; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+
         .container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 650px;
             margin: 20px;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: fadeInPop 1.5s ease-out forwards;
+            position: relative;
+            z-index: 10; /* Bring container to front */
         }
+
+        @keyframes fadeInPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
         h1 {
-            color: #0288d1; /* Medium blue for heading */
-            margin-bottom: 20px;
+            font-family: 'Permanent Marker', cursive; /* Playful, handwritten feel */
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+            animation: textBounce 1.5s ease-out 1s forwards;
+            opacity: 0;
         }
+
+        @keyframes textBounce {
+            0% { transform: translateY(-20px); opacity: 0; }
+            60% { transform: translateY(10px); opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
         p {
-            font-size: 1.1em;
-            line-height: 1.6;
+            font-size: 1.15em;
+            line-height: 1.8;
             margin-bottom: 30px;
+            color: #1565C0; /* Medium blue */
+            animation: fadeInText 2s ease-out 1.5s forwards;
+            opacity: 0;
         }
-        .response-text {
-            font-size: 1.3em;
+
+        #responseText {
+            font-size: 1.6em;
             font-weight: bold;
-            color: #00796b; /* Teal color */
             margin: 30px 0;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: inline-block; /* To apply padding and border */
+            animation: responseGlow 2s ease-in-out infinite alternate;
+            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent background */
         }
+
+        /* Specific glow for responses */
+        .yes-glow {
+            color: #2E7D32; /* Dark green */
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+        }
+        .no-glow {
+            color: #C62828; /* Dark red */
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
+        }
+
+        @keyframes responseGlow {
+            0% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); }
+            100% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        }
+
+
+        .button-container {
+            margin-top: 40px;
+            animation: fadeIn 2s ease-out 2s forwards;
+            opacity: 0;
+        }
+
         .button {
             display: inline-block;
             padding: 15px 30px;
             font-size: 1.2em;
+            font-weight: bold;
             color: #fff;
-            background-color: #26c6da; /* Light blue button */
+            background-color: #26C6DA; /* Light blue button */
             border: none;
             border-radius: 50px;
             text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0, 188, 212, 0.3);
+            letter-spacing: 0.5px;
         }
+
         .button:hover {
-            background-color: #00bcd4; /* Darker blue on hover */
-            transform: translateY(-3px);
+            background-color: #00BCD4; /* Darker blue on hover */
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 188, 212, 0.5);
+        }
+
+        .emoji {
+            vertical-align: middle;
+            margin: 0 4px;
         }
     </style>
 </head>
@@ -62,30 +162,58 @@
     <div class="container">
         <h1 id="thankYouHeader"></h1>
         <p id="responseText"></p>
-        <p>Thank you for taking the time to read my feelings, Reechita. Your honesty means the world to me.</p>
+        <p>Thank you for taking the time to read my feelings, Reechita. Your honesty means the world to me. ❤️</p>
         <div class="button-container">
-            <a href="page1.html" class="button">Go back to the beginning</a>
+            <a href="page1.html" class="button">Go back to the beginning ✨</a>
         </div>
     </div>
 
     <script>
-        // Get the response from the URL query parameter
         const urlParams = new URLSearchParams(window.location.search);
         const response = urlParams.get('response');
         const thankYouHeader = document.getElementById('thankYouHeader');
         const responseText = document.getElementById('responseText');
+        const body = document.body;
+
+        function createEffectElement(emoji, className, delay) {
+            const effect = document.createElement('div');
+            effect.classList.add('effect', className);
+            effect.textContent = emoji;
+            effect.style.left = `${Math.random() * 100}vw`;
+            effect.style.animationDelay = `${delay + Math.random() * 3}s`;
+            effect.style.fontSize = `${1.5 + Math.random() * 1.5}em`;
+            body.appendChild(effect);
+        }
 
         if (response === 'yes') {
-            thankYouHeader.textContent = "OMG, YES! Thank You, Thank You, Thank You!";
-            responseText.textContent = "I'm so incredibly happy to hear that! This means the world to me. I can't wait to see where this goes!";
-            responseText.style.color = '#4CAF50'; // Green for positive response
+            thankYouHeader.textContent = "OMG, YES! Thank You, Thank You, Thank You! 🥰🎉";
+            responseText.textContent = "I'm so incredibly happy to hear that! This means the absolute world to me. My heart is soaring! 💖🚀 I can't wait to see where this amazing journey takes us!";
+            responseText.classList.add('yes-glow');
+
+            // Add celebratory confetti
+            for (let i = 0; i < 20; i++) {
+                createEffectElement('🎉', 'confetti-yes', 0);
+                createEffectElement('🌟', 'confetti-yes', 0.5);
+                createEffectElement('🎊', 'confetti-yes', 1);
+            }
+            body.style.background = 'linear-gradient(135deg, #A8E063 0%, #56AB2F 100%)'; /* Green gradient */
+
         } else if (response === 'no') {
-            thankYouHeader.textContent = "Thank you for your honesty, Reechita.";
-            responseText.textContent = "I understand completely. While I'm a little sad, I truly appreciate you being open with me. Our friendship means a lot, and I hope we can still be good friends.";
-            responseText.style.color = '#F44336'; // Red for negative response
+            thankYouHeader.textContent = "Thank you for your honesty, Reechita. 😔";
+            responseText.textContent = "I understand completely. While I'm a little sad 💔, I truly appreciate you being open and honest with me. Our friendship means a lot, and I sincerely hope we can still be good friends.🫂";
+            responseText.classList.add('no-glow');
+
+            // Add subtle "rain" for sadness
+            for (let i = 0; i < 20; i++) {
+                createEffectElement('💧', 'rain-no', 0);
+                createEffectElement('🌧️', 'rain-no', 0.5);
+            }
+            body.style.background = 'linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%)'; /* Greyish blue gradient */
+
         } else {
             thankYouHeader.textContent = "Just checking in!";
-            responseText.textContent = "It seems you landed here without a direct response. Thank you for visiting!";
+            responseText.textContent = "It seems you landed here without a direct response. Thank you for visiting! ✨";
+            responseText.style.color = '#00796B';
         }
     </script>
 </body>
