@@ -178,22 +178,7 @@
         }
 
         /* --- Main Content Styles --- */
-        .parallax-heart {
-            position: fixed;
-            font-size: 5vw;
-            opacity: 0;
-            animation: floatAndFade 20s infinite ease-in-out;
-            pointer-events: none;
-            z-index: -1;
-            color: var(--primary-accent);
-            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-        }
-
-        @keyframes floatAndFade {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
+        /* Removed .parallax-heart - Heartbeat animation is gone */
         
         .container {
             background-color: var(--container-bg);
@@ -207,7 +192,7 @@
             z-index: 10;
             opacity: 0;
             transform: translateY(2vh);
-            pointer-events: none;
+            pointer-events: none; /* Hidden until activated by JS */
             transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
 
@@ -364,17 +349,7 @@
     </div>
 
     <script>
-        // JavaScript for dynamic parallax hearts
-        const numHearts = 15;
-        for (let i = 0; i < numHearts; i++) {
-            const heart = document.createElement('div');
-            heart.classList.add('parallax-heart');
-            heart.textContent = '💖';
-            heart.style.left = `${Math.random() * 100}vw`;
-            heart.style.animationDelay = `${Math.random() * 20}s`;
-            heart.style.animationDuration = `${15 + Math.random() * 10}s`;
-            document.body.appendChild(heart);
-        }
+        // No more parallax hearts for this page, as requested (heartbeat removed).
 
         // JavaScript for Loading Screen Logic
         document.addEventListener('DOMContentLoaded', () => {
@@ -401,11 +376,12 @@
                         progressBar.style.width = '100%';
                         progressPercentage.textContent = '100%';
 
+                        // Show main content AFTER loading completes
                         mainContainer.classList.add('active');
 
                         setTimeout(() => {
                             loadingOverlay.classList.add('hidden');
-                        }, 500); // Shorter fade-out after 100%
+                        }, 500); // Shorter fade-out for the loading overlay
                     } else {
                         progressBar.style.width = `${progress}%`;
                         progressPercentage.textContent = `${Math.floor(progress)}%`;
