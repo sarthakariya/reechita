@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌟 A Whisper for Reechita... 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-pink: #FF69B4; /* Hot Pink */
@@ -21,19 +21,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Minimum height, allows content to push it */
+            min-height: 100vh;
             margin: 0;
             background: linear-gradient(135deg, #FFD1DC 0%, #B0E0E6 100%); /* Soft pastel gradient */
             color: var(--text-dark);
             text-align: center;
             flex-direction: column;
-            position: relative; /* For background elements */
-            overflow-y: auto; /* Allow vertical scrolling */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            position: relative;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        body::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari, Opera */
+        body::-webkit-scrollbar {
             display: none;
         }
 
@@ -49,18 +49,18 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* Always on top */
+            z-index: 9999;
             color: white;
             transition: opacity 1s ease-out;
         }
 
         #loading-overlay.hidden {
             opacity: 0;
-            pointer-events: none; /* Make it unclickable when hidden */
+            pointer-events: none;
         }
 
         .loading-heart {
-            font-size: clamp(8rem, 20vw, 12rem); /* Large, responsive heart */
+            font-size: clamp(8rem, 20vw, 12rem);
             color: var(--primary-pink);
             animation: pulse 1.5s infinite alternate ease-in-out, fadeIn 1s ease-out;
             text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
@@ -76,7 +76,7 @@
         }
 
         .loading-text {
-            font-family: 'Pacifico', cursive; /* Elegant font for "Creating Magic" */
+            font-family: 'Pacifico', cursive;
             font-size: clamp(2.5rem, 6vw, 4rem);
             margin-top: 2rem;
             color: #FFD700; /* Gold-like color */
@@ -94,7 +94,7 @@
         }
 
         .progress-bar-container {
-            width: clamp(20rem, 70vw, 40rem); /* Responsive width */
+            width: clamp(20rem, 70vw, 40rem);
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             height: 1.2rem;
@@ -108,10 +108,10 @@
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #8A2BE2, var(--primary-pink)); /* Purple to Pink gradient */
+            background: linear-gradient(90deg, #8A2BE2, var(--primary-pink));
             border-radius: 10px;
-            transition: width 3s ease-out; /* Smooth fill */
-            animation: fillProgressBar 3s ease-out 2s forwards; /* Animate after other elements */
+            transition: width 3s ease-out;
+            animation: fillProgressBar 3s ease-out 2s forwards;
         }
 
         .progress-percentage {
@@ -122,17 +122,14 @@
             opacity: 0;
         }
 
-        /* --- Main Content Styles (from previous version) --- */
-        /* These styles will only be visible AFTER the loading screen fades */
-
-        /* Parallax Background Hearts */
+        /* --- Main Content Styles --- */
         .parallax-heart {
-            position: fixed; /* Fixed position for parallax */
-            font-size: 5vw; /* Responsive font size */
+            position: fixed;
+            font-size: 5vw;
             opacity: 0;
             animation: floatAndFade 20s infinite ease-in-out;
             pointer-events: none;
-            z-index: -1; /* Behind content, below container */
+            z-index: -1;
             color: var(--primary-pink);
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
@@ -145,17 +142,17 @@
         
         .container {
             background-color: var(--container-bg);
-            padding: 2.5rem 4rem; /* Responsive padding using rem */
+            padding: 2.5rem 4rem;
             border-radius: 20px;
             box-shadow: var(--shadow-deep);
-            max-width: 50rem; /* Max width for laptops */
-            width: 90%; /* Responsive width for smaller screens */
-            margin: 5vh auto; /* Center with vertical margin */
-            transform: translateY(2vh); /* Initial position for animation */
-            opacity: 0; /* Initial opacity for animation */
+            max-width: 50rem;
+            width: 90%;
+            margin: 5vh auto;
+            transform: translateY(2vh);
+            opacity: 0;
             animation: fadeInSlideUp 1.5s ease-out forwards;
             position: relative;
-            z-index: 10; /* Above background */
+            z-index: 10;
         }
 
         @keyframes fadeInSlideUp {
@@ -164,9 +161,9 @@
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive; /* Elegant script font */
+            font-family: 'Dancing Script', cursive;
             color: var(--secondary-purple);
-            font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size: min 2.5rem, fluid 5vw, max 4rem */
+            font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
             animation: textReveal 1.5s ease-out 1.5s forwards;
@@ -181,7 +178,8 @@
         }
 
         p {
-            font-size: clamp(1rem, 2vw, 1.3rem); /* Responsive font size */
+            font-family: 'Montserrat', sans-serif; /* Ensuring consistent body font */
+            font-size: clamp(1rem, 2vw, 1.3rem);
             line-height: 1.7;
             margin-bottom: 2rem;
             color: var(--text-dark);
@@ -211,11 +209,11 @@
 
         .button {
             display: inline-block;
-            padding: 1.2rem 2.5rem; /* Responsive padding */
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem); /* Responsive font size */
-            font-weight: bold;
+            padding: 1.2rem 2.5rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            font-weight: 700; /* Made slightly bolder */
             color: var(--text-light);
-            background: linear-gradient(45deg, var(--primary-pink), #E91E63); /* Pink gradient */
+            background: linear-gradient(45deg, var(--primary-pink), #E91E63);
             border: none;
             border-radius: 50px;
             text-decoration: none;
@@ -225,7 +223,7 @@
             position: relative;
             overflow: hidden;
             letter-spacing: 0.5px;
-            transform: scale(1); /* Initial scale for hover effect */
+            transform: scale(1);
         }
 
         .button::before {
@@ -246,7 +244,7 @@
 
         .button:hover {
             background: linear-gradient(45deg, #E91E63, #D81B60);
-            transform: translateY(-0.25rem) scale(1.03); /* Subtle lift and scale */
+            transform: translateY(-0.25rem) scale(1.03);
             box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
         }
 
@@ -256,24 +254,22 @@
             margin: 0 0.25rem;
         }
 
-        /* Media queries for fine-tuning on different devices */
-        @media (max-width: 1024px) { /* Tablets and smaller laptops */
+        /* Media queries */
+        @media (max-width: 1024px) {
             h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); }
             p { font-size: clamp(0.95rem, 1.8vw, 1.2rem); }
             .button { font-size: clamp(1.05rem, 2.2vw, 1.4rem); padding: 1.1rem 2.2rem; }
             .container { padding: 2rem 3.5rem; max-width: 45rem; }
-            /* Loading screen adjustments */
             .loading-text { font-size: clamp(2.2rem, 5vw, 3.5rem); }
             .loading-subtitle { font-size: clamp(0.95rem, 2vw, 1.3rem); }
             .progress-bar-container { width: clamp(18rem, 60vw, 35rem); }
         }
 
-        @media (max-width: 768px) { /* Larger phones and small tablets */
+        @media (max-width: 768px) {
             h1 { font-size: clamp(2rem, 6vw, 3rem); }
             p { font-size: clamp(0.9rem, 2.5vw, 1.15rem); }
             .button { font-size: clamp(1rem, 3.5vw, 1.3rem); padding: 1rem 2rem; }
             .container { padding: 1.8rem 3rem; max-width: 90%; }
-            /* Loading screen adjustments */
             .loading-heart { font-size: clamp(6rem, 15vw, 10rem); }
             .loading-text { font-size: clamp(2rem, 6vw, 3rem); }
             .loading-subtitle { font-size: clamp(0.9rem, 2.5vw, 1.15rem); }
@@ -281,12 +277,11 @@
             .progress-percentage { font-size: clamp(0.8rem, 2vw, 1rem); }
         }
 
-        @media (max-width: 480px) { /* Smaller phones */
+        @media (max-width: 480px) {
             h1 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
             p { font-size: clamp(0.85rem, 3.5vw, 1.1rem); }
             .button { font-size: clamp(0.95rem, 4vw, 1.2rem); padding: 0.9rem 1.8rem; }
             .container { padding: 1.5rem 2.5rem; }
-            /* Loading screen adjustments */
             .loading-heart { font-size: clamp(5rem, 18vw, 8rem); }
             .loading-text { font-size: clamp(1.8rem, 7vw, 2.5rem); }
             .loading-subtitle { font-size: clamp(0.85rem, 3.5vw, 1.1rem); }
@@ -312,47 +307,4 @@
         for (let i = 0; i < numHearts; i++) {
             const heart = document.createElement('div');
             heart.classList.add('parallax-heart');
-            heart.textContent = '💖'; // Heart emoji
-            heart.style.left = `${Math.random() * 100}vw`;
-            heart.style.animationDelay = `${Math.random() * 20}s`; // Staggered animations
-            heart.style.animationDuration = `${15 + Math.random() * 10}s`; // Varied speeds
-            document.body.appendChild(heart);
-        }
-
-        // JavaScript for Loading Screen Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const progressBar = document.getElementById('progressBar');
-            const progressPercentage = document.getElementById('progressPercentage');
-
-            let progress = 0;
-            const interval = 50; // milliseconds
-            const duration = 3000; // 3 seconds for full load
-            const steps = duration / interval;
-            const increment = 100 / steps;
-
-            const loadingInterval = setInterval(() => {
-                progress += increment;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(loadingInterval);
-                    setTimeout(() => {
-                        loadingOverlay.classList.add('hidden'); // Fade out
-                    }, 500); // Wait a bit before fading out
-                }
-                progressBar.style.width = `${progress}%`;
-                progressPercentage.textContent = `${Math.floor(progress)}%`;
-            }, interval);
-        });
-    </script>
-
-    <div class="container">
-        <h1>Hey Reechita, <span class="emoji">💖</span></h1>
-        <p>There's something I've been wanting to tell you for a while now, and I've finally gathered the courage to put it into words. It's a little scary <span class="emoji">😬</span>, but also incredibly exciting! <span class="emoji">✨</span></p>
-        <p>I hope you'll take a moment to read what I have to say. Just tap the button below to continue and unlock the next part of my message. <span class="emoji">🔐</span></p>
-        <div class="button-container">
-            <a href="page2.html" class="button">Ready to find out? <span class="emoji">👀</span></a>
-        </div>
-    </div>
-</body>
-</html>
+            heart.textContent = '💖
