@@ -12,8 +12,8 @@
             --text-dark: #333333;
             --text-light: #F5F5F5;
             --container-bg: rgba(255, 255, 255, 0.95);
-            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
             --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.2);
+            font-size: 16px; /* Base font size for rem units */
         }
 
         body {
@@ -21,24 +21,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Minimum height, allows content to push it */
             margin: 0;
             background: linear-gradient(135deg, #FFD1DC 0%, #B0E0E6 100%); /* Soft pastel gradient */
             color: var(--text-dark);
             text-align: center;
             flex-direction: column;
-            overflow: hidden; /* Prevent scrollbars from parallax */
             position: relative; /* For background elements */
+            overflow-y: auto; /* Allow vertical scrolling */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        body::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari, Opera */
+            display: none;
         }
 
         /* Parallax Background Hearts */
         .parallax-heart {
-            position: absolute;
+            position: fixed; /* Fixed position for parallax */
             font-size: 5vw; /* Responsive font size */
             opacity: 0;
             animation: floatAndFade 20s infinite ease-in-out;
             pointer-events: none;
-            z-index: 0; /* Behind content */
+            z-index: -1; /* Behind content, below container */
             color: var(--primary-pink);
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
@@ -49,15 +55,14 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
         
-        /* Create multiple hearts with varied positions and delays via JS */
-
         .container {
             background-color: var(--container-bg);
-            padding: 4vh 6vw; /* Responsive padding */
+            padding: 2.5rem 4rem; /* Responsive padding using rem */
             border-radius: 20px;
             box-shadow: var(--shadow-deep);
-            max-width: 80vw; /* Responsive width */
-            margin: 2vh;
+            max-width: 50rem; /* Max width for laptops */
+            width: 90%; /* Responsive width for smaller screens */
+            margin: 5vh auto; /* Center with vertical margin */
             transform: translateY(2vh); /* Initial position for animation */
             opacity: 0; /* Initial opacity for animation */
             animation: fadeInSlideUp 1.5s ease-out forwards;
@@ -73,8 +78,8 @@
         h1 {
             font-family: 'Dancing Script', cursive; /* Elegant script font */
             color: var(--secondary-purple);
-            font-size: 6vw; /* Responsive font size */
-            margin-bottom: 2vh;
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size: min 2.5rem, fluid 5vw, max 4rem */
+            margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
             animation: textReveal 1.5s ease-out 1.5s forwards;
             opacity: 0;
@@ -88,11 +93,11 @@
         }
 
         p {
-            font-size: 3.5vw; /* Responsive font size */
+            font-size: clamp(1rem, 2vw, 1.3rem); /* Responsive font size */
             line-height: 1.7;
-            margin-bottom: 3vh;
+            margin-bottom: 2rem;
             color: var(--text-dark);
-            animation: fadeInText 2s ease-out 2s forwards;
+            animation: fadeInText 2s ease-out forwards;
             opacity: 0;
         }
         p:first-of-type { animation-delay: 2s; }
@@ -105,7 +110,7 @@
         }
 
         .button-container {
-            margin-top: 4vh;
+            margin-top: 2.5rem;
             animation: fadeInScale 2s ease-out 3s forwards;
             opacity: 0;
             transform: scale(0.9);
@@ -118,8 +123,8 @@
 
         .button {
             display: inline-block;
-            padding: 2.5vh 5vw; /* Responsive padding */
-            font-size: 4vw; /* Responsive font size */
+            padding: 1.2rem 2.5rem; /* Responsive padding */
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem); /* Responsive font size */
             font-weight: bold;
             color: var(--text-light);
             background: linear-gradient(45deg, var(--primary-pink), #E91E63); /* Pink gradient */
@@ -153,27 +158,36 @@
 
         .button:hover {
             background: linear-gradient(45deg, #E91E63, #D81B60);
-            transform: translateY(-0.5vh) scale(1.03); /* Subtle lift and scale */
+            transform: translateY(-0.25rem) scale(1.03); /* Subtle lift and scale */
             box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
         }
 
         .emoji {
             font-size: 1.2em;
             vertical-align: middle;
-            margin: 0 0.5vw;
+            margin: 0 0.25rem;
         }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            h1 { font-size: 8vw; } /* Larger for smaller screens */
-            p { font-size: 4vw; }
-            .button { font-size: 5vw; padding: 2vh 8vw; }
+        /* Media queries for fine-tuning on different devices */
+        @media (max-width: 1024px) { /* Tablets and smaller laptops */
+            h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); }
+            p { font-size: clamp(0.95rem, 1.8vw, 1.2rem); }
+            .button { font-size: clamp(1.05rem, 2.2vw, 1.4rem); padding: 1.1rem 2.2rem; }
+            .container { padding: 2rem 3.5rem; max-width: 45rem; }
         }
-        @media (max-width: 480px) {
-            h1 { font-size: 10vw; }
-            p { font-size: 4.5vw; }
-            .button { font-size: 6vw; padding: 1.8vh 7vw; }
-            .container { padding: 3vh 5vw; }
+
+        @media (max-width: 768px) { /* Larger phones and small tablets */
+            h1 { font-size: clamp(2rem, 6vw, 3rem); }
+            p { font-size: clamp(0.9rem, 2.5vw, 1.15rem); }
+            .button { font-size: clamp(1rem, 3.5vw, 1.3rem); padding: 1rem 2rem; }
+            .container { padding: 1.8rem 3rem; max-width: 90%; }
+        }
+
+        @media (max-width: 480px) { /* Smaller phones */
+            h1 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+            p { font-size: clamp(0.85rem, 3.5vw, 1.1rem); }
+            .button { font-size: clamp(0.95rem, 4vw, 1.2rem); padding: 0.9rem 1.8rem; }
+            .container { padding: 1.5rem 2.5rem; }
         }
     </style>
 </head>
