@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 My Heart's Thoughts About You... 💕</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-pink-soft: #F8BBD0; /* Light Pink */
@@ -13,17 +13,17 @@
             --text-brown: #5D4037;
             --container-bg: rgba(255, 255, 255, 0.97);
             --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.3);
-            font-size: 16px; /* Base font size for rem units */
+            font-size: 16px;
         }
 
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Poppins', sans-serif; /* More modern, readable font */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, var(--primary-pink-soft) 0%, var(--secondary-peach) 100%); /* Warm pastel gradient */
+            background: linear-gradient(135deg, var(--primary-pink-soft) 0%, var(--secondary-peach) 100%);
             color: var(--text-dark-blue);
             text-align: center;
             flex-direction: column;
@@ -37,7 +37,7 @@
             display: none;
         }
 
-        /* Parallax Background Stars/Sparkles */
+        /* Parallax Background Sparkles */
         .parallax-sparkle {
             position: fixed;
             font-size: 4vw;
@@ -45,7 +45,7 @@
             animation: sparkleFloat 15s infinite ease-in-out;
             pointer-events: none;
             z-index: -1;
-            color: #FFD700; /* Gold */
+            color: #FFD700;
             text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
         }
 
@@ -76,8 +76,8 @@
         }
 
         h1 {
-            font-family: 'Great Vibes', cursive; /* Elegant script font */
-            color: #AD1457; /* Deeper pink */
+            font-family: 'Great Vibes', cursive;
+            color: #AD1457;
             font-size: clamp(2.8rem, 5.5vw, 4.5rem);
             margin-bottom: 1.8rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
@@ -91,26 +91,46 @@
             100% { transform: translateY(0); opacity: 1; }
         }
 
-        p {
+        /* Typewriter Effect for Paragraphs */
+        .typewriter-text {
             font-size: clamp(1rem, 2vw, 1.4rem);
             line-height: 1.8;
             margin-bottom: 2.5rem;
             color: var(--text-brown);
-            animation: fadeInParagraph 2s ease-out forwards;
-            opacity: 0;
+            overflow: hidden; /* Ensures text is hidden until typed */
+            white-space: pre-wrap; /* Preserve spaces and allow wrapping */
+            border-right: .15em solid orange; /* The caret */
+            animation: typing 0s steps(1) forwards,
+                       blink-caret .75s step-end infinite;
+            width: 0; /* Start with zero width */
         }
-        p:nth-of-type(1) { animation-delay: 1.5s; }
-        p:nth-of-type(2) { animation-delay: 2s; }
-        p:nth-of-type(3) { animation-delay: 2.5s; }
+
+        .typewriter-text:nth-of-type(1) { animation-delay: 1.8s, 1.8s; }
+        .typewriter-text:nth-of-type(2) { animation-delay: 2.5s, 2.5s; }
+        .typewriter-text:nth-of-type(3) { animation-delay: 3.5s, 3.5s; }
 
 
-        @keyframes fadeInParagraph {
-            from { opacity: 0; transform: translateY(1vh); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Keyframes for the typewriter effect */
+        /* width is adjusted by JS */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: var(--final-width); } /* Will be set by JS */
+        }
+
+        /* The typewriter cursor effect */
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--text-brown); }
+        }
+
+        /* Hidden class to control visibility and animation start */
+        .typewriter-hidden {
+            opacity: 0;
+            border-color: transparent !important; /* Hide caret initially */
         }
 
         .highlight {
-            color: #E91E63; /* Vibrant pink for highlights */
+            color: #E91E63;
             font-weight: 600;
             text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
         }
@@ -118,10 +138,10 @@
         .button-container {
             margin-top: 3rem;
             display: flex;
-            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem; /* Gap between buttons */
-            animation: fadeInScale 2s ease-out 3s forwards;
+            gap: 1.5rem;
+            animation: fadeInScale 2s ease-out 4.5s forwards; /* Adjust delay for typewriter */
             opacity: 0;
             transform: scale(0.9);
         }
@@ -130,9 +150,9 @@
             display: inline-block;
             padding: 1.1rem 2.2rem;
             font-size: clamp(1.05rem, 2.2vw, 1.5rem);
-            font-weight: bold;
+            font-weight: 700;
             color: var(--text-light);
-            background: linear-gradient(45deg, #F06292, #EC407A); /* Soft pink gradient */
+            background: linear-gradient(45deg, #F06292, #EC407A);
             border: none;
             border-radius: 40px;
             text-decoration: none;
@@ -141,7 +161,7 @@
             box-shadow: 0 6px 12px rgba(236, 64, 122, 0.3);
             position: relative;
             overflow: hidden;
-            flex-shrink: 0; /* Prevent shrinking on small screens */
+            flex-shrink: 0;
         }
 
         .button::before {
@@ -179,13 +199,13 @@
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
             h1 { font-size: clamp(2.5rem, 6.5vw, 3.8rem); }
-            p { font-size: clamp(0.95rem, 2.8vw, 1.25rem); }
+            .typewriter-text { font-size: clamp(0.95rem, 2.8vw, 1.25rem); }
             .button { font-size: clamp(1rem, 3.5vw, 1.4rem); padding: 1rem 1.8rem; }
-            .button-container { flex-direction: column; gap: 1rem; } /* Stack buttons vertically */
+            .button-container { flex-direction: column; gap: 1rem; }
         }
         @media (max-width: 480px) {
             h1 { font-size: clamp(2.2rem, 7.5vw, 3.2rem); }
-            p { font-size: clamp(0.9rem, 3.5vw, 1.2rem); }
+            .typewriter-text { font-size: clamp(0.9rem, 3.5vw, 1.2rem); }
             .button { font-size: clamp(0.95rem, 4vw, 1.3rem); padding: 0.9rem 1.5rem; }
             .container { padding: 1.5rem 2.5rem; }
         }
@@ -202,16 +222,44 @@
             sparkle.style.left = `${Math.random() * 100}vw`;
             sparkle.style.animationDelay = `${Math.random() * 15}s`;
             sparkle.style.animationDuration = `${10 + Math.random() * 10}s`;
-            sparkle.style.fontSize = `${2 + Math.random() * 2}vw`; // Varied sizes
+            sparkle.style.fontSize = `${2 + Math.random() * 2}vw`;
             document.body.appendChild(sparkle);
         }
+
+        // Typewriter effect JavaScript
+        document.addEventListener('DOMContentLoaded', () => {
+            const paragraphs = document.querySelectorAll('.typewriter-text');
+            let delayOffset = 1500; // Initial delay before first paragraph starts typing
+
+            paragraphs.forEach((p, index) => {
+                const textContent = p.textContent;
+                p.textContent = ''; // Clear text content
+                p.style.width = 'fit-content'; // Allow width to adjust
+                p.style.setProperty('--final-width', p.scrollWidth + 'px'); // Set final width for typing animation
+
+                const typingDuration = textContent.length * 50; // 50ms per character
+                p.style.animationDuration = `${typingDuration}ms, .75s`;
+                p.style.animationDelay = `${delayOffset}ms, ${delayOffset}ms`;
+                p.style.animationFillMode = 'forwards'; // Keep final state
+                p.style.whiteSpace = 'nowrap'; // Start with no wrap for typing
+                p.style.overflow = 'hidden';
+
+                // Once typing finishes, allow text to wrap
+                setTimeout(() => {
+                    p.style.whiteSpace = 'pre-wrap';
+                    p.style.borderRight = 'none'; // Hide caret after typing
+                }, delayOffset + typingDuration + 100);
+
+                delayOffset += typingDuration + 500; // Add time for typing + a pause
+            });
+        });
     </script>
 
     <div class="container">
         <h1>Reechita, you're truly special. <span class="emoji">✨</span></h1>
-        <p>Every time I see you, my day just gets a little brighter. Your <span class="highlight">smile</span> <span class="emoji">😄</span>, your <span class="highlight">laughter</span> <span class="emoji">😂</span>, your <span class="highlight">kindness</span> <span class="emoji">😇</span> – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible. <span class="emoji">🥰</span></p>
-        <p>You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.<span class="emoji">🌟</span></p>
-        <p>The truth is, Reechita, I've developed <span class="highlight">strong feelings</span> for you. More than just a crush, I believe it's something truly meaningful. <span class="emoji">💜</span></p>
+        <p class="typewriter-text">Every time I see you, my day just gets a little brighter. Your <span class="highlight">smile</span> <span class="emoji">😄</span>, your <span class="highlight">laughter</span> <span class="emoji">😂</span>, your <span class="highlight">kindness</span> <span class="emoji">😇</span> – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible. <span class="emoji">🥰</span></p>
+        <p class="typewriter-text">You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.<span class="emoji">🌟</span></p>
+        <p class="typewriter-text">The truth is, Reechita, I've developed <span class="highlight">strong feelings</span> for you. More than just a crush, I believe it's something truly meaningful. <span class="emoji">💜</span></p>
         <div class="button-container">
             <a href="index.html" class="button">↩️ Go back (if you want)</a>
             <a href="page3.html" class="button">Continue to the big question ➡️</a>
