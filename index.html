@@ -8,14 +8,14 @@
     <style>
         :root {
             /* Dark Elegant Theme Colors */
-            --bg-gradient-start: #120d1a; /* Dark Purple */
-            --bg-gradient-end: #2a0f3d;   /* Deeper Purple */
-            --container-bg: rgba(30, 15, 50, 0.95); /* Semi-transparent dark container */
+            --bg-gradient-start: #0a0712; /* Even darker base */
+            --bg-gradient-end: #1c0b2e;   /* Deeper, muted purple */
+            --container-bg: rgba(30, 15, 50, 0.75); /* MORE transparent dark container (0.75) */
             --text-light: #e0e0e0; /* Light gray for general text */
-            --text-heading: #FFD700; /* Gold for main headings */
+            --text-heading: #FFD700; /* Soft Gold for main headings */
             --primary-accent: #FF69B4; /* Hot Pink */
             --secondary-accent: #8A2BE2; /* Blue Violet */
-            --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.5); /* Slightly deeper shadow */
             font-size: 16px; /* Base font size for rem units */
         }
 
@@ -40,14 +40,74 @@
             display: none;
         }
 
-        /* --- Loading Screen Styles --- */
+        /* --- Background Scenery --- */
+        .background-scenery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3; /* Behind everything */
+        }
+
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            width: clamp(60px, 8vw, 80px); /* Responsive moon size */
+            height: clamp(60px, 8vw, 80px);
+            border-radius: 50%;
+            background-color: #fff8db; /* Soft, warm moon color */
+            box-shadow: 0 0 30px #fff8db, 0 0 80px #fff8db inset;
+            opacity: 0.7;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle 2s infinite alternate;
+        }
+        /* Specific positions for stars */
+        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; }
+        .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; }
+        .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; }
+        .star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; }
+        .star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; }
+        .star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; }
+
+
+        @keyframes twinkle {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        /* Added distant scenery elements - subtle mountains/hills */
+        .distant-scenery {
+            position: absolute;
+            bottom: -50px; /* Start slightly off-screen */
+            left: 0;
+            width: 100%;
+            height: 200px; /* Height of the scenery */
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%), /* Fades out towards top */
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path fill="%231a0e28" d="M0,150 L100,100 L200,120 L300,80 L400,110 L500,70 L600,90 L700,50 L800,100 L900,60 L1000,90 L1000,200 L0,200 Z" opacity="0.6"/><path fill="%2313091e" d="M0,180 L150,130 L300,160 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" opacity="0.8"/></svg>') repeat-x bottom; /* SVG for mountain peaks */
+            background-size: cover, 100% 100%; /* Cover gradient, stretch SVG */
+            filter: blur(2px); /* Soft blur for distance */
+            opacity: 0.6; /* Subtle */
+            pointer-events: none;
+            z-index: -2; /* Between background and main content */
+        }
+
+
+        /* --- Loading Screen Styles (Restored and Corrected) --- */
         #loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0f0a1c 0%, #3a155c 100%); /* Even darker, intense loading gradient */
+            background: linear-gradient(135deg, #07050e 0%, #290f3b 100%); /* Even darker, intense loading gradient */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -62,54 +122,11 @@
             pointer-events: none;
         }
 
-        .loading-heartbeat {
-            width: clamp(100px, 15vw, 150px);
-            height: clamp(60px, 10vw, 80px);
-            position: relative;
-            overflow: hidden;
-            margin: 0 auto 2rem auto;
-        }
-
-        .loading-heartbeat::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--primary-accent);
-            box-shadow: 0 0 10px var(--primary-accent);
-            transform: translateY(-50%);
-        }
-
-        .loading-heartbeat::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -20%;
-            width: clamp(15px, 2vw, 20px);
-            height: clamp(40px, 7vw, 60px); /* Height of the pulse */
-            background-color: var(--primary-accent);
-            border-radius: 50%;
-            transform: skewX(-20deg) translateY(-50%);
-            filter: blur(5px);
-            box-shadow: 0 0 20px var(--primary-accent), 0 0 40px rgba(255, 105, 180, 0.8);
-            animation: loadingEcgPulse 1.8s linear infinite; /* Slightly slower than page3 */
-        }
-
-        @keyframes loadingEcgPulse {
-            0% { left: -20%; opacity: 0; transform: scaleY(0.5) skewX(-20deg) translateY(-50%); }
-            10% { left: 10%; opacity: 1; transform: scaleY(1) skewX(-20deg) translateY(-50%); }
-            50% { left: 50%; opacity: 1; transform: scaleY(1.5) skewX(-20deg) translateY(-50%); } /* Peak */
-            90% { left: 90%; opacity: 1; transform: scaleY(0.8) skewX(-20deg) translateY(-50%); }
-            100% { left: 120%; opacity: 0; transform: scaleY(0.5) skewX(-20deg) translateY(-50%); }
-        }
-
         .loading-text {
             font-family: 'Dancing Script', cursive; /* Elegant cursive loading text */
             font-size: clamp(2.2rem, 5.5vw, 3.8rem);
             margin-top: 1rem;
-            color: var(--text-heading); /* Gold */
+            color: var(--text-heading); /* Soft Gold */
             animation: textFadeIn 1.5s ease-out 0.5s forwards;
             opacity: 0;
         }
@@ -125,7 +142,7 @@
 
         .progress-bar-container {
             width: clamp(20rem, 70vw, 40rem);
-            background-color: rgba(255, 255, 255, 0.1); /* Lighter transparency for contrast */
+            background-color: rgba(255, 255, 255, 0.1); /* Lighter transparency */
             border-radius: 10px;
             height: 1.2rem;
             margin-top: 2.5rem;
@@ -140,7 +157,7 @@
             width: 0%;
             background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
             border-radius: 10px;
-            transition: width 0.05s linear;
+            transition: width 0.05s linear; /* Fast transition */
         }
 
         .progress-percentage {
@@ -149,6 +166,15 @@
             color: rgba(224, 224, 224, 0.9);
             animation: fadeIn 1.5s ease-out 2s forwards;
             opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes textFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- Main Content Styles --- */
@@ -193,7 +219,7 @@
 
         h1 {
             font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
-            color: var(--text-heading); /* Gold for contrast */
+            color: var(--text-heading); /* Soft Gold for contrast */
             font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Smaller on desktop */
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
@@ -214,13 +240,13 @@
             line-height: 1.7;
             margin-bottom: 2rem;
             color: var(--text-light);
-            animation: fadeInText 2s ease-out forwards;
+            animation: fadeInTextContent 2s ease-out forwards;
             opacity: 0;
         }
         p:first-of-type { animation-delay: 0.5s; }
         p:last-of-type { animation-delay: 1s; }
 
-        @keyframes fadeInText {
+        @keyframes fadeInTextContent { /* Renamed to avoid conflict with loading screen's fadeInText */
             from { opacity: 0; transform: translateY(1vh); }
             to { opacity: 1; transform: translateY(0); }
         }
@@ -301,7 +327,6 @@
             p { font-size: clamp(0.85rem, 2.3vw, 1.1rem); }
             .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: 1rem 2rem; }
             .container { padding: 1.8rem 3rem; max-width: 90%; }
-            .loading-heartbeat { width: clamp(80px, 18vw, 120px); height: clamp(50px, 12vw, 70px); }
             .loading-text { font-size: clamp(1.8rem, 6vw, 3rem); }
             .loading-subtitle { font-size: clamp(0.8rem, 2.5vw, 1.1rem); }
             .progress-bar-container { width: clamp(15rem, 80vw, 30rem); height: 1rem; }
@@ -313,7 +338,6 @@
             p { font-size: clamp(0.8rem, 3vw, 1.05rem); }
             .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: 0.9rem 1.8rem; }
             .container { padding: 1.5rem 2.5rem; }
-            .loading-heartbeat { width: clamp(60px, 20vw, 100px); height: clamp(40px, 15vw, 60px); }
             .loading-text { font-size: clamp(1.6rem, 7vw, 2.5rem); }
             .loading-subtitle { font-size: clamp(0.75rem, 3vw, 1.05rem); }
             .progress-bar-container { width: clamp(12rem, 90vw, 25rem); height: 0.8rem; }
@@ -322,9 +346,17 @@
     </style>
 </head>
 <body>
+    <div class="background-scenery">
+        <div class="moon"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="distant-scenery"></div> </div>
     <div id="loading-overlay">
-        <div class="loading-heartbeat"></div> <div class="loading-text">Creating Magic</div>
-        <div class="loading-subtitle">A beautiful surprise is loading ... ✨</div>
+        <div class="loading-text">Crafting a moment...</div>
+        <div class="loading-subtitle">Just a few heartbeats away from a surprise. ✨</div>
         <div class="progress-bar-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -349,16 +381,15 @@
             const loadingOverlay = document.getElementById('loading-overlay');
             const progressBar = document.getElementById('progressBar');
             const progressPercentage = document.getElementById('progressPercentage');
-            const mainContainer = document.querySelector('.container'); // Get the main content container
+            const mainContainer = document.querySelector('.container');
 
             let progress = 0;
-            const updateInterval = 50; // Update every 50ms
-            const progressDuration = 4000; // Total duration for progress bar to fill (4 seconds)
+            const updateInterval = 30; // Faster update for fast pace
+            const progressDuration = 2500; // Total duration for progress bar to fill (2.5 seconds)
             const steps = progressDuration / updateInterval;
             const increment = 100 / steps;
 
-            // Delay before starting the progress bar to allow initial loading elements to appear
-            const initialAppearanceDelay = 2800; // Slightly increased from 2.5s to 2.8s
+            const initialAppearanceDelay = 1000; // Delay before starting progress bar
 
             setTimeout(() => {
                 const loadingInterval = setInterval(() => {
@@ -367,18 +398,14 @@
                         progress = 100;
                         clearInterval(loadingInterval);
 
-                        // Ensure the progress bar shows 100% visibly
                         progressBar.style.width = '100%';
                         progressPercentage.textContent = '100%';
 
-                        // Reveal the main content
                         mainContainer.classList.add('active');
 
-                        // Fade out the loading overlay after a short delay to appreciate 100%
                         setTimeout(() => {
                             loadingOverlay.classList.add('hidden');
-                        }, 1000); // Increased from 800ms to 1000ms (1 second)
-
+                        }, 500); // Shorter fade-out after 100%
                     } else {
                         progressBar.style.width = `${progress}%`;
                         progressPercentage.textContent = `${Math.floor(progress)}%`;
