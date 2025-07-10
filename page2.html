@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 My Heart's Thoughts About You... 💕</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-pink-soft: #F8BBD0; /* Light Pink */
@@ -12,8 +12,8 @@
             --text-dark-blue: #283593;
             --text-brown: #5D4037;
             --container-bg: rgba(255, 255, 255, 0.97);
-            --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.15);
             --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.3);
+            font-size: 16px; /* Base font size for rem units */
         }
 
         body {
@@ -27,18 +27,24 @@
             color: var(--text-dark-blue);
             text-align: center;
             flex-direction: column;
-            overflow: hidden;
             position: relative;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         /* Parallax Background Stars/Sparkles */
         .parallax-sparkle {
-            position: absolute;
+            position: fixed;
             font-size: 4vw;
             opacity: 0;
             animation: sparkleFloat 15s infinite ease-in-out;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
             color: #FFD700; /* Gold */
             text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
         }
@@ -51,11 +57,12 @@
 
         .container {
             background-color: var(--container-bg);
-            padding: 4.5vh 6.5vw;
+            padding: 2.8rem 4.2rem;
             border-radius: 25px;
             box-shadow: var(--shadow-deep);
-            max-width: 85vw;
-            margin: 2vh;
+            max-width: 55rem;
+            width: 90%;
+            margin: 5vh auto;
             transform: scale(0.9);
             opacity: 0;
             animation: zoomInFade 1.5s ease-out forwards;
@@ -71,8 +78,8 @@
         h1 {
             font-family: 'Great Vibes', cursive; /* Elegant script font */
             color: #AD1457; /* Deeper pink */
-            font-size: 6.5vw;
-            margin-bottom: 2.5vh;
+            font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+            margin-bottom: 1.8rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
             animation: textWave 1.5s ease-out 1s forwards;
             opacity: 0;
@@ -85,9 +92,9 @@
         }
 
         p {
-            font-size: 3.8vw;
+            font-size: clamp(1rem, 2vw, 1.4rem);
             line-height: 1.8;
-            margin-bottom: 3.5vh;
+            margin-bottom: 2.5rem;
             color: var(--text-brown);
             animation: fadeInParagraph 2s ease-out forwards;
             opacity: 0;
@@ -109,11 +116,11 @@
         }
 
         .button-container {
-            margin-top: 4.5vh;
+            margin-top: 3rem;
             display: flex;
             flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
             justify-content: center;
-            gap: 2vw; /* Responsive gap */
+            gap: 1.5rem; /* Gap between buttons */
             animation: fadeInScale 2s ease-out 3s forwards;
             opacity: 0;
             transform: scale(0.9);
@@ -121,8 +128,8 @@
 
         .button {
             display: inline-block;
-            padding: 2.2vh 4.5vw;
-            font-size: 3.8vw;
+            padding: 1.1rem 2.2rem;
+            font-size: clamp(1.05rem, 2.2vw, 1.5rem);
             font-weight: bold;
             color: var(--text-light);
             background: linear-gradient(45deg, #F06292, #EC407A); /* Soft pink gradient */
@@ -158,29 +165,29 @@
 
         .button:hover {
             background: linear-gradient(45deg, #EC407A, #E91E63);
-            transform: translateY(-0.5vh) scale(1.01);
+            transform: translateY(-0.25rem) scale(1.01);
             box-shadow: 0 9px 18px rgba(233, 30, 99, 0.5);
             color: var(--text-light);
         }
 
         .emoji {
             vertical-align: middle;
-            margin: 0 0.6vw;
+            margin: 0 0.3rem;
             font-size: 1.1em;
         }
 
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: 9vw; }
-            p { font-size: 4.5vw; }
-            .button { font-size: 5vw; padding: 2vh 6vw; }
-            .button-container { flex-direction: column; gap: 1.5vh; } /* Stack buttons vertically */
+            h1 { font-size: clamp(2.5rem, 6.5vw, 3.8rem); }
+            p { font-size: clamp(0.95rem, 2.8vw, 1.25rem); }
+            .button { font-size: clamp(1rem, 3.5vw, 1.4rem); padding: 1rem 1.8rem; }
+            .button-container { flex-direction: column; gap: 1rem; } /* Stack buttons vertically */
         }
         @media (max-width: 480px) {
-            h1 { font-size: 10vw; }
-            p { font-size: 5vw; }
-            .button { font-size: 6vw; padding: 1.8vh 5vw; }
-            .container { padding: 3.5vh 4.5vw; }
+            h1 { font-size: clamp(2.2rem, 7.5vw, 3.2rem); }
+            p { font-size: clamp(0.9rem, 3.5vw, 1.2rem); }
+            .button { font-size: clamp(0.95rem, 4vw, 1.3rem); padding: 0.9rem 1.5rem; }
+            .container { padding: 1.5rem 2.5rem; }
         }
     </style>
 </head>
@@ -195,6 +202,7 @@
             sparkle.style.left = `${Math.random() * 100}vw`;
             sparkle.style.animationDelay = `${Math.random() * 15}s`;
             sparkle.style.animationDuration = `${10 + Math.random() * 10}s`;
+            sparkle.style.fontSize = `${2 + Math.random() * 2}vw`; // Varied sizes
             document.body.appendChild(sparkle);
         }
     </script>
