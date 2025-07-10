@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌟 A Whisper for Reechita... 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-pink: #FF69B4; /* Hot Pink */
-            --secondary-purple: #8A2BE2; /* Blue Violet */
-            --text-dark: #333333;
-            --text-light: #F5F5F5;
-            --container-bg: rgba(255, 255, 255, 0.95);
-            --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.2);
+            /* Dark Elegant Theme Colors */
+            --bg-gradient-start: #120d1a; /* Dark Purple */
+            --bg-gradient-end: #2a0f3d;   /* Deeper Purple */
+            --container-bg: rgba(30, 15, 50, 0.95); /* Semi-transparent dark container */
+            --text-light: #f0e6e6; /* Off-white for general text */
+            --text-heading: #FFD700; /* Gold for main headings */
+            --primary-accent: #FF69B4; /* Hot Pink */
+            --secondary-accent: #8A2BE2; /* Blue Violet */
+            --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.4);
             font-size: 16px; /* Base font size for rem units */
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Lora', serif; /* Elegant body font */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #FFD1DC 0%, #B0E0E6 100%); /* Soft pastel gradient */
-            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-light);
             text-align: center;
             flex-direction: column;
             position: relative;
@@ -44,7 +47,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1A0F2B 0%, #4B0082 100%); /* Dark purple gradient */
+            background: linear-gradient(135deg, #0f0a1c 0%, #3a155c 100%); /* Even darker, intense loading gradient */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -61,7 +64,7 @@
 
         .loading-heart {
             font-size: clamp(8rem, 20vw, 12rem);
-            color: var(--primary-pink);
+            color: var(--primary-accent);
             animation: pulse 1.5s infinite alternate ease-in-out, fadeIn 1s ease-out;
             text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
         }
@@ -76,47 +79,47 @@
         }
 
         .loading-text {
-            font-family: 'Pacifico', cursive;
+            font-family: 'Playfair Display', serif; /* Elegant loading text */
             font-size: clamp(2.5rem, 6vw, 4rem);
             margin-top: 2rem;
-            color: #FFD700; /* Gold-like color */
+            color: var(--text-heading); /* Gold */
             animation: textFadeIn 1.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
         .loading-subtitle {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Lora', serif; /* Elegant loading subtitle */
             font-size: clamp(1rem, 2.5vw, 1.5rem);
             margin-top: 0.5rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(240, 230, 230, 0.8); /* Lighter off-white */
             animation: textFadeIn 1.5s ease-out 1s forwards;
             opacity: 0;
         }
 
         .progress-bar-container {
             width: clamp(20rem, 70vw, 40rem);
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1); /* Lighter transparency for contrast */
             border-radius: 10px;
             height: 1.2rem;
             margin-top: 2.5rem;
             overflow: hidden;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1.5s ease-out 1.5s forwards; /* Fades in the container itself */
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
             opacity: 0;
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #8A2BE2, var(--primary-pink));
+            background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
             border-radius: 10px;
-            transition: width 0.05s linear; /* Fast transition for smooth JavaScript updates */
+            transition: width 0.05s linear;
         }
 
         .progress-percentage {
             font-size: clamp(0.9rem, 2.2vw, 1.2rem);
             margin-top: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(240, 230, 230, 0.9);
             animation: fadeIn 1.5s ease-out 2s forwards;
             opacity: 0;
         }
@@ -129,7 +132,7 @@
             animation: floatAndFade 20s infinite ease-in-out;
             pointer-events: none;
             z-index: -1;
-            color: var(--primary-pink);
+            color: var(--primary-accent);
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
 
@@ -149,27 +152,25 @@
             margin: 5vh auto;
             position: relative;
             z-index: 10;
-            /* Initially hidden and will be revealed by JS */
             opacity: 0;
             transform: translateY(2vh);
-            pointer-events: none; /* Disable interaction until visible */
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out; /* Smooth reveal */
+            pointer-events: none;
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
 
-        /* Animations for main content (triggered by JS) */
         .container.active {
             opacity: 1;
             transform: translateY(0);
-            pointer-events: auto; /* Enable interaction */
+            pointer-events: auto;
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--secondary-purple);
+            font-family: 'Playfair Display', serif; /* Elegant heading font */
+            color: var(--text-heading); /* Gold for contrast */
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-            animation: textReveal 1.5s ease-out 0s forwards; /* Animation starts when container becomes active */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            animation: textReveal 1.5s ease-out 0s forwards;
             opacity: 0;
             line-height: 1.2;
         }
@@ -181,17 +182,16 @@
         }
 
         p {
-            font-family: 'Montserrat', sans-serif; /* Ensuring consistent body font */
+            font-family: 'Lora', serif; /* Elegant body font */
             font-size: clamp(1rem, 2vw, 1.3rem);
             line-height: 1.7;
             margin-bottom: 2rem;
-            color: var(--text-dark);
+            color: var(--text-light);
             animation: fadeInText 2s ease-out forwards;
             opacity: 0;
         }
-        p:first-of-type { animation-delay: 0.5s; } /* Adjusted delays for new flow */
+        p:first-of-type { animation-delay: 0.5s; }
         p:last-of-type { animation-delay: 1s; }
-
 
         @keyframes fadeInText {
             from { opacity: 0; transform: translateY(1vh); }
@@ -200,7 +200,7 @@
 
         .button-container {
             margin-top: 2.5rem;
-            animation: fadeInScale 2s ease-out 1.5s forwards; /* Adjusted delay */
+            animation: fadeInScale 2s ease-out 1.5s forwards;
             opacity: 0;
             transform: scale(0.9);
         }
@@ -214,9 +214,9 @@
             display: inline-block;
             padding: 1.2rem 2.5rem;
             font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-            font-weight: 700; /* Made slightly bolder */
-            color: var(--text-light);
-            background: linear-gradient(45deg, var(--primary-pink), #E91E63);
+            font-weight: 700;
+            color: var(--bg-gradient-start); /* Dark text on light button */
+            background: linear-gradient(45deg, var(--primary-accent), #FFB6C1); /* Pink to light pink */
             border: none;
             border-radius: 50px;
             text-decoration: none;
@@ -246,9 +246,10 @@
         }
 
         .button:hover {
-            background: linear-gradient(45deg, #E91E63, #D81B60);
+            background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
             transform: translateY(-0.25rem) scale(1.03);
             box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
+            color: var(--bg-gradient-end); /* Darker text on hover */
         }
 
         .emoji {
