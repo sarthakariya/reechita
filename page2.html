@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 My Heart's Thoughts About You... 💕</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-pink-soft: #F8BBD0; /* Light Pink */
-            --secondary-peach: #FFECB3; /* Light Yellow/Peach */
-            --text-dark-blue: #283593;
-            --text-brown: #5D4037;
-            --container-bg: rgba(255, 255, 255, 0.97);
-            --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.3);
+            /* Dark Elegant Theme Colors */
+            --bg-gradient-start: #120d1a; /* Dark Purple */
+            --bg-gradient-end: #2a0f3d;   /* Deeper Purple */
+            --container-bg: rgba(30, 15, 50, 0.95); /* Semi-transparent dark container */
+            --text-light: #f0e6e6; /* Off-white for general text */
+            --text-heading: #FFD700; /* Gold for main headings */
+            --primary-accent: #FF69B4; /* Hot Pink */
+            --secondary-accent: #8A2BE2; /* Blue Violet */
+            --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.5);
             font-size: 16px;
         }
 
         body {
-            font-family: 'Poppins', sans-serif; /* More modern, readable font */
+            font-family: 'Lora', serif; /* Elegant body font */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, var(--primary-pink-soft) 0%, var(--secondary-peach) 100%);
-            color: var(--text-dark-blue);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-light);
             text-align: center;
             flex-direction: column;
             position: relative;
@@ -43,7 +46,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
             animation: backgroundPulse 8s infinite alternate ease-in-out;
             z-index: -2; /* Below sparkles */
         }
@@ -61,7 +64,7 @@
             animation: sparkleFloat 15s infinite ease-in-out;
             pointer-events: none;
             z-index: -1;
-            color: #FFD700;
+            color: var(--text-heading); /* Gold sparkles */
             text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
         }
 
@@ -92,12 +95,12 @@
         }
 
         h1 {
-            font-family: 'Great Vibes', cursive;
-            color: #AD1457;
+            font-family: 'Playfair Display', serif; /* Elegant heading font */
+            color: var(--text-heading); /* Gold */
             font-size: clamp(2.8rem, 5.5vw, 4.5rem);
             margin-bottom: 1.8rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
-            animation: textWave 1.5s ease-out 0.5s forwards; /* Adjusted delay */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: textWave 1.5s ease-out 0.5s forwards;
             opacity: 0;
             line-height: 1.2;
         }
@@ -107,18 +110,17 @@
             100% { transform: translateY(0); opacity: 1; }
         }
 
-        /* Paragraphs - Now simple fade in, no typewriter */
         p {
             font-size: clamp(1rem, 2vw, 1.4rem);
             line-height: 1.8;
             margin-bottom: 2.5rem;
-            color: var(--text-brown);
-            opacity: 0; /* Initially hidden */
-            animation: fadeInText 1.5s ease-out forwards; /* Fade in animation */
+            color: var(--text-light);
+            opacity: 0;
+            animation: fadeInText 1.5s ease-out forwards;
         }
-        p:nth-of-type(1) { animation-delay: 1.5s; } /* Fade in after heading */
-        p:nth-of-type(2) { animation-delay: 2.5s; } /* Staggered fade in */
-        p:nth-of-type(3) { animation-delay: 3.5s; } /* Staggered fade in */
+        p:nth-of-type(1) { animation-delay: 1.5s; }
+        p:nth-of-type(2) { animation-delay: 2.5s; }
+        p:nth-of-type(3) { animation-delay: 3.5s; }
 
         @keyframes fadeInText {
             from { opacity: 0; transform: translateY(10px); }
@@ -126,7 +128,7 @@
         }
 
         .highlight {
-            color: #E91E63;
+            color: var(--primary-accent); /* Hot pink highlight */
             font-weight: 600;
             text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
         }
@@ -137,7 +139,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 1.5rem;
-            animation: fadeInScale 1.5s ease-out 4.5s forwards; /* Appear after all paragraphs */
+            animation: fadeInScale 1.5s ease-out 4.5s forwards;
             opacity: 0;
             transform: scale(0.9);
         }
@@ -152,14 +154,14 @@
             padding: 1.1rem 2.2rem;
             font-size: clamp(1.05rem, 2.2vw, 1.5rem);
             font-weight: 700;
-            color: var(--text-light);
-            background: linear-gradient(45deg, #F06292, #EC407A);
+            color: var(--bg-gradient-start); /* Dark text on light button */
+            background: linear-gradient(45deg, var(--primary-accent), #FFB6C1);
             border: none;
             border-radius: 40px;
             text-decoration: none;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 6px 12px rgba(236, 64, 122, 0.3);
+            box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
@@ -172,7 +174,7 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             transition: all 0.4s ease;
             transform: translate(-50%, -50%);
@@ -185,10 +187,10 @@
         }
 
         .button:hover {
-            background: linear-gradient(45deg, #EC407A, #E91E63);
+            background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
             transform: translateY(-0.25rem) scale(1.01);
-            box-shadow: 0 9px 18px rgba(233, 30, 99, 0.5);
-            color: var(--text-light);
+            box-shadow: 0 9px 18px rgba(255, 105, 180, 0.6);
+            color: var(--bg-gradient-end); /* Darker text on hover */
         }
 
         .emoji {
