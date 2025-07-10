@@ -19,6 +19,7 @@
             --button-no-end: #EF5350; /* Light Red */
             --container-bg: rgba(255, 255, 255, 0.98);
             --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.35);
+            font-size: 16px; /* Base font size for rem units */
         }
 
         body {
@@ -32,18 +33,24 @@
             color: var(--text-body);
             text-align: center;
             flex-direction: column;
-            overflow: hidden;
             position: relative;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         /* Parallax Background Confetti/Glow */
         .parallax-effect {
-            position: absolute;
+            position: fixed;
             font-size: 5vw;
             opacity: 0;
             animation: confettiFall 20s infinite ease-out;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
         }
 
         @keyframes confettiFall {
@@ -54,11 +61,12 @@
 
         .container {
             background-color: var(--container-bg);
-            padding: 5vh 7vw;
+            padding: 3rem 5rem;
             border-radius: 30px;
             box-shadow: var(--shadow-deep);
-            max-width: 90vw;
-            margin: 2vh;
+            max-width: 60rem; /* Max width for laptops */
+            width: 90%; /* Responsive width */
+            margin: 5vh auto; /* Center with vertical margin */
             transform: scale(0.8);
             opacity: 0;
             animation: fadeInZoomIn 1.5s ease-out forwards;
@@ -74,8 +82,8 @@
         h1 {
             font-family: 'Playfair Display', serif; /* Elegant serif font */
             color: var(--text-heading);
-            font-size: 7vw;
-            margin-bottom: 3.5vh;
+            font-size: clamp(3rem, 6vw, 5rem); /* Responsive font size */
+            margin-bottom: 2rem;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
             animation: headingGlow 2s ease-in-out infinite alternate;
             line-height: 1.2;
@@ -87,9 +95,9 @@
         }
 
         p {
-            font-size: 4vw;
+            font-size: clamp(1.05rem, 2vw, 1.4rem);
             line-height: 1.8;
-            margin-bottom: 4vh;
+            margin-bottom: 2.5rem;
             color: var(--text-body);
             animation: textFadeIn 2s ease-out forwards;
             opacity: 0;
@@ -100,11 +108,11 @@
 
 
         .confession-text {
-            font-size: 6vw;
+            font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
             font-weight: bold;
             color: var(--text-heading);
-            margin: 5vh 0;
-            padding: 2.5vh 3vw;
+            margin: 3rem 0;
+            padding: 1.5rem 2.5rem;
             background: linear-gradient(45deg, var(--confession-bg-start), var(--confession-bg-end));
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -127,15 +135,16 @@
         }
 
         .button-container {
-            margin-top: 5vh;
+            margin-top: 3rem;
             display: flex;
-            flex-direction: row; /* Keep buttons side-by-side */
+            flex-direction: row; /* Keep buttons side-by-side on larger screens */
             justify-content: center;
-            gap: 3vw; /* Space between buttons */
+            gap: 2rem; /* Space between buttons */
             animation: fadeInScaleButtons 1.5s ease-out 3.5s forwards;
             opacity: 0;
             transform: translateY(2vh);
-            position: relative; /* For "no" button positioning */
+            position: relative;
+            /* For the "no" button to move relative to this container, not the whole page */
         }
 
         @keyframes fadeInScaleButtons {
@@ -145,8 +154,8 @@
 
         .button {
             display: inline-block;
-            padding: 2.5vh 5vw;
-            font-size: 4.5vw;
+            padding: 1.2rem 2.5rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
             font-weight: bold;
             color: var(--text-light);
             border: none;
@@ -176,6 +185,8 @@
             background: linear-gradient(45deg, var(--button-no-start), var(--button-no-end));
             box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
             transition: transform 0.1s ease-out, background 0.4s ease, box-shadow 0.4s ease; /* Faster transition for movement */
+            position: relative; /* Crucial for JS movement within parent */
+            left: 0; top: 0; /* Initial positioning for transform */
         }
         .button.no:hover {
             background: linear-gradient(45deg, var(--button-no-end), #E53935);
@@ -204,27 +215,40 @@
 
         .emoji {
             vertical-align: middle;
-            margin: 0 0.5vw;
+            margin: 0 0.25rem;
             font-size: 1.2em;
         }
 
-        /* Mobile specific adjustments */
+        /* Mobile specific adjustments: Buttons stack and align as requested */
         @media (max-width: 768px) {
-            h1 { font-size: 10vw; }
-            p { font-size: 4.5vw; }
-            .confession-text { font-size: 7vw; padding: 2vh 4vw; }
-            .button { font-size: 5vw; padding: 2vh 6vw; }
-            .button-container { flex-direction: column; gap: 2vh; } /* Stack buttons vertically */
-            /* Force "Yes" button left, "No" button right for small screens */
-            .button.yes { align-self: flex-start; margin-left: auto; margin-right: auto;}
-            .button.no { align-self: flex-end; margin-left: auto; margin-right: auto;}
+            h1 { font-size: clamp(2.8rem, 7vw, 4rem); }
+            p { font-size: clamp(0.95rem, 2.8vw, 1.3rem); }
+            .confession-text { font-size: clamp(1.8rem, 5.5vw, 3rem); padding: 1.2rem 2rem; }
+            .button { font-size: clamp(1rem, 3.5vw, 1.5rem); padding: 1rem 1.8rem; }
+            .button-container {
+                flex-direction: column; /* Stack buttons vertically */
+                gap: 1.5rem; /* Space between stacked buttons */
+                align-items: flex-start; /* Align all items to the left within the container */
+                width: 100%; /* Take full width of parent */
+            }
+            .button.yes {
+                align-self: flex-start; /* Explicitly align Yes button to the left */
+                margin-right: auto; /* Push it to the left */
+                margin-left: 0; /* Ensure no left margin from center alignment */
+            }
+            .button.no {
+                align-self: flex-end; /* Explicitly align No button to the right */
+                margin-left: auto; /* Push it to the right */
+                margin-right: 0; /* Ensure no right margin from center alignment */
+            }
+            .container { padding: 2rem 3rem; }
         }
         @media (max-width: 480px) {
-            h1 { font-size: 11vw; }
-            p { font-size: 5vw; }
-            .confession-text { font-size: 8vw; padding: 1.8vh 3.5vw; }
-            .button { font-size: 6vw; padding: 1.8vh 5vw; }
-            .container { padding: 4vh 6vw; }
+            h1 { font-size: clamp(2.5rem, 8vw, 3.5rem); }
+            p { font-size: clamp(0.9rem, 3.5vw, 1.2rem); }
+            .confession-text { font-size: clamp(1.6rem, 6.5vw, 2.5rem); padding: 1rem 1.5rem; }
+            .button { font-size: clamp(0.95rem, 4vw, 1.4rem); padding: 0.9rem 1.6rem; }
+            .container { padding: 1.5rem 2.5rem; }
         }
     </style>
 </head>
@@ -240,70 +264,65 @@
             effect.style.left = `${Math.random() * 100}vw`;
             effect.style.animationDelay = `${Math.random() * 20}s`;
             effect.style.animationDuration = `${15 + Math.random() * 10}s`;
-            effect.style.fontSize = `${3 + Math.random() * 4}vw`; // Varied sizes
+            effect.style.fontSize = `${2 + Math.random() * 3}vw`; // Varied sizes
             document.body.appendChild(effect);
         }
 
         // JavaScript for "No" button floating effect
         document.addEventListener('DOMContentLoaded', () => {
             const noButton = document.getElementById('noButton');
-            const container = document.querySelector('.container');
+            const buttonContainer = document.querySelector('.button-container');
 
-            if (noButton && container) {
-                let currentX = 0;
-                let currentY = 0;
+            if (noButton && buttonContainer) {
+                // Get initial button position relative to its parent (buttonContainer)
+                const initialX = noButton.offsetLeft;
+                const initialY = noButton.offsetTop;
 
                 noButton.addEventListener('mouseover', (e) => {
                     const buttonRect = noButton.getBoundingClientRect();
-                    const containerRect = container.getBoundingClientRect();
+                    const containerRect = buttonContainer.getBoundingClientRect(); // Use container for bounds
 
-                    let newX, newY;
+                    let newXRelToButton = 0;
+                    let newYRelToButton = 0;
                     let attempts = 0;
-                    const maxAttempts = 100;
-                    const moveDistance = 50; // pixels to move away
+                    const maxAttempts = 50;
+                    const moveDistance = 60; // Pixels to move away
 
                     do {
-                        // Calculate a new random position relative to its current position
                         const angle = Math.random() * 2 * Math.PI; // Random angle
-                        newX = currentX + Math.cos(angle) * moveDistance;
-                        newY = currentY + Math.sin(angle) * moveDistance;
+                        const moveAmountX = Math.cos(angle) * moveDistance;
+                        const moveAmountY = Math.sin(angle) * moveDistance;
 
-                        attempts++;
-                        if (attempts > maxAttempts) {
-                            // Fallback if unable to find a valid position after many attempts
-                            newX = Math.random() * (containerRect.width - buttonRect.width);
-                            newY = Math.random() * (containerRect.height - buttonRect.height);
-                            break;
+                        // Calculate new position relative to the button's *current* transformed position
+                        const currentTransform = getComputedStyle(noButton).transform;
+                        let currentTx = 0, currentTy = 0;
+                        if (currentTransform && currentTransform !== 'none') {
+                            const matrix = new DOMMatrixReadOnly(currentTransform);
+                            currentTx = matrix.m41;
+                            currentTy = matrix.m42;
                         }
 
-                        // Check if the new position is within the *container* boundaries
-                        // (relative to container's top-left)
-                        // Adjust newX, newY to be relative to the button's initial container position
-                        const newButtonLeftInContainer = newX + (buttonRect.left - containerRect.left);
-                        const newButtonTopInContainer = newY + (buttonRect.top - containerRect.top);
+                        let targetX = currentTx + moveAmountX;
+                        let targetY = currentTy + moveAmountY;
 
-                        if (newButtonLeftInContainer >= 0 &&
-                            newButtonLeftInContainer + buttonRect.width <= containerRect.width &&
-                            newButtonTopInContainer >= 0 &&
-                            newButtonTopInContainer + buttonRect.height <= containerRect.height) {
+                        // Check if the target position keeps the button within the container
+                        // Need to adjust targetX/Y to be relative to the *container's* top-left
+                        const btnLeftInContainer = initialX + targetX;
+                        const btnTopInContainer = initialY + targetY;
+
+
+                        if (btnLeftInContainer >= 0 &&
+                            (btnLeftInContainer + buttonRect.width) <= containerRect.width &&
+                            btnTopInContainer >= 0 &&
+                            (btnTopInContainer + buttonRect.height) <= containerRect.height) {
+                            newXRelToButton = targetX;
+                            newYRelToButton = targetY;
                             break; // Found a valid position
                         }
-                    } while (true);
+                        attempts++;
+                    } while (attempts < maxAttempts);
 
-                    // Apply the transformation relative to its original position
-                    noButton.style.transform = `translate(${newX}px, ${newY}px)`;
-                    currentX = newX;
-                    currentY = newY;
-                });
-
-                // Reset position if mouse leaves the button without clicking
-                noButton.addEventListener('mouseout', () => {
-                    // Optional: You can make it stay in its last position or reset
-                    // For this, we'll let it stay until another hover
-                    // To reset:
-                    // noButton.style.transform = `translate(0, 0)`;
-                    // currentX = 0;
-                    // currentY = 0;
+                    noButton.style.transform = `translate(${newXRelToButton}px, ${newYRelToButton}px)`;
                 });
             }
         });
@@ -318,7 +337,7 @@
             <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! <span class="emoji">🥰</span></a>
             <a href="acknowledgement.html?response=no" id="noButton" class="button no">I'm so sorry, no. <span class="emoji">😔</span></a>
         </div>
-        <p style="margin-top: 5vh; font-size: 3.5vw; color: #757575;">(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
+        <p style="margin-top: 3rem; font-size: clamp(0.9rem, 1.8vw, 1.2rem); color: #757575;">(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
     </div>
 </body>
 </html>
