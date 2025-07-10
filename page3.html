@@ -35,6 +35,7 @@
             text-align: center;
             flex-direction: column;
             position: relative;
+            overflow-x: hidden;
             overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -87,46 +88,69 @@
             to { opacity: 1; }
         }
 
-        /* Added distant scenery elements - subtle mountains/hills */
+        /* Enhanced Distant Scenery (Mountains & Subtle Water) */
         .distant-scenery {
             position: absolute;
-            bottom: -50px; /* Start slightly off-screen */
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 200px; /* Height of the scenery */
-            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%), /* Fades out towards top */
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path fill="%231a0e28" d="M0,150 L100,100 L200,120 L300,80 L400,110 L500,70 L600,90 L700,50 L800,100 L900,60 L1000,90 L1000,200 L0,200 Z" opacity="0.6"/><path fill="%2313091e" d="M0,180 L150,130 L300,160 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" opacity="0.8"/></svg>') repeat-x bottom; /* SVG for mountain peaks */
-            background-size: cover, 100% 100%; /* Cover gradient, stretch SVG */
-            filter: blur(2px); /* Soft blur for distance */
-            opacity: 0.6; /* Subtle */
+            height: 250px; /* More height for scenery */
+            background: 
+                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), /* Dark gradient overlay for depth */
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,150 L600,180 L750,140 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom; /* SVG for mountain peaks with blur */
+            background-size: cover, 100% 100%;
             pointer-events: none;
-            z-index: -2; /* Between background and main content */
+            z-index: -2;
+            transform: translateY(50px); /* Start slightly off-screen */
         }
-
-        /* Parallax Background Confetti/Glow */
-        .parallax-effect {
-            position: fixed;
-            font-size: 5vw;
-            opacity: 0;
-            animation: confettiFall 20s infinite ease-out;
+        
+        /* Subtle Water Reflection/Shimmer at the very bottom */
+        .water-shimmer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Height of the water area */
+            background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
+            box-shadow: 0 0 50px rgba(80, 0, 120, 0.5); /* Subtle glow from water */
+            opacity: 0.8;
             pointer-events: none;
             z-index: -1;
-            color: var(--text-heading); /* Soft Gold */
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: waterFlow 15s linear infinite;
         }
 
-        @keyframes confettiFall {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.7; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        @keyframes waterFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
         }
+
+        /* NEW: Swirling Wisps Animation for page3.html */
+        .swirling-wisp {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.08); /* Faint white/purple tint */
+            border-radius: 50%;
+            filter: blur(20px); /* Blurry effect */
+            pointer-events: none;
+            z-index: -1;
+            animation: wispSwirl 25s infinite ease-in-out alternate;
+            opacity: 0;
+        }
+
+        @keyframes wispSwirl {
+            0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(0.3); opacity: 0; }
+            25% { opacity: 0.4; }
+            50% { transform: translate(calc(var(--x) * 1vw + 20vw), calc(var(--y) * 1vh + 20vh)) scale(1); opacity: 0.5; }
+            75% { opacity: 0.3; }
+            100% { transform: translate(calc(var(--x) * 1vw + 40vw), calc(var(--y) * 1vh)) scale(0.3); opacity: 0; }
+        }
+
 
         .container {
             background-color: var(--container-bg);
-            padding: 3rem 5rem;
+            padding: clamp(2rem, 5vw, 3rem) clamp(3.5rem, 7vw, 5rem); /* Smaller padding */
             border-radius: 30px;
             box-shadow: var(--shadow-deep);
-            max-width: 60rem;
+            max-width: 50rem; /* Slightly smaller max-width */
             width: 90%;
             margin: 5vh auto;
             transform: scale(0.8);
@@ -147,7 +171,7 @@
         h1 {
             font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
             color: var(--text-heading); /* Soft Gold for contrast */
-            font-size: clamp(2.5rem, 5vw, 4rem); /* Smaller on desktop */
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Adjusted font size */
             margin-bottom: 2rem;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
             animation: headingGlow 2s ease-in-out infinite alternate;
@@ -165,9 +189,9 @@
 
         p {
             font-family: 'Merriweather', serif; /* Elegant body font */
-            font-size: clamp(0.95rem, 1.8vw, 1.3rem); /* Smaller on desktop */
+            font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
             line-height: 1.8;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem; /* Reduced margin-bottom */
             color: var(--text-light);
             opacity: 0;
             transform: translateY(20px);
@@ -184,36 +208,39 @@
 
         .confession-text {
             font-family: 'Dancing Script', cursive; /* Elegant cursive font */
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(1.8rem, 4vw, 3rem); /* Adjusted font size */
             font-weight: bold;
             color: var(--text-heading); /* Soft Gold for the question */
-            margin: 3rem 0;
-            padding: 1.5rem 2.5rem;
+            margin: 2.5rem 0; /* Adjusted margin */
+            padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1.8rem, 4vw, 2.5rem); /* Smaller padding */
             background: linear-gradient(45deg, rgba(255,224,178,0.1), rgba(255,171,145,0.1)); /* Soft transparent background */
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             opacity: 0;
-            transform: translateY(2vh);
+            transform: scale(0.9) translateY(2vh);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
             line-height: 1.3;
-            animation: fadeInSlideUp 1s ease-out 2.5s forwards; /* Appears after previous texts */
+            animation: textPopIn 0.8s ease-out 2.5s forwards; /* New pop-in animation */
         }
 
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(2vh); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes textPopIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(2vh); }
+            60% { opacity: 1; transform: scale(1.05) translateY(-5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .button-container {
-            margin-top: 3rem;
+            margin-top: 2.5rem; /* Adjusted margin */
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 2rem;
+            gap: clamp(1rem, 3vw, 2rem); /* Smaller gap */
             opacity: 0;
             transform: translateY(2vh);
             animation: fadeInScaleButtons 1s ease-out 3.5s forwards; /* Appears after confession text */
             position: relative;
+            /* Added min-height to help with button evasion in mobile views if they push container */
+            min-height: clamp(80px, 15vw, 120px); 
         }
 
         @keyframes fadeInScaleButtons {
@@ -223,16 +250,16 @@
 
         .button {
             display: inline-block;
-            padding: 1.2rem 2.5rem;
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); /* Smaller padding */
+            font-size: clamp(1rem, 2.2vw, 1.3rem); /* Smaller font size */
             font-weight: 700;
             color: var(--bg-gradient-start); /* Dark text on light buttons */
             border: none;
-            border-radius: 60px;
+            border-radius: 40px; /* Slightly smaller border radius */
             text-decoration: none;
             transition: all 0.4s ease;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Smaller shadow */
             position: relative;
             overflow: hidden;
             letter-spacing: 1px;
@@ -242,25 +269,25 @@
 
         .button.yes {
             background: linear-gradient(45deg, var(--button-yes-start), var(--button-yes-end));
-            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.4);
         }
         .button.yes:hover {
             background: linear-gradient(45deg, var(--button-yes-end), #81C784);
-            transform: translateY(-0.7vh) scale(1.03);
-            box-shadow: 0 15px 25px rgba(76, 175, 80, 0.6);
+            transform: translateY(-0.15rem) scale(1.02); /* Smaller hover effect */
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.6);
             color: var(--bg-gradient-start); /* Ensure text remains readable */
         }
 
         .button.no {
             background: linear-gradient(45deg, var(--button-no-start), var(--button-no-end));
-            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
+            box-shadow: 0 8px 15px rgba(244, 67, 54, 0.4);
             transition: transform 0.1s linear, background 0.4s ease, box-shadow 0.4s ease; /* Faster transition for floating */
-            position: relative; /* Crucial for positioning */
+            position: relative; /* Crucial for positioning, was already there but re-confirming */
             left: 0; top: 0; /* Ensures initial position is known */
         }
         .button.no:hover {
             background: linear-gradient(45deg, var(--button-no-end), #E53935);
-            box-shadow: 0 15px 25px rgba(244, 67, 54, 0.6);
+            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.6);
             color: var(--bg-gradient-start); /* Ensure text remains readable */
         }
 
@@ -292,34 +319,24 @@
 
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: clamp(2.5rem, 6.5vw, 4rem); }
-            p { font-size: clamp(0.9rem, 2.5vw, 1.25rem); }
-            .confession-text { font-size: clamp(1.8rem, 5.5vw, 3rem); padding: 1.2rem 2rem; }
-            .button { font-size: clamp(1rem, 3.5vw, 1.5rem); padding: 1rem 1.8rem; }
+            h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); }
+            p { font-size: clamp(0.85rem, 2.3vw, 1.15rem); }
+            .confession-text { font-size: clamp(1.6rem, 3.8vw, 2.5rem); padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.6rem, 3.5vw, 2.2rem); }
+            .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
             .button-container {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 1rem;
                 align-items: center;
                 width: 100%;
             }
-            .button.yes {
-                align-self: center;
-                margin-right: 0;
-                margin-left: 0;
-            }
-            .button.no {
-                align-self: center;
-                margin-left: 0;
-                margin-right: 0;
-            }
-            .container { padding: 2rem 3rem; }
+            .container { padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); }
         }
         @media (max-width: 480px) {
-            h1 { font-size: clamp(2.2rem, 7.5vw, 3.5rem); }
-            p { font-size: clamp(0.85rem, 3.2vw, 1.2rem); }
-            .confession-text { font-size: clamp(1.6rem, 6.5vw, 2.5rem); padding: 1rem 1.5rem; }
-            .button { font-size: clamp(0.95rem, 4vw, 1.3rem); padding: 0.9rem 1.6rem; }
-            .container { padding: 1.5rem 2.5rem; }
+            h1 { font-size: clamp(1.8rem, 6.5vw, 2.8rem); }
+            p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
+            .confession-text { font-size: clamp(1.4rem, 3.5vw, 2.2rem); padding: clamp(0.7rem, 1.8vw, 1rem) clamp(1.4rem, 3vw, 1.8rem); }
+            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
+            .container { padding: clamp(1.2rem, 3vw, 2.2rem) clamp(2rem, 4.5vw, 3rem); }
         }
     </style>
 </head>
@@ -331,104 +348,104 @@
         <div class="star"></div>
         <div class="star"></div>
         <div class="star"></div>
-        <div class="distant-scenery"></div> </div>
+        <div class="distant-scenery"></div> <div class="water-shimmer"></div> </div>
     <script>
-        // JavaScript for dynamic parallax effects (stars and hearts)
-        const numEffects = 20;
-        const emojis = ['💖', '✨', '🌟', '💫'];
-        for (let i = 0; i < numEffects; i++) {
-            const effect = document.createElement('div');
-            effect.classList.add('parallax-effect');
-            effect.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            effect.style.left = `${Math.random() * 100}vw`;
-            effect.style.animationDelay = `${Math.random() * 20}s`;
-            effect.style.animationDuration = `${15 + Math.random() * 10}s`;
-            effect.style.fontSize = `${2 + Math.random() * 3}vw`;
-            document.body.appendChild(effect);
+        // NEW: JavaScript for dynamic swirling wisps animation
+        const numWisps = 10;
+        for (let i = 0; i < numWisps; i++) {
+            const wisp = document.createElement('div');
+            wisp.classList.add('swirling-wisp');
+            wisp.style.setProperty('--x', Math.random() * 100 - 20); // Random X start pos (-20 to 80 vw)
+            wisp.style.setProperty('--y', Math.random() * 100 - 20); // Random Y start pos (-20 to 80 vh)
+            wisp.style.width = wisp.style.height = `${clamp(80, 250, Math.random() * 300)}px`; // Varied size
+            wisp.style.animationDelay = `${Math.random() * 25}s`;
+            document.body.appendChild(wisp);
         }
 
-        // JavaScript for "No" button floating effect (CORRECTED)
+        // Helper for clamp function in JS for wisp size
+        function clamp = (min, max, value) => Math.max(min, Math.min(max, value));
+
+
+        // JavaScript for "No" button floating effect (COMPLETELY RE-WRITTEN FOR ROBUSTNESS)
         document.addEventListener('DOMContentLoaded', () => {
             const noButton = document.getElementById('noButton');
             const buttonContainer = document.querySelector('.button-container');
 
             if (noButton && buttonContainer) {
-                const moveDistance = 150; // How far the button will move
-                const safeZone = 50; // Distance from cursor to trigger move
+                const moveRange = 150; // Maximum distance the button can move
+                const activationZone = 80; // Distance from cursor to trigger move
+                const smoothFactor = 0.15; // How smoothly it interpolates to new position (lower = smoother)
+
+                let currentTx = 0;
+                let currentTy = 0;
+                let targetX = 0;
+                let targetY = 0;
+
+                const animateButton = () => {
+                    currentTx += (targetX - currentTx) * smoothFactor;
+                    currentTy += (targetY - currentTy) * smoothFactor;
+
+                    noButton.style.transform = `translate(${currentTx}px, ${currentTy}px)`;
+
+                    // Stop animating if very close to target to save resources
+                    if (Math.abs(targetX - currentTx) > 0.1 || Math.abs(targetY - currentTy) > 0.1) {
+                        requestAnimationFrame(animateButton);
+                    }
+                };
 
                 buttonContainer.addEventListener('mousemove', (e) => {
                     const noButtonRect = noButton.getBoundingClientRect();
                     const containerRect = buttonContainer.getBoundingClientRect();
 
-                    // Calculate button center relative to container
-                    const buttonCenterX = noButtonRect.left + noButtonRect.width / 2;
-                    const buttonCenterY = noButtonRect.top + noButtonRect.height / 2;
+                    // Mouse position relative to the button's *current visual center*
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+                    const buttonVisualCenterX = noButtonRect.left + noButtonRect.width / 2;
+                    const buttonVisualCenterY = noButtonRect.top + noButtonRect.height / 2;
 
-                    // Calculate mouse position relative to button center
-                    const dx = e.clientX - buttonCenterX;
-                    const dy = e.clientY - buttonCenterY;
+                    const dx = mouseX - buttonVisualCenterX;
+                    const dy = mouseY - buttonVisualCenterY;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < safeZone) {
-                        // Calculate direction away from mouse
-                        const angle = Math.atan2(dy, dx);
+                    if (distance < activationZone) {
+                        const angle = Math.atan2(dy, dx); // Angle from button center to mouse
                         
-                        // Current position (relative to its own initial spot, due to transform)
-                        const currentTransform = getComputedStyle(noButton).transform;
-                        let currentTx = 0, currentTy = 0;
-                        if (currentTransform && currentTransform !== 'none') {
-                            const matrix = new DOMMatrixReadOnly(currentTransform);
-                            currentTx = matrix.m41;
-                            currentTy = matrix.m42;
-                        }
-
-                        // Calculate potential new position
-                        let targetX = currentTx - Math.cos(angle) * (moveDistance - distance); // Move further the closer the mouse is
-                        let targetY = currentTy - Math.sin(angle) * (moveDistance - distance);
-
-                        // Keep button within container bounds + a buffer
-                        const buffer = 20; // Ensure it doesn't touch container edges
+                        // Calculate target position based on moving AWAY from the mouse
+                        // The closer the mouse, the stronger the push
+                        const evasionStrength = (activationZone - distance) / activationZone; // 0 to 1
                         
-                        // Convert targetX, targetY (which are relative transforms) to absolute positions within container
-                        const newBtnLeft = (noButtonRect.left - containerRect.left) + targetX;
-                        const newBtnTop = (noButtonRect.top - containerRect.top) + targetY;
+                        let proposedTargetX = -Math.cos(angle) * moveRange * evasionStrength;
+                        let proposedTargetY = -Math.sin(angle) * moveRange * evasionStrength;
 
-                        // Check bounds and adjust if necessary
-                        if (newBtnLeft < buffer) targetX += (buffer - newBtnLeft);
-                        if (newBtnLeft + noButtonRect.width > containerRect.width - buffer) targetX -= ((newBtnLeft + noButtonRect.width) - (containerRect.width - buffer));
-                        if (newBtnTop < buffer) targetY += (buffer - newBtnTop);
-                        if (newBtnTop + noButtonRect.height > containerRect.height - buffer) targetY -= ((newBtnTop + noButtonRect.height) - (containerRect.height - buffer));
+                        // Clamp target position to stay within a reasonable area relative to button's original position
+                        // This prevents it from flying off-screen or too far from its original spot
+                        const maxAllowedMove = 100; // Limit how far it can move from its origin
+                        targetX = clamp(-maxAllowedMove, maxAllowedMove, proposedTargetX);
+                        targetY = clamp(-maxAllowedMove, maxAllowedMove, proposedTargetY);
 
-                        noButton.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                        requestAnimationFrame(animateButton); // Start/continue animation
                     } else {
-                        // If mouse is far, slowly return to original position
-                        const currentTransform = getComputedStyle(noButton).transform;
-                        if (currentTransform && currentTransform !== 'none') {
-                            const matrix = new DOMMatrixReadOnly(currentTransform);
-                            const currentTx = matrix.m41;
-                            const currentTy = matrix.m42;
-                            if (Math.abs(currentTx) > 0.1 || Math.abs(currentTy) > 0.1) { // Prevent constant small movements
-                                noButton.style.transform = `translate(${currentTx * 0.9}px, ${currentTy * 0.9}px)`; // Ease back
-                            } else {
-                                noButton.style.transform = `translate(0px, 0px)`; // Snap to origin if very close
-                            }
-                        }
+                        // If mouse is far, smoothly return to original position
+                        targetX = 0;
+                        targetY = 0;
+                        requestAnimationFrame(animateButton);
                     }
                 });
 
-                // Reset position if mouse leaves container
+                // Reset position if mouse leaves the button container area
                 buttonContainer.addEventListener('mouseleave', () => {
-                    noButton.style.transform = `translate(0px, 0px)`;
+                    targetX = 0;
+                    targetY = 0;
+                    requestAnimationFrame(animateButton);
                 });
 
-                // Prevent immediate click if it's too close to mouse on page load
+                // Prevent default click action for the "No" button if it's clicked
                 noButton.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent default link behavior for evasive button
-                    // Optionally, you can still redirect after a delay or a visual cue
-                    // For now, it will just evade. User needs to try hard to click "No".
-                    // If you want it to *eventually* go to the "no" page, you'd add:
-                    // setTimeout(() => { window.location.href = 'acknowledgement.html?response=no'; }, 500);
-                    // But for the 'evasive' behavior, we typically just make it hard to click.
+                    e.preventDefault(); 
+                    // Optional: If you want it to eventually go to the 'no' page,
+                    // you can add a short delay and then redirect.
+                    // For now, it will simply evade and not proceed immediately.
+                    // window.location.href = 'acknowledgement.html?response=no';
                 });
             }
         });
@@ -444,7 +461,7 @@
             <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! <span class="emoji">🥰</span></a>
             <a href="acknowledgement.html?response=no" id="noButton" class="button no">I'm so sorry, no. <span class="emoji">😔</span></a>
         </div>
-        <p style="margin-top: 3rem; font-size: clamp(0.85rem, 1.7vw, 1.2rem); color: #B0B0B0;">I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span><br>(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
+        <p style="margin-top: 2.5rem; font-size: clamp(0.8rem, 1.6vw, 1.1rem); color: #B0B0B0;">I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span><br>(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
     </div>
 </body>
 </html>
