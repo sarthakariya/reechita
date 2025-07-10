@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 My Heart's Thoughts About You... 💕</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Dark Elegant Theme Colors */
             --bg-gradient-start: #120d1a; /* Dark Purple */
             --bg-gradient-end: #2a0f3d;   /* Deeper Purple */
             --container-bg: rgba(30, 15, 50, 0.95); /* Semi-transparent dark container */
-            --text-light: #f0e6e6; /* Off-white for general text */
+            --text-light: #e0e0e0; /* Light gray for general text */
             --text-heading: #FFD700; /* Gold for main headings */
             --primary-accent: #FF69B4; /* Hot Pink */
             --secondary-accent: #8A2BE2; /* Blue Violet */
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: 'Lora', serif; /* Elegant body font */
+            font-family: 'Merriweather', serif; /* Elegant body font */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -95,9 +95,9 @@
         }
 
         h1 {
-            font-family: 'Playfair Display', serif; /* Elegant heading font */
+            font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
             color: var(--text-heading); /* Gold */
-            font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Smaller on desktop */
             margin-bottom: 1.8rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             animation: textWave 1.5s ease-out 0.5s forwards;
@@ -111,7 +111,8 @@
         }
 
         p {
-            font-size: clamp(1rem, 2vw, 1.4rem);
+            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-size: clamp(0.95rem, 1.8vw, 1.3rem); /* Smaller on desktop */
             line-height: 1.8;
             margin-bottom: 2.5rem;
             color: var(--text-light);
@@ -201,15 +202,15 @@
 
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: clamp(2.5rem, 6.5vw, 3.8rem); }
-            p { font-size: clamp(0.95rem, 2.8vw, 1.25rem); }
-            .button { font-size: clamp(1rem, 3.5vw, 1.4rem); padding: 1rem 1.8rem; }
+            h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); }
+            p { font-size: clamp(0.9rem, 2.5vw, 1.2rem); }
+            .button { font-size: clamp(0.95rem, 3.2vw, 1.3rem); padding: 1rem 1.8rem; }
             .button-container { flex-direction: column; gap: 1rem; }
         }
         @media (max-width: 480px) {
-            h1 { font-size: clamp(2.2rem, 7.5vw, 3.2rem); }
-            p { font-size: clamp(0.9rem, 3.5vw, 1.2rem); }
-            .button { font-size: clamp(0.95rem, 4vw, 1.3rem); padding: 0.9rem 1.5rem; }
+            h1 { font-size: clamp(2rem, 7vw, 3rem); }
+            p { font-size: clamp(0.85rem, 3.2vw, 1.15rem); }
+            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: 0.9rem 1.5rem; }
             .container { padding: 1.5rem 2.5rem; }
         }
     </style>
