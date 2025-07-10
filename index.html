@@ -170,4 +170,231 @@
         }
         
         .container {
-            background-color: var(--container-
+            background-color: var(--container-bg);
+            padding: 2.5rem 4rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-deep);
+            max-width: 50rem;
+            width: 90%;
+            margin: 5vh auto;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(2vh);
+            pointer-events: none;
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+        }
+
+        .container.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
+            color: var(--text-heading); /* Gold for contrast */
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Smaller on desktop */
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            animation: textReveal 1.5s ease-out 0s forwards;
+            opacity: 0;
+            line-height: 1.2;
+        }
+
+        @keyframes textReveal {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        p {
+            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-size: clamp(0.95rem, 1.8vw, 1.3rem); /* Smaller on desktop */
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+            animation: fadeInText 2s ease-out forwards;
+            opacity: 0;
+        }
+        p:first-of-type { animation-delay: 0.5s; }
+        p:last-of-type { animation-delay: 1s; }
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(1vh); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .button-container {
+            margin-top: 2.5rem;
+            animation: fadeInScale 2s ease-out 1.5s forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .button {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            font-weight: 700;
+            color: var(--bg-gradient-start); /* Dark text on light button */
+            background: linear-gradient(45deg, var(--primary-accent), #FFB6C1); /* Pink to light pink */
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            transform: scale(1);
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease;
+            transform: skewX(-20deg);
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button:hover {
+            background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
+            transform: translateY(-0.25rem) scale(1.03);
+            box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
+            color: var(--bg-gradient-end); /* Darker text on hover */
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            vertical-align: middle;
+            margin: 0 0.25rem;
+        }
+
+        /* Media queries */
+        @media (max-width: 1024px) {
+            h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
+            p { font-size: clamp(0.9rem, 1.7vw, 1.2rem); }
+            .button { font-size: clamp(1rem, 2.2vw, 1.3rem); padding: 1.1rem 2.2rem; }
+            .container { padding: 2rem 3.5rem; max-width: 45rem; }
+            .loading-text { font-size: clamp(2rem, 5vw, 3.5rem); }
+            .loading-subtitle { font-size: clamp(0.85rem, 2vw, 1.2rem); }
+            .progress-bar-container { width: clamp(18rem, 60vw, 35rem); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: clamp(1.8rem, 5.5vw, 2.8rem); }
+            p { font-size: clamp(0.85rem, 2.3vw, 1.1rem); }
+            .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: 1rem 2rem; }
+            .container { padding: 1.8rem 3rem; max-width: 90%; }
+            .loading-heartbeat { width: clamp(80px, 18vw, 120px); height: clamp(50px, 12vw, 70px); }
+            .loading-text { font-size: clamp(1.8rem, 6vw, 3rem); }
+            .loading-subtitle { font-size: clamp(0.8rem, 2.5vw, 1.1rem); }
+            .progress-bar-container { width: clamp(15rem, 80vw, 30rem); height: 1rem; }
+            .progress-percentage { font-size: clamp(0.75rem, 2vw, 1rem); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+            p { font-size: clamp(0.8rem, 3vw, 1.05rem); }
+            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: 0.9rem 1.8rem; }
+            .container { padding: 1.5rem 2.5rem; }
+            .loading-heartbeat { width: clamp(60px, 20vw, 100px); height: clamp(40px, 15vw, 60px); }
+            .loading-text { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+            .loading-subtitle { font-size: clamp(0.75rem, 3vw, 1.05rem); }
+            .progress-bar-container { width: clamp(12rem, 90vw, 25rem); height: 0.8rem; }
+            .progress-percentage { font-size: clamp(0.7rem, 2.5vw, 0.9rem); }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-overlay">
+        <div class="loading-heartbeat"></div> <div class="loading-text">Creating Magic</div>
+        <div class="loading-subtitle">A beautiful surprise is loading ... ✨</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+    </div>
+
+    <script>
+        // JavaScript for dynamic parallax hearts
+        const numHearts = 15;
+        for (let i = 0; i < numHearts; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('parallax-heart');
+            heart.textContent = '💖';
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.animationDelay = `${Math.random() * 20}s`;
+            heart.style.animationDuration = `${15 + Math.random() * 10}s`;
+            document.body.appendChild(heart);
+        }
+
+        // JavaScript for Loading Screen Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = document.getElementById('progressPercentage');
+            const mainContainer = document.querySelector('.container'); // Get the main content container
+
+            let progress = 0;
+            const updateInterval = 50; // Update every 50ms
+            const progressDuration = 4000; // Total duration for progress bar to fill (4 seconds)
+            const steps = progressDuration / updateInterval;
+            const increment = 100 / steps;
+
+            // Delay before starting the progress bar to allow initial loading elements to appear
+            const initialAppearanceDelay = 2800; // Slightly increased from 2.5s to 2.8s
+
+            setTimeout(() => {
+                const loadingInterval = setInterval(() => {
+                    progress += increment;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(loadingInterval);
+
+                        // Ensure the progress bar shows 100% visibly
+                        progressBar.style.width = '100%';
+                        progressPercentage.textContent = '100%';
+
+                        // Reveal the main content
+                        mainContainer.classList.add('active');
+
+                        // Fade out the loading overlay after a short delay to appreciate 100%
+                        setTimeout(() => {
+                            loadingOverlay.classList.add('hidden');
+                        }, 1000); // Increased from 800ms to 1000ms (1 second)
+
+                    } else {
+                        progressBar.style.width = `${progress}%`;
+                        progressPercentage.textContent = `${Math.floor(progress)}%`;
+                    }
+                }, updateInterval);
+            }, initialAppearanceDelay);
+        });
+    </script>
+
+    <div class="container">
+        <h1>Hey Reechita, <span class="emoji">💖</span></h1>
+        <p>There's something I've been wanting to tell you for a while now, and I've finally gathered the courage to put it into words. It's a little scary <span class="emoji">😬</span>, but also incredibly exciting! <span class="emoji">✨</span></p>
+        <p>I hope you'll take a moment to read what I have to say. Just tap the button below to continue and unlock the next part of my message. <span class="emoji">🔐</span></p>
+        <div class="button-container">
+            <a href="page2.html" class="button">Ready to find out? <span class="emoji">👀</span></a>
+        </div>
+    </div>
+</body>
+</html>
