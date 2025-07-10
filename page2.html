@@ -31,6 +31,7 @@
             text-align: center;
             flex-direction: column;
             position: relative;
+            overflow-x: hidden;
             overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -83,62 +84,65 @@
             to { opacity: 1; }
         }
 
-        /* Added distant scenery elements - subtle mountains/hills */
+        /* Enhanced Distant Scenery (Mountains & Subtle Water) */
         .distant-scenery {
             position: absolute;
-            bottom: -50px; /* Start slightly off-screen */
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 200px; /* Height of the scenery */
-            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%), /* Fades out towards top */
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path fill="%231a0e28" d="M0,150 L100,100 L200,120 L300,80 L400,110 L500,70 L600,90 L700,50 L800,100 L900,60 L1000,90 L1000,200 L0,200 Z" opacity="0.6"/><path fill="%2313091e" d="M0,180 L150,130 L300,160 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" opacity="0.8"/></svg>') repeat-x bottom; /* SVG for mountain peaks */
-            background-size: cover, 100% 100%; /* Cover gradient, stretch SVG */
-            filter: blur(2px); /* Soft blur for distance */
-            opacity: 0.6; /* Subtle */
+            height: 250px; /* More height for scenery */
+            background: 
+                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), /* Dark gradient overlay for depth */
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom; /* SVG for mountain peaks with blur */
+            background-size: cover, 100% 100%;
             pointer-events: none;
-            z-index: -2; /* Between background and main content */
+            z-index: -2;
+            transform: translateY(50px); /* Start slightly off-screen */
         }
-
-        /* Subtle Background Pulse Animation */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
-            animation: backgroundPulse 8s infinite alternate ease-in-out;
-            z-index: -2; /* Below sparkles */
-        }
-
-        @keyframes backgroundPulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.1); opacity: 1; }
-        }
-
-        /* Parallax Background Sparkles */
-        .parallax-sparkle {
-            position: fixed;
-            font-size: 4vw;
-            opacity: 0;
-            animation: sparkleFloat 15s infinite ease-in-out;
+        
+        /* Subtle Water Reflection/Shimmer at the very bottom */
+        .water-shimmer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Height of the water area */
+            background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
+            box-shadow: 0 0 50px rgba(80, 0, 120, 0.5); /* Subtle glow from water */
+            opacity: 0.8;
             pointer-events: none;
             z-index: -1;
-            color: var(--text-heading); /* Soft Gold sparkles */
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+            animation: waterFlow 15s linear infinite;
         }
 
-        @keyframes sparkleFloat {
-            0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translate(0, -100vh) rotate(360deg); opacity: 0; }
+        @keyframes waterFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
+
+        /* NEW: Ethereal Glow Animation for page2.html */
+        .ethereal-glow {
+            position: fixed;
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.3) 0%, rgba(138, 43, 226, 0) 70%); /* Purple glow */
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: glowFloat 18s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes glowFloat {
+            0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(0.5); opacity: 0; }
+            50% { opacity: 0.7; transform: translate(calc(var(--x) * 1vw + 10vw), calc(var(--y) * 1vh + 10vh)) scale(1); }
+            100% { opacity: 0; transform: translate(calc(var(--x) * 1vw + 20vw), calc(var(--y) * 1vh + 20vh)) scale(0.5); }
         }
 
         .container {
             background-color: var(--container-bg);
-            padding: 2.8rem 4.2rem;
+            padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(3rem, 6.5vw, 4.5rem); /* Slightly smaller padding */
             border-radius: 25px;
             box-shadow: var(--shadow-deep);
-            max-width: 55rem;
+            max-width: 50rem; /* Slightly smaller max-width */
             width: 90%;
             margin: 5vh auto;
             transform: scale(0.9);
@@ -156,7 +160,7 @@
         h1 {
             font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
             color: var(--text-heading); /* Soft Gold */
-            font-size: clamp(2.5rem, 5vw, 4rem); /* Smaller on desktop */
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Adjusted font size */
             margin-bottom: 1.8rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             animation: textWave 1.5s ease-out 0.5s forwards;
@@ -171,19 +175,19 @@
 
         p {
             font-family: 'Merriweather', serif; /* Elegant body font */
-            font-size: clamp(0.95rem, 1.8vw, 1.3rem); /* Smaller on desktop */
+            font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
             line-height: 1.8;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem; /* Reduced margin-bottom for compactness */
             color: var(--text-light);
             opacity: 0;
-            animation: fadeInText 1.5s ease-out forwards;
+            animation: fadeInTextStaggered 1.5s ease-out forwards; /* Staggered text animation */
         }
         p:nth-of-type(1) { animation-delay: 1.5s; }
         p:nth-of-type(2) { animation-delay: 2.5s; }
         p:nth-of-type(3) { animation-delay: 3.5s; }
 
-        @keyframes fadeInText {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInTextStaggered {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -194,34 +198,34 @@
         }
 
         .button-container {
-            margin-top: 3rem;
+            margin-top: 2.5rem; /* Reduced margin-top for compactness */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem;
-            animation: fadeInScale 1.5s ease-out 4.5s forwards;
+            gap: clamp(1rem, 2.5vw, 1.5rem); /* Smaller gap */
+            animation: fadeInScaleButtons 1.5s ease-out 4.5s forwards; /* Appears after text */
             opacity: 0;
             transform: scale(0.9);
         }
 
-        @keyframes fadeInScale {
+        @keyframes fadeInScaleButtons {
             from { opacity: 0; transform: scale(0.8); }
             to { opacity: 1; transform: scale(1); }
         }
 
         .button {
             display: inline-block;
-            padding: 1.1rem 2.2rem;
-            font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+            padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); /* Smaller padding */
+            font-size: clamp(1rem, 2.2vw, 1.3rem); /* Smaller font size */
             font-weight: 700;
             color: var(--bg-gradient-start); /* Dark text on light button */
             background: linear-gradient(45deg, var(--primary-accent), #FFB6C1);
             border: none;
-            border-radius: 40px;
+            border-radius: 40px; /* Slightly smaller border radius */
             text-decoration: none;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4);
+            box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4); /* Smaller shadow */
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
@@ -248,8 +252,8 @@
 
         .button:hover {
             background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
-            transform: translateY(-0.25rem) scale(1.01);
-            box-shadow: 0 9px 18px rgba(255, 105, 180, 0.6);
+            transform: translateY(-0.15rem) scale(1.01); /* Smaller hover effect */
+            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.6); /* Smaller hover shadow */
             color: var(--bg-gradient-end); /* Darker text on hover */
         }
 
@@ -261,16 +265,17 @@
 
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); }
-            p { font-size: clamp(0.9rem, 2.5vw, 1.2rem); }
-            .button { font-size: clamp(0.95rem, 3.2vw, 1.3rem); padding: 1rem 1.8rem; }
+            h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); }
+            p { font-size: clamp(0.85rem, 2.3vw, 1.15rem); }
+            .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
             .button-container { flex-direction: column; gap: 1rem; }
+            .container { padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); }
         }
         @media (max-width: 480px) {
-            h1 { font-size: clamp(2rem, 7vw, 3rem); }
-            p { font-size: clamp(0.85rem, 3.2vw, 1.15rem); }
-            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: 0.9rem 1.5rem; }
-            .container { padding: 1.5rem 2.5rem; }
+            h1 { font-size: clamp(1.8rem, 6.5vw, 2.8rem); }
+            p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
+            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
+            .container { padding: clamp(1.2rem, 3vw, 2.2rem) clamp(2rem, 4.5vw, 3rem); }
         }
     </style>
 </head>
@@ -282,19 +287,24 @@
         <div class="star"></div>
         <div class="star"></div>
         <div class="star"></div>
-        <div class="distant-scenery"></div> </div>
+        <div class="distant-scenery"></div> <div class="water-shimmer"></div> </div>
     <script>
-        // JavaScript for dynamic parallax sparkles
-        const numSparkles = 20;
-        for (let i = 0; i < numSparkles; i++) {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('parallax-sparkle');
-            sparkle.textContent = '✨';
-            sparkle.style.left = `${Math.random() * 100}vw`;
-            sparkle.style.animationDelay = `${Math.random() * 15}s`;
-            sparkle.style.animationDuration = `${10 + Math.random() * 10}s`;
-            sparkle.style.fontSize = `${2 + Math.random() * 2}vw`;
-            document.body.appendChild(sparkle);
+        // NEW: JavaScript for dynamic ethereal glow effects
+        const numGlows = 10;
+        for (let i = 0; i < numGlows; i++) {
+            const glow = document.createElement('div');
+            glow.classList.add('ethereal-glow');
+            glow.style.setProperty('--x', Math.random() * 100 - 10); // -10 to 90 vw
+            glow.style.setProperty('--y', Math.random() * 100 - 10); // -10 to 90 vh
+            glow.style.width = glow.style.height = `${clamp(50, 150, Math.random() * 200)}px`; // Varied size
+            glow.style.animationDelay = `${Math.random() * 18}s`;
+            glow.style.animationDuration = `${15 + Math.random() * 6}s`;
+            document.body.appendChild(glow);
+        }
+
+        // Helper for clamp function in JS for glow size
+        function clamp(min, max, value) {
+            return Math.max(min, Math.min(max, value));
         }
     </script>
 
