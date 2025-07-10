@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌟 A Whisper for Reechita... 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-pink: #FF69B4; /* Hot Pink */
@@ -36,6 +36,94 @@
         body::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari, Opera */
             display: none;
         }
+
+        /* --- Loading Screen Styles --- */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1A0F2B 0%, #4B0082 100%); /* Dark purple gradient */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Always on top */
+            color: white;
+            transition: opacity 1s ease-out;
+        }
+
+        #loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none; /* Make it unclickable when hidden */
+        }
+
+        .loading-heart {
+            font-size: clamp(8rem, 20vw, 12rem); /* Large, responsive heart */
+            color: var(--primary-pink);
+            animation: pulse 1.5s infinite alternate ease-in-out, fadeIn 1s ease-out;
+            text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+        }
+
+        @keyframes pulse {
+            from { transform: scale(0.9); text-shadow: 0 0 20px rgba(255, 105, 180, 0.6); }
+            to { transform: scale(1.05); text-shadow: 0 0 40px rgba(255, 105, 180, 1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loading-text {
+            font-family: 'Pacifico', cursive; /* Elegant font for "Creating Magic" */
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-top: 2rem;
+            color: #FFD700; /* Gold-like color */
+            animation: textFadeIn 1.5s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .loading-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: textFadeIn 1.5s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        .progress-bar-container {
+            width: clamp(20rem, 70vw, 40rem); /* Responsive width */
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 1.2rem;
+            margin-top: 2.5rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
+            opacity: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8A2BE2, var(--primary-pink)); /* Purple to Pink gradient */
+            border-radius: 10px;
+            transition: width 3s ease-out; /* Smooth fill */
+            animation: fillProgressBar 3s ease-out 2s forwards; /* Animate after other elements */
+        }
+
+        .progress-percentage {
+            font-size: clamp(0.9rem, 2.2vw, 1.2rem);
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            animation: fadeIn 1.5s ease-out 2s forwards;
+            opacity: 0;
+        }
+
+        /* --- Main Content Styles (from previous version) --- */
+        /* These styles will only be visible AFTER the loading screen fades */
 
         /* Parallax Background Hearts */
         .parallax-heart {
@@ -174,6 +262,10 @@
             p { font-size: clamp(0.95rem, 1.8vw, 1.2rem); }
             .button { font-size: clamp(1.05rem, 2.2vw, 1.4rem); padding: 1.1rem 2.2rem; }
             .container { padding: 2rem 3.5rem; max-width: 45rem; }
+            /* Loading screen adjustments */
+            .loading-text { font-size: clamp(2.2rem, 5vw, 3.5rem); }
+            .loading-subtitle { font-size: clamp(0.95rem, 2vw, 1.3rem); }
+            .progress-bar-container { width: clamp(18rem, 60vw, 35rem); }
         }
 
         @media (max-width: 768px) { /* Larger phones and small tablets */
@@ -181,6 +273,12 @@
             p { font-size: clamp(0.9rem, 2.5vw, 1.15rem); }
             .button { font-size: clamp(1rem, 3.5vw, 1.3rem); padding: 1rem 2rem; }
             .container { padding: 1.8rem 3rem; max-width: 90%; }
+            /* Loading screen adjustments */
+            .loading-heart { font-size: clamp(6rem, 15vw, 10rem); }
+            .loading-text { font-size: clamp(2rem, 6vw, 3rem); }
+            .loading-subtitle { font-size: clamp(0.9rem, 2.5vw, 1.15rem); }
+            .progress-bar-container { width: clamp(15rem, 80vw, 30rem); height: 1rem; }
+            .progress-percentage { font-size: clamp(0.8rem, 2vw, 1rem); }
         }
 
         @media (max-width: 480px) { /* Smaller phones */
@@ -188,10 +286,26 @@
             p { font-size: clamp(0.85rem, 3.5vw, 1.1rem); }
             .button { font-size: clamp(0.95rem, 4vw, 1.2rem); padding: 0.9rem 1.8rem; }
             .container { padding: 1.5rem 2.5rem; }
+            /* Loading screen adjustments */
+            .loading-heart { font-size: clamp(5rem, 18vw, 8rem); }
+            .loading-text { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+            .loading-subtitle { font-size: clamp(0.85rem, 3.5vw, 1.1rem); }
+            .progress-bar-container { width: clamp(12rem, 90vw, 25rem); height: 0.8rem; }
+            .progress-percentage { font-size: clamp(0.75rem, 2.5vw, 0.9rem); }
         }
     </style>
 </head>
 <body>
+    <div id="loading-overlay">
+        <span class="loading-heart">💖</span>
+        <div class="loading-text">Creating Magic</div>
+        <div class="loading-subtitle">A beautiful surprise is loading ... ✨</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+    </div>
+
     <script>
         // JavaScript for dynamic parallax hearts
         const numHearts = 15;
@@ -204,6 +318,32 @@
             heart.style.animationDuration = `${15 + Math.random() * 10}s`; // Varied speeds
             document.body.appendChild(heart);
         }
+
+        // JavaScript for Loading Screen Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = document.getElementById('progressPercentage');
+
+            let progress = 0;
+            const interval = 50; // milliseconds
+            const duration = 3000; // 3 seconds for full load
+            const steps = duration / interval;
+            const increment = 100 / steps;
+
+            const loadingInterval = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden'); // Fade out
+                    }, 500); // Wait a bit before fading out
+                }
+                progressBar.style.width = `${progress}%`;
+                progressPercentage.textContent = `${Math.floor(progress)}%`;
+            }, interval);
+        });
     </script>
 
     <div class="container">
