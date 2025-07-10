@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌹 My Heart's Desire... The Question! 💍</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-gradient-start: #FFC0CB; /* Pink */
@@ -19,11 +19,11 @@
             --button-no-end: #EF5350; /* Light Red */
             --container-bg: rgba(255, 255, 255, 0.98);
             --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.35);
-            font-size: 16px; /* Base font size for rem units */
+            font-size: 16px;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Lora', serif; /* Elegant serif font for body */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -64,9 +64,9 @@
             padding: 3rem 5rem;
             border-radius: 30px;
             box-shadow: var(--shadow-deep);
-            max-width: 60rem; /* Max width for laptops */
-            width: 90%; /* Responsive width */
-            margin: 5vh auto; /* Center with vertical margin */
+            max-width: 60rem;
+            width: 90%;
+            margin: 5vh auto;
             transform: scale(0.8);
             opacity: 0;
             animation: fadeInZoomIn 1.5s ease-out forwards;
@@ -80,9 +80,9 @@
         }
 
         h1 {
-            font-family: 'Playfair Display', serif; /* Elegant serif font */
+            font-family: 'Playfair Display', serif;
             color: var(--text-heading);
-            font-size: clamp(3rem, 6vw, 5rem); /* Responsive font size */
+            font-size: clamp(3rem, 6vw, 5rem);
             margin-bottom: 2rem;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
             animation: headingGlow 2s ease-in-out infinite alternate;
@@ -95,6 +95,7 @@
         }
 
         p {
+            font-family: 'Lora', serif; /* Consistent body font */
             font-size: clamp(1.05rem, 2vw, 1.4rem);
             line-height: 1.8;
             margin-bottom: 2.5rem;
@@ -103,12 +104,12 @@
             opacity: 0;
         }
         p:nth-of-type(1) { animation-delay: 1s; }
-        p:nth-of-type(2) { animation-delay: 1.5s; }
-        p:nth-of-type(3) { animation-delay: 2s; }
+        p:nth-of-type(2) { animation-delay: 1.5s; } /* Adjusted delay for the direct text */
 
 
         .confession-text {
-            font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+            font-family: 'Playfair Display', serif; /* Match heading for emphasis */
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: bold;
             color: var(--text-heading);
             margin: 3rem 0;
@@ -116,35 +117,39 @@
             background: linear-gradient(45deg, var(--confession-bg-start), var(--confession-bg-end));
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            animation: revealQuestion 2s ease-out 2s forwards, pulseGlow 1.5s infinite;
-            opacity: 0;
+            animation: pulseGlow 1.5s infinite; /* Keep pulse, remove initial reveal */
+            opacity: 0; /* Hidden until typewriter */
             transform: translateY(2vh);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
             line-height: 1.3;
+            overflow: hidden; /* For typewriter effect */
+            white-space: nowrap; /* No wrap during typing */
+            border-right: .15em solid #D81B60; /* Caret color */
+            width: 0; /* Start with zero width for typewriter */
         }
 
-        @keyframes revealQuestion {
-            from { opacity: 0; transform: translateY(5vh) scale(0.9); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        /* Typewriter specific animations */
+        @keyframes typing-confession {
+            from { width: 0; }
+            to { width: var(--confession-final-width); }
         }
 
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 10px rgba(255, 64, 129, 0.4); }
-            50% { box-shadow: 0 0 20px rgba(255, 64, 129, 0.8), 0 0 30px rgba(255, 64, 129, 0.6); }
-            100% { box-shadow: 0 0 10px rgba(255, 64, 129, 0.4); }
+        @keyframes blink-confession-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #D81B60; } /* Match text heading */
         }
+
 
         .button-container {
             margin-top: 3rem;
             display: flex;
-            flex-direction: row; /* Keep buttons side-by-side on larger screens */
+            flex-direction: row;
             justify-content: center;
-            gap: 2rem; /* Space between buttons */
-            animation: fadeInScaleButtons 1.5s ease-out 3.5s forwards;
+            gap: 2rem;
+            animation: fadeInScaleButtons 1.5s ease-out forwards; /* Delay handled by JS for typewriter completion */
             opacity: 0;
             transform: translateY(2vh);
             position: relative;
-            /* For the "no" button to move relative to this container, not the whole page */
         }
 
         @keyframes fadeInScaleButtons {
@@ -156,7 +161,7 @@
             display: inline-block;
             padding: 1.2rem 2.5rem;
             font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-            font-weight: bold;
+            font-weight: 700; /* Bolder */
             color: var(--text-light);
             border: none;
             border-radius: 60px;
@@ -184,9 +189,9 @@
         .button.no {
             background: linear-gradient(45deg, var(--button-no-start), var(--button-no-end));
             box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
-            transition: transform 0.1s ease-out, background 0.4s ease, box-shadow 0.4s ease; /* Faster transition for movement */
-            position: relative; /* Crucial for JS movement within parent */
-            left: 0; top: 0; /* Initial positioning for transform */
+            transition: transform 0.1s ease-out, background 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            left: 0; top: 0;
         }
         .button.no:hover {
             background: linear-gradient(45deg, var(--button-no-end), #E53935);
@@ -219,27 +224,27 @@
             font-size: 1.2em;
         }
 
-        /* Mobile specific adjustments: Buttons stack and align as requested */
+        /* Mobile specific adjustments */
         @media (max-width: 768px) {
             h1 { font-size: clamp(2.8rem, 7vw, 4rem); }
             p { font-size: clamp(0.95rem, 2.8vw, 1.3rem); }
             .confession-text { font-size: clamp(1.8rem, 5.5vw, 3rem); padding: 1.2rem 2rem; }
             .button { font-size: clamp(1rem, 3.5vw, 1.5rem); padding: 1rem 1.8rem; }
             .button-container {
-                flex-direction: column; /* Stack buttons vertically */
-                gap: 1.5rem; /* Space between stacked buttons */
-                align-items: flex-start; /* Align all items to the left within the container */
-                width: 100%; /* Take full width of parent */
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-start;
+                width: 100%;
             }
             .button.yes {
-                align-self: flex-start; /* Explicitly align Yes button to the left */
-                margin-right: auto; /* Push it to the left */
-                margin-left: 0; /* Ensure no left margin from center alignment */
+                align-self: flex-start;
+                margin-right: auto;
+                margin-left: 0;
             }
             .button.no {
-                align-self: flex-end; /* Explicitly align No button to the right */
-                margin-left: auto; /* Push it to the right */
-                margin-right: 0; /* Ensure no right margin from center alignment */
+                align-self: flex-end;
+                margin-left: auto;
+                margin-right: 0;
             }
             .container { padding: 2rem 3rem; }
         }
@@ -256,7 +261,7 @@
     <script>
         // JavaScript for dynamic parallax effects (stars and hearts)
         const numEffects = 20;
-        const emojis = ['💖', '✨', '🌟', '💫']; // Different emojis for effect
+        const emojis = ['💖', '✨', '🌟', '💫'];
         for (let i = 0; i < numEffects; i++) {
             const effect = document.createElement('div');
             effect.classList.add('parallax-effect');
@@ -264,7 +269,7 @@
             effect.style.left = `${Math.random() * 100}vw`;
             effect.style.animationDelay = `${Math.random() * 20}s`;
             effect.style.animationDuration = `${15 + Math.random() * 10}s`;
-            effect.style.fontSize = `${2 + Math.random() * 3}vw`; // Varied sizes
+            effect.style.fontSize = `${2 + Math.random() * 3}vw`;
             document.body.appendChild(effect);
         }
 
@@ -272,6 +277,53 @@
         document.addEventListener('DOMContentLoaded', () => {
             const noButton = document.getElementById('noButton');
             const buttonContainer = document.querySelector('.button-container');
+            const confessionTextElement = document.getElementById('confessionText');
+
+            // Function to type out the confession text
+            function typeConfessionText() {
+                const textContent = confessionTextElement.textContent;
+                confessionTextElement.textContent = ''; // Clear content
+                confessionTextElement.style.opacity = '1'; // Make it visible
+                confessionTextElement.style.whiteSpace = 'nowrap'; // No wrapping during typing
+
+                // Calculate width and set CSS variable
+                // Create a temporary element to measure the text width accurately
+                const tempSpan = document.createElement('span');
+                tempSpan.style.fontFamily = getComputedStyle(confessionTextElement).fontFamily;
+                tempSpan.style.fontSize = getComputedStyle(confessionTextElement).fontSize;
+                tempSpan.style.fontWeight = getComputedStyle(confessionTextElement).fontWeight;
+                tempSpan.style.position = 'absolute';
+                tempSpan.style.visibility = 'hidden';
+                tempSpan.style.whiteSpace = 'nowrap';
+                tempSpan.textContent = textContent;
+                document.body.appendChild(tempSpan);
+                const finalWidth = tempSpan.offsetWidth;
+                document.body.removeChild(tempSpan);
+
+                confessionTextElement.style.setProperty('--confession-final-width', finalWidth + 'px');
+
+                const typingDuration = textContent.length * 70; // 70ms per character for confession
+                confessionTextElement.style.animation = `typing-confession ${typingDuration}ms steps(${textContent.length}) forwards, blink-confession-caret .75s step-end infinite`;
+
+                // After typing, remove caret and allow wrapping
+                setTimeout(() => {
+                    confessionTextElement.style.borderRight = 'none';
+                    confessionTextElement.style.whiteSpace = 'pre-wrap'; // Allow text to wrap
+                }, typingDuration + 100);
+
+                // Reveal buttons after the confession text is typed out
+                const buttonRevealDelay = typingDuration + 500; // Delay after typing
+                const buttonsContainer = document.querySelector('.button-container');
+                if (buttonsContainer) {
+                    buttonsContainer.style.animationDelay = `${buttonRevealDelay}ms`;
+                    buttonsContainer.style.animationFillMode = 'forwards';
+                }
+            }
+
+            // Initial delay before starting the typewriter effect
+            // Assuming initial textFadeIn for P elements finishes around 2.5s
+            // Start typing after a short pause after initial content fade in
+            setTimeout(typeConfessionText, 2800); // Start typing after 2.8 seconds
 
             if (noButton && buttonContainer) {
                 // Get initial button position relative to its parent (buttonContainer)
@@ -280,7 +332,7 @@
 
                 noButton.addEventListener('mouseover', (e) => {
                     const buttonRect = noButton.getBoundingClientRect();
-                    const containerRect = buttonContainer.getBoundingClientRect(); // Use container for bounds
+                    const containerRect = buttonContainer.getBoundingClientRect();
 
                     let newXRelToButton = 0;
                     let newYRelToButton = 0;
@@ -289,11 +341,10 @@
                     const moveDistance = 60; // Pixels to move away
 
                     do {
-                        const angle = Math.random() * 2 * Math.PI; // Random angle
+                        const angle = Math.random() * 2 * Math.PI;
                         const moveAmountX = Math.cos(angle) * moveDistance;
                         const moveAmountY = Math.sin(angle) * moveDistance;
 
-                        // Calculate new position relative to the button's *current* transformed position
                         const currentTransform = getComputedStyle(noButton).transform;
                         let currentTx = 0, currentTy = 0;
                         if (currentTransform && currentTransform !== 'none') {
@@ -305,11 +356,8 @@
                         let targetX = currentTx + moveAmountX;
                         let targetY = currentTy + moveAmountY;
 
-                        // Check if the target position keeps the button within the container
-                        // Need to adjust targetX/Y to be relative to the *container's* top-left
                         const btnLeftInContainer = initialX + targetX;
                         const btnTopInContainer = initialY + targetY;
-
 
                         if (btnLeftInContainer >= 0 &&
                             (btnLeftInContainer + buttonRect.width) <= containerRect.width &&
@@ -317,7 +365,7 @@
                             (btnTopInContainer + buttonRect.height) <= containerRect.height) {
                             newXRelToButton = targetX;
                             newYRelToButton = targetY;
-                            break; // Found a valid position
+                            break;
                         }
                         attempts++;
                     } while (attempts < maxAttempts);
@@ -331,8 +379,8 @@
     <div class="container">
         <h1>So, here it goes, my heart on my sleeve... <span class="emoji">💖</span></h1>
         <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita, because you mean so much to me. <span class="emoji">💫</span></p>
-        <p class="confession-text">Reechita, would you do me the honor of being my girlfriend? <span class="emoji">💘</span></p>
-        <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span></p>
+        <p class="confession-text" id="confessionText">Reechita, would you do me the honor of being my girlfriend? <span class="emoji">💘</span></p>
+        <p style="animation-delay: 4.5s; opacity: 0; animation-fill-mode: forwards;">I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span></p>
         <div class="button-container">
             <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! <span class="emoji">🥰</span></a>
             <a href="acknowledgement.html?response=no" id="noButton" class="button no">I'm so sorry, no. <span class="emoji">😔</span></a>
