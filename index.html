@@ -169,7 +169,7 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-            animation: textReveal 1.5s ease-out 0s forwards; /* Adjust delay since container fades in later */
+            animation: textReveal 1.5s ease-out 0s forwards; /* Animation starts when container becomes active */
             opacity: 0;
             line-height: 1.2;
         }
@@ -331,8 +331,7 @@
             const increment = 100 / steps;
 
             // Delay before starting the progress bar to allow initial loading elements to appear
-            // The loading heart, text, and bar container take up to 2 seconds to fade in.
-            const initialAppearanceDelay = 2500; // 2.5 seconds before progress bar starts filling
+            const initialAppearanceDelay = 2800; // Slightly increased from 2.5s to 2.8s
 
             setTimeout(() => {
                 const loadingInterval = setInterval(() => {
@@ -351,7 +350,7 @@
                         // Fade out the loading overlay after a short delay to appreciate 100%
                         setTimeout(() => {
                             loadingOverlay.classList.add('hidden');
-                        }, 800); // 800ms after 100% is shown, hide overlay
+                        }, 1000); // Increased from 800ms to 1000ms (1 second)
 
                     } else {
                         progressBar.style.width = `${progress}%`;
