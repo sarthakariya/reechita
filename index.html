@@ -101,7 +101,7 @@
             margin-top: 2.5rem;
             overflow: hidden;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1.5s ease-out 1.5s forwards;
+            animation: fadeIn 1.5s ease-out 1.5s forwards; /* Fades in the container itself */
             opacity: 0;
         }
 
@@ -110,8 +110,7 @@
             width: 0%;
             background: linear-gradient(90deg, #8A2BE2, var(--primary-pink));
             border-radius: 10px;
-            transition: width 3s ease-out; /* Smooth transition for JS width updates */
-            /* REMOVED: animation: fillProgressBar 3s ease-out 2s forwards; */
+            transition: width 0.05s linear; /* Fast transition for smooth JavaScript updates */
         }
 
         .progress-percentage {
@@ -148,16 +147,20 @@
             max-width: 50rem;
             width: 90%;
             margin: 5vh auto;
-            transform: translateY(2vh);
-            opacity: 0;
-            animation: fadeInSlideUp 1.5s ease-out forwards;
             position: relative;
             z-index: 10;
+            /* Initially hidden and will be revealed by JS */
+            opacity: 0;
+            transform: translateY(2vh);
+            pointer-events: none; /* Disable interaction until visible */
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out; /* Smooth reveal */
         }
 
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(5vh); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animations for main content (triggered by JS) */
+        .container.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto; /* Enable interaction */
         }
 
         h1 {
@@ -166,7 +169,7 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-            animation: textReveal 1.5s ease-out 1.5s forwards;
+            animation: textReveal 1.5s ease-out 0s forwards; /* Adjust delay since container fades in later */
             opacity: 0;
             line-height: 1.2;
         }
@@ -186,8 +189,8 @@
             animation: fadeInText 2s ease-out forwards;
             opacity: 0;
         }
-        p:first-of-type { animation-delay: 2s; }
-        p:last-of-type { animation-delay: 2.5s; }
+        p:first-of-type { animation-delay: 0.5s; } /* Adjusted delays for new flow */
+        p:last-of-type { animation-delay: 1s; }
 
 
         @keyframes fadeInText {
@@ -197,7 +200,7 @@
 
         .button-container {
             margin-top: 2.5rem;
-            animation: fadeInScale 2s ease-out 3s forwards;
+            animation: fadeInScale 2s ease-out 1.5s forwards; /* Adjusted delay */
             opacity: 0;
             transform: scale(0.9);
         }
@@ -319,26 +322,43 @@
             const loadingOverlay = document.getElementById('loading-overlay');
             const progressBar = document.getElementById('progressBar');
             const progressPercentage = document.getElementById('progressPercentage');
+            const mainContainer = document.querySelector('.container'); // Get the main content container
 
             let progress = 0;
-            const interval = 50; // Update every 50ms
-            const duration = 3000; // Total duration of loading in ms (3 seconds)
-            const steps = duration / interval;
+            const updateInterval = 50; // Update every 50ms
+            const progressDuration = 4000; // Total duration for progress bar to fill (4 seconds)
+            const steps = progressDuration / updateInterval;
             const increment = 100 / steps;
 
-            const loadingInterval = setInterval(() => {
-                progress += increment;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(loadingInterval);
-                    // Give a small delay for the bar to reach 100% visibly before fading out
-                    setTimeout(() => {
-                        loadingOverlay.classList.add('hidden');
-                    }, 500); // 500ms before hiding overlay
-                }
-                progressBar.style.width = `${progress}%`;
-                progressPercentage.textContent = `${Math.floor(progress)}%`;
-            }, interval);
+            // Delay before starting the progress bar to allow initial loading elements to appear
+            // The loading heart, text, and bar container take up to 2 seconds to fade in.
+            const initialAppearanceDelay = 2500; // 2.5 seconds before progress bar starts filling
+
+            setTimeout(() => {
+                const loadingInterval = setInterval(() => {
+                    progress += increment;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(loadingInterval);
+
+                        // Ensure the progress bar shows 100% visibly
+                        progressBar.style.width = '100%';
+                        progressPercentage.textContent = '100%';
+
+                        // Reveal the main content
+                        mainContainer.classList.add('active');
+
+                        // Fade out the loading overlay after a short delay to appreciate 100%
+                        setTimeout(() => {
+                            loadingOverlay.classList.add('hidden');
+                        }, 800); // 800ms after 100% is shown, hide overlay
+
+                    } else {
+                        progressBar.style.width = `${progress}%`;
+                        progressPercentage.textContent = `${Math.floor(progress)}%`;
+                    }
+                }, updateInterval);
+            }, initialAppearanceDelay);
         });
     </script>
 
