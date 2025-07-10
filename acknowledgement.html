@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 Thank You, Reechita! 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --text-dark-blue: #0D47A1;
             --button-blue: #26C6DA;
             --container-bg: rgba(255, 255, 255, 0.98);
             --shadow-light: 0 8px 20px rgba(0, 0, 0, 0.2);
-            font-size: 16px; /* Base font size for rem units */
+            font-size: 16px;
         }
 
         body {
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Nunito', sans-serif; /* Soft, friendly, and modern font */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #e0f2f7 0%, #bbdefb 100%); /* Light blue gradient (will be overridden by JS) */
+            background: linear-gradient(135deg, #e0f2f7 0%, #bbdefb 100%);
             color: var(--text-dark-blue);
             text-align: center;
             flex-direction: column;
@@ -37,11 +37,11 @@
 
         /* Dynamic effect elements (confetti/rain) - handled by JS to create */
         .dynamic-effect {
-            position: fixed; /* Fixed for parallax */
-            font-size: 4vw; /* Responsive size */
+            position: fixed;
+            font-size: 4vw;
             opacity: 0;
             pointer-events: none;
-            z-index: -1; /* Below container */
+            z-index: -1;
         }
 
         /* Specific animations for confetti and rain */
@@ -68,7 +68,7 @@
             opacity: 0;
             animation: fadeInPop 1.5s ease-out forwards;
             position: relative;
-            z-index: 10; /* Above effects */
+            z-index: 10;
         }
 
         @keyframes fadeInPop {
@@ -77,7 +77,7 @@
         }
 
         h1 {
-            font-family: 'Pacifico', cursive; /* Elegant, flowing font */
+            font-family: 'Pacifico', cursive;
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 3px rgba(0,0,0,0.1);
@@ -93,17 +93,18 @@
         }
 
         p {
+            font-family: 'Nunito', sans-serif; /* Consistent body font */
             font-size: clamp(1rem, 2vw, 1.3rem);
             line-height: 1.8;
             margin-bottom: 2rem;
-            color: #1565C0; /* Medium blue */
+            color: #1565C0;
             animation: fadeInText 2s ease-out 1.5s forwards;
             opacity: 0;
         }
 
         #responseText {
             font-size: clamp(1.4rem, 3vw, 2rem);
-            font-weight: bold;
+            font-weight: 700; /* Bolder */
             margin: 2rem 0;
             padding: 1rem 1.5rem;
             border-radius: 10px;
@@ -112,17 +113,16 @@
             background-color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Specific glow and text colors for responses */
         .yes-glow {
-            color: #2E7D32; /* Dark green */
+            color: #2E7D32;
             box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
         }
         .no-glow {
-            color: #C62828; /* Dark red */
+            color: #C62828;
             box-shadow: 0 0 15px rgba(244, 67, 54, 0.7);
         }
         .neutral-glow {
-            color: #FFC107; /* Amber */
+            color: #FFC107;
             box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
         }
 
@@ -143,7 +143,7 @@
             display: inline-block;
             padding: 1rem 2rem;
             font-size: clamp(1rem, 2.5vw, 1.5rem);
-            font-weight: bold;
+            font-weight: 700; /* Bolder */
             color: var(--text-light);
             background-color: var(--button-blue);
             border: none;
@@ -200,7 +200,7 @@
                 effect.style.left = `${Math.random() * 100}vw`;
                 effect.style.animationDelay = `${Math.random() * 5 * animationDelayMultiplier}s`;
                 effect.style.animationDuration = `${5 + Math.random() * 5}s`;
-                effect.style.fontSize = `${2 + Math.random() * 2}vw`; // Varied sizes
+                effect.style.fontSize = `${2 + Math.random() * 2}vw`;
                 body.appendChild(effect);
             }
         }
@@ -209,7 +209,7 @@
             thankYouHeader.textContent = "OMG, YES! Thank You, Thank You, Thank You! 🥰🎉";
             responseText.textContent = "I'm so incredibly happy to hear that! This means the absolute world to me. My heart is soaring! 💖🚀 I can't wait to see where this amazing journey takes us!";
             responseText.classList.add('yes-glow');
-            body.style.background = 'linear-gradient(135deg, #A8E063 0%, #56AB2F 100%)'; /* Green gradient */
+            body.style.background = 'linear-gradient(135deg, #A8E063 0%, #56AB2F 100%)';
 
             createDynamicEffect('🎉', 'confetti-yes', 25);
             createDynamicEffect('🌟', 'confetti-yes', 15, 0.8);
@@ -219,7 +219,7 @@
             thankYouHeader.textContent = "Thank you for your honesty, Reechita. 😔";
             responseText.textContent = "I understand completely. While I'm a little sad 💔, I truly appreciate you being open and honest with me. Our friendship means a lot, and I sincerely hope we can still be good friends. 🫂";
             responseText.classList.add('no-glow');
-            body.style.background = 'linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%)'; /* Greyish blue gradient */
+            body.style.background = 'linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%)';
 
             createDynamicEffect('💧', 'rain-no', 30);
             createDynamicEffect('🌧️', 'rain-no', 10, 0.7);
@@ -228,10 +228,9 @@
             thankYouHeader.textContent = "Just checking in! ✨";
             responseText.textContent = "It seems you landed here without a direct response. Thank you for visiting! 😊";
             responseText.classList.add('neutral-glow');
-            body.style.background = 'linear-gradient(135deg, #FFECB3 0%, #FFE0B2 100%)'; /* Neutral warm gradient */
+            body.style.background = 'linear-gradient(135deg, #FFECB3 0%, #FFE0B2 100%)';
         }
 
-        // Apply animations based on effect type
         const styleSheet = document.styleSheets[0];
         if (response === 'yes') {
             styleSheet.insertRule(`
