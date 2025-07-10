@@ -31,6 +31,7 @@
             text-align: center;
             flex-direction: column;
             position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
             overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -83,31 +84,50 @@
             to { opacity: 1; }
         }
 
-        /* Added distant scenery elements - subtle mountains/hills */
+        /* Enhanced Distant Scenery (Mountains & Subtle Water) */
         .distant-scenery {
             position: absolute;
-            bottom: -50px; /* Start slightly off-screen */
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 200px; /* Height of the scenery */
-            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%), /* Fades out towards top */
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path fill="%231a0e28" d="M0,150 L100,100 L200,120 L300,80 L400,110 L500,70 L600,90 L700,50 L800,100 L900,60 L1000,90 L1000,200 L0,200 Z" opacity="0.6"/><path fill="%2313091e" d="M0,180 L150,130 L300,160 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" opacity="0.8"/></svg>') repeat-x bottom; /* SVG for mountain peaks */
-            background-size: cover, 100% 100%; /* Cover gradient, stretch SVG */
-            filter: blur(2px); /* Soft blur for distance */
-            opacity: 0.6; /* Subtle */
+            height: 250px; /* More height for scenery */
+            background: 
+                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), /* Dark gradient overlay for depth */
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,150 L600,180 L750,140 L900,170 L1000,150 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom; /* SVG for mountain peaks with blur */
+            background-size: cover, 100% 100%;
             pointer-events: none;
-            z-index: -2; /* Between background and main content */
+            z-index: -2;
+            transform: translateY(50px); /* Start slightly off-screen */
+        }
+        
+        /* Subtle Water Reflection/Shimmer at the very bottom */
+        .water-shimmer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Height of the water area */
+            background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
+            box-shadow: 0 0 50px rgba(80, 0, 120, 0.5); /* Subtle glow from water */
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: -1;
+            animation: waterFlow 15s linear infinite;
         }
 
+        @keyframes waterFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
 
-        /* --- Loading Screen Styles (Restored and Corrected) --- */
+        /* --- Loading Screen Styles --- */
         #loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #07050e 0%, #290f3b 100%); /* Even darker, intense loading gradient */
+            background: linear-gradient(135deg, #07050e 0%, #290f3b 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -123,26 +143,26 @@
         }
 
         .loading-text {
-            font-family: 'Dancing Script', cursive; /* Elegant cursive loading text */
+            font-family: 'Dancing Script', cursive;
             font-size: clamp(2.2rem, 5.5vw, 3.8rem);
             margin-top: 1rem;
-            color: var(--text-heading); /* Soft Gold */
+            color: var(--text-heading);
             animation: textFadeIn 1.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
         .loading-subtitle {
-            font-family: 'Merriweather', serif; /* Elegant body font for subtitle */
+            font-family: 'Merriweather', serif;
             font-size: clamp(0.9rem, 2vw, 1.3rem);
             margin-top: 0.5rem;
-            color: rgba(224, 224, 224, 0.8); /* Lighter off-white */
+            color: rgba(224, 224, 224, 0.8);
             animation: textFadeIn 1.5s ease-out 1s forwards;
             opacity: 0;
         }
 
         .progress-bar-container {
             width: clamp(20rem, 70vw, 40rem);
-            background-color: rgba(255, 255, 255, 0.1); /* Lighter transparency */
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             height: 1.2rem;
             margin-top: 2.5rem;
@@ -178,14 +198,14 @@
         }
 
         /* --- Main Content Styles --- */
-        /* Removed .parallax-heart - Heartbeat animation is gone */
+        /* Removed .parallax-heart - Heartbeat animation is gone as requested */
         
         .container {
             background-color: var(--container-bg);
-            padding: 2.5rem 4rem;
+            padding: clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem); /* Smaller padding */
             border-radius: 20px;
             box-shadow: var(--shadow-deep);
-            max-width: 50rem;
+            max-width: 45rem; /* Slightly smaller max-width */
             width: 90%;
             margin: 5vh auto;
             position: relative;
@@ -205,7 +225,7 @@
         h1 {
             font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
             color: var(--text-heading); /* Soft Gold for contrast */
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Smaller on desktop */
+            font-size: clamp(2rem, 4vw, 3.2rem); /* Adjusted font size */
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
             animation: textReveal 1.5s ease-out 0s forwards;
@@ -221,7 +241,7 @@
 
         p {
             font-family: 'Merriweather', serif; /* Elegant body font */
-            font-size: clamp(0.95rem, 1.8vw, 1.3rem); /* Smaller on desktop */
+            font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
             line-height: 1.7;
             margin-bottom: 2rem;
             color: var(--text-light);
@@ -250,17 +270,17 @@
 
         .button {
             display: inline-block;
-            padding: 1.2rem 2.5rem;
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); /* Smaller padding */
+            font-size: clamp(1rem, 2.2vw, 1.3rem); /* Smaller font size */
             font-weight: 700;
             color: var(--bg-gradient-start); /* Dark text on light button */
             background: linear-gradient(45deg, var(--primary-accent), #FFB6C1); /* Pink to light pink */
             border: none;
-            border-radius: 50px;
+            border-radius: 40px; /* Slightly smaller border radius */
             text-decoration: none;
             transition: all 0.4s ease;
             cursor: pointer;
-            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4);
+            box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4); /* Smaller shadow */
             position: relative;
             overflow: hidden;
             letter-spacing: 0.5px;
@@ -285,8 +305,8 @@
 
         .button:hover {
             background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
-            transform: translateY(-0.25rem) scale(1.03);
-            box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
+            transform: translateY(-0.15rem) scale(1.02); /* Smaller hover effect */
+            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.6); /* Smaller hover shadow */
             color: var(--bg-gradient-end); /* Darker text on hover */
         }
 
@@ -296,37 +316,26 @@
             margin: 0 0.25rem;
         }
 
-        /* Media queries */
+        /* Media queries (adjusted to reflect smaller base) */
         @media (max-width: 1024px) {
-            h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
-            p { font-size: clamp(0.9rem, 1.7vw, 1.2rem); }
-            .button { font-size: clamp(1rem, 2.2vw, 1.3rem); padding: 1.1rem 2.2rem; }
-            .container { padding: 2rem 3.5rem; max-width: 45rem; }
-            .loading-text { font-size: clamp(2rem, 5vw, 3.5rem); }
-            .loading-subtitle { font-size: clamp(0.85rem, 2vw, 1.2rem); }
-            .progress-bar-container { width: clamp(18rem, 60vw, 35rem); }
+            h1 { font-size: clamp(1.8rem, 3.8vw, 3rem); }
+            p { font-size: clamp(0.85rem, 1.6vw, 1.15rem); }
+            .button { font-size: clamp(0.95rem, 2vw, 1.2rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
+            .container { padding: clamp(1.2rem, 3.5vw, 2.2rem) clamp(2rem, 5vw, 3.5rem); max-width: 40rem; }
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: clamp(1.8rem, 5.5vw, 2.8rem); }
-            p { font-size: clamp(0.85rem, 2.3vw, 1.1rem); }
-            .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: 1rem 2rem; }
-            .container { padding: 1.8rem 3rem; max-width: 90%; }
-            .loading-text { font-size: clamp(1.8rem, 6vw, 3rem); }
-            .loading-subtitle { font-size: clamp(0.8rem, 2.5vw, 1.1rem); }
-            .progress-bar-container { width: clamp(15rem, 80vw, 30rem); height: 1rem; }
-            .progress-percentage { font-size: clamp(0.75rem, 2vw, 1rem); }
+            h1 { font-size: clamp(1.6rem, 5vw, 2.5rem); }
+            p { font-size: clamp(0.8rem, 2.2vw, 1.1rem); }
+            .button { font-size: clamp(0.9rem, 2.8vw, 1.15rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
+            .container { padding: clamp(1rem, 3vw, 2rem) clamp(1.8rem, 4.5vw, 3rem); max-width: 90%; }
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: clamp(1.6rem, 7vw, 2.5rem); }
-            p { font-size: clamp(0.8rem, 3vw, 1.05rem); }
-            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: 0.9rem 1.8rem; }
-            .container { padding: 1.5rem 2.5rem; }
-            .loading-text { font-size: clamp(1.6rem, 7vw, 2.5rem); }
-            .loading-subtitle { font-size: clamp(0.75rem, 3vw, 1.05rem); }
-            .progress-bar-container { width: clamp(12rem, 90vw, 25rem); height: 0.8rem; }
-            .progress-percentage { font-size: clamp(0.7rem, 2.5vw, 0.9rem); }
+            h1 { font-size: clamp(1.4rem, 6vw, 2.2rem); }
+            p { font-size: clamp(0.75rem, 2.8vw, 1rem); }
+            .button { font-size: clamp(0.85rem, 3.5vw, 1.1rem); padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1.2rem, 2.8vw, 1.6rem); }
+            .container { padding: clamp(0.8rem, 2.5vw, 1.8rem) clamp(1.5rem, 4vw, 2.5rem); }
         }
     </style>
 </head>
@@ -338,7 +347,7 @@
         <div class="star"></div>
         <div class="star"></div>
         <div class="star"></div>
-        <div class="distant-scenery"></div> </div>
+        <div class="distant-scenery"></div> <div class="water-shimmer"></div> </div>
     <div id="loading-overlay">
         <div class="loading-text">Crafting a moment...</div>
         <div class="loading-subtitle">Just a few heartbeats away from a surprise. ✨</div>
@@ -349,8 +358,6 @@
     </div>
 
     <script>
-        // No more parallax hearts for this page, as requested (heartbeat removed).
-
         // JavaScript for Loading Screen Logic
         document.addEventListener('DOMContentLoaded', () => {
             const loadingOverlay = document.getElementById('loading-overlay');
@@ -359,7 +366,7 @@
             const mainContainer = document.querySelector('.container');
 
             let progress = 0;
-            const updateInterval = 30; // Faster update for fast pace
+            const updateInterval = 30; // Fast update for fast pace
             const progressDuration = 2500; // Total duration for progress bar to fill (2.5 seconds)
             const steps = progressDuration / updateInterval;
             const increment = 100 / steps;
