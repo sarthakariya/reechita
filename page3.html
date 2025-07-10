@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌹 My Heart's Desire... The Question! 💍</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Dark Elegant Theme Colors */
             --bg-gradient-start: #120d1a; /* Dark Purple */
             --bg-gradient-end: #2a0f3d;   /* Deeper Purple */
             --container-bg: rgba(30, 15, 50, 0.95); /* Semi-transparent dark container */
-            --text-light: #f0e6e6; /* Off-white for general text */
+            --text-light: #e0e0e0; /* Light gray for general text */
             --text-heading: #FFD700; /* Gold for main headings */
             --primary-accent: #FF69B4; /* Hot Pink */
             --secondary-accent: #8A2BE2; /* Blue Violet */
@@ -24,7 +24,7 @@
         }
 
         body {
-            font-family: 'Lora', serif; /* Elegant body font */
+            font-family: 'Merriweather', serif; /* Elegant body font */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -86,9 +86,9 @@
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
             color: var(--text-heading); /* Gold for contrast */
-            font-size: clamp(3rem, 6vw, 5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Smaller on desktop */
             margin-bottom: 2rem;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
             animation: headingGlow 2s ease-in-out infinite alternate;
@@ -105,8 +105,8 @@
         }
 
         p {
-            font-family: 'Lora', serif;
-            font-size: clamp(1.05rem, 2vw, 1.4rem);
+            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-size: clamp(0.95rem, 1.8vw, 1.3rem); /* Smaller on desktop */
             line-height: 1.8;
             margin-bottom: 2.5rem;
             color: var(--text-light);
@@ -123,16 +123,19 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Heartbeat Graph Styles */
+        /* Enhanced Heartbeat Graph Styles */
         .heartbeat-container {
             width: 90%;
             max-width: 500px;
-            height: 100px; /* Increased height for visibility */
+            height: 100px; /* Space for the waveform */
             position: relative;
-            margin: 2rem 0;
-            overflow: hidden;
+            margin: 2rem auto;
+            overflow: hidden; /* Hide parts of the waveform that go out of bounds */
             opacity: 0;
-            animation: fadeInScaleUp 1s ease-out 2.5s forwards; /* Appears after initial text */
+            animation: fadeInScaleUp 1s ease-out 2.5s forwards;
+            display: flex; /* Use flex to center the line vertically */
+            align-items: center;
+            justify-content: center;
         }
 
         @keyframes fadeInScaleUp {
@@ -140,43 +143,38 @@
             to { opacity: 1; transform: scaleY(1); }
         }
 
-        .heartbeat-container::before {
-            content: '';
+        .heartbeat-line-graph {
             position: absolute;
-            bottom: 40%; /* Base line vertical position */
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--primary-accent); /* Pink line */
-            box-shadow: 0 0 10px var(--primary-accent); /* Glow for the base line */
+            width: 200%; /* Wider than container to allow continuous scroll */
+            height: 60px; /* Height of the wave */
+            background:
+                /* Base flat line */
+                linear-gradient(to right, var(--primary-accent) 0%, var(--primary-accent) 100%) no-repeat left 50%/100% 2px,
+                /* ECG Wave Pattern */
+                linear-gradient(
+                    to right,
+                    transparent 0%, transparent 10%, /* Flat */
+                    var(--primary-accent) 10%, var(--primary-accent) 12%, /* QRS up-stroke */
+                    transparent 15%, transparent 20%, /* QRS down-stroke and T-wave start */
+                    var(--primary-accent) 20%, var(--primary-accent) 22%, /* T-wave peak */
+                    transparent 25%, transparent 35%, /* Flat */
+                    transparent 100% /* To extend pattern */
+                ) repeat-x; /* Repeat the wave pattern */
+            background-size: 100% 2px, 150px 100%; /* Base line height, Wave pattern width/height */
+            background-position: center center, 0% 50%; /* Center the base line, center wave vertically */
+            animation: scrollHeartbeat 1.2s linear infinite; /* Scroll the graph */
+            filter: drop-shadow(0 0 15px var(--primary-accent)) drop-shadow(0 0 30px rgba(255, 105, 180, 0.7)); /* Stronger glow */
+            transform: translateY(-50%); /* Adjust to center the wave vertically more accurately */
         }
 
-        .heartbeat-container::after {
-            content: '';
-            position: absolute;
-            bottom: 40%;
-            left: -10%; /* Start off-screen left */
-            width: 20px; /* Width of the 'pulse' visual */
-            height: 50px; /* Height of the 'pulse' visual */
-            background-color: var(--primary-accent); /* Pink pulse */
-            border-radius: 50%; /* Circular shape for pulse */
-            transform: skewX(-20deg); /* Dynamic shape */
-            filter: blur(5px); /* Soft glow effect */
-            box-shadow: 0 0 20px var(--primary-accent), 0 0 40px rgba(255, 105, 180, 0.8);
-            animation: ecgPulse 2s linear infinite; /* ECG-like pulse animation */
-            z-index: 1;
+        @keyframes scrollHeartbeat {
+            from { background-position-x: center, 0%; }
+            to { background-position-x: center, -150px; } /* Scroll one pattern length for wave */
         }
 
-        @keyframes ecgPulse {
-            0% { left: -10%; opacity: 0; transform: scaleY(0.5) skewX(-20deg); }
-            10% { left: 10%; opacity: 1; transform: scaleY(1) skewX(-20deg); }
-            50% { left: 50%; opacity: 1; transform: scaleY(1.5) skewX(-20deg); } /* Main peak */
-            90% { left: 90%; opacity: 1; transform: scaleY(0.8) skewX(-20deg); }
-            100% { left: 110%; opacity: 0; transform: scaleY(0.5) skewX(-20deg); }
-        }
 
         .confession-text {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Dancing Script', cursive; /* Elegant cursive font */
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: bold;
             color: var(--text-heading); /* Gold for the question */
@@ -247,7 +245,7 @@
         .button.no {
             background: linear-gradient(45deg, var(--button-no-start), var(--button-no-end));
             box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
-            transition: transform 0.3s ease-out, background 0.4s ease, box-shadow 0.4s ease;
+            transition: transform 0.4s ease-out, background 0.4s ease, box-shadow 0.4s ease; /* Longer transition for dramatic float */
             position: relative;
             left: 0; top: 0;
         }
@@ -285,8 +283,8 @@
 
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: clamp(2.8rem, 7vw, 4rem); }
-            p { font-size: clamp(0.95rem, 2.8vw, 1.3rem); }
+            h1 { font-size: clamp(2.5rem, 6.5vw, 4rem); }
+            p { font-size: clamp(0.9rem, 2.5vw, 1.25rem); }
             .confession-text { font-size: clamp(1.8rem, 5.5vw, 3rem); padding: 1.2rem 2rem; }
             .button { font-size: clamp(1rem, 3.5vw, 1.5rem); padding: 1rem 1.8rem; }
             .button-container {
@@ -306,16 +304,16 @@
                 margin-right: 0;
             }
             .heartbeat-container { width: 90%; height: 80px; }
-            .heartbeat-container::after { height: 40px; } /* Adjust pulse height for smaller screens */
+            .heartbeat-line-graph { height: 50px; } /* Adjust graph height for smaller screens */
             .container { padding: 2rem 3rem; }
         }
         @media (max-width: 480px) {
-            h1 { font-size: clamp(2.5rem, 8vw, 3.5rem); }
-            p { font-size: clamp(0.9rem, 3.5vw, 1.2rem); }
+            h1 { font-size: clamp(2.2rem, 7.5vw, 3.5rem); }
+            p { font-size: clamp(0.85rem, 3.2vw, 1.2rem); }
             .confession-text { font-size: clamp(1.6rem, 6.5vw, 2.5rem); padding: 1rem 1.5rem; }
             .button { font-size: clamp(0.95rem, 4vw, 1.3rem); padding: 0.9rem 1.6rem; }
             .heartbeat-container { height: 60px; }
-            .heartbeat-container::after { height: 30px; } /* Adjust pulse height further */
+            .heartbeat-line-graph { height: 40px; } /* Further adjust graph height */
             .container { padding: 1.5rem 2.5rem; }
         }
     </style>
@@ -341,13 +339,9 @@
             const noButton = document.getElementById('noButton');
             const buttonContainer = document.querySelector('.button-container');
 
-            // No need for initial transform if it's handled by CSS and default.
-            // But explicitly set for safety.
-            if (noButton) {
-                noButton.style.transform = 'translate(0px, 0px)';
-            }
-
             if (noButton && buttonContainer) {
+                noButton.style.transform = 'translate(0px, 0px)'; // Ensure initial state
+
                 noButton.addEventListener('click', (e) => {
                     e.preventDefault(); // Prevent the default link behavior
                     noButton.style.pointerEvents = 'none'; // Make the button non-clickable after the first click
@@ -359,9 +353,8 @@
                     let newYRelToButton = 0;
                     let attempts = 0;
                     const maxAttempts = 50;
-                    const moveDistance = 80; // Increased move distance for more pronounced float
+                    const moveDistance = 150; // Increased move distance significantly
 
-                    // Get current transform values to add to them for continuous displacement
                     const currentTransform = getComputedStyle(noButton).transform;
                     let currentTx = 0, currentTy = 0;
                     if (currentTransform && currentTransform !== 'none') {
@@ -378,14 +371,11 @@
                         let targetX = currentTx + moveAmountX;
                         let targetY = currentTy + moveAmountY;
 
-                        // Calculate button's potential new position relative to its container
-                        // buttonRect.left/top are viewport-relative, so subtract container's offset to get relative pos
                         const btnLeftInContainer = (buttonRect.left - containerRect.left) + targetX;
                         const btnTopInContainer = (buttonRect.top - containerRect.top) + targetY;
 
-                        // Check if the new position keeps the button mostly within the container
-                        // Add a small buffer to ensure it's not right on the edge
-                        const buffer = 10;
+                        // Add a larger buffer to ensure it stays well within bounds
+                        const buffer = 20;
                         if (btnLeftInContainer >= buffer &&
                             (btnLeftInContainer + buttonRect.width) <= (containerRect.width - buffer) &&
                             btnTopInContainer >= buffer &&
@@ -397,7 +387,6 @@
                         attempts++;
                     } while (attempts < maxAttempts);
 
-                    // Apply the new position. The CSS transition will animate it smoothly.
                     noButton.style.transform = `translate(${newXRelToButton}px, ${newYRelToButton}px)`;
                 });
             }
@@ -409,7 +398,8 @@
         <p>I know this might be a lot to take in, and I completely understand whatever your feelings might be. But I had to be honest with you, Reechita, because you mean so much to me. <span class="emoji">💫</span></p>
 
         <div class="heartbeat-container">
-            </div>
+            <div class="heartbeat-line-graph"></div>
+        </div>
 
         <p class="confession-text" id="confessionText">Reechita, would you do me the honor of being my girlfriend? <span class="emoji">💘</span></p>
         
@@ -417,7 +407,7 @@
             <a href="acknowledgement.html?response=yes" class="button yes">YES! My heart says YES! <span class="emoji">🥰</span></a>
             <a href="acknowledgement.html?response=no" id="noButton" class="button no">I'm so sorry, no. <span class="emoji">😔</span></a>
         </div>
-        <p style="margin-top: 3rem; font-size: clamp(0.9rem, 1.8vw, 1.2rem); color: #B0B0B0;">I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span><br>(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
+        <p style="margin-top: 3rem; font-size: clamp(0.85rem, 1.7vw, 1.2rem); color: #B0B0B0;">I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. <span class="emoji">😊</span><br>(P.S. Sarthak wants you to know this comes straight from the heart. <span class="emoji">❤️</span>)</p>
     </div>
 </body>
 </html>
