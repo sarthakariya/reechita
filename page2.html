@@ -10,17 +10,17 @@
             /* Dark Elegant Theme Colors */
             --bg-gradient-start: #0a0712; /* Even darker base */
             --bg-gradient-end: #1c0b2e;   /* Deeper, muted purple */
-            --container-bg: rgba(30, 15, 50, 0.75); /* MORE transparent dark container (0.75) */
+            --container-bg: rgba(30, 15, 50, 0.8); /* Slightly less transparent */
             --text-light: #e0e0e0; /* Light gray for general text */
             --text-heading: #FFD700; /* Soft Gold for main headings */
             --primary-accent: #FF69B4; /* Hot Pink */
             --secondary-accent: #8A2BE2; /* Blue Violet */
-            --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.5);
+            --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6); /* Deeper shadow */
             font-size: 16px;
         }
 
         body {
-            font-family: 'Lora', serif; /* Elegant body font - CHANGED TO LORA */
+            font-family: 'Lora', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -49,163 +49,283 @@
             width: 100%;
             height: 100%;
             z-index: -3; /* Behind everything */
+            overflow: hidden; /* Crucial for preventing scrollbars from moving elements */
         }
 
         .moon {
             position: absolute;
+            width: clamp(70px, 9vw, 90px); /* Slightly larger moon */
+            height: clamp(70px, 9vw, 90px);
+            border-radius: 50%;
+            background-color: #fff8db;
+            box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; /* Stronger glow */
+            opacity: 0.8;
             top: 10%;
             right: 15%;
-            width: clamp(60px, 8vw, 80px); /* Responsive moon size */
-            height: clamp(60px, 8vw, 80px);
-            border-radius: 50%;
-            background-color: #fff8db; /* Soft, warm moon color */
-            box-shadow: 0 0 30px #fff8db, 0 0 80px #fff8db inset;
-            opacity: 0.7;
+            animation: moonDrift 80s linear infinite alternate, moonPulse 3s ease-in-out infinite alternate, moonGlow 5s ease-in-out infinite alternate;
         }
+
+        @keyframes moonDrift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-30vw, 15vh); } /* More significant drift */
+        }
+        @keyframes moonPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.03); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        @keyframes moonGlow { /* Pulsing outer glow */
+            0% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
+            50% { box-shadow: 0 0 60px #fff8db, 0 0 120px #fff8db inset; }
+            100% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
+        }
+
 
         .star {
             position: absolute;
             background-color: #ffffff;
             border-radius: 50%;
-            opacity: 0.6;
-            animation: twinkle 2s infinite alternate;
+            opacity: 0; /* Start hidden */
+            animation: twinkle 2s infinite alternate ease-in-out forwards, starDrift 30s linear infinite alternate;
+            box-shadow: 0 0 8px #ffffff;
         }
-        /* Specific positions for stars */
-        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; }
-        .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; }
-        .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; }
-        .star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; }
-        .star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; }
-        .star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; }
+        /* More stars, varied positions, sizes, and delays */
+        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; animation-duration: 2.2s; }
+        .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; animation-duration: 2.5s; }
+        .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; animation-duration: 1.8s; }
+        .star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; animation-duration: 3s; }
+        .star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; animation-duration: 2.7s; }
+        .star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; animation-duration: 2.2s; }
+        .star:nth-child(7) { top: 15%; left: 40%; width: 2px; height: 2px; animation-delay: 2.5s; animation-duration: 2.7s; }
+        .star:nth-child(8) { bottom: 5%; right: 35%; width: 1.5px; height: 1.5px; animation-delay: 0.1s; animation-duration: 1.9s; }
+        .star:nth-child(9) { top: 60%; right: 20%; width: 2.8px; height: 2.8px; animation-delay: 3.2s; animation-duration: 2.4s; }
+        .star:nth-child(10) { bottom: 40%; left: 50%; width: 3.2px; height: 3.2px; animation-delay: 0.8s; animation-duration: 2.9s; }
+        .star:nth-child(11) { top: 5%; left: 55%; width: 1.7px; height: 1.7px; animation-delay: 1.5s; animation-duration: 2.1s; }
+        .star:nth-child(12) { bottom: 30%; right: 45%; width: 2.1px; height: 2.1px; animation-delay: 2.9s; animation-duration: 2.6s; }
 
 
         @keyframes twinkle {
-            from { opacity: 0.6; }
-            to { opacity: 1; }
+            0% { opacity: 0; transform: scale(0.8); }
+            20% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+            80% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.8); }
         }
-
+        @keyframes starDrift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(calc(var(--star-drift-x, 0) * 1px), calc(var(--star-drift-y, 0) * 1px)); }
+        }
+        
         /* Enhanced Distant Scenery (Mountains & Subtle Water) */
         .distant-scenery {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 250px; /* More height for scenery */
+            height: 250px;
             background: 
-                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), /* Dark gradient overlay for depth */
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom; /* SVG for mountain peaks with blur */
+                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom;
             background-size: cover, 100% 100%;
             pointer-events: none;
             z-index: -2;
-            transform: translateY(50px); /* Start slightly off-screen */
+            transform: translateY(50px);
+            animation: sceneryParallax 180s linear infinite alternate; /* Slower parallax */
+        }
+
+        @keyframes sceneryParallax {
+            0% { background-position: 0% 100%; }
+            100% { background-position: 100% 100%; }
         }
         
-        /* Subtle Water Reflection/Shimmer at the very bottom */
         .water-shimmer {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50px; /* Height of the water area */
+            height: 50px;
             background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
-            box-shadow: 0 0 50px rgba(80, 0, 120, 0.5); /* Subtle glow from water */
-            opacity: 0.8;
+            box-shadow: 0 0 60px rgba(80, 0, 120, 0.7); /* Stronger glow */
+            opacity: 0.9;
             pointer-events: none;
             z-index: -1;
-            animation: waterFlow 15s linear infinite;
+            animation: waterFlow 20s linear infinite, waterRipple 10s ease-in-out infinite alternate;
         }
 
         @keyframes waterFlow {
             0% { background-position: 0% 0%; }
             100% { background-position: 100% 0%; }
         }
+        @keyframes waterRipple {
+            0% { transform: scaleY(1); opacity: 0.9; }
+            50% { transform: scaleY(1.04) translateX(1%); opacity: 1; } /* More movement */
+            100% { transform: scaleY(1); opacity: 0.9; }
+        }
 
-        /* NEW: Ethereal Glow Animation for page2.html */
+        /* Ethereal Glow Animation */
         .ethereal-glow {
             position: fixed;
-            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.3) 0%, rgba(138, 43, 226, 0) 70%); /* Purple glow */
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0) 70%); /* Stronger purple glow */
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
-            animation: glowFloat 18s infinite ease-in-out;
+            animation: glowFloat 20s infinite ease-in-out;
             opacity: 0;
         }
 
         @keyframes glowFloat {
             0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(0.5); opacity: 0; }
-            50% { opacity: 0.7; transform: translate(calc(var(--x) * 1vw + 10vw), calc(var(--y) * 1vh + 10vh)) scale(1); }
-            100% { opacity: 0; transform: translate(calc(var(--x) * 1vw + 20vw), calc(var(--y) * 1vh + 20vh)) scale(0.5); }
+            50% { opacity: 0.8; transform: translate(calc(var(--x) * 1vw + 15vw), calc(var(--y) * 1vh + 15vh)) scale(1.2); } /* Stronger scale and drift */
+            100% { opacity: 0; transform: translate(calc(var(--x) * 1vw + 30vw), calc(var(--y) * 1vh + 30vh)) scale(0.5); }
+        }
+        /* NEW: Particle Effect */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 15s infinite ease-out forwards;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translate(var(--p-x, 0), var(--p-y, 0)) scale(0); opacity: 0; }
+            10% { opacity: 1; transform: scale(1); }
+            80% { opacity: 0.8; transform: translate(calc(var(--p-x, 0) + var(--p-dx, 0)), calc(var(--p-y, 0) + var(--p-dy, 0))) scale(var(--p-scale, 1)); }
+            100% { opacity: 0; transform: translate(calc(var(--p-x, 0) + var(--p-dx, 0)), calc(var(--p-y, 0) + var(--p-dy, 0))) scale(0.2); }
         }
 
         .container {
             background-color: var(--container-bg);
-            padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(3rem, 6.5vw, 4.5rem); /* Slightly smaller padding */
-            border-radius: 25px;
+            padding: clamp(2rem, 5vw, 3rem) clamp(3.5rem, 7vw, 5rem);
+            border-radius: 30px; /* More rounded */
             box-shadow: var(--shadow-deep);
-            max-width: 50rem; /* Slightly smaller max-width */
+            max-width: 55rem; /* Wider container */
             width: 90%;
             margin: 5vh auto;
-            transform: scale(0.9);
+            transform: scale(0.8);
             opacity: 0;
-            animation: zoomInFade 1.5s ease-out forwards;
+            animation: zoomInFade 1.5s ease-out forwards, containerFloat 12s ease-in-out infinite alternate;
             position: relative;
             z-index: 10;
+            border: 2px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+            overflow: hidden; /* For inner effects */
+            perspective: 1000px; /* For 3D transforms */
         }
 
         @keyframes zoomInFade {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+        @keyframes containerFloat {
+            0% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-10px) rotateX(1deg); } /* Subtle tilt */
+            100% { transform: translateY(0px) rotateX(0deg); }
+        }
+
+        /* Inner card separation (visual, not actual floating cards) */
+        .section-break {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            margin: 3rem 0;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
 
         h1 {
-            font-family: 'Pacifico', cursive; /* Applied different cursive font */
-            color: var(--text-heading); /* Soft Gold */
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Adjusted font size */
-            margin-bottom: 1.8rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-family: 'Great Vibes', cursive; /* More elegant cursive font */
+            color: var(--text-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
             animation: textWave 1.5s ease-out 0.5s forwards;
             opacity: 0;
             line-height: 1.2;
         }
 
-        @keyframes textWave {
-            0% { transform: translateY(2vh); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+        /* Letter-by-letter animation for main heading (JS will create spans) */
+        .animated-heading span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotateX(-90deg); /* 3D initial transform */
+            transform-origin: bottom;
+            animation: bounceInText3D 1.2s ease-out forwards;
         }
+
+        @keyframes bounceInText3D {
+            0% { opacity: 0; transform: translateY(50px) rotateX(-90deg); }
+            60% { opacity: 1; transform: translateY(-5px) rotateX(10deg); }
+            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+        }
+
 
         p {
-            font-family: 'Lora', serif; /* Applied serif font for readability - CHANGED TO LORA */
-            font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
-            line-height: 1.8;
-            margin-bottom: 2rem; /* Reduced margin-bottom for compactness */
+            font-family: 'Lora', serif;
+            font-size: clamp(0.95rem, 1.8vw, 1.25rem); /* Slightly larger text */
+            line-height: 1.9; /* Increased line height for readability */
+            margin-bottom: 2.5rem;
             color: var(--text-light);
             opacity: 0;
-            animation: fadeInTextStaggered 1.5s ease-out forwards; /* Staggered text animation */
+            animation: fadeInTextStaggered 1.5s ease-out forwards;
+            text-align: justify; /* Justify text for a more refined look */
+            text-shadow: 0 0 5px rgba(0,0,0,0.2); /* Subtle text shadow */
         }
+        /* Increased staggering delay for each paragraph */
         p:nth-of-type(1) { animation-delay: 1.5s; }
-        p:nth-of-type(2) { animation-delay: 2.5s; }
-        p:nth-of-type(3) { animation-delay: 3.5s; }
+        p:nth-of-type(2) { animation-delay: 2.8s; }
+        p:nth-of-type(3) { animation-delay: 4.1s; }
+        p:nth-of-type(4) { animation-delay: 5.4s; }
+        p:nth-of-type(5) { animation-delay: 6.7s; }
+        p:nth-of-type(6) { animation-delay: 8.0s; }
+        p:nth-of-type(7) { animation-delay: 9.3s; }
+        p:nth-of-type(8) { animation-delay: 10.6s; }
+
+
+        /* Word-by-word reveal for important paragraphs */
+        .word-reveal-p span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(10px) scale(0.9);
+            animation: fadeInWord 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInWord {
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
 
         @keyframes fadeInTextStaggered {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .highlight {
-            color: var(--primary-accent); /* Hot pink highlight */
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
+            color: var(--primary-accent);
+            font-weight: 700; /* Bolder highlight */
+            text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5);
+            position: relative;
+            display: inline-block;
+            animation: textSparkle 1.8s infinite alternate ease-in-out;
+            transform-origin: center;
+        }
+
+        @keyframes textSparkle {
+            0% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
+            50% { text-shadow: 1px 1px 5px rgba(255, 105, 180, 0.7), 0 0 15px rgba(255, 255, 255, 0.8); transform: scale(1.02); }
+            100% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
         }
 
         .button-container {
-            margin-top: 2.5rem; /* Reduced margin-top for compactness */
+            margin-top: 3.5rem;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: clamp(1rem, 2.5vw, 1.5rem); /* Smaller gap */
-            animation: fadeInScaleButtons 1.5s ease-out 4.5s forwards; /* Appears after text */
+            gap: clamp(1.2rem, 3vw, 1.8rem);
             opacity: 0;
             transform: scale(0.9);
+            animation: fadeInScaleButtons 1.5s ease-out 12s forwards; /* Increased delay */
         }
 
         @keyframes fadeInScaleButtons {
@@ -215,21 +335,34 @@
 
         .button {
             display: inline-block;
-            padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); /* Smaller padding */
-            font-size: clamp(1rem, 2.2vw, 1.3rem); /* Smaller font size */
+            padding: clamp(1rem, 2.5vw, 1.2rem) clamp(2rem, 4.5vw, 2.5rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             font-weight: 700;
-            color: var(--bg-gradient-start); /* Dark text on light button */
+            color: var(--bg-gradient-start);
             background: linear-gradient(45deg, var(--primary-accent), #FFB6C1);
             border: none;
-            border-radius: 40px; /* Slightly smaller border radius */
+            border-radius: 50px; /* More rounded button */
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
-            box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4); /* Smaller shadow */
+            box-shadow: 0 8px 18px rgba(255, 105, 180, 0.5); /* Stronger shadow */
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
+            animation: buttonPopIn 0.8s ease-out forwards;
+            letter-spacing: 0.8px; /* Slight letter spacing */
+            text-transform: uppercase; /* Uppercase for impact */
         }
+        /* Stagger button animation */
+        .button:first-child { animation-delay: 12.5s; }
+        .button:last-child { animation-delay: 12.8s; }
+
+        @keyframes buttonPopIn {
+            0% { transform: scale(0.5) translateY(20px); opacity: 0; }
+            80% { transform: scale(1.05) translateY(-5px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
 
         .button::before {
             content: '';
@@ -238,44 +371,52 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25); /* Stronger ripple */
             border-radius: 50%;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Smoother animation */
             transform: translate(-50%, -50%);
             z-index: 1;
         }
 
         .button:hover::before {
-            width: 200%;
-            height: 200%;
+            width: 250%; /* Larger ripple */
+            height: 250%;
         }
 
         .button:hover {
             background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
-            transform: translateY(-0.15rem) scale(1.01); /* Smaller hover effect */
-            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.6); /* Smaller hover shadow */
-            color: var(--bg-gradient-end); /* Darker text on hover */
+            transform: translateY(-0.25rem) scale(1.02); /* More pronounced hover effect */
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.7); /* Stronger hover shadow */
+            color: var(--bg-gradient-end);
         }
 
         .emoji {
             vertical-align: middle;
-            margin: 0 0.3rem;
-            font-size: 1.1em;
+            margin: 0 0.4rem;
+            font-size: 1.2em; /* Slightly larger emojis */
+            display: inline-block;
+            animation: emojiPulse 1.8s infinite ease-in-out;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3); /* Subtle glow */
+        }
+        @keyframes emojiPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); } /* More pronounced pulse */
+            100% { transform: scale(1); }
         }
 
         /* Mobile specific adjustments */
         @media (max-width: 768px) {
             h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); }
-            p { font-size: clamp(0.85rem, 2.3vw, 1.15rem); }
-            .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
+            p { font-size: clamp(0.9rem, 2.3vw, 1.2rem); }
+            .button { font-size: clamp(1rem, 3.2vw, 1.3rem); padding: clamp(0.9rem, 1.8vw, 1.1rem) clamp(1.8rem, 3.5vw, 2.2rem); }
             .button-container { flex-direction: column; gap: 1rem; }
-            .container { padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); }
+            .container { padding: clamp(1.8rem, 3.5vw, 2.8rem) clamp(2.8rem, 5.5vw, 4.5rem); }
         }
         @media (max-width: 480px) {
             h1 { font-size: clamp(1.8rem, 6.5vw, 2.8rem); }
-            p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
-            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
-            .container { padding: clamp(1.2rem, 3vw, 2.2rem) clamp(2rem, 4.5vw, 3rem); }
+            p { font-size: clamp(0.85rem, 3vw, 1.15rem); }
+            .button { font-size: clamp(0.95rem, 3.8vw, 1.25rem); padding: clamp(0.8rem, 1.5vw, 1rem) clamp(1.6rem, 3vw, 2rem); }
+            .container { padding: clamp(1.5rem, 3vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem); }
         }
     </style>
 </head>
@@ -287,35 +428,141 @@
         <div class="star"></div>
         <div class="star"></div>
         <div class="star"></div>
-        <div class="distant-scenery"></div> <div class="water-shimmer"></div> </div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="distant-scenery"></div>
+        <div class="water-shimmer"></div>
+    </div>
     <script>
-        // NEW: JavaScript for dynamic ethereal glow effects
-        const numGlows = 10;
+        // JS for dynamic ethereal glow effects
+        const numGlows = 15; // More glows
         for (let i = 0; i < numGlows; i++) {
             const glow = document.createElement('div');
             glow.classList.add('ethereal-glow');
-            glow.style.setProperty('--x', Math.random() * 100 - 10); // -10 to 90 vw
-            glow.style.setProperty('--y', Math.random() * 100 - 10); // -10 to 90 vh
-            glow.style.width = glow.style.height = `${clamp(50, 150, Math.random() * 200)}px`; // Varied size
-            glow.style.animationDelay = `${Math.random() * 18}s`;
-            glow.style.animationDuration = `${15 + Math.random() * 6}s`;
+            glow.style.setProperty('--x', Math.random() * 120 - 20); // Wider range
+            glow.style.setProperty('--y', Math.random() * 120 - 20); // Wider range
+            glow.style.width = glow.style.height = `${clamp(60, 180, Math.random() * 250)}px`;
+            glow.style.animationDelay = `${Math.random() * 20}s`; // Longer delay range
+            glow.style.animationDuration = `${18 + Math.random() * 8}s`; // Longer duration
             document.body.appendChild(glow);
         }
 
-        // Helper for clamp function in JS for glow size
+        // JS for dynamic particle effects
+        const numParticles = 30; // Many particles
+        for (let i = 0; i < numParticles; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.width = particle.style.height = `${clamp(1, 4, Math.random() * 5)}px`; // Smaller, varied sizes
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.setProperty('--p-x', 0);
+            particle.style.setProperty('--p-y', 0);
+            particle.style.setProperty('--p-dx', (Math.random() - 0.5) * 500); // Drift across a larger area
+            particle.style.setProperty('--p-dy', (Math.random() - 0.5) * 400);
+            particle.style.setProperty('--p-scale', 0.5 + Math.random() * 0.5);
+            particle.style.animationDelay = `${Math.random() * 15}s`;
+            particle.style.animationDuration = `${10 + Math.random() * 10}s`;
+            document.body.appendChild(particle);
+        }
+
         function clamp(min, max, value) {
             return Math.max(min, Math.min(max, value));
         }
+
+        // JS to animate stars (random drift direction and initial position)
+        document.querySelectorAll('.star').forEach(star => {
+            star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300); // More drift
+            star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200);
+            star.style.animationDelay = `${Math.random() * 6}s`;
+            star.style.animationDuration = `${28 + Math.random() * 12}s`;
+        });
+
+        // JS for animating heading word-by-word
+        document.addEventListener('DOMContentLoaded', () => {
+            const heading = document.querySelector('h1');
+            heading.classList.add('animated-heading');
+            const text = heading.textContent;
+            heading.innerHTML = '';
+
+            text.split(' ').forEach((word, wordIndex) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word + ' ';
+                heading.appendChild(wordSpan);
+                wordSpan.style.animationDelay = `${0.8 + wordIndex * 0.12}s`; // Slower stagger
+            });
+
+            // JS for animating specific paragraphs word-by-word
+            // Instead of all paragraphs, target specific ones for 'word-reveal-p' class
+            const wordRevealParagraphs = document.querySelectorAll('.word-reveal-p');
+            wordRevealParagraphs.forEach((p, pIndex) => {
+                const originalText = p.textContent;
+                p.innerHTML = '';
+
+                // Get the base delay from its CSS animation-delay
+                const computedStyle = window.getComputedStyle(p);
+                const baseDelayString = computedStyle.getPropertyValue('animation-delay');
+                const baseDelay = parseFloat(baseDelayString); // Convert to seconds
+
+                originalText.split(' ').forEach((word, wordIndex) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.textContent = word + ' ';
+                    p.appendChild(wordSpan);
+
+                    // Stagger animation for each word within the paragraph relative to the paragraph's overall delay
+                    wordSpan.style.animationDelay = `${baseDelay + (wordIndex * 0.04)}s`; // Slight increase in word stagger
+                });
+            });
+        });
+
     </script>
 
     <div class="container">
-        <h1>Reechita, you're truly special. <span class="emoji">✨</span></h1>
-        <p>Every time I see you, my day just gets a little brighter. Your <span class="highlight">smile</span> <span class="emoji">😄</span>, your <span class="highlight">laughter</span> <span class="emoji">😂</span>, your <span class="highlight">kindness</span> <span class="emoji">😇</span> – they all make you incredibly captivating. I find myself thinking about you a lot, and in the best way possible. <span class="emoji">🥰</span></p>
-        <p>You have a way of lighting up a room, and you always make me feel comfortable and happy when we talk. I genuinely enjoy every moment we spend together, and I admire so many things about you.<span class="emoji">🌟</span></p>
-        <p>The truth is, Reechita, I've developed <span class="highlight">strong feelings</span> for you. More than just a crush, I believe it's something truly meaningful. <span class="emoji">💜</span></p>
+        <h1>💫 When My Mind Learned Your Name…</h1>
+
+        <p>Ahemmmm~ <span class="emoji">🌚</span><br>Where do I even begin? <span class="emoji">👀</span><br>Maybe… from that day, our first UNO game… Who knew such a simple moment could be the start of something this precious? Since then, life’s ordinary moments started feeling incomplete… without you.</p>
+
+        <p>Y’know that feeling when something tiny makes your whole day brighter? For me, that’s you.<br>Like this song plays in my head every morning:<br>“Tum Se Hi Din Shuru Hota Hai…” <span class="emoji">🎶</span><br>…and by night, it ends with:<br>“Raabta…” <span class="emoji">🎵</span><br>Because somehow, it always feels like there’s a connection I can’t explain.</p>
+        
+        <div class="section-break"></div>
+
+        <h2>🥺 You’re Just… The Definition of Beautiful <span class="emoji">💖</span></h2>
+
+        <p>People say beauty is what eyes can see.<br>But you got me thinking that beauty is what a soul can feel...<span class="emoji">💗</span></p>
+
+        <p>Your cuteness? <span class="highlight">Honestly… dangerous.</span> <span class="emoji">🌚</span><br>But it’s your heart, the softness behind that mischief that’s <span class="highlight">unforgettable.</span><br>From your little shy smiles… to those playful “ahemmms~” <span class="emoji">🌚✨</span>...<br>From the way you notice tiny things about me… to the way you laugh like sunlight breaking through clouds…<br>You’re made of all the things that truly matter to me!!!...</p>
+
+        <p class="word-reveal-p">And every time you look at me… even for a second…<br><br>I hear Ed Sheeran singing softly in my mind:<br>“Baby, I’m dancin’ in the dark, with you between my arms…” <span class="emoji">🎶💞</span></p>
+        
+        <div class="section-break"></div>
+
+        <h2>☀️ You’re My Calm… And My Chaos Too...</h2>
+
+        <p>How do you do this?<br>How do you turn my worst days into memories I want to remember?<br>Every message from you feels like time slowing down…<br>Like the universe whispered, “Hold onto this moment.”<br>I still don’t understand how you became this important.</p>
+
+        <p>But maybe that’s why I can’t stop thinking:<br>“Tera Ban Jaunga…” <span class="emoji">🎵</span><br><br>Because somewhere in my mind… I already belong to you.<br>Quietly. Hopelessly. Willingly.</p>
+        
+        <div class="section-break"></div>
+
+        <h2>🌙 So… Here’s My Silly Little Wish… <span class="emoji">💭</span></h2>
+
+        <p>I wish for something simple...<br>To walk beside you. Not just today, not just tomorrow… but for a lifetime. <span class="emoji">🌸</span><br>To see that smile… again and again…<br>To hear your little giggles, the ones that feel like confetti in my heart…<br>To become your reason to blush… just once more.</p>
+
+        <p>You’re not just someone I admire.<br>Not just someone I like.<br>You’re someone… I'm falling for, Completely. Unknowingly. And I don’t even want to stop.</p>
+        
+        <div class="section-break"></div>
+
+        <h2>💖 In Short… You’re My Favourite Song.</h2>
+
+        <p class="word-reveal-p">I’d say:<br>“When I look into your eyes, it’s like watching the night sky… or a beautiful sunrise.” <span class="emoji">✨</span><br>Because you’re my dawn after endless nights.<br>You’re my definition of perfect.<br>So let me say,<br>“Darling, just hold my hand… Be my girl, I’ll be your man… I see my future in your eyes.” <span class="emoji">🎶</span></p>
+
+        <p style="margin-bottom: 0;">Ahemmmm~~ <span class="emoji">🌚</span><br><br>All that’s left is for you is to take my hand and click the button…</p>
+
         <div class="button-container">
-            <a href="index.html" class="button">↩️ Go back (if you want)</a>
-            <a href="page3.html" class="button">Continue to the big question ➡️</a>
+            <a href="page3.html" class="button">Continue to the Big Question… ➡️</a>
         </div>
     </div>
 </body>
