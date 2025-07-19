@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Journeying On... ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-start: #0a0712;
+            --bg-gradient-end: #1c0b2e;
+            --heart-color: #FF69B4; /* Hot Pink */
+            --heart-glow: rgba(255, 105, 180, 0.8);
+            --text-light: #e0e0e0;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-light);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Heartbeat Animation */
+        .heartbeat-container {
+            position: relative;
+            width: clamp(150px, 30vw, 250px);
+            height: clamp(150px, 30vw, 250px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0.5);
+            opacity: 0;
+            animation: fadeInScale 1s ease-out forwards;
+        }
+
+        .heart {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: var(--heart-color);
+            transform: rotate(-45deg);
+            box-shadow: 0 0 30px var(--heart-glow), 0 0 60px var(--heart-glow) inset;
+            animation: heartbeat 0.8s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--heart-color);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--heart-glow), 0 0 60px var(--heart-glow) inset;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+
+        @keyframes fadeInScale {
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px var(--heart-glow), 0 0 60px var(--heart-glow) inset; }
+            15% { transform: scale(1.15) rotate(-45deg); box-shadow: 0 0 45px var(--heart-glow), 0 0 80px var(--heart-glow) inset; }
+            30% { transform: scale(1) rotate(-45deg); }
+            45% { transform: scale(1.1) rotate(-45deg); box-shadow: 0 0 40px var(--heart-glow), 0 0 70px var(--heart-glow) inset; }
+            60% { transform: scale(1) rotate(-45deg); }
+            100% { transform: scale(1) rotate(-45deg); }
+        }
+
+        .transition-message {
+            position: absolute;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            color: var(--text-light);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin-top: clamp(200px, 40vh, 300px); /* Position below heart */
+            opacity: 0;
+            animation: fadeInText 1.5s ease-out 0.5s forwards;
+            white-space: nowrap;
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        /* --- Background Scenery --- */
+        .background-scenery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            overflow: hidden;
+        }
+        /* Similar background elements from other pages for consistency */
+        .moon {
+            position: absolute;
+            width: clamp(60px, 8vw, 80px);
+            height: clamp(60px, 8vw, 80px);
+            border-radius: 50%;
+            background-color: #fff8db;
+            box-shadow: 0 0 30px #fff8db, 0 0 80px #fff8db inset;
+            opacity: 0.7;
+            top: 10%; right: 15%;
+            animation: moonDrift 60s linear infinite alternate, moonPulse 3s ease-in-out infinite alternate;
+        }
+        @keyframes moonDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(-20vw, 10vh); } }
+        @keyframes moonPulse { 0% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.02); opacity: 0.8; } 100% { transform: scale(1); opacity: 0.7; } }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle 2s infinite alternate ease-in-out, starDrift 30s linear infinite alternate;
+        }
+        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; animation-duration: 2.2s; }
+        .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; animation-duration: 2.5s; }
+        .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; animation-duration: 1.8s; }
+        .star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; animation-duration: 3s; }
+        .star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; animation-duration: 2.7s; }
+        .star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; animation-duration: 2.2s; }
+
+        @keyframes twinkle { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        @keyframes starDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(calc(var(--star-drift-x, 0) * 1px), calc(var(--star-drift-y, 0) * 1px)); } }
+        
+        .distant-scenery {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 250px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom;
+            background-size: cover, 100% 100%; pointer-events: none; z-index: -2;
+            transform: translateY(50px); animation: sceneryParallax 180s linear infinite alternate;
+        }
+        @keyframes sceneryParallax { 0% { background-position: 0% 100%; } 100% { background-position: 100% 100%; } }
+        
+        .water-shimmer {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
+            background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
+            box-shadow: 0 0 60px rgba(80, 0, 120, 0.7); opacity: 0.9; pointer-events: none; z-index: -1;
+            animation: waterFlow 20s linear infinite, waterRipple 10s ease-in-out infinite alternate;
+        }
+        @keyframes waterFlow { 0% { background-position: 0% 0%; } 100% { background-position: 100% 0%; } }
+        @keyframes waterRipple { 0% { transform: scaleY(1); opacity: 0.9; } 50% { transform: scaleY(1.04) translateX(1%); opacity: 1; } 100% { transform: scaleY(1); opacity: 0.9; } }
+
+    </style>
+</head>
+<body>
+    <div class="background-scenery">
+        <div class="moon"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="distant-scenery"></div>
+        <div class="water-shimmer"></div>
+    </div>
+
+    <div class="heartbeat-container">
+        <div class="heart"></div>
+    </div>
+    <div class="transition-message" id="transitionMessage"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const nextPage = params.get('to');
+            const message = params.get('message') || "Our journey continues...";
+            const transitionMessageDiv = document.getElementById('transitionMessage');
+
+            transitionMessageDiv.textContent = message;
+
+            // Animate heartbeat speed (visual effect)
+            const heart = document.querySelector('.heart');
+            let animationDuration = 0.8; // Initial duration
+            const minDuration = 0.3; // Fastest heartbeat
+            const totalTime = 2500; // Total transition time in ms
+
+            let elapsed = 0;
+            const interval = 50;
+
+            const speedUpHeartbeat = setInterval(() => {
+                elapsed += interval;
+                if (elapsed >= totalTime) {
+                    clearInterval(speedUpHeartbeat);
+                    window.location.href = nextPage; // Navigate after transition
+                } else {
+                    animationDuration = 0.8 - (0.5 * (elapsed / totalTime)); // Speed up by 0.5s over totalTime
+                    if (animationDuration < minDuration) animationDuration = minDuration;
+                    heart.style.animationDuration = `${animationDuration}s`;
+                }
+            }, interval);
+        });
+
+        // Background star drift setup
+        document.querySelectorAll('.star').forEach(star => {
+            star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300);
+            star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200);
+            star.style.animationDelay = `${Math.random() * 6}s`;
+            star.style.animationDuration = `${28 + Math.random() * 12}s`;
+        });
+    </script>
+</body>
+</html>
