@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💌 Your Answer... 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Dark Elegant Theme Colors - Consistent with other pages */
@@ -24,7 +24,7 @@
         }
 
         body {
-            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-family: 'Lora', serif; /* Elegant body font - CHANGED TO LORA */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -169,7 +169,7 @@
         }
 
         .loading-text {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Dancing Script', cursive; /* Applied cursive font */
             font-size: clamp(2.2rem, 5.5vw, 3.8rem);
             margin-top: 1rem;
             color: var(--text-heading);
@@ -178,7 +178,7 @@
         }
 
         .loading-subtitle {
-            font-family: 'Merriweather', serif;
+            font-family: 'Lora', serif; /* Applied serif font for readability - CHANGED TO LORA */
             font-size: clamp(0.9rem, 2vw, 1.3rem);
             margin-top: 0.5rem;
             color: rgba(224, 224, 224, 0.8);
@@ -250,7 +250,7 @@
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
+            font-family: 'Dancing Script', cursive; /* Applied cursive font */
             color: var(--text-heading); /* Soft Gold for contrast */
             font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Adjusted font size */
             margin-bottom: 2rem;
@@ -269,7 +269,7 @@
         }
 
         p {
-            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-family: 'Lora', serif; /* Applied serif font for readability - CHANGED TO LORA */
             font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
             line-height: 1.8;
             margin-bottom: 2rem; /* Reduced margin-bottom */
@@ -380,7 +380,7 @@
 
     <div id="loading-overlay">
         <div class="loading-text">Getting your response...</div>
-        <div class="loading-subtitle">The anticipation is killing me! ✨</div>
+        <div class="loading-subtitle">The next chapter begins now. ✨</div>
         <div class="progress-bar-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -388,7 +388,7 @@
     </div>
 
     <script>
-        // JavaScript for Loading Screen Logic (for Page 4)
+        // JavaScript for Loading Screen Logic (on acknowledgment page)
         document.addEventListener('DOMContentLoaded', () => {
             const loadingOverlay = document.getElementById('loading-overlay');
             const progressBar = document.getElementById('progressBar');
@@ -396,61 +396,65 @@
             const mainContainer = document.querySelector('.container');
 
             let progress = 0;
-            const updateInterval = 30; // Faster update for fast pace
-            const progressDuration = 2500; // Total duration for progress bar to fill (2.5 seconds)
+            const updateInterval = 30; // Fast update for fast pace
+            const progressDuration = 2000; // Total duration for progress bar to fill (2 seconds)
             const steps = progressDuration / updateInterval;
             const increment = 100 / steps;
 
-            const initialAppearanceDelay = 1000; // Delay before starting progress bar
+            // Immediately start progress bar if directly navigated to
+            const loadingInterval = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
 
-            setTimeout(() => {
-                const loadingInterval = setInterval(() => {
-                    progress += increment;
-                    if (progress >= 100) {
-                        progress = 100;
-                        clearInterval(loadingInterval);
+                    progressBar.style.width = '100%';
+                    progressPercentage.textContent = '100%';
 
-                        progressBar.style.width = '100%';
-                        progressPercentage.textContent = '100%';
+                    // Show main content AFTER loading completes
+                    mainContainer.classList.add('active');
 
-                        // Show main content AFTER loading completes
-                        mainContainer.classList.add('active');
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden');
+                    }, 500); // Shorter fade-out for the loading overlay
+                } else {
+                    progressBar.style.width = `${progress}%`;
+                    progressPercentage.textContent = `${Math.floor(progress)}%`;
+                }
+            }, updateInterval);
+        });
 
-                        // Set content after loading is complete
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const response = urlParams.get('response');
-                        const responseHeading = document.getElementById('responseHeading');
-                        const responseText = document.getElementById('responseText');
+        // JavaScript to get URL parameter and display appropriate message
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const response = urlParams.get('response');
+            const headingElement = document.getElementById('acknowledgementHeading');
+            const paragraphElement = document.getElementById('acknowledgementParagraph');
+            const emojiElement = document.getElementById('acknowledgementEmoji'); // Added emoji element
 
-                        if (response === 'yes') {
-                            responseHeading.textContent = "OH MY GOD! Thank you, Reechita! 💖";
-                            responseText.innerHTML = "My heart is absolutely overflowing with joy right now! This means the world to me. I promise to cherish every moment with you. <span class='emoji'>🥰💍</span>";
-                        } else if (response === 'no') {
-                            responseHeading.textContent = "That's okay, Reechita... 😔";
-                            responseText.innerHTML = "While my heart is a little heavy, I truly appreciate your honesty. Your happiness is what matters most, and I'll always value our friendship. <span class='emoji'>😊🤝</span>";
-                        } else {
-                            responseHeading.textContent = "Oops! Something went wrong... 🤔";
-                            responseText.innerHTML = "It looks like we've landed on this page unexpectedly. Please try navigating from the confession page again. <span class='emoji'>🤷‍♀️</span>";
-                        }
-
-                        setTimeout(() => {
-                            loadingOverlay.classList.add('hidden');
-                        }, 500); // Shorter fade-out after 100%
-                    } else {
-                        progressBar.style.width = `${progress}%`;
-                        progressPercentage.textContent = `${Math.floor(progress)}%`;
-                    }
-                }, updateInterval);
-            }, initialAppearanceDelay);
+            if (response === 'yes') {
+                headingElement.innerHTML = `OH MY GOD! YOU SAID YES! <span class="emoji">🎉</span>`;
+                paragraphElement.innerHTML = `Sarthak is absolutely over the moon right now! <span class="emoji">🥳</span> This means the world to him, Reechita. He can't wait to see what amazing moments you'll create together. Get ready for some incredible memories! <span class="emoji">💖💑</span>`;
+                emojiElement.textContent = '🥰'; // Set specific emoji for YES
+            } else if (response === 'no') {
+                headingElement.innerHTML = `Aww, that's okay. <span class="emoji">😔</span>`;
+                paragraphElement.innerHTML = `Sarthak understands, Reechita. While he truly had hoped for a different answer, he genuinely values your honesty and your friendship. Your feelings are important, and he respects them completely. Thank you for being you. <span class="emoji">😊✨</span>`;
+                emojiElement.textContent = '💔'; // Set specific emoji for NO
+            } else {
+                // Default message if no response parameter is found
+                headingElement.textContent = `Something went a little differently...`;
+                paragraphElement.textContent = `It seems your response wasn't captured. Sarthak still cherishes your presence and hopes you're doing well! 😊`;
+            }
         });
     </script>
 
     <div class="container">
-        <h1 id="responseHeading"></h1>
-        <p id="responseText"></p>
+        <h1 id="acknowledgementHeading"></h1>
+        <p id="acknowledgementParagraph"></p>
         <div class="button-container">
-            <a href="index.html" class="button back">Go back to the start ✨</a>
+            <a href="index.html" class="button back">Go back to the start <span class="emoji">🏠</span></a>
         </div>
+        <p style="margin-top: 2.5rem; font-size: clamp(0.75rem, 1.5vw, 1rem); color: #B0B0B0;">(A message from Sarthak, with all his heart. <span class="emoji" id="acknowledgementEmoji"></span>)</p>
     </div>
 </body>
 </html>
