@@ -8,14 +8,14 @@
     <style>
         :root {
             /* Dark Elegant Theme Colors */
-            --bg-gradient-start: #0a0712; /* Even darker base */
-            --bg-gradient-end: #1c0b2e;   /* Deeper, muted purple */
-            --container-bg: rgba(30, 15, 50, 0.8); /* Slightly less transparent */
-            --text-light: #e0e0e0; /* Light gray for general text */
-            --text-heading: #FFD700; /* Soft Gold for main headings */
-            --primary-accent: #FF69B4; /* Hot Pink */
-            --secondary-accent: #8A2BE2; /* Blue Violet */
-            --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6); /* Deeper shadow */
+            --bg-gradient-start: #0a0712;
+            --bg-gradient-end: #1c0b2e;
+            --container-bg: rgba(30, 15, 50, 0.85); /* Even less transparent */
+            --text-light: #e0e0e0;
+            --text-heading: #FFD700;
+            --primary-accent: #FF69B4;
+            --secondary-accent: #8A2BE2;
+            --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
             font-size: 16px;
         }
 
@@ -41,6 +41,38 @@
             display: none;
         }
 
+        /* Music Play Button Styling */
+        #music-play-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 105, 180, 0.8); /* Primary accent with transparency */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+            opacity: 0; /* Start hidden */
+            animation: fadeIn 1s ease-out forwards 1s; /* Fade in after a delay */
+        }
+
+        #music-play-button:hover {
+            background: rgba(255, 105, 180, 1);
+            transform: scale(1.05);
+        }
+        #music-play-button.playing {
+             background: rgba(138, 43, 226, 0.8); /* Secondary accent when playing */
+        }
+
+
         /* --- Background Scenery --- */
         .background-scenery {
             position: fixed;
@@ -48,33 +80,26 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -3; /* Behind everything */
-            overflow: hidden; /* Crucial for preventing scrollbars from moving elements */
+            z-index: -3;
+            overflow: hidden;
         }
 
         .moon {
             position: absolute;
-            width: clamp(70px, 9vw, 90px); /* Slightly larger moon */
+            width: clamp(70px, 9vw, 90px);
             height: clamp(70px, 9vw, 90px);
             border-radius: 50%;
             background-color: #fff8db;
-            box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; /* Stronger glow */
+            box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset;
             opacity: 0.8;
             top: 10%;
             right: 15%;
             animation: moonDrift 80s linear infinite alternate, moonPulse 3s ease-in-out infinite alternate, moonGlow 5s ease-in-out infinite alternate;
         }
 
-        @keyframes moonDrift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-30vw, 15vh); } /* More significant drift */
-        }
-        @keyframes moonPulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.03); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-        @keyframes moonGlow { /* Pulsing outer glow */
+        @keyframes moonDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(-30vw, 15vh); } }
+        @keyframes moonPulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.03); opacity: 0.9; } 100% { transform: scale(1); opacity: 0.8; } }
+        @keyframes moonGlow {
             0% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
             50% { box-shadow: 0 0 60px #fff8db, 0 0 120px #fff8db inset; }
             100% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
@@ -89,7 +114,6 @@
             animation: twinkle 2s infinite alternate ease-in-out forwards, starDrift 30s linear infinite alternate;
             box-shadow: 0 0 8px #ffffff;
         }
-        /* More stars, varied positions, sizes, and delays */
         .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; animation-duration: 2.2s; }
         .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; animation-duration: 2.5s; }
         .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; animation-duration: 1.8s; }
@@ -116,56 +140,28 @@
             100% { transform: translate(calc(var(--star-drift-x, 0) * 1px), calc(var(--star-drift-y, 0) * 1px)); }
         }
         
-        /* Enhanced Distant Scenery (Mountains & Subtle Water) */
         .distant-scenery {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 250px;
-            background: 
-                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom;
-            background-size: cover, 100% 100%;
-            pointer-events: none;
-            z-index: -2;
-            transform: translateY(50px);
-            animation: sceneryParallax 180s linear infinite alternate; /* Slower parallax */
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 250px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom;
+            background-size: cover, 100% 100%; pointer-events: none; z-index: -2;
+            transform: translateY(50px); animation: sceneryParallax 180s linear infinite alternate;
         }
-
-        @keyframes sceneryParallax {
-            0% { background-position: 0% 100%; }
-            100% { background-position: 100% 100%; }
-        }
+        @keyframes sceneryParallax { 0% { background-position: 0% 100%; } 100% { background-position: 100% 100%; } }
         
         .water-shimmer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
             background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
-            box-shadow: 0 0 60px rgba(80, 0, 120, 0.7); /* Stronger glow */
-            opacity: 0.9;
-            pointer-events: none;
-            z-index: -1;
+            box-shadow: 0 0 60px rgba(80, 0, 120, 0.7); opacity: 0.9; pointer-events: none; z-index: -1;
             animation: waterFlow 20s linear infinite, waterRipple 10s ease-in-out infinite alternate;
         }
+        @keyframes waterFlow { 0% { background-position: 0% 0%; } 100% { background-position: 100% 0%; } }
+        @keyframes waterRipple { 0% { transform: scaleY(1); opacity: 0.9; } 50% { transform: scaleY(1.04) translateX(1%); opacity: 1; } 100% { transform: scaleY(1); opacity: 0.9; } }
 
-        @keyframes waterFlow {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 0%; }
-        }
-        @keyframes waterRipple {
-            0% { transform: scaleY(1); opacity: 0.9; }
-            50% { transform: scaleY(1.04) translateX(1%); opacity: 1; } /* More movement */
-            100% { transform: scaleY(1); opacity: 0.9; }
-        }
 
         /* Ethereal Glow Animation */
         .ethereal-glow {
             position: fixed;
-            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0) 70%); /* Stronger purple glow */
+            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0) 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
@@ -175,10 +171,10 @@
 
         @keyframes glowFloat {
             0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; transform: translate(calc(var(--x) * 1vw + 15vw), calc(var(--y) * 1vh + 15vh)) scale(1.2); } /* Stronger scale and drift */
+            50% { opacity: 0.8; transform: translate(calc(var(--x) * 1vw + 15vw), calc(var(--y) * 1vh + 15vh)) scale(1.2); }
             100% { opacity: 0; transform: translate(calc(var(--x) * 1vw + 30vw), calc(var(--y) * 1vh + 30vh)) scale(0.5); }
         }
-        /* NEW: Particle Effect */
+        /* Particle Effect */
         .particle {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.8);
@@ -199,9 +195,9 @@
         .container {
             background-color: var(--container-bg);
             padding: clamp(2rem, 5vw, 3rem) clamp(3.5rem, 7vw, 5rem);
-            border-radius: 30px; /* More rounded */
+            border-radius: 30px;
             box-shadow: var(--shadow-deep);
-            max-width: 55rem; /* Wider container */
+            max-width: 55rem;
             width: 90%;
             margin: 5vh auto;
             transform: scale(0.8);
@@ -209,9 +205,9 @@
             animation: zoomInFade 1.5s ease-out forwards, containerFloat 12s ease-in-out infinite alternate;
             position: relative;
             z-index: 10;
-            border: 2px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-            overflow: hidden; /* For inner effects */
-            perspective: 1000px; /* For 3D transforms */
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            perspective: 1000px;
         }
 
         @keyframes zoomInFade {
@@ -220,7 +216,7 @@
         }
         @keyframes containerFloat {
             0% { transform: translateY(0px) rotateX(0deg); }
-            50% { transform: translateY(-10px) rotateX(1deg); } /* Subtle tilt */
+            50% { transform: translateY(-10px) rotateX(1deg); }
             100% { transform: translateY(0px) rotateX(0deg); }
         }
 
@@ -228,14 +224,19 @@
         .section-break {
             height: 1px;
             background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-            margin: 3rem 0;
+            margin: 3.5rem 0; /* Increased margin */
             opacity: 0;
             animation: fadeIn 1s ease-out forwards;
         }
+        /* Stagger the section breaks */
+        .section-break:nth-of-type(1) { animation-delay: 4s; }
+        .section-break:nth-of-type(2) { animation-delay: 8s; }
+        .section-break:nth-of-type(3) { animation-delay: 12s; }
+        .section-break:nth-of-type(4) { animation-delay: 16s; }
 
 
         h1 {
-            font-family: 'Great Vibes', cursive; /* More elegant cursive font */
+            font-family: 'Great Vibes', cursive;
             color: var(--text-heading);
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 2rem;
@@ -245,11 +246,11 @@
             line-height: 1.2;
         }
 
-        /* Letter-by-letter animation for main heading (JS will create spans) */
+        /* Animated Heading (main H1) */
         .animated-heading span {
             display: inline-block;
             opacity: 0;
-            transform: translateY(20px) rotateX(-90deg); /* 3D initial transform */
+            transform: translateY(20px) rotateX(-90deg);
             transform-origin: bottom;
             animation: bounceInText3D 1.2s ease-out forwards;
         }
@@ -260,28 +261,45 @@
             100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
         }
 
+        /* New H2 Styling and Animation */
+        h2 {
+            font-family: 'Pacifico', cursive; /* A different elegant font for subheadings */
+            color: var(--primary-accent); /* Pink accent for headings */
+            font-size: clamp(1.8rem, 3.8vw, 3rem);
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            animation: headingPopIn 1s ease-out forwards;
+        }
+        @keyframes headingPopIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        /* Stagger H2 animations */
+        h2:nth-of-type(1) { animation-delay: 3s; }
+        h2:nth-of-type(2) { animation-delay: 7s; }
+        h2:nth-of-type(3) { animation-delay: 11s; }
+        h2:nth-of-type(4) { animation-delay: 15s; }
+
 
         p {
             font-family: 'Lora', serif;
-            font-size: clamp(0.95rem, 1.8vw, 1.25rem); /* Slightly larger text */
-            line-height: 1.9; /* Increased line height for readability */
+            font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+            line-height: 1.9;
             margin-bottom: 2.5rem;
             color: var(--text-light);
             opacity: 0;
             animation: fadeInTextStaggered 1.5s ease-out forwards;
-            text-align: justify; /* Justify text for a more refined look */
-            text-shadow: 0 0 5px rgba(0,0,0,0.2); /* Subtle text shadow */
+            text-align: justify;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            /* Initial stagger for all paragraphs */
+            animation-delay: var(--p-delay, 0s);
         }
-        /* Increased staggering delay for each paragraph */
-        p:nth-of-type(1) { animation-delay: 1.5s; }
-        p:nth-of-type(2) { animation-delay: 2.8s; }
-        p:nth-of-type(3) { animation-delay: 4.1s; }
-        p:nth-of-type(4) { animation-delay: 5.4s; }
-        p:nth-of-type(5) { animation-delay: 6.7s; }
-        p:nth-of-type(6) { animation-delay: 8.0s; }
-        p:nth-of-type(7) { animation-delay: 9.3s; }
-        p:nth-of-type(8) { animation-delay: 10.6s; }
 
+        /* Adjusted staggered delays for ALL paragraphs (using JS for more control) */
+        /* Will set --p-delay via JS */
 
         /* Word-by-word reveal for important paragraphs */
         .word-reveal-p span {
@@ -295,15 +313,34 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
+        /* Char-by-char reveal for song lyrics */
+        .char-reveal-lyrics span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInChar 0.5s ease-out forwards;
+            transform-origin: bottom center;
+        }
+        @keyframes fadeInChar {
+            0% { opacity: 0; transform: translateY(10px) rotateX(-90deg); }
+            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+        }
 
-        @keyframes fadeInTextStaggered {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Specific glowing text effects */
+        .glowing-text {
+            color: #FFB6C1; /* Light pink base */
+            text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4);
+            animation: pulseGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4); }
+            50% { text-shadow: 0 0 12px rgba(255, 182, 193, 0.9), 0 0 20px rgba(255, 182, 193, 0.6), 0 0 30px rgba(255, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4); }
         }
 
         .highlight {
             color: var(--primary-accent);
-            font-weight: 700; /* Bolder highlight */
+            font-weight: 700;
             text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5);
             position: relative;
             display: inline-block;
@@ -313,7 +350,7 @@
 
         @keyframes textSparkle {
             0% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
-            50% { text-shadow: 1px 1px 5px rgba(255, 105, 180, 0.7), 0 0 15px rgba(255, 255, 255, 0.8); transform: scale(1.02); }
+            50% { text-shadow: 1px 1px 5px rgba(255, 105, 180, 0.7), 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.6); transform: scale(1.02); }
             100% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
         }
 
@@ -325,7 +362,8 @@
             gap: clamp(1.2rem, 3vw, 1.8rem);
             opacity: 0;
             transform: scale(0.9);
-            animation: fadeInScaleButtons 1.5s ease-out 12s forwards; /* Increased delay */
+            animation: fadeInScaleButtons 1.5s ease-out forwards;
+            animation-delay: 19s; /* Adjusted delay for buttons to appear last */
         }
 
         @keyframes fadeInScaleButtons {
@@ -341,21 +379,21 @@
             color: var(--bg-gradient-start);
             background: linear-gradient(45deg, var(--primary-accent), #FFB6C1);
             border: none;
-            border-radius: 50px; /* More rounded button */
+            border-radius: 50px;
             text-decoration: none;
             transition: all 0.4s ease;
             cursor: pointer;
-            box-shadow: 0 8px 18px rgba(255, 105, 180, 0.5); /* Stronger shadow */
+            box-shadow: 0 8px 18px rgba(255, 105, 180, 0.5);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
             animation: buttonPopIn 0.8s ease-out forwards;
-            letter-spacing: 0.8px; /* Slight letter spacing */
-            text-transform: uppercase; /* Uppercase for impact */
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
         /* Stagger button animation */
-        .button:first-child { animation-delay: 12.5s; }
-        .button:last-child { animation-delay: 12.8s; }
+        .button:first-child { animation-delay: 19.5s; } /* Adjust delay based on overall content flow */
+
 
         @keyframes buttonPopIn {
             0% { transform: scale(0.5) translateY(20px); opacity: 0; }
@@ -371,199 +409,267 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255, 255, 255, 0.25); /* Stronger ripple */
+            background: rgba(255, 255, 255, 0.25);
             border-radius: 50%;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Smoother animation */
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             transform: translate(-50%, -50%);
             z-index: 1;
         }
 
         .button:hover::before {
-            width: 250%; /* Larger ripple */
+            width: 250%;
             height: 250%;
         }
 
         .button:hover {
             background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
-            transform: translateY(-0.25rem) scale(1.02); /* More pronounced hover effect */
-            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.7); /* Stronger hover shadow */
+            transform: translateY(-0.25rem) scale(1.02);
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.7);
             color: var(--bg-gradient-end);
         }
 
         .emoji {
             vertical-align: middle;
             margin: 0 0.4rem;
-            font-size: 1.2em; /* Slightly larger emojis */
+            font-size: 1.2em;
             display: inline-block;
             animation: emojiPulse 1.8s infinite ease-in-out;
-            text-shadow: 0 0 5px rgba(255,255,255,0.3); /* Subtle glow */
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
         }
         @keyframes emojiPulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.08); } /* More pronounced pulse */
+            50% { transform: scale(1.08); }
             100% { transform: scale(1); }
         }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); }
-            p { font-size: clamp(0.9rem, 2.3vw, 1.2rem); }
-            .button { font-size: clamp(1rem, 3.2vw, 1.3rem); padding: clamp(0.9rem, 1.8vw, 1.1rem) clamp(1.8rem, 3.5vw, 2.2rem); }
-            .button-container { flex-direction: column; gap: 1rem; }
-            .container { padding: clamp(1.8rem, 3.5vw, 2.8rem) clamp(2.8rem, 5.5vw, 4.5rem); }
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); }
+            h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
+            p { font-size: clamp(0.9rem, 1.7vw, 1.2rem); }
+            .button { font-size: clamp(1rem, 2.2vw, 1.3rem); padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); }
+            .container { padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(3rem, 6vw, 4.5rem); max-width: 50rem; }
         }
+
+        @media (max-width: 768px) {
+            h1 { font-size: clamp(2rem, 6vw, 3rem); }
+            h2 { font-size: clamp(1.4rem, 4.5vw, 2.2rem); }
+            p { font-size: clamp(0.85rem, 2.2vw, 1.15rem); }
+            .button { font-size: clamp(0.95rem, 2.8vw, 1.15rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
+            .container { padding: clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); max-width: 90%; }
+        }
+
         @media (max-width: 480px) {
-            h1 { font-size: clamp(1.8rem, 6.5vw, 2.8rem); }
-            p { font-size: clamp(0.85rem, 3vw, 1.15rem); }
-            .button { font-size: clamp(0.95rem, 3.8vw, 1.25rem); padding: clamp(0.8rem, 1.5vw, 1rem) clamp(1.6rem, 3vw, 2rem); }
-            .container { padding: clamp(1.5rem, 3vw, 2.5rem) clamp(2.5rem, 4.5vw, 3.5rem); }
+            h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+            h2 { font-size: clamp(1.2rem, 5.5vw, 2rem); }
+            p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
+            .button { font-size: clamp(0.85rem, 3.5vw, 1.1rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
+            .container { padding: clamp(1.2rem, 3.5vw, 2.2rem) clamp(2rem, 5vw, 3.5rem); }
         }
     </style>
 </head>
 <body>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button id="music-play-button">🎵</button>
+
     <div class="background-scenery">
         <div class="moon"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
     </div>
-    <script>
-        // JS for dynamic ethereal glow effects
-        const numGlows = 15; // More glows
-        for (let i = 0; i < numGlows; i++) {
-            const glow = document.createElement('div');
-            glow.classList.add('ethereal-glow');
-            glow.style.setProperty('--x', Math.random() * 120 - 20); // Wider range
-            glow.style.setProperty('--y', Math.random() * 120 - 20); // Wider range
-            glow.style.width = glow.style.height = `${clamp(60, 180, Math.random() * 250)}px`;
-            glow.style.animationDelay = `${Math.random() * 20}s`; // Longer delay range
-            glow.style.animationDuration = `${18 + Math.random() * 8}s`; // Longer duration
-            document.body.appendChild(glow);
-        }
 
-        // JS for dynamic particle effects
-        const numParticles = 30; // Many particles
-        for (let i = 0; i < numParticles; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.width = particle.style.height = `${clamp(1, 4, Math.random() * 5)}px`; // Smaller, varied sizes
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.top = `${Math.random() * 100}vh`;
-            particle.style.setProperty('--p-x', 0);
-            particle.style.setProperty('--p-y', 0);
-            particle.style.setProperty('--p-dx', (Math.random() - 0.5) * 500); // Drift across a larger area
-            particle.style.setProperty('--p-dy', (Math.random() - 0.5) * 400);
-            particle.style.setProperty('--p-scale', 0.5 + Math.random() * 0.5);
-            particle.style.animationDelay = `${Math.random() * 15}s`;
-            particle.style.animationDuration = `${10 + Math.random() * 10}s`;
-            document.body.appendChild(particle);
-        }
+    <div class="ethereal-glow" style="--x: 10; --y: 20; width: 150px; height: 150px; animation-delay: 0s;"></div>
+    <div class="ethereal-glow" style="--x: 70; --y: 50; width: 200px; height: 200px; animation-delay: 5s;"></div>
+    <div class="ethereal-glow" style="--x: 30; --y: 80; width: 100px; height: 100px; animation-delay: 10s;"></div>
 
-        function clamp(min, max, value) {
-            return Math.max(min, Math.min(max, value));
-        }
+    <div class="particle" style="top: 20%; left: 15%; width: 3px; height: 3px; --p-x: 15vw; --p-y: 20vh; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
+    <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-x: 80vw; --p-y: 50vh; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
+    <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
+    <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
 
-        // JS to animate stars (random drift direction and initial position)
-        document.querySelectorAll('.star').forEach(star => {
-            star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300); // More drift
-            star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200);
-            star.style.animationDelay = `${Math.random() * 6}s`;
-            star.style.animationDuration = `${28 + Math.random() * 12}s`;
-        });
-
-        // JS for animating heading word-by-word
-        document.addEventListener('DOMContentLoaded', () => {
-            const heading = document.querySelector('h1');
-            heading.classList.add('animated-heading');
-            const text = heading.textContent;
-            heading.innerHTML = '';
-
-            text.split(' ').forEach((word, wordIndex) => {
-                const wordSpan = document.createElement('span');
-                wordSpan.textContent = word + ' ';
-                heading.appendChild(wordSpan);
-                wordSpan.style.animationDelay = `${0.8 + wordIndex * 0.12}s`; // Slower stagger
-            });
-
-            // JS for animating specific paragraphs word-by-word
-            // Instead of all paragraphs, target specific ones for 'word-reveal-p' class
-            const wordRevealParagraphs = document.querySelectorAll('.word-reveal-p');
-            wordRevealParagraphs.forEach((p, pIndex) => {
-                const originalText = p.textContent;
-                p.innerHTML = '';
-
-                // Get the base delay from its CSS animation-delay
-                const computedStyle = window.getComputedStyle(p);
-                const baseDelayString = computedStyle.getPropertyValue('animation-delay');
-                const baseDelay = parseFloat(baseDelayString); // Convert to seconds
-
-                originalText.split(' ').forEach((word, wordIndex) => {
-                    const wordSpan = document.createElement('span');
-                    wordSpan.textContent = word + ' ';
-                    p.appendChild(wordSpan);
-
-                    // Stagger animation for each word within the paragraph relative to the paragraph's overall delay
-                    wordSpan.style.animationDelay = `${baseDelay + (wordIndex * 0.04)}s`; // Slight increase in word stagger
-                });
-            });
-        });
-
-    </script>
 
     <div class="container">
-        <h1>💫 When My Mind Learned Your Name…</h1>
+        <h1 class="animated-heading">
+            <span>A</span><span> </span><span>p</span><span>e</span><span>r</span><span>s</span><span>o</span><span>n</span><span> </span><span>w</span><span>h</span><span>o</span><span> </span><span>c</span><span>a</span><span>n</span><span> </span><span>m</span><span>a</span><span>k</span><span>e</span><span> </span><span>o</span><span>r</span><span>d</span><span>i</span><span>n</span><span>a</span><span>r</span><span>y</span><span> </span><span>t</span><span>o</span><span> </span><span>E</span><span>x</span><span>t</span><span>r</span><span>a</span><span>o</span><span>r</span><span>d</span><span>i</span><span>n</span><span>a</span><span>r</span><span>y</span><span>!</span><span>!</span><span>!</span><span> 💖</span>
+        </h1>
 
-        <p>Ahemmmm~ <span class="emoji">🌚</span><br>Where do I even begin? <span class="emoji">👀</span><br>Maybe… from that day, our first UNO game… Who knew such a simple moment could be the start of something this precious? Since then, life’s ordinary moments started feeling incomplete… without you.</p>
+        <p class="word-reveal-p">
+            <span class="glowing-text">From the moment I met you,</span> my world shifted. It was like finding a missing piece I never knew I was searching for. <span class="highlight">Every day since has been a beautiful discovery.</span> Your laughter, your kindness, your incredible strength – they all shine so brightly.
+        </p>
 
-        <p>Y’know that feeling when something tiny makes your whole day brighter? For me, that’s you.<br>Like this song plays in my head every morning:<br>“Tum Se Hi Din Shuru Hota Hai…” <span class="emoji">🎶</span><br>…and by night, it ends with:<br>“Raabta…” <span class="emoji">🎵</span><br>Because somehow, it always feels like there’s a connection I can’t explain.</p>
-        
         <div class="section-break"></div>
 
-        <h2>🥺 You’re Just… The Definition of Beautiful <span class="emoji">💖</span></h2>
+        <h2>Your Beautiful Spirit ✨</h2>
+        <p class="word-reveal-p">
+            I adore how <span class="glowing-text">you light up a room</span> just by being yourself. Your passion for life is contagious, and your ability to see the good in everything, even when things are tough, is truly inspiring. You have this <span class="highlight">gentle resilience</span> that makes you so unique and wonderful.
+        </p>
 
-        <p>People say beauty is what eyes can see.<br>But you got me thinking that beauty is what a soul can feel...<span class="emoji">💗</span></p>
-
-        <p>Your cuteness? <span class="highlight">Honestly… dangerous.</span> <span class="emoji">🌚</span><br>But it’s your heart, the softness behind that mischief that’s <span class="highlight">unforgettable.</span><br>From your little shy smiles… to those playful “ahemmms~” <span class="emoji">🌚✨</span>...<br>From the way you notice tiny things about me… to the way you laugh like sunlight breaking through clouds…<br>You’re made of all the things that truly matter to me!!!...</p>
-
-        <p class="word-reveal-p">And every time you look at me… even for a second…<br><br>I hear Ed Sheeran singing softly in my mind:<br>“Baby, I’m dancin’ in the dark, with you between my arms…” <span class="emoji">🎶💞</span></p>
-        
         <div class="section-break"></div>
 
-        <h2>☀️ You’re My Calm… And My Chaos Too...</h2>
+        <h2>Our Shared Moments 💫</h2>
+        <p class="word-reveal-p">
+            Remember all those <span class="glowing-text">late-night talks</span>, the silly jokes, the quiet moments where we just existed together? Those are the memories I cherish most. They’re woven into the fabric of my heart, creating a tapestry of joy and comfort. <span class="highlight">Every shared glance, every soft touch, means the world to me.</span>
+        </p>
 
-        <p>How do you do this?<br>How do you turn my worst days into memories I want to remember?<br>Every message from you feels like time slowing down…<br>Like the universe whispered, “Hold onto this moment.”<br>I still don’t understand how you became this important.</p>
-
-        <p>But maybe that’s why I can’t stop thinking:<br>“Tera Ban Jaunga…” <span class="emoji">🎵</span><br><br>Because somewhere in my mind… I already belong to you.<br>Quietly. Hopelessly. Willingly.</p>
-        
         <div class="section-break"></div>
 
-        <h2>🌙 So… Here’s My Silly Little Wish… <span class="emoji">💭</span></h2>
+        <h2>A Perfect Melody 🎶</h2>
+        <p class="char-reveal-lyrics">
+            "I found a love for me<br>
+            Darling, just dive right in<br>
+            And follow my lead<br>
+            Well, I found a girl, beautiful and sweet<br>
+            I never knew you were the someone waiting for me"<br>
+            <span class="glowing-text" style="font-family: 'Dancing Script', cursive; font-size: 1.1em; display: block; margin-top: 10px;">— Ed Sheeran, Perfect</span>
+        </p>
 
-        <p>I wish for something simple...<br>To walk beside you. Not just today, not just tomorrow… but for a lifetime. <span class="emoji">🌸</span><br>To see that smile… again and again…<br>To hear your little giggles, the ones that feel like confetti in my heart…<br>To become your reason to blush… just once more.</p>
-
-        <p>You’re not just someone I admire.<br>Not just someone I like.<br>You’re someone… I'm falling for, Completely. Unknowingly. And I don’t even want to stop.</p>
-        
         <div class="section-break"></div>
 
-        <h2>💖 In Short… You’re My Favourite Song.</h2>
-
-        <p class="word-reveal-p">I’d say:<br>“When I look into your eyes, it’s like watching the night sky… or a beautiful sunrise.” <span class="emoji">✨</span><br>Because you’re my dawn after endless nights.<br>You’re my definition of perfect.<br>So let me say,<br>“Darling, just hold my hand… Be my girl, I’ll be your man… I see my future in your eyes.” <span class="emoji">🎶</span></p>
-
-        <p style="margin-bottom: 0;">Ahemmmm~~ <span class="emoji">🌚</span><br><br>All that’s left is for you is to take my hand and click the button…</p>
+        <h2>My Promise to You 💖</h2>
+        <p class="word-reveal-p">
+            You are more than just a person to me; you are my <span class="highlight">safe harbor, my greatest adventure, and my deepest peace.</span> I promise to always be there for you, to support your dreams, to wipe away your tears, and to celebrate every single one of your triumphs. My love for you grows stronger with each passing moment.
+        </p>
+        <p style="margin-bottom: 0;">
+            <span class="glowing-text">Thank you for being you, Reechita.</span> You are truly perfect in every way. ✨
+        </p>
 
         <div class="button-container">
-            <a href="page3.html" class="button">Continue to the Big Question… ➡️</a>
+            <a href="page3.html" class="button">And the Journey Continues... ❤️</a>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Music Playback Logic
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const musicPlayButton = document.getElementById('music-play-button');
+
+            // Try to play music on button click
+            musicPlayButton.addEventListener('click', () => {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play()
+                        .then(() => {
+                            musicPlayButton.textContent = '⏸️'; // Change to pause icon
+                            musicPlayButton.classList.add('playing');
+                        })
+                        .catch(error => {
+                            console.error("Autoplay prevented:", error);
+                            alert("Please allow media playback in your browser settings to hear the music!");
+                        });
+                } else {
+                    backgroundMusic.pause();
+                    musicPlayButton.textContent = '🎵'; // Change to play icon
+                    musicPlayButton.classList.remove('playing');
+                }
+            });
+
+            // Handle music ending (though it's looped, good practice)
+            backgroundMusic.addEventListener('ended', () => {
+                musicPlayButton.textContent = '🎵';
+                musicPlayButton.classList.remove('playing');
+            });
+
+
+            // Function to wrap text with spans for character/word animations
+            function wrapTextWithSpans(element, type) {
+                const text = element.textContent;
+                element.innerHTML = ''; // Clear original text
+                if (type === 'char') {
+                    text.split('').forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.textContent = char;
+                        if (char === ' ') { // Maintain space width
+                            span.style.width = '0.5em'; 
+                        }
+                        span.style.animationDelay = `${index * 0.03}s`; // Stagger delay
+                        element.appendChild(span);
+                    });
+                } else if (type === 'word') {
+                    text.split(' ').forEach((word, index) => {
+                        const span = document.createElement('span');
+                        span.textContent = word + ' '; // Add space back
+                        span.style.animationDelay = `${index * 0.08}s`; // Stagger delay
+                        element.appendChild(span);
+                    });
+                }
+            }
+
+            // Apply character reveal to lyrics
+            document.querySelectorAll('.char-reveal-lyrics').forEach(el => {
+                wrapTextWithSpans(el, 'char');
+            });
+
+            // Apply word reveal to specific paragraphs
+            document.querySelectorAll('.word-reveal-p').forEach(el => {
+                wrapTextWithSpans(el, 'word');
+            });
+
+            // Animate main heading character by character
+            const mainHeading = document.querySelector('.animated-heading');
+            if (mainHeading) {
+                wrapTextWithSpans(mainHeading, 'char');
+            }
+
+            // Stagger all paragraphs (including those with word/char reveals)
+            const allParagraphs = document.querySelectorAll('p');
+            allParagraphs.forEach((p, index) => {
+                // Base delay for paragraphs to appear after the main heading
+                const baseDelay = 2.5; // After main heading animation
+                // Additional stagger for each paragraph
+                p.style.setProperty('--p-delay', `${baseDelay + (index * 0.5)}s`);
+                p.style.animation = `fadeInTextStaggered 1.5s ease-out forwards ${baseDelay + (index * 0.5)}s`;
+            });
+
+            // Background star drift setup
+            document.querySelectorAll('.star').forEach(star => {
+                star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300);
+                star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200);
+                star.style.animationDelay = `${Math.random() * 6}s`;
+                star.style.animationDuration = `${28 + Math.random() * 12}s`;
+            });
+
+            // Ethereal glows setup
+            document.querySelectorAll('.ethereal-glow').forEach(glow => {
+                glow.style.setProperty('--x', Math.random() * 100);
+                glow.style.setProperty('--y', Math.random() * 100);
+                glow.style.animationDelay = `${Math.random() * 10}s`;
+                glow.style.animationDuration = `${15 + Math.random() * 10}s`;
+                glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
+            });
+
+            // Particles setup
+            document.querySelectorAll('.particle').forEach(particle => {
+                particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
+                particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
+                particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
+                particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
+                particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${10 + Math.random() * 10}s`;
+                particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
+            });
+
+            // Get the next button
+            const nextButton = document.querySelector('.button');
+
+            // Add event listener to the button to trigger heartbeat transition
+            if (nextButton) {
+                nextButton.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default navigation
+                    const targetPage = nextButton.getAttribute('href');
+                    const transitionMessage = "Stepping closer to forever..."; // Message for the heartbeat screen
+
+                    // Redirect to transition.html with the target page as a parameter
+                    window.location.href = `transition.html?to=${encodeURIComponent(targetPage)}&message=${encodeURIComponent(transitionMessage)}`;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
