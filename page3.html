@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌹 My Heart's Desire... The Question! 💍</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Dark Elegant Theme Colors */
@@ -24,7 +24,7 @@
         }
 
         body {
-            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-family: 'Lora', serif; /* Elegant body font - CHANGED TO LORA */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -169,7 +169,7 @@
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive; /* Elegant cursive heading font */
+            font-family: 'Great Vibes', cursive; /* Applied different cursive font */
             color: var(--text-heading); /* Soft Gold for contrast */
             font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Adjusted font size */
             margin-bottom: 2rem;
@@ -188,7 +188,7 @@
         }
 
         p {
-            font-family: 'Merriweather', serif; /* Elegant body font */
+            font-family: 'Lora', serif; /* Applied serif font for readability - CHANGED TO LORA */
             font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
             line-height: 1.8;
             margin-bottom: 2rem; /* Reduced margin-bottom */
@@ -207,7 +207,7 @@
         }
 
         .confession-text {
-            font-family: 'Dancing Script', cursive; /* Elegant cursive font */
+            font-family: 'Dancing Script', cursive; /* Applied cursive font */
             font-size: clamp(1.8rem, 4vw, 3rem); /* Adjusted font size */
             font-weight: bold;
             color: var(--text-heading); /* Soft Gold for the question */
@@ -335,7 +335,7 @@
             h1 { font-size: clamp(1.8rem, 6.5vw, 2.8rem); }
             p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
             .confession-text { font-size: clamp(1.4rem, 3.5vw, 2.2rem); padding: clamp(0.7rem, 1.8vw, 1rem) clamp(1.4rem, 3vw, 1.8rem); }
-            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
+            .button { font-size: clamp(0.85rem, 3.5vw, 1.1rem); padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1.2rem, 2.8vw, 1.6rem); }
             .container { padding: clamp(1.2rem, 3vw, 2.2rem) clamp(2rem, 4.5vw, 3rem); }
         }
     </style>
@@ -363,7 +363,7 @@
         }
 
         // Helper for clamp function in JS for wisp size
-        function clamp = (min, max, value) => Math.max(min, Math.min(max, value));
+        const clamp = (min, max, value) => Math.max(min, Math.min(max, value));
 
 
         // JavaScript for "No" button floating effect (COMPLETELY RE-WRITTEN FOR ROBUSTNESS)
@@ -372,71 +372,95 @@
             const buttonContainer = document.querySelector('.button-container');
 
             if (noButton && buttonContainer) {
-                const moveRange = 150; // Maximum distance the button can move
-                const activationZone = 80; // Distance from cursor to trigger move
-                const smoothFactor = 0.15; // How smoothly it interpolates to new position (lower = smoother)
+                // Get the initial position and dimensions of the button relative to its container
+                let initialRect = noButton.getBoundingClientRect();
+                let containerRect = buttonContainer.getBoundingClientRect();
 
-                let currentTx = 0;
-                let currentTy = 0;
-                let targetX = 0;
-                let targetY = 0;
+                // Define the area where the button can move relative to its initial position
+                // These are maximum displacement values from its center
+                const maxMoveX = 120; // Max horizontal shift
+                const maxMoveY = 80;  // Max vertical shift (less vertical space usually)
+
+                // The zone around the button that triggers movement
+                const activationRadius = 100; // Pixels from button center to trigger evasion
+
+                let currentTx = 0; // Current transform X
+                let currentTy = 0; // Current transform Y
+                let targetTx = 0;  // Target transform X
+                let targetTy = 0;  // Target transform Y
+
+                // Smoothness factor for interpolation (lower = smoother, but slower to react)
+                const smoothFactor = 0.2; 
 
                 const animateButton = () => {
-                    currentTx += (targetX - currentTx) * smoothFactor;
-                    currentTy += (targetY - currentTy) * smoothFactor;
+                    // Interpolate current position towards target position
+                    currentTx += (targetTx - currentTx) * smoothFactor;
+                    currentTy += (targetTy - currentTy) * smoothFactor;
 
                     noButton.style.transform = `translate(${currentTx}px, ${currentTy}px)`;
 
-                    // Stop animating if very close to target to save resources
-                    if (Math.abs(targetX - currentTx) > 0.1 || Math.abs(targetY - currentTy) > 0.1) {
+                    // Continue animating if not close enough to target
+                    if (Math.abs(targetTx - currentTx) > 0.5 || Math.abs(targetTy - currentTy) > 0.5) {
                         requestAnimationFrame(animateButton);
                     }
                 };
 
-                buttonContainer.addEventListener('mousemove', (e) => {
-                    const noButtonRect = noButton.getBoundingClientRect();
-                    const containerRect = buttonContainer.getBoundingClientRect();
+                // Store original button's center relative to the container for stable clamping
+                const originalButtonCenterX = initialRect.left + initialRect.width / 2 - containerRect.left;
+                const originalButtonCenterY = initialRect.top + initialRect.height / 2 - containerRect.top;
 
-                    // Mouse position relative to the button's *current visual center*
+
+                buttonContainer.addEventListener('mousemove', (e) => {
+                    // Get real-time button position (it moves!)
+                    const liveRect = noButton.getBoundingClientRect();
+                    
+                    // Mouse position relative to the viewport
                     const mouseX = e.clientX;
                     const mouseY = e.clientY;
-                    const buttonVisualCenterX = noButtonRect.left + noButtonRect.width / 2;
-                    const buttonVisualCenterY = noButtonRect.top + noButtonRect.height / 2;
 
-                    const dx = mouseX - buttonVisualCenterX;
-                    const dy = mouseY - buttonVisualCenterY;
+                    // Button's current center relative to the viewport
+                    const buttonCurrentCenterX = liveRect.left + liveRect.width / 2;
+                    const buttonCurrentCenterY = liveRect.top + liveRect.height / 2;
+
+                    // Distance and angle from mouse to button's current center
+                    const dx = mouseX - buttonCurrentCenterX;
+                    const dy = mouseY - buttonCurrentCenterY;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < activationZone) {
-                        const angle = Math.atan2(dy, dx); // Angle from button center to mouse
+                    if (distance < activationRadius) {
+                        const angle = Math.atan2(dy, dx); // Angle from button to mouse
                         
-                        // Calculate target position based on moving AWAY from the mouse
-                        // The closer the mouse, the stronger the push
-                        const evasionStrength = (activationZone - distance) / activationZone; // 0 to 1
-                        
-                        let proposedTargetX = -Math.cos(angle) * moveRange * evasionStrength;
-                        let proposedTargetY = -Math.sin(angle) * moveRange * evasionStrength;
+                        // Calculate push strength (stronger when mouse is closer)
+                        const pushStrength = (activationRadius - distance) / activationRadius; // 0 to 1
 
-                        // Clamp target position to stay within a reasonable area relative to button's original position
-                        // This prevents it from flying off-screen or too far from its original spot
-                        const maxAllowedMove = 100; // Limit how far it can move from its origin
-                        targetX = clamp(-maxAllowedMove, maxAllowedMove, proposedTargetX);
-                        targetY = clamp(-maxAllowedMove, maxAllowedMove, proposedTargetY);
+                        // Proposed new target based on moving AWAY from the mouse
+                        let proposedTx = -Math.cos(angle) * maxMoveX * pushStrength;
+                        let proposedTy = -Math.sin(angle) * maxMoveY * pushStrength;
 
-                        requestAnimationFrame(animateButton); // Start/continue animation
+                        // Clamp the proposed target to ensure it stays within the defined boundaries
+                        // This prevents the button from flying too far away or off-screen.
+                        targetTx = clamp(-maxMoveX, maxMoveX, proposedTx);
+                        targetTy = clamp(-maxMoveY, maxMoveY, proposedTy);
+
+                        requestAnimationFrame(animateButton); // Start/continue animation loop
                     } else {
-                        // If mouse is far, smoothly return to original position
-                        targetX = 0;
-                        targetY = 0;
-                        requestAnimationFrame(animateButton);
+                        // If mouse is outside activation zone, smoothly return to origin
+                        if (targetTx !== 0 || targetTy !== 0) {
+                            targetTx = 0;
+                            targetTy = 0;
+                            requestAnimationFrame(animateButton);
+                        }
                     }
                 });
 
-                // Reset position if mouse leaves the button container area
+                // Reset position if mouse leaves the button container (or the whole window)
+                // This ensures it snaps back if the user quickly moves their mouse away
                 buttonContainer.addEventListener('mouseleave', () => {
-                    targetX = 0;
-                    targetY = 0;
-                    requestAnimationFrame(animateButton);
+                    if (targetTx !== 0 || targetTy !== 0) {
+                        targetTx = 0;
+                        targetTy = 0;
+                        requestAnimationFrame(animateButton);
+                    }
                 });
 
                 // Prevent default click action for the "No" button if it's clicked
@@ -444,8 +468,9 @@
                     e.preventDefault(); 
                     // Optional: If you want it to eventually go to the 'no' page,
                     // you can add a short delay and then redirect.
-                    // For now, it will simply evade and not proceed immediately.
-                    // window.location.href = 'acknowledgement.html?response=no';
+                    // For now, it will simply evade and not proceed immediately on click.
+                    // If you want it to actually go to the no page after an evasion,
+                    // you would need to add a timed redirect here.
                 });
             }
         });
