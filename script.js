@@ -1,20 +1,27 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Preloader logic (NEW) - This part runs first when the DOM is ready
+    // Preloader logic (Updated for progress bar and 5-second minimum)
     const preloader = document.getElementById('preloader');
-    if (preloader) {
+    const indexProgressBar = document.getElementById('indexProgressBar'); // Get the new progress bar element
+    const indexProgressText = document.getElementById('indexProgressText'); // Get the new progress text element
+
+    if (preloader && indexProgressBar && indexProgressText) {
         let pageLoaded = false;
         let minimumTimeElapsed = false;
+        let currentProgress = 0; // For the progress bar
 
         // Function to hide preloader when both conditions are met
         const hidePreloader = () => {
             if (pageLoaded && minimumTimeElapsed) {
-                preloader.classList.add('hidden'); // Hide the preloader
-                // Optionally remove the preloader from DOM after transition
+                // Ensure progress bar is at 100% before hiding
+                indexProgressBar.style.width = '100%';
+                indexProgressText.textContent = '100%';
+
+                preloader.classList.add('hidden'); // Add class to trigger CSS fade-out
                 preloader.addEventListener('transitionend', () => {
-                    preloader.remove();
-                });
+                    preloader.remove(); // Remove from DOM after animation
+                }, { once: true }); // Ensure listener is only called once
             }
         };
 
@@ -24,11 +31,30 @@ document.addEventListener('DOMContentLoaded', () => {
             hidePreloader();
         });
 
-        // Condition 2: Minimum 5 seconds elapsed
+        // Condition 2: Minimum 5 seconds elapsed, and drive progress bar animation
+        const minDuration = 5000; // 5 seconds
+        const intervalDuration = 50; // Update every 50ms for smooth animation
+        const steps = minDuration / intervalDuration; // Number of steps
+        const increment = 100 / steps; // Percentage increment per step
+
+        const progressInterval = setInterval(() => {
+            currentProgress += increment;
+            if (currentProgress >= 100) {
+                currentProgress = 100;
+                clearInterval(progressInterval); // Stop increasing progress
+                minimumTimeElapsed = true; // Mark minimum time met
+            }
+            indexProgressBar.style.width = `${currentProgress}%`;
+            indexProgressText.textContent = `${Math.floor(currentProgress)}%`;
+            hidePreloader(); // Check if ready to hide
+        }, intervalDuration);
+
+        // Fallback to ensure minimumTimeElapsed is set after 5 seconds
+        // in case the interval for some reason clears early or is delayed.
         setTimeout(() => {
             minimumTimeElapsed = true;
             hidePreloader();
-        }, 5000); // 5000 milliseconds = 5 seconds
+        }, minDuration);
     }
 
     // Inject background elements once per page load - CHECK ADDED HERE
@@ -87,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Music Playback Logic (now conditional)
+    // Music Playback Logic
     const backgroundMusic = document.getElementById('backgroundMusic');
     const musicPlayButton = document.getElementById('music-play-button');
 
@@ -157,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             musicPlayButton.classList.remove('playing');
             localStorage.setItem(isMusicPlayingKey, 'false');
         });
-    } // End of conditional music logic
+    }
 
 
     // Staggered text and section-break animations
