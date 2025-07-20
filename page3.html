@@ -3,449 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💌 My Heart's Thoughts About You... 💕</title>
+    <title>The Big Question 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Dark Elegant Theme Colors */
-            --bg-gradient-start: #0a0712;
-            --bg-gradient-end: #1c0b2e;
-            --container-bg: rgba(30, 15, 50, 0.85); /* Even less transparent */
-            --text-light: #e0e0e0;
-            --text-heading: #FFD700;
-            --primary-accent: #FF69B4;
-            --secondary-accent: #8A2BE2;
-            --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'Lora', serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-            color: var(--text-light);
-            text-align: center;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* --- Background Scenery --- */
-        .background-scenery {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3;
-            overflow: hidden;
-        }
-
-        .moon {
-            position: absolute;
-            width: clamp(70px, 9vw, 90px);
-            height: clamp(70px, 9vw, 90px);
-            border-radius: 50%;
-            background-color: #fff8db;
-            box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset;
-            opacity: 0.8;
-            top: 10%;
-            right: 15%;
-            animation: moonDrift 80s linear infinite alternate, moonPulse 3s ease-in-out infinite alternate, moonGlow 5s ease-in-out infinite alternate;
-        }
-
-        @keyframes moonDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(-30vw, 15vh); } }
-        @keyframes moonPulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.03); opacity: 0.9; } 100% { transform: scale(1); opacity: 0.8; } }
-        @keyframes moonGlow {
-            0% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
-            50% { box-shadow: 0 0 60px #fff8db, 0 0 120px #fff8db inset; }
-            100% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
-        }
-
-
-        .star {
-            position: absolute;
-            background-color: #ffffff;
-            border-radius: 50%;
-            opacity: 0; /* Start hidden */
-            animation: twinkle 2s infinite alternate ease-in-out forwards, starDrift 30s linear infinite alternate;
-            box-shadow: 0 0 8px #ffffff;
-        }
-        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; animation-duration: 2.2s; }
-        .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; animation-duration: 2.5s; }
-        .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; animation-duration: 1.8s; }
-        .star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; animation-duration: 3s; }
-        .star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; animation-duration: 2.7s; }
-        .star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; animation-duration: 2.2s; }
-        .star:nth-child(7) { top: 15%; left: 40%; width: 2px; height: 2px; animation-delay: 2.5s; animation-duration: 2.7s; }
-        .star:nth-child(8) { bottom: 5%; right: 35%; width: 1.5px; height: 1.5px; animation-delay: 0.1s; animation-duration: 1.9s; }
-        .star:nth-child(9) { top: 60%; right: 20%; width: 2.8px; height: 2.8px; animation-delay: 3.2s; animation-duration: 2.4s; }
-        .star:nth-child(10) { bottom: 40%; left: 50%; width: 3.2px; height: 3.2px; animation-delay: 0.8s; animation-duration: 2.9s; }
-        .star:nth-child(11) { top: 5%; left: 55%; width: 1.7px; height: 1.7px; animation-delay: 1.5s; animation-duration: 2.1s; }
-        .star:nth-child(12) { bottom: 30%; right: 45%; width: 2.1px; height: 2.1px; animation-delay: 2.9s; animation-duration: 2.6s; }
-
-
-        @keyframes twinkle {
-            0% { opacity: 0; transform: scale(0.8); }
-            20% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-            80% { opacity: 0.6; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.8); }
-        }
-        @keyframes starDrift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(calc(var(--star-drift-x, 0) * 1px), calc(var(--star-drift-y, 0) * 1px)); }
-        }
-        
-        .distant-scenery {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 250px;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom;
-            background-size: cover, 100% 100%; pointer-events: none; z-index: -2;
-            transform: translateY(50px); animation: sceneryParallax 180s linear infinite alternate;
-        }
-        @keyframes sceneryParallax { 0% { background-position: 0% 100%; } 100% { background-position: 100% 100%; } }
-        
-        .water-shimmer {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
-            background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
-            box-shadow: 0 0 60px rgba(80, 0, 120, 0.7); opacity: 0.9; pointer-events: none; z-index: -1;
-            animation: waterFlow 20s linear infinite, waterRipple 10s ease-in-out infinite alternate;
-        }
-        @keyframes waterFlow { 0% { background-position: 0% 0%; } 100% { background-position: 100% 0%; } }
-        @keyframes waterRipple { 0% { transform: scaleY(1); opacity: 0.9; } 50% { transform: scaleY(1.04) translateX(1%); opacity: 1; } 100% { transform: scaleY(1); opacity: 0.9; } }
-
-
-        /* Ethereal Glow Animation */
-        .ethereal-glow {
-            position: fixed;
-            background: radial-gradient(circle at center, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            animation: glowFloat 20s infinite ease-in-out;
-            opacity: 0;
-        }
-
-        @keyframes glowFloat {
-            0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; transform: translate(calc(var(--x) * 1vw + 15vw), calc(var(--y) * 1vh + 15vh)) scale(1.2); }
-            100% { opacity: 0; transform: translate(calc(var(--x) * 1vw + 30vw), calc(var(--y) * 1vh + 30vh)) scale(0.5); }
-        }
-        /* Particle Effect */
-        .particle {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            opacity: 0;
-            animation: particleFloat 15s infinite ease-out forwards;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        @keyframes particleFloat {
-            0% { transform: translate(var(--p-x, 0), var(--p-y, 0)) scale(0); opacity: 0; }
-            10% { opacity: 1; transform: scale(1); }
-            80% { opacity: 0.8; transform: translate(calc(var(--p-x, 0) + var(--p-dx, 0)), calc(var(--p-y, 0) + var(--p-dy, 0))) scale(var(--p-scale, 1)); }
-            100% { opacity: 0; transform: translate(calc(var(--p-x, 0) + var(--p-dx, 0)), calc(var(--p-y, 0) + var(--p-dy, 0))) scale(0.2); }
-        }
-
+    <link rel="stylesheet" href="style.css"> <style>
+        /* Specific styles for page3.html */
         .container {
-            background-color: var(--container-bg);
-            padding: clamp(2rem, 5vw, 3rem) clamp(3.5rem, 7vw, 5rem);
-            border-radius: 30px;
-            box-shadow: var(--shadow-deep);
-            max-width: 55rem;
-            width: 90%;
-            margin: 5vh auto;
-            transform: scale(0.8);
-            opacity: 0;
-            animation: zoomInFade 1.5s ease-out forwards, containerFloat 12s ease-in-out infinite alternate;
-            position: relative;
-            z-index: 10;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            perspective: 1000px;
+            text-align: center;
         }
 
-        @keyframes zoomInFade {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes containerFloat {
-            0% { transform: translateY(0px) rotateX(0deg); }
-            50% { transform: translateY(-10px) rotateX(1deg); }
-            100% { transform: translateY(0px) rotateX(0deg); }
-        }
-
-        /* Inner card separation (visual, not actual floating cards) */
-        .section-break {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-            margin: 3.5rem 0; /* Increased margin */
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
-        /* Stagger the section breaks */
-        .section-break:nth-of-type(1) { animation-delay: 4s; }
-        .section-break:nth-of-type(2) { animation-delay: 8s; }
-        .section-break:nth-of-type(3) { animation-delay: 12s; }
-        .section-break:nth-of-type(4) { animation-delay: 16s; }
-
-
-        h1 {
+        .question-text {
             font-family: 'Great Vibes', cursive;
             color: var(--text-heading);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 2rem;
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            margin-bottom: 3rem;
             text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
-            animation: textWave 1.5s ease-out 0.5s forwards;
-            opacity: 0;
             line-height: 1.2;
-        }
-
-        /* Animated Heading (main H1) */
-        .animated-heading span {
-            display: inline-block;
             opacity: 0;
-            transform: translateY(20px) rotateX(-90deg);
-            transform-origin: bottom;
-            animation: bounceInText3D 1.2s ease-out forwards;
+            animation: fadeInScale 1.5s ease-out forwards 0.5s;
         }
 
-        @keyframes bounceInText3D {
-            0% { opacity: 0; transform: translateY(50px) rotateX(-90deg); }
-            60% { opacity: 1; transform: translateY(-5px) rotateX(10deg); }
-            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
-        }
-
-        /* New H2 Styling and Animation */
-        h2 {
-            font-family: 'Pacifico', cursive; /* A different elegant font for subheadings */
-            color: var(--primary-accent); /* Pink accent for headings */
-            font-size: clamp(1.8rem, 3.8vw, 3rem);
-            margin-top: 3.5rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.3);
-            opacity: 0;
-            transform: scale(0.8);
-            animation: headingPopIn 1s ease-out forwards;
-        }
-        @keyframes headingPopIn {
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        /* Stagger H2 animations */
-        h2:nth-of-type(1) { animation-delay: 3s; }
-        h2:nth-of-type(2) { animation-delay: 7s; }
-        h2:nth-of-type(3) { animation-delay: 11s; }
-        h2:nth-of-type(4) { animation-delay: 15s; }
-
-
-        p {
-            font-family: 'Lora', serif;
-            font-size: clamp(0.95rem, 1.8vw, 1.25rem);
-            line-height: 1.9;
-            margin-bottom: 2.5rem;
-            color: var(--text-light);
-            opacity: 0;
-            animation: fadeInTextStaggered 1.5s ease-out forwards;
-            text-align: justify;
-            text-shadow: 0 0 5px rgba(0,0,0,0.2);
-            /* Initial stagger for all paragraphs */
-            animation-delay: var(--p-delay, 0s);
-        }
-
-        /* Adjusted staggered delays for ALL paragraphs (using JS for more control) */
-        /* Will set --p-delay via JS */
-
-        /* Word-by-word reveal for important paragraphs */
-        .word-reveal-p span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px) scale(0.9);
-            animation: fadeInWord 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeInWord {
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* Char-by-char reveal for song lyrics */
-        .char-reveal-lyrics span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInChar 0.5s ease-out forwards;
-            transform-origin: bottom center;
-        }
-        @keyframes fadeInChar {
-            0% { opacity: 0; transform: translateY(10px) rotateX(-90deg); }
-            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
-        }
-
-        /* Specific glowing text effects */
-        .glowing-text {
-            color: #FFB6C1; /* Light pink base */
-            text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4);
-            animation: pulseGlow 2s infinite alternate ease-in-out;
-        }
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4); }
-            50% { text-shadow: 0 0 12px rgba(255, 182, 193, 0.9), 0 0 20px rgba(255, 182, 193, 0.6), 0 0 30px rgba(255, 255, 255, 0.3); }
-            100% { text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4); }
-        }
-
-        .highlight {
-            color: var(--primary-accent);
-            font-weight: 700;
-            text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5);
-            position: relative;
-            display: inline-block;
-            animation: textSparkle 1.8s infinite alternate ease-in-out;
-            transform-origin: center;
-        }
-
-        @keyframes textSparkle {
-            0% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
-            50% { text-shadow: 1px 1px 5px rgba(255, 105, 180, 0.7), 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.6); transform: scale(1.02); }
-            100% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
-        }
-
-        .button-container {
-            margin-top: 3.5rem;
+        .choices {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: clamp(1.2rem, 3vw, 1.8rem);
-            opacity: 0;
-            transform: scale(0.9);
-            animation: fadeInScaleButtons 1.5s ease-out forwards;
-            animation-delay: 19s; /* Adjusted delay for buttons to appear last */
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
         }
 
-        @keyframes fadeInScaleButtons {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .button {
-            display: inline-block;
-            padding: clamp(1rem, 2.5vw, 1.2rem) clamp(2rem, 4.5vw, 2.5rem);
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        .choice-button {
+            display: block; /* Make buttons block level */
+            width: clamp(200px, 70%, 300px); /* Adjust width */
+            margin: 0 auto; /* Center buttons */
+            padding: clamp(1.2rem, 2.8vw, 1.5rem) clamp(2.5rem, 5vw, 3rem);
+            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
             font-weight: 700;
-            color: var(--bg-gradient-start);
-            background: linear-gradient(45deg, var(--primary-accent), #FFB6C1);
+            color: white;
             border: none;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.4s ease;
+            border-radius: 25px 10px 25px 10px; /* Consistent button shape */
             cursor: pointer;
-            box-shadow: 0 8px 18px rgba(255, 105, 180, 0.5);
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-            animation: buttonPopIn 0.8s ease-out forwards;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-        /* Stagger button animation */
-        .button:first-child { animation-delay: 19.5s; } /* Adjust delay based on overall content flow */
-
-
-        @keyframes buttonPopIn {
-            0% { transform: scale(0.5) translateY(20px); opacity: 0; }
-            80% { transform: scale(1.05) translateY(-5px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeInScale 1s ease-out forwards;
         }
 
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translate(-50%, -50%);
-            z-index: 1;
+        .choice-button.yes {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A); /* Green gradient */
+            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.4);
+            animation-delay: 1s; /* Stagger animation */
         }
 
-        .button:hover::before {
-            width: 250%;
-            height: 250%;
+        .choice-button.yes:hover {
+            background: linear-gradient(45deg, #8BC34A, #4CAF50);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.6);
         }
 
-        .button:hover {
-            background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
-            transform: translateY(-0.25rem) scale(1.02);
-            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.7);
-            color: var(--bg-gradient-end);
+        .choice-button.no {
+            background: linear-gradient(45deg, #F44336, #FF7043); /* Red gradient */
+            box-shadow: 0 8px 15px rgba(244, 67, 54, 0.4);
+            animation-delay: 1.2s; /* Stagger animation */
         }
 
-        .emoji {
-            vertical-align: middle;
-            margin: 0 0.4rem;
-            font-size: 1.2em;
-            display: inline-block;
-            animation: emojiPulse 1.8s infinite ease-in-out;
-            text-shadow: 0 0 5px rgba(255,255,255,0.3);
-        }
-        @keyframes emojiPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
+        .choice-button.no:hover {
+            background: linear-gradient(45deg, #FF7043, #F44336);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.6);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 1024px) {
-            h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); }
-            h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
-            p { font-size: clamp(0.9rem, 1.7vw, 1.2rem); }
-            .button { font-size: clamp(1rem, 2.2vw, 1.3rem); padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); }
-            .container { padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(3rem, 6vw, 4.5rem); max-width: 50rem; }
+        .message-below {
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            line-height: 1.6;
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 1.5s;
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: clamp(2rem, 6vw, 3rem); }
-            h2 { font-size: clamp(1.4rem, 4.5vw, 2.2rem); }
-            p { font-size: clamp(0.85rem, 2.2vw, 1.15rem); }
-            .button { font-size: clamp(0.95rem, 2.8vw, 1.15rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
-            .container { padding: clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); max-width: 90%; }
+        .message-below p {
+            margin-bottom: 0.5rem;
+            text-align: center; /* Center align text below buttons */
         }
 
-        @media (max-width: 480px) {
-            h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
-            h2 { font-size: clamp(1.2rem, 5.5vw, 2rem); }
-            p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
-            .button { font-size: clamp(0.85rem, 3.5vw, 1.1rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
-            .container { padding: clamp(1.2rem, 3.5vw, 2.2rem) clamp(2rem, 5vw, 3.5rem); }
+        .message-below .highlight {
+            font-weight: normal; /* Override highlight bold for PS message */
+            animation: none; /* Remove sparkle animation for PS */
+        }
+
+        /* Heart emoji within choice buttons */
+        .choice-button .emoji {
+            font-size: 1em; /* Smaller emoji for buttons */
+            margin-left: 0.5rem;
+            animation: none; /* No pulse for button emojis */
+        }
+
+        /* Specific sparkle for the question heart */
+        .question-text .emoji {
+            animation: emojiPulse 1.8s infinite ease-in-out, textSparkle 1.8s infinite alternate ease-in-out;
         }
     </style>
 </head>
 <body>
-    <audio id="backgroundMusic" autoplay loop>
-        <source src="http://www.youtube.com/watch?v=Ic458P8NMew" type="audio/mp4">
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <button id="music-play-button">🎵</button>
 
     <div class="background-scenery">
         <div class="moon"></div>
         <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
         <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
     </div>
@@ -459,150 +127,21 @@
     <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
     <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
 
-
     <div class="container">
-        <h1 class="animated-heading">
-            <span>A</span><span>l</span><span>l</span><span> </span><span>A</span><span>b</span><span>o</span><span>u</span><span>t</span><span> </span><span>Y</span><span>o</span><span>u</span><span>,</span><span> </span><span>M</span><span>y</span><span> </span><span>L</span><span>o</span><span>v</span><span>e</span><span>!</span><span> 💖</span>
-        </h1>
+        <div class="question-text">
+            Reechita, would you do me the honor of <br>being my girlfriend? <span class="emoji">💖✨</span>
+        </div>
 
-        <p class="word-reveal-p">
-            <span class="glowing-text">From the moment I met you,</span> my world shifted. It was like finding a missing piece I never knew I was searching for. <span class="highlight">Every day since has been a beautiful discovery.</span> Your laughter, your kindness, your incredible strength – they all shine so brightly.
-        </p>
+        <div class="choices">
+            <a href="acknowledgement.html?response=yes" class="choice-button yes">YES! MY HEART SAYS YES! <span class="emoji">🤩</span></a>
+            <a href="acknowledgement.html?response=no" class="choice-button no">I'M SO SORRY, NO. <span class="emoji">😔</span></a>
+        </div>
 
-        <div class="section-break"></div>
-
-        <h2>Your Beautiful Spirit ✨</h2>
-        <p class="word-reveal-p">
-            I adore how <span class="glowing-text">you light up a room</span> just by being yourself. Your passion for life is contagious, and your ability to see the good in everything, even when things are tough, is truly inspiring. You have this <span class="highlight">gentle resilience</span> that makes you so unique and wonderful.
-        </p>
-
-        <div class="section-break"></div>
-
-        <h2>Our Shared Moments 💫</h2>
-        <p class="word-reveal-p">
-            Remember all those <span class="glowing-text">late-night talks</span>, the silly jokes, the quiet moments where we just existed together? Those are the memories I cherish most. They’re woven into the fabric of my heart, creating a tapestry of joy and comfort. <span class="highlight">Every shared glance, every soft touch, means the world to me.</span>
-        </p>
-
-        <div class="section-break"></div>
-
-        <h2>A Perfect Melody 🎶</h2>
-        <p class="char-reveal-lyrics">
-            "I found a love for me<br>
-            Darling, just dive right in<br>
-            And follow my lead<br>
-            Well, I found a girl, beautiful and sweet<br>
-            I never knew you were the someone waiting for me"<br>
-            <span class="glowing-text" style="font-family: 'Dancing Script', cursive; font-size: 1.1em; display: block; margin-top: 10px;">— Ed Sheeran, Perfect</span>
-        </p>
-
-        <div class="section-break"></div>
-
-        <h2>My Promise to You 💖</h2>
-        <p class="word-reveal-p">
-            You are more than just a person to me; you are my <span class="highlight">safe harbor, my greatest adventure, and my deepest peace.</span> I promise to always be there for you, to support your dreams, to wipe away your tears, and to celebrate every single one of your triumphs. My love for you grows stronger with each passing moment.
-        </p>
-        <p style="margin-bottom: 0;">
-            <span class="glowing-text">Thank you for being you, Reechita.</span> You are truly perfect in every way. ✨
-        </p>
-
-        <div class="button-container">
-            <a href="page3.html" class="button">And the Journey Continues... ❤️</a>
+        <div class="message-below">
+            <p>I genuinely hope you feel the same way, but either way, I value our connection and your friendship immensely. Your happiness is what matters most. 😊</p>
+            <p>(P.S. Sarthak wants you to know this comes straight from the heart. ❤️)</p>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Function to wrap text with spans for character/word animations
-            function wrapTextWithSpans(element, type) {
-                const text = element.textContent;
-                element.innerHTML = ''; // Clear original text
-                if (type === 'char') {
-                    text.split('').forEach((char, index) => {
-                        const span = document.createElement('span');
-                        span.textContent = char;
-                        span.style.animationDelay = `${index * 0.03}s`; // Stagger delay
-                        element.appendChild(span);
-                    });
-                } else if (type === 'word') {
-                    text.split(' ').forEach((word, index) => {
-                        const span = document.createElement('span');
-                        span.textContent = word + ' '; // Add space back
-                        span.style.animationDelay = `${index * 0.08}s`; // Stagger delay
-                        element.appendChild(span);
-                    });
-                }
-            }
-
-            // Apply character reveal to lyrics
-            document.querySelectorAll('.char-reveal-lyrics').forEach(el => {
-                wrapTextWithSpans(el, 'char');
-            });
-
-            // Apply word reveal to specific paragraphs
-            document.querySelectorAll('.word-reveal-p').forEach(el => {
-                wrapTextWithSpans(el, 'word');
-            });
-
-            // Animate main heading character by character
-            const mainHeading = document.querySelector('.animated-heading');
-            if (mainHeading) {
-                wrapTextWithSpans(mainHeading, 'char');
-            }
-
-            // Stagger all paragraphs (including those with word/char reveals)
-            const allParagraphs = document.querySelectorAll('p');
-            allParagraphs.forEach((p, index) => {
-                // Base delay for paragraphs to appear after the main heading
-                const baseDelay = 2.5; // After main heading animation
-                // Additional stagger for each paragraph
-                p.style.setProperty('--p-delay', `${baseDelay + (index * 0.5)}s`);
-                p.style.animation = `fadeInTextStaggered 1.5s ease-out forwards ${baseDelay + (index * 0.5)}s`;
-            });
-
-            // Background star drift setup
-            document.querySelectorAll('.star').forEach(star => {
-                star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300);
-                star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200);
-                star.style.animationDelay = `${Math.random() * 6}s`;
-                star.style.animationDuration = `${28 + Math.random() * 12}s`;
-            });
-
-            // Ethereal glows setup
-            document.querySelectorAll('.ethereal-glow').forEach(glow => {
-                glow.style.setProperty('--x', Math.random() * 100);
-                glow.style.setProperty('--y', Math.random() * 100);
-                glow.style.animationDelay = `${Math.random() * 10}s`;
-                glow.style.animationDuration = `${15 + Math.random() * 10}s`;
-                glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
-            });
-
-            // Particles setup
-            document.querySelectorAll('.particle').forEach(particle => {
-                particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
-                particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
-                particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
-                particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
-                particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
-                particle.style.animationDelay = `${Math.random() * 10}s`;
-                particle.style.animationDuration = `${10 + Math.random() * 10}s`;
-                particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
-            });
-
-            // Get the next button
-            const nextButton = document.querySelector('.button');
-
-            // Add event listener to the button to trigger heartbeat transition
-            if (nextButton) {
-                nextButton.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent default navigation
-                    const targetPage = nextButton.getAttribute('href');
-                    const transitionMessage = "Stepping closer to forever..."; // Message for the heartbeat screen
-
-                    // Redirect to transition.html with the target page as a parameter
-                    window.location.href = `transition.html?to=${encodeURIComponent(targetPage)}&message=${encodeURIComponent(transitionMessage)}`;
-                });
-            }
-        });
-    </script>
-</body>
+    <script src="script.js"></script> </body>
 </html>
