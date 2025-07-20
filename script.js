@@ -57,17 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, minDuration);
     }
 
-    // Inject background elements once per page load - CHECK ADDED HERE
-    const existingBackground = document.querySelector('.background-elements');
-    if (!existingBackground) { // Only inject if it doesn't already exist
-        const backgroundElementsContainer = document.createElement('div');
-        backgroundElementsContainer.classList.add('background-elements');
-        backgroundElementsContainer.innerHTML = `
-            <div class="moon"></div>
-            <div class="distant-scenery"></div>
-            <div class="water-shimmer"></div>
-        `;
-        // Add stars and particles
+    // Populate background elements (stars, glows, particles) into the existing container
+    const backgroundElementsContainer = document.querySelector('.background-elements');
+    if (backgroundElementsContainer) { // Ensure the static container exists in the HTML
+        // Add stars
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
@@ -81,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundElementsContainer.appendChild(star);
         }
 
+        // Add ethereal glows
         for (let i = 0; i < 30; i++) {
             const glow = document.createElement('div');
             glow.classList.add('ethereal-glow');
@@ -95,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundElementsContainer.appendChild(glow);
         }
 
+        // Add particles
         for (let i = 0; i < 60; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
@@ -108,8 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
             backgroundElementsContainer.appendChild(particle);
         }
-
-        document.body.prepend(backgroundElementsContainer);
     }
 
 
