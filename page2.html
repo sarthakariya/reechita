@@ -208,6 +208,7 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             perspective: 1000px;
+            animation-delay: 0.5s; /* Delay container pop-in slightly after page load */
         }
 
         @keyframes zoomInFade {
@@ -229,10 +230,10 @@
             animation: fadeIn 1s ease-out forwards;
         }
         /* Stagger the section breaks */
-        .section-break:nth-of-type(1) { animation-delay: 3s; } /* Adjusted */
-        .section-break:nth-of-type(2) { animation-delay: 6s; } /* Adjusted */
-        .section-break:nth-of-type(3) { animation-delay: 9s; } /* Adjusted */
-        .section-break:nth-of-type(4) { animation-delay: 12s; } /* Adjusted */
+        .section-break:nth-of-type(1) { animation-delay: 1.5s; } /* Appears quickly after container */
+        .section-break:nth-of-type(2) { animation-delay: 2.0s; } /* Appears quickly after container */
+        .section-break:nth-of-type(3) { animation-delay: 2.5s; } /* Appears quickly after container */
+        .section-break:nth-of-type(4) { animation-delay: 3.0s; } /* Appears quickly after container */
 
 
         h1 {
@@ -241,27 +242,11 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 2rem;
             text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
-            /* animation: textWave 1.5s ease-out 0.5s forwards; Removed, handled by span animation */
-            opacity: 0; /* Handled by span animation */
+            opacity: 1; /* Always visible */
             line-height: 1.2;
+            /* Removed animation */
         }
 
-        /* Animated Heading (main H1) */
-        .animated-heading span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px) rotateX(-90deg);
-            transform-origin: bottom;
-            animation: bounceInText3D 1.2s ease-out forwards;
-        }
-
-        @keyframes bounceInText3D {
-            0% { opacity: 0; transform: translateY(50px) rotateX(-90deg); }
-            60% { opacity: 1; transform: translateY(-5px) rotateX(10deg); }
-            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
-        }
-
-        /* New H2 Styling and Animation */
         h2 {
             font-family: 'Pacifico', cursive; /* A different elegant font for subheadings */
             color: var(--primary-accent); /* Pink accent for headings */
@@ -269,20 +254,10 @@
             margin-top: 3.5rem;
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.3);
-            opacity: 0;
-            transform: scale(0.8);
-            animation: headingPopIn 1s ease-out forwards;
+            opacity: 1; /* Always visible */
+            transform: scale(1); /* No scale animation */
+            /* Removed animation */
         }
-        @keyframes headingPopIn {
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        /* Stagger H2 animations */
-        h2:nth-of-type(1) { animation-delay: 2.5s; } /* Adjusted */
-        h2:nth-of-type(2) { animation-delay: 5.5s; } /* Adjusted */
-        h2:nth-of-type(3) { animation-delay: 8.5s; } /* Adjusted */
-        h2:nth-of-type(4) { animation-delay: 11.5s; } /* Adjusted */
-
 
         p {
             font-family: 'Lora', serif;
@@ -290,45 +265,13 @@
             line-height: 1.9;
             margin-bottom: 2.5rem;
             color: var(--text-light);
-            opacity: 0; /* Controlled by JS and child span animations */
+            opacity: 1; /* Always visible */
             text-align: justify;
             text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            /* Removed animation and span wrapping */
         }
 
-        /* Generic Fade In for text content - used if not using word/char reveal */
-        @keyframes fadeInTextContent {
-            from { opacity: 0; transform: translateY(1vh); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Word-by-word reveal for important paragraphs */
-        .word-reveal-p span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px) scale(0.9);
-            animation: fadeInWord 0.6s ease-out forwards; /* Slightly faster */
-            /* Staggering set by JS */
-        }
-
-        @keyframes fadeInWord {
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* Char-by-char reveal for song lyrics */
-        .char-reveal-lyrics span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInChar 0.3s ease-out forwards; /* Faster */
-            transform-origin: bottom center;
-            /* Staggering set by JS */
-        }
-        @keyframes fadeInChar {
-            0% { opacity: 0; transform: translateY(10px) rotateX(-90deg); }
-            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
-        }
-
-        /* Specific glowing text effects */
+        /* Specific glowing text effects - still active */
         .glowing-text {
             color: #FFB6C1; /* Light pink base */
             text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4);
@@ -365,7 +308,7 @@
             opacity: 0;
             transform: scale(0.9);
             animation: fadeInScaleButtons 1.5s ease-out forwards;
-            animation-delay: 15s; /* Adjusted delay for buttons to appear */
+            animation-delay: 3.5s; /* Buttons appear quickly after other content */
         }
 
         @keyframes fadeInScaleButtons {
@@ -394,7 +337,7 @@
             text-transform: uppercase;
         }
         /* Stagger button animation */
-        .button:first-child { animation-delay: 15.5s; } /* Adjusted delay based on overall content flow */
+        .button:first-child { animation-delay: 3.8s; } /* Adjusted delay based on overall content flow */
 
 
         @keyframes buttonPopIn {
@@ -497,32 +440,30 @@
 
 
     <div class="container">
-        <h1 class="animated-heading">
-            <span>A</span><span> </span><span>p</span><span>e</span><span>r</span><span>s</span><span>o</span><span>n</span><span> </span><span>w</span><span>h</span><span>o</span><span> </span><span>c</span><span>a</span><span>n</span><span> </span><span>m</span><span>a</span><span>k</span><span>e</span><span> </span><span>o</span><span>r</span><span>d</span><span>i</span><span>n</span><span>a</span><span>r</span><span>y</span><span> </span><span>t</span><span>o</span><span> </span><span>E</span><span>x</span><span>t</span><span>r</span><span>a</span><span>o</span><span>r</span><span>d</span><span>i</span><span>n</span><span>a</span><span>r</span><span>y</span><span>!</span><span>!</span><span>!</span><span> 💖</span>
-        </h1>
+        <h1>A person who can make ordinary to Extraordianry!!! 💖</h1>
 
-        <p class="word-reveal-p" data-delay="1.5">
+        <p>
             <span class="glowing-text">From the moment I met you,</span> my world shifted. It was like finding a missing piece I never knew I was searching for. <span class="highlight">Every day since has been a beautiful discovery.</span> Your laughter, your kindness, your incredible strength – they all shine so brightly.
         </p>
 
         <div class="section-break"></div>
 
-        <h2 data-delay="4.0">Your Beautiful Spirit ✨</h2>
-        <p class="word-reveal-p" data-delay="4.5">
+        <h2>Your Beautiful Spirit ✨</h2>
+        <p>
             I adore how <span class="glowing-text">you light up a room</span> just by being yourself. Your passion for life is contagious, and your ability to see the good in everything, even when things are tough, is truly inspiring. You have this <span class="highlight">gentle resilience</span> that makes you so unique and wonderful.
         </p>
 
         <div class="section-break"></div>
 
-        <h2 data-delay="7.0">Our Shared Moments 💫</h2>
-        <p class="word-reveal-p" data-delay="7.5">
-            Remember all those <span class="glowing-text">late-night talks</span>, the silly jokes, the quiet moments where we just existed together? Those are the memories I cherish most. They’re woven into the fabric of my heart, creating a tapestry of joy and comfort. <span class="highlight">Every shared glance, every soft touch, means the world to me.</span>
+        <h2>Our Shared Moments 💫</h2>
+        <p>
+            Remember all those <span class="glowing-text">late-night talks,</span> the silly jokes, the quiet moments where we just existed together? Those are the memories I cherish most. They’re woven into the fabric of my heart, creating a tapestry of joy and comfort. <span class="highlight">Every shared glance, every soft touch, means the world to me.</span>
         </p>
 
         <div class="section-break"></div>
 
-        <h2 data-delay="10.0">A Perfect Melody 🎶</h2>
-        <p class="char-reveal-lyrics" data-delay="10.5">
+        <h2>A Perfect Melody 🎶</h2>
+        <p>
             "I found a love for me<br>
             Darling, just dive right in<br>
             And follow my lead<br>
@@ -533,11 +474,11 @@
 
         <div class="section-break"></div>
 
-        <h2 data-delay="13.0">My Promise to You 💖</h2>
-        <p class="word-reveal-p" data-delay="13.5">
+        <h2>My Promise to You 💖</h2>
+        <p>
             You are more than just a person to me; you are my <span class="highlight">safe harbor, my greatest adventure, and my deepest peace.</span> I promise to always be there for you, to support your dreams, to wipe away your tears, and to celebrate every single one of your triumphs. My love for you grows stronger with each passing moment.
         </p>
-        <p data-delay="14.5" style="margin-bottom: 0;">
+        <p style="margin-bottom: 0;">
             <span class="glowing-text">Thank you for being you, Reechita.</span> You are truly perfect in every way. ✨
         </p>
 
@@ -575,56 +516,6 @@
             backgroundMusic.addEventListener('ended', () => {
                 musicPlayButton.textContent = '🎵';
                 musicPlayButton.classList.remove('playing');
-            });
-
-
-            // Function to wrap text with spans for character/word animations
-            function wrapTextWithSpans(element, type, baseDelay) {
-                const text = element.textContent;
-                element.innerHTML = ''; // Clear original text
-                if (type === 'char') {
-                    text.split('').forEach((char, index) => {
-                        const span = document.createElement('span');
-                        span.textContent = char;
-                        if (char === ' ') { // Maintain space width
-                            span.style.width = '0.5em'; 
-                        }
-                        span.style.animationDelay = `${baseDelay + (index * 0.03)}s`; // Stagger delay based on baseDelay
-                        element.appendChild(span);
-                    });
-                } else if (type === 'word') {
-                    text.split(' ').forEach((word, index) => {
-                        const span = document.createElement('span');
-                        span.textContent = word + ' '; // Add space back
-                        span.style.animationDelay = `${baseDelay + (index * 0.08)}s`; // Stagger delay based on baseDelay
-                        element.appendChild(span);
-                    });
-                }
-            }
-
-            // Animate main heading character by character
-            const mainHeading = document.querySelector('.animated-heading');
-            if (mainHeading) {
-                // The main heading already has a CSS animation delay for its container (zoomInFade).
-                // Let's assume its character animation starts slightly after the container becomes visible.
-                wrapTextWithSpans(mainHeading, 'char', 1.0); // Start char animation after 1.0s (container fade-in)
-            }
-
-            // Apply animations based on data-delay attributes
-            document.querySelectorAll('h2, p').forEach(el => {
-                const delay = parseFloat(el.dataset.delay);
-                if (!isNaN(delay)) {
-                    if (el.tagName === 'H2') {
-                        el.style.animation = `headingPopIn 1s ease-out forwards ${delay}s`;
-                    } else if (el.classList.contains('word-reveal-p')) {
-                        wrapTextWithSpans(el, 'word', delay);
-                    } else if (el.classList.contains('char-reveal-lyrics')) {
-                        wrapTextWithSpans(el, 'char', delay);
-                    } else {
-                        // For any other P tag that doesn't have word/char reveal
-                        el.style.animation = `fadeInTextContent 1.5s ease-out forwards ${delay}s`;
-                    }
-                }
             });
 
             // Background star drift setup
