@@ -120,7 +120,7 @@ body {
     width: 100%;
     height: 30%; /* Adjust as needed */
     /* Updated background image URL */
-    background: url('https://as2.ftcdn.net/v2/jpg/14/30/89/55/1000_F_1430895515_PnXMoB0IX2oocY6MPYL9J8KmbvC9z0FK.webp') repeat-x bottom center;
+    background: url('https://ibb.co/CpVfK2B5') repeat-x bottom center;
     background-size: contain;
     animation: sceneryParallax 120s linear infinite alternate;
     opacity: 0.6;
