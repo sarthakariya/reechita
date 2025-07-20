@@ -48,7 +48,8 @@
             background-color: var(--heart-color);
             transform: rotate(-45deg);
             box-shadow: 0 0 30px var(--heart-glow), 0 0 60px var(--heart-glow) inset;
-            animation: heartbeat 0.8s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
+            /* Initial much slower heartbeat */
+            animation: heartbeat 2.5s infinite cubic-bezier(0.65, 0.05, 0.36, 1); /* Slower initial beat */
         }
 
         .heart::before,
@@ -188,23 +189,34 @@
 
             transitionMessageDiv.textContent = message;
 
-            // Animate heartbeat speed (visual effect)
             const heart = document.querySelector('.heart');
-            let animationDuration = 0.8; // Initial duration
-            const minDuration = 0.3; // Fastest heartbeat
-            const totalTime = 2500; // Total transition time in ms
+            let animationDuration = 2.5; // Initial *very* slow duration (2.5 seconds per beat)
+            const minDuration = 0.6; // Fastest heartbeat it will reach
+            const totalTime = 7000; // Total transition time in ms (7 seconds) for a long, slow transition
 
             let elapsed = 0;
-            const interval = 50;
+            const interval = 50; // Update every 50ms
 
             const speedUpHeartbeat = setInterval(() => {
                 elapsed += interval;
                 if (elapsed >= totalTime) {
                     clearInterval(speedUpHeartbeat);
-                    window.location.href = nextPage; // Navigate after transition
+                    // Ensure the heartbeat animation duration is set to its final state before navigating
+                    heart.style.animationDuration = `${minDuration}s`;
+                    
+                    // Proceed to the next page
+                    if (nextPage) {
+                        window.location.href = nextPage;
+                    } else {
+                        console.error("Next page URL is missing!");
+                        // Fallback to a default page or show an error
+                        // window.location.href = 'index.html'; // Example fallback
+                    }
                 } else {
-                    animationDuration = 0.8 - (0.5 * (elapsed / totalTime)); // Speed up by 0.5s over totalTime
-                    if (animationDuration < minDuration) animationDuration = minDuration;
+                    // Gradual speed up from initialDuration to minDuration over totalTime
+                    // Linear interpolation for duration: newDuration = start + (end - start) * (progress)
+                    animationDuration = 2.5 + (minDuration - 2.5) * (elapsed / totalTime); 
+                    if (animationDuration < minDuration) animationDuration = minDuration; // Cap at minDuration
                     heart.style.animationDuration = `${animationDuration}s`;
                 }
             }, interval);
