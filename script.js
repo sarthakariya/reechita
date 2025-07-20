@@ -1,12 +1,13 @@
-]// script.js
+// script.js
 
 document.addEventListener('DOMContentLoaded', () => {
     // Preloader logic (Updated for progress bar and 5-second minimum)
     const preloader = document.getElementById('preloader');
     const indexProgressBar = document.getElementById('indexProgressBar'); // Get the new progress bar element
     const indexProgressText = document.getElementById('indexProgressText'); // Get the new progress text element
+    const container = document.querySelector('.container'); // Get the main content container
 
-    if (preloader && indexProgressBar && indexProgressText) {
+    if (preloader && indexProgressBar && indexProgressText && container) { // Ensure all elements exist
         let pageLoaded = false;
         let minimumTimeElapsed = false;
         let currentProgress = 0; // For the progress bar
@@ -18,9 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 indexProgressBar.style.width = '100%';
                 indexProgressText.textContent = '100%';
 
-                preloader.classList.add('hidden'); // Add class to trigger CSS fade-out
+                // Start hiding preloader and showing main content simultaneously
+                preloader.classList.add('hidden'); // Add class to trigger CSS fade-out for preloader
+                container.classList.add('visible-content'); // Add class to make container visible and animate it
+
                 preloader.addEventListener('transitionend', () => {
-                    preloader.remove(); // Remove from DOM after animation
+                    preloader.remove(); // Remove preloader from DOM after its fade-out animation
                 }, { once: true }); // Ensure listener is only called once
             }
         };
@@ -50,12 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, intervalDuration);
 
         // Fallback to ensure minimumTimeElapsed is set after 5 seconds
-        // in case the interval for some reason clears early or is delayed.
         setTimeout(() => {
             minimumTimeElapsed = true;
             hidePreloader();
         }, minDuration);
     }
+
 
     // Populate background elements (stars, glows, particles) into the existing container
     const backgroundElementsContainer = document.querySelector('.background-elements');
