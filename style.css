@@ -80,7 +80,7 @@ body {
     left: 0;
     width: 100%;
     height: 30%; /* Adjust as needed */
-    background: url('https://i.pinimg.com/1200x/97/16/c1/9716c10e7baf5ae1de227cad48fae96d.jpg') repeat-x bottom center / contain; /* Distant city/mountains */
+    background: url('image_26565d.png') repeat-x bottom center / contain; /* Distant city/mountains */
     background-position: 0% 100%; /* Ensure it aligns to the bottom */
     filter: brightness(0.6) contrast(1.2); /* Make it dark and silhouette-like */
     animation: sceneryDrift 120s linear infinite;
@@ -88,7 +88,7 @@ body {
 
 @keyframes sceneryDrift {
     0% { background-position: 0% 100%; }
-    100% { background-position: 100% 100%; } /* Drift horizontally */
+    100% { background-position: 100% 100%; }
 }
 
 .water-shimmer {
@@ -437,7 +437,7 @@ p {
 }
 
 /* NEW ANIMATIONS */
-@keyframes heartBeat { /* Already defined, but now used on h1 with 5s duration */
+@keyframes heartBeat { /* Applied to h1 */
     0% { transform: scale(1); }
     14% { transform: scale(1.3); }
     28% { transform: scale(1); }
