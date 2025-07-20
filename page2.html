@@ -458,7 +458,7 @@
 
 
     <div class="container">
-        <h1>💫 When My mind Learned Your Name...</h1>
+        <h1>A person who can make ordinary to Extraordinary!!!</h1>
 
         <p>
             Ahemm… okay… so where do I even begin? 👀 Okay let's start with the time I met with you... First day, playing UNO with you... Never thaught that that moment will be the start or something Lovely... From then on, the ordinary felt a little too ordinary without you. Yk that feeling when something small makes your day better? Yeah… for me, that's <span class="highlight">you!!!</span>
@@ -561,7 +561,19 @@
             const backgroundMusic = document.getElementById('backgroundMusic');
             const musicPlayButton = document.getElementById('music-play-button');
 
-            // Try to play music on button click
+            // Attempt to play music automatically when the page loads
+            // This might be blocked by browsers, so the button is the fallback.
+            backgroundMusic.play()
+                .then(() => {
+                    musicPlayButton.textContent = '⏸️'; // Change to pause icon
+                    musicPlayButton.classList.add('playing');
+                })
+                .catch(error => {
+                    console.warn("Autoplay prevented:", error);
+                    // If autoplay is prevented, the button will remain '🎵' and user can click it.
+                });
+
+            // Handle button click for play/pause
             musicPlayButton.addEventListener('click', () => {
                 if (backgroundMusic.paused) {
                     backgroundMusic.play()
@@ -570,7 +582,7 @@
                             musicPlayButton.classList.add('playing');
                         })
                         .catch(error => {
-                            console.error("Autoplay prevented:", error);
+                            console.error("Manual play prevented:", error);
                             alert("Please allow media playback in your browser settings to hear the music!");
                         });
                 } else {
