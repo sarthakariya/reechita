@@ -1,4 +1,4 @@
-// script.js
+]// script.js
 
 document.addEventListener('DOMContentLoaded', () => {
     // Preloader logic (Updated for progress bar and 5-second minimum)
