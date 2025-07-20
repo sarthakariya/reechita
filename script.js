@@ -1,6 +1,59 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Inject background elements once per page load
+    const backgroundElementsContainer = document.createElement('div');
+    backgroundElementsContainer.classList.add('background-elements');
+    backgroundElementsContainer.innerHTML = `
+        <div class="moon"></div>
+        <div class="distant-scenery"></div>
+        <div class="water-shimmer"></div>
+    `;
+    // Add stars and particles
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
+        star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
+        star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
+        star.style.animationDelay = `${Math.random() * 6}s`;
+        backgroundElementsContainer.appendChild(star);
+    }
+
+    for (let i = 0; i < 30; i++) {
+        const glow = document.createElement('div');
+        glow.classList.add('ethereal-glow');
+        glow.style.setProperty('--x', Math.random() * 100);
+        glow.style.setProperty('--y', Math.random() * 100);
+        glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
+        glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
+        glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
+        glow.style.animationDelay = `${Math.random() * 10}s`;
+        glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
+        glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
+        backgroundElementsContainer.appendChild(glow);
+    }
+
+    for (let i = 0; i < 60; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
+        particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
+        particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
+        particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
+        particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
+        particle.style.animationDelay = `${Math.random() * 10}s`;
+        particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
+        particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
+        backgroundElementsContainer.appendChild(particle);
+    }
+
+    document.body.prepend(backgroundElementsContainer);
+
+
     // Music Playback Logic (now conditional)
     const backgroundMusic = document.getElementById('backgroundMusic');
     const musicPlayButton = document.getElementById('music-play-button');
@@ -61,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(musicPlaybackTimeKey, backgroundMusic.currentTime.toString());
                 localStorage.setItem(isMusicPlayingKey, 'true'); // Ensure state is saved as playing
             } else {
-                 localStorage.setItem(isMusicPlayingKey, 'false'); // Ensure state is saved as paused
+                localStorage.setItem(isMusicPlayingKey, 'false'); // Ensure state is saved as paused
             }
         });
 
@@ -74,34 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } // End of conditional music logic
 
 
-    // Background star drift setup
-    document.querySelectorAll('.star').forEach(star => {
-        star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300);
-        star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200);
-        star.style.animationDelay = `${Math.random() * 6}s`;
-        star.style.animationDuration = `${28 + Math.random() * 12}s`;
+    // Staggered text and section-break animations
+    const elementsToAnimate = document.querySelectorAll('p, .section-break');
+    elementsToAnimate.forEach((el, index) => {
+        el.style.animationDelay = `${0.5 + index * 0.2}s`;
+        el.style.animationFillMode = 'forwards'; // Keep the end state of the animation
     });
 
-    // Ethereal glows setup
-    document.querySelectorAll('.ethereal-glow').forEach(glow => {
-        glow.style.setProperty('--x', Math.random() * 100);
-        glow.style.setProperty('--y', Math.random() * 100);
-        glow.style.animationDelay = `${Math.random() * 10}s`;
-        glow.style.animationDuration = `${15 + Math.random() * 10}s`;
-        glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
-    });
-
-    // Particle Effect
-    document.querySelectorAll('.particle').forEach(particle => {
-        particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
-        particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
-        particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
-        particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
-        particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
-        particle.style.animationDelay = `${Math.random() * 10}s`;
-        particle.style.animationDuration = `${10 + Math.random() * 10}s`;
-        particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
-    });
 
     // Universal transition button logic
     document.querySelectorAll('.button').forEach(button => {
@@ -114,11 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let transitionMessage = "Loading..."; // Default message
 
             if (button.id === "acknowledgement-button") {
-                 transitionMessage = "Unveiling the next chapter..."; // Specific message for one button
+                transitionMessage = "Unveiling the next chapter..."; // Specific message for one button
             } else if (button.id === "last-button") {
-                 transitionMessage = "Thank You!"; // Specific message for another
+                transitionMessage = "Thank You!"; // Specific message for another
             } else if (button.id === "index-button") {
-                 transitionMessage = "Heading back home...";
+                transitionMessage = "Heading back home...";
             }
             else {
                 transitionMessage = "Stepping closer to forever...";
