@@ -227,7 +227,19 @@ body {
     position: relative;
     z-index: 1; /* Ensure content is above background elements */
     overflow: hidden; /* For inner animations */
+    
+    /* === IMPORTANT ADDITIONS FOR PRELOADER FIX === */
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px) scale(0.95); /* Start slightly off and scaled down for entrance effect */
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out; /* Smooth transition */
 }
+
+/* === NEW RULE TO REVEAL THE MAIN CONTENT CONTAINER === */
+.container.visible-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
@@ -544,8 +556,6 @@ p {
     opacity: 0;
     pointer-events: none; /* Make it unclickable when hidden */
 }
-
-/* Spinner was removed. Progress bar styles are now applied to the .progress-bar-container within #preloader */
 
 .preloader-message {
     font-family: 'Great Vibes', cursive;
