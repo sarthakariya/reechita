@@ -234,10 +234,10 @@
             animation: fadeIn 1s ease-out forwards;
         }
         /* Stagger the section breaks */
-        .section-break:nth-of-type(1) { animation-delay: 4.5s; } /* Adjusted delay based on new text animations */
-        .section-break:nth-of-type(2) { animation-delay: 8s; } /* Adjusted delay */
-        .section-break:nth-of-type(3) { animation-delay: 11.5s; } /* Adjusted delay */
-        .section-break:nth-of-type(4) { animation-delay: 15s; } /* Adjusted delay */
+        .section-break:nth-of-type(1) { animation-delay: 2.5s; } /* Adjusted delay based on new content flow */
+        .section-break:nth-of-type(2) { animation-delay: 3.5s; }
+        .section-break:nth-of-type(3) { animation-delay: 4.5s; }
+        .section-break:nth-of-type(4) { animation-delay: 5.5s; }
 
 
         h1 {
@@ -262,19 +262,9 @@
             margin-top: 3.5rem;
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.3);
-            opacity: 0; /* Start hidden for animation */
-            animation: slideInFromLeft 1s ease-out forwards; /* Slide in for subheadings */
+            opacity: 1; /* Always visible */
+            /* Removed animation */
         }
-        h2:nth-of-type(1) { animation-delay: 7s; } /* Stagger h2 animations */
-        h2:nth-of-type(2) { animation-delay: 10.5s; }
-        h2:nth-of-type(3) { animation-delay: 14s; }
-        h2:nth-of-type(4) { animation-delay: 17.5s; }
-
-        @keyframes slideInFromLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
 
         p {
             font-family: 'Lora', serif;
@@ -282,33 +272,10 @@
             line-height: 1.9;
             margin-bottom: 2.5rem;
             color: var(--text-light);
+            opacity: 1; /* Always visible */
             text-align: justify;
             text-shadow: 0 0 5px rgba(0,0,0,0.2);
-        }
-
-        /* Text animation for paragraphs */
-        .animated-text {
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
-        .word-by-word .word {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: wordPopIn 0.6s ease-out forwards;
-        }
-        @keyframes wordPopIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .char-by-char .char {
-            display: inline-block;
-            opacity: 0;
-            transform: scale(0.8);
-            animation: charFadeIn 0.3s ease-out forwards;
-        }
-        @keyframes charFadeIn {
-            to { opacity: 1; transform: scale(1); }
+            /* Removed animation and span wrapping */
         }
 
         /* Specific glowing text effects - still active */
@@ -360,7 +327,7 @@
             opacity: 0;
             transform: scale(0.9);
             animation: fadeInScaleButtons 1.5s ease-out forwards;
-            animation-delay: 20s; /* Buttons appear after all text */
+            animation-delay: 6s; /* Buttons appear quickly after content */
         }
 
         @keyframes fadeInScaleButtons {
@@ -389,7 +356,7 @@
             text-transform: uppercase;
         }
         /* Stagger button animation */
-        .button:first-child { animation-delay: 20.5s; } /* Adjusted delay based on overall content flow */
+        .button:first-child { animation-delay: 6.3s; } /* Adjusted delay based on overall content flow */
 
 
         @keyframes buttonPopIn {
@@ -495,93 +462,93 @@
     <div class="container">
         <h1>💫 When My mind Learned Your Name...</h1>
 
-        <p class="animated-text" style="animation-delay: 2.5s;">
+        <p>
             Ahemm… okay… so where do I even begin? 👀 Okay let's start with the time I met with you... First day, playing UNO with you... Never thaught that that moment will be the start or something Lovely... From then on, the ordinary felt a little too ordinary without you. Yk that feeling when something small makes your day better? Yeah… for me, that's <span class="highlight">you!!!</span>
         </p>
-        <p class="animated-text" style="animation-delay: 3.5s;">
+        <p>
             Like that song plays in my head every morning:
-            <span class="char-by-char" style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"Tum Se Hi Din Shuru Hota Hai…" 🎶</span> and ends with <span class="glowing-purple">"Raataan Lambiyan"</span>...
+            <span style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"Tum Se Hi Din Shuru Hota Hai…" 🎶</span> and ends with <span class="glowing-purple">"Raataan Lambiyan"</span>...
         </p>
 
         <div class="section-break"></div>
 
         <h2>🥺 You’re just the Definition of Beautiful…</h2>
-        <p class="animated-text" style="animation-delay: 7.5s;">
+        <p>
             People say beauty is what we see, but I think I found beauty that I can feel... <span class="glowing-text">in YOU</span> 💗
         </p>
-        <p class="animated-text" style="animation-delay: 8.5s;">
+        <p>
             Your cuteness? <span class="highlight">Dangerous. 🌚</span>
             But your heart? That’s what makes you unforgettable...
             From your little shy smiles… to the “ahemmm~~” moments 🌚✨, to how you notice small things about me… It’s like you’re made of all the things that matter to me...
         </p>
-        <p class="char-by-char" style="animation-delay: 9.5s; display: block;">
+        <p>
             Every time you look at me, even for a second, it’s like:
             <span style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"Baby, I'm dancin' in the dark with you between my arms</span>
             <span style="display: block; font-family: 'Dancing Script', cursive; font-size: 1.1em;">Barefoot on the grass while listenin' to our favourite song</span>
             <span style="display: block; font-family: 'Dancing Script', cursive; font-size: 1.1em;">When you said you looked a mess, I whispered underneath my breath</span>
             <span style="display: block; font-family: 'Dancing Script', cursive; font-size: 1.1em;">But you heard it, "Darling, you look perfect tonight"" 🎶💞</span>
         </p>
-        <p class="animated-text" style="animation-delay: 10.5s;">
+        <p>
             Because somehow, loving you started feeling <span class="glowing-purple">natural…</span>
         </p>
 
         <div class="section-break"></div>
 
         <h2>☀️ You’re My Calm… And you are My Chaos tooo</h2>
-        <p class="animated-text" style="animation-delay: 12s;">
+        <p>
             Sometimes I wonder how just hearing from you turns my worst days into ones I am going to remember. 🥹 Every conversation with you feels like <span class="highlight">magic trapped in seconds…</span>
         </p>
-        <p class="animated-text" style="animation-delay: 13s;">
+        <p>
             I still don’t know how you became "this", so maybe that’s why I keep thinking:
-            <span class="char-by-char" style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"Tera Ban Jaunga…" 🎵</span>
+            <span style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"Tera Ban Jaunga…" 🎵</span>
         </p>
-        <p class="animated-text" style="animation-delay: 14s;">
+        <p>
             Because in my mind, I already belong to you… quietly, hopelessly, willingly.
         </p>
 
         <div class="section-break"></div>
 
         <h2>🌙 So, Here's My Silly Little Wish…</h2>
-        <p class="animated-text" style="animation-delay: 15.5s;">
+        <p>
             I wish to walk beside you… not just today, not just tomorrow… but for a <span class="glowing-text">lifetime... 🌸</span>
         </p>
-        <p class="animated-text" style="animation-delay: 16.5s;">
+        <p>
             To keep seeing that smile…
             To keep hearing those tiny giggles…
             To keep being your reason to blush just once more.
         </p>
-        <p class="animated-text" style="animation-delay: 17.5s;">
+        <p>
             You’re not just someone I admire.
             You’re not just someone I like.
             You're someone I could <span class="highlight">fall for completely…</span>
         </p>
-        <p class="animated-text" style="animation-delay: 18.5s;">
+        <p>
             Maybe I already have.
         </p>
 
         <div class="section-break"></div>
 
         <h2>💖 In Short… You’re My Favourite Song.</h2>
-        <p class="animated-text" style="animation-delay: 19s;">
+        <p>
             And if I had to sum this up like the perfect lyrics… it’d be:
-            <span class="char-by-char" style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"When I look into your eyes, it’s like watching the night sky… or a beautiful sunrise…" ✨</span>
+            <span style="display: block; margin-top: 10px; font-family: 'Dancing Script', cursive; font-size: 1.1em;">"When I look into your eyes, it’s like watching the night sky… or a beautiful sunrise…" ✨</span>
         </p>
-        <p class="animated-text" style="animation-delay: 19.5s;">
+        <p>
             Because that’s what you are to me.
             My sunrise after endless nights.
         </p>
 
         <h2>🔐 So… Shall We Continue? 😳</h2>
-        <p class="animated-text" style="animation-delay: 20s; margin-bottom: 0;">
+        <p style="margin-bottom: 0;">
             Ahemmmm~ 🌚
         </p>
-        <p class="animated-text" style="animation-delay: 20.2s; margin-bottom: 0;">
+        <p style="margin-bottom: 0;">
             Click that button and take my hand...
         </p>
-        <p class="animated-text" style="animation-delay: 20.4s; margin-bottom: 0;">
+        <p style="margin-bottom: 0;">
             Because someone’s waiting on the other side…
         </p>
-        <p class="animated-text" style="animation-delay: 20.6s; margin-bottom: 0;">
+        <p style="margin-bottom: 0;">
             Someone who’s dreaming of calling you his forever.
         </p>
 
@@ -648,47 +615,6 @@
                 particle.style.animationDelay = `${Math.random() * 10}s`;
                 particle.style.animationDuration = `${10 + Math.random() * 10}s`;
                 particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
-            });
-
-            // Function to wrap words for word-by-word animation
-            function wrapWords(element) {
-                const text = element.textContent;
-                element.innerHTML = '';
-                text.split(' ').forEach((word, index) => {
-                    const span = document.createElement('span');
-                    span.textContent = word + ' ';
-                    span.classList.add('word');
-                    span.style.animationDelay = `${(parseFloat(element.style.animationDelay || 0) + index * 0.08)}s`;
-                    element.appendChild(span);
-                });
-            }
-
-            // Function to wrap characters for character-by-character animation
-            function wrapCharacters(element) {
-                const text = element.textContent;
-                element.innerHTML = '';
-                text.split('').forEach((char, index) => {
-                    const span = document.createElement('span');
-                    span.textContent = char;
-                    span.classList.add('char');
-                    span.style.animationDelay = `${(parseFloat(element.style.animationDelay || 0) + index * 0.03)}s`;
-                    element.appendChild(span);
-                });
-            }
-
-            // Apply word-by-word or character-by-character animations based on class
-            document.querySelectorAll('p.animated-text').forEach(p => {
-                if (p.classList.contains('word-by-word')) {
-                    wrapWords(p);
-                } else if (p.classList.contains('char-by-char')) {
-                    wrapCharacters(p);
-                }
-                // For simple fadeIn, no wrapping needed, just the class and delay
-            });
-
-            // Apply character-by-character to specific spans within paragraphs
-            document.querySelectorAll('p .char-by-char').forEach(span => {
-                wrapCharacters(span);
             });
 
             // Get the next button
