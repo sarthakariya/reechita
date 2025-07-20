@@ -3,458 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💌 Your Answer... 💖</title>
+    <title>Your Response 💝</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Dark Elegant Theme Colors - Consistent with other pages */
-            --bg-gradient-start: #0a0712; /* Even darker base */
-            --bg-gradient-end: #1c0b2e;   /* Deeper, muted purple */
-            --container-bg: rgba(30, 15, 50, 0.75); /* MORE transparent dark container (0.75) */
-            --text-light: #e0e0e0; /* Light gray for general text */
-            --text-heading: #FFD700; /* Soft Gold for main headings */
-            --primary-accent: #FF69B4; /* Hot Pink */
-            --secondary-accent: #8A2BE2; /* Blue Violet */
-            --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.5);
-
-            --button-back-start: #6A5ACD; /* Slate Blue */
-            --button-back-end: #8A2BE2;   /* Blue Violet */
-
-            font-size: 16px; /* Base font size for rem units */
-        }
-
-        body {
-            font-family: 'Lora', serif; /* Elegant body font - CHANGED TO LORA */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-            color: var(--text-light);
-            text-align: center;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* --- Background Scenery --- */
-        .background-scenery {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3; /* Behind everything */
-        }
-
-        .moon {
-            position: absolute;
-            top: 10%;
-            right: 15%;
-            width: clamp(60px, 8vw, 80px); /* Responsive moon size */
-            height: clamp(60px, 8vw, 80px);
-            border-radius: 50%;
-            background-color: #fff8db; /* Soft, warm moon color */
-            box-shadow: 0 0 30px #fff8db, 0 0 80px #fff8db inset;
-            opacity: 0.7;
-        }
-
-        .star {
-            position: absolute;
-            background-color: #ffffff;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: twinkle 2s infinite alternate;
-        }
-        /* Specific positions for stars */
-        .star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; }
-        .star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; }
-        .star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; }
-        .star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; }
-        .star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; }
-        .star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; }
-
-
-        @keyframes twinkle {
-            from { opacity: 0.6; }
-            to { opacity: 1; }
-        }
-
-        /* Enhanced Distant Scenery (Mountains & Subtle Water) */
-        .distant-scenery {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 250px; /* More height for scenery */
-            background: 
-                linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), /* Dark gradient overlay for depth */
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,150 L600,180 L750,140 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom; /* SVG for mountain peaks with blur */
-            background-size: cover, 100% 100%;
-            pointer-events: none;
-            z-index: -2;
-            transform: translateY(50px); /* Start slightly off-screen */
-        }
-        
-        /* Subtle Water Reflection/Shimmer at the very bottom */
-        .water-shimmer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px; /* Height of the water area */
-            background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
-            box-shadow: 0 0 50px rgba(80, 0, 120, 0.5); /* Subtle glow from water */
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: -1;
-            animation: waterFlow 15s linear infinite;
-        }
-
-        @keyframes waterFlow {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 0%; }
-        }
-
-        /* NEW: Soft Pulse Glow for acknowledgement.html */
-        .soft-pulse-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: clamp(200px, 40vw, 400px);
-            height: clamp(200px, 40vw, 400px);
-            background: radial-gradient(circle at center, rgba(255, 105, 180, 0.2) 0%, rgba(255, 105, 180, 0) 70%); /* Pink glow */
-            border-radius: 50%;
-            filter: blur(30px);
-            pointer-events: none;
-            z-index: -2; /* Between background and content */
-            animation: pulseFade 10s infinite ease-in-out alternate;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes pulseFade {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
-            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
-        }
-
-        /* --- Loading Screen Styles (Added for Page 4) --- */
-        #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #07050e 0%, #290f3b 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            color: white;
-            transition: opacity 1s ease-out;
-        }
-
-        #loading-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-text {
-            font-family: 'Dancing Script', cursive; /* Applied cursive font */
-            font-size: clamp(2.2rem, 5.5vw, 3.8rem);
-            margin-top: 1rem;
-            color: var(--text-heading);
-            animation: textFadeIn 1.5s ease-out 0.5s forwards;
-            opacity: 0;
-        }
-
-        .loading-subtitle {
-            font-family: 'Lora', serif; /* Applied serif font for readability - CHANGED TO LORA */
-            font-size: clamp(0.9rem, 2vw, 1.3rem);
-            margin-top: 0.5rem;
-            color: rgba(224, 224, 224, 0.8);
-            animation: textFadeIn 1.5s ease-out 1s forwards;
-            opacity: 0;
-        }
-
-        .progress-bar-container {
-            width: clamp(20rem, 70vw, 40rem);
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            height: 1.2rem;
-            margin-top: 2.5rem;
-            overflow: hidden;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1.5s ease-out 1.5s forwards;
-            opacity: 0;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
-            border-radius: 10px;
-            transition: width 0.05s linear; /* Fast transition */
-        }
-
-        .progress-percentage {
-            font-size: clamp(0.8rem, 2vw, 1.1rem);
-            margin-top: 0.5rem;
-            color: rgba(224, 224, 224, 0.9);
-            animation: fadeIn 1.5s ease-out 2s forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes textFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Main Content Styles --- */
+    <link rel="stylesheet" href="style.css"> <style>
+        /* Specific styles for acknowledgement.html */
         .container {
-            background-color: var(--container-bg);
-            padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(3rem, 6.5vw, 4.5rem); /* Smaller padding */
-            border-radius: 30px;
-            box-shadow: var(--shadow-deep);
-            max-width: 50rem; /* Slightly smaller max-width */
-            width: 90%;
-            margin: 5vh auto;
-            transform: scale(0.8);
-            opacity: 0;
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out; /* For JS activation */
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            pointer-events: none; /* Hidden until active */
+            text-align: center;
         }
 
-        .container.active { /* For loading screen reveal */
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        h1 {
-            font-family: 'Dancing Script', cursive; /* Applied cursive font */
-            color: var(--text-heading); /* Soft Gold for contrast */
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem); /* Adjusted font size */
+        .response-heading {
+            font-family: 'Great Vibes', cursive;
+            color: var(--text-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 2rem;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
             line-height: 1.2;
             opacity: 0;
-            animation: bounceIn 1s ease-out forwards; /* New animation for heading */
-            animation-delay: 0.2s; /* Appears after container active */
+            animation: fadeInScale 1.5s ease-out forwards 0.5s;
         }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        p {
-            font-family: 'Lora', serif; /* Applied serif font for readability - CHANGED TO LORA */
-            font-size: clamp(0.9rem, 1.7vw, 1.2rem); /* Adjusted font size */
+        .response-message {
+            font-family: 'Lora', serif;
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
             line-height: 1.8;
-            margin-bottom: 2rem; /* Reduced margin-bottom */
+            margin-bottom: 3rem;
             color: var(--text-light);
             opacity: 0;
-            animation: slideInUp 1s ease-out forwards; /* New animation for paragraph */
-            animation-delay: 0.8s; /* Appears after heading */
+            animation: fadeIn 1.5s ease-out forwards 1s;
         }
 
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .emoji {
-            vertical-align: middle;
-            margin: 0 0.25rem;
-            font-size: 1.2em;
-        }
-
-        .button-container {
-            margin-top: 2.5rem; /* Adjusted margin */
+        .final-button {
+            margin-top: 3.5rem;
             opacity: 0;
-            transform: translateY(2vh);
-            animation: fadeInScaleButtons 1s ease-out forwards; /* Appears after text */
-            animation-delay: 1.5s;
-        }
-
-        @keyframes fadeInScaleButtons {
-            from { opacity: 0; transform: translateY(3vh) scale(0.9); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .button {
-            display: inline-block;
-            padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); /* Smaller padding */
-            font-size: clamp(1rem, 2.2vw, 1.3rem); /* Smaller font size */
-            font-weight: 700;
-            color: var(--text-light); /* Light text on dark button */
-            border: none;
-            border-radius: 40px; /* Slightly smaller border radius */
-            text-decoration: none;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Smaller shadow */
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .button.back {
-            background: linear-gradient(45deg, var(--button-back-start), var(--button-back-end));
-            box-shadow: 0 8px 15px rgba(106, 90, 205, 0.4);
-        }
-
-        .button.back:hover {
-            background: linear-gradient(45deg, var(--button-back-end), #9370DB); /* Medium Purple */
-            transform: translateY(-0.15rem) scale(1.02); /* Smaller hover effect */
-            box-shadow: 0 10px 20px rgba(106, 90, 205, 0.6);
-        }
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2); /* Lighter shimmer effect */
-            border-radius: 50%;
-            transition: all 0.5s ease;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-        }
-
-        .button:hover::before {
-            width: 250%;
-            height: 250%;
-            opacity: 0;
-        }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); }
-            p { font-size: clamp(0.85rem, 2.3vw, 1.15rem); }
-            .button { font-size: clamp(0.95rem, 3.2vw, 1.25rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
-            .container { padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); }
-        }
-        @media (max-width: 480px) {
-            h1 { font-size: clamp(1.8rem, 6.5vw, 2.8rem); }
-            p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
-            .button { font-size: clamp(0.9rem, 3.8vw, 1.2rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
-            .container { padding: clamp(1.2rem, 3vw, 2.2rem) clamp(2rem, 4.5vw, 3rem); }
+            animation: fadeInScaleButtons 1.5s ease-out forwards 1.5s;
         }
     </style>
 </head>
 <body>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="music-play-button">🎵</button>
+
     <div class="background-scenery">
         <div class="moon"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="distant-scenery"></div> <div class="water-shimmer"></div> </div>
-    <div class="soft-pulse-glow"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="distant-scenery"></div>
+        <div class="water-shimmer"></div>
+    </div>
 
-    <div id="loading-overlay">
-        <div class="loading-text">Getting your response...</div>
-        <div class="loading-subtitle">The next chapter begins now. ✨</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBar"></div>
+    <div class="ethereal-glow" style="--x: 10; --y: 20; width: 150px; height: 150px; animation-delay: 0s;"></div>
+    <div class="ethereal-glow" style="--x: 70; --y: 50; width: 200px; height: 200px; animation-delay: 5s;"></div>
+    <div class="ethereal-glow" style="--x: 30; --y: 80; width: 100px; height: 100px; animation-delay: 10s;"></div>
+
+    <div class="particle" style="top: 20%; left: 15%; width: 3px; height: 3px; --p-x: 15vw; --p-y: 20vh; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
+    <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-x: 80vw; --p-y: 50vh; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
+    <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
+    <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
+
+    <div class="container">
+        <div class="response-heading" id="responseHeading"></div>
+        <div class="response-message" id="responseMessage"></div>
+        <div class="final-button">
+            <a href="index.html" class="button" id="last-button">AND THE JOURNEY CONTINUES... <span class="emoji">💖</span></a>
         </div>
-        <div class="progress-percentage" id="progressPercentage">0%</div>
     </div>
 
     <script>
-        // JavaScript for Loading Screen Logic (on acknowledgment page)
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const progressBar = document.getElementById('progressBar');
-            const progressPercentage = document.getElementById('progressPercentage');
-            const mainContainer = document.querySelector('.container');
-
-            let progress = 0;
-            const updateInterval = 30; // Fast update for fast pace
-            const progressDuration = 2000; // Total duration for progress bar to fill (2 seconds)
-            const steps = progressDuration / updateInterval;
-            const increment = 100 / steps;
-
-            // Immediately start progress bar if directly navigated to
-            const loadingInterval = setInterval(() => {
-                progress += increment;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(loadingInterval);
-
-                    progressBar.style.width = '100%';
-                    progressPercentage.textContent = '100%';
-
-                    // Show main content AFTER loading completes
-                    mainContainer.classList.add('active');
-
-                    setTimeout(() => {
-                        loadingOverlay.classList.add('hidden');
-                    }, 500); // Shorter fade-out for the loading overlay
-                } else {
-                    progressBar.style.width = `${progress}%`;
-                    progressPercentage.textContent = `${Math.floor(progress)}%`;
-                }
-            }, updateInterval);
-        });
-
-        // JavaScript to get URL parameter and display appropriate message
+        // This script is specific to acknowledgement.html and should remain here
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const response = urlParams.get('response');
-            const headingElement = document.getElementById('acknowledgementHeading');
-            const paragraphElement = document.getElementById('acknowledgementParagraph');
-            const emojiElement = document.getElementById('acknowledgementEmoji'); // Added emoji element
+            const responseHeading = document.getElementById('responseHeading');
+            const responseMessage = document.getElementById('responseMessage');
 
             if (response === 'yes') {
-                headingElement.innerHTML = `OH MY GOD! YOU SAID YES! <span class="emoji">🎉</span>`;
-                paragraphElement.innerHTML = `Sarthak is absolutely over the moon right now! <span class="emoji">🥳</span> This means the world to him, Reechita. He can't wait to see what amazing moments you'll create together. Get ready for some incredible memories! <span class="emoji">💖💑</span>`;
-                emojiElement.textContent = '🥰'; // Set specific emoji for YES
+                responseHeading.textContent = "My Promise to You ✨";
+                responseMessage.innerHTML = "Thank you for being you, Reechita. You are truly perfect in every way. ✨";
             } else if (response === 'no') {
-                headingElement.innerHTML = `Aww, that's okay. <span class="emoji">😔</span>`;
-                paragraphElement.innerHTML = `Sarthak understands, Reechita. While he truly had hoped for a different answer, he genuinely values your honesty and your friendship. Your feelings are important, and he respects them completely. Thank you for being you. <span class="emoji">😊✨</span>`;
-                emojiElement.textContent = '💔'; // Set specific emoji for NO
+                responseHeading.textContent = "It's Okay 💜";
+                responseMessage.innerHTML = "I understand and respect your decision. Our connection truly means a lot, and I cherish our friendship. Your happiness is what matters most. 😊";
             } else {
-                // Default message if no response parameter is found
-                headingElement.textContent = `Something went a little differently...`;
-                paragraphElement.textContent = `It seems your response wasn't captured. Sarthak still cherishes your presence and hopes you're doing well! 😊`;
+                responseHeading.textContent = "Oops!";
+                responseMessage.innerHTML = "Something went wrong, or you landed here directly. But thank you for being here! 😊";
             }
         });
     </script>
-
-    <div class="container">
-        <h1 id="acknowledgementHeading"></h1>
-        <p id="acknowledgementParagraph"></p>
-        <div class="button-container">
-            <a href="index.html" class="button back">Go back to the start <span class="emoji">🏠</span></a>
-        </div>
-        <p style="margin-top: 2.5rem; font-size: clamp(0.75rem, 1.5vw, 1rem); color: #B0B0B0;">(A message from Sarthak, with all his heart. <span class="emoji" id="acknowledgementEmoji"></span>)</p>
-    </div>
-</body>
+    <script src="script.js"></script> </body>
 </html>
