@@ -1,78 +1,73 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Music Playback Logic (now conditional)
+    // Music Playback Logic
     const backgroundMusic = document.getElementById('backgroundMusic');
     const musicPlayButton = document.getElementById('music-play-button');
+    const isMusicPlayingKey = 'isMusicPlaying'; // localStorage key for music state
+    const musicPlaybackTimeKey = 'musicPlaybackTime'; // localStorage key for playback time
 
-    // Only run music logic if the elements exist on the current page
-    if (backgroundMusic && musicPlayButton) {
-        const isMusicPlayingKey = 'isMusicPlaying'; // localStorage key for music state
-        const musicPlaybackTimeKey = 'musicPlaybackTime'; // localStorage key for playback time
+    // Restore music playback state and time from localStorage
+    const savedPlaybackTime = localStorage.getItem(musicPlaybackTimeKey);
+    const savedMusicState = localStorage.getItem(isMusicPlayingKey);
 
-        // Restore music playback state and time from localStorage
-        const savedPlaybackTime = localStorage.getItem(musicPlaybackTimeKey);
-        const savedMusicState = localStorage.getItem(isMusicPlayingKey);
+    if (savedPlaybackTime) {
+        backgroundMusic.currentTime = parseFloat(savedPlaybackTime);
+    }
 
-        if (savedPlaybackTime) {
-            backgroundMusic.currentTime = parseFloat(savedPlaybackTime);
-        }
+    if (savedMusicState === 'true') {
+        // Attempt to play music automatically when the page loads
+        backgroundMusic.play()
+            .then(() => {
+                musicPlayButton.textContent = '⏸️'; // Change to pause icon
+                musicPlayButton.classList.add('playing');
+            })
+            .catch(error => {
+                console.warn("Autoplay prevented:", error);
+                // If autoplay is prevented, the button will remain '🎵' and user can click it.
+            });
+    } else {
+        musicPlayButton.textContent = '🎵'; // Default to play icon if not playing
+        musicPlayButton.classList.remove('playing');
+    }
 
-        if (savedMusicState === 'true') {
-            // Attempt to play music automatically when the page loads
+    // Handle button click for play/pause
+    musicPlayButton.addEventListener('click', () => {
+        if (backgroundMusic.paused) {
             backgroundMusic.play()
                 .then(() => {
                     musicPlayButton.textContent = '⏸️'; // Change to pause icon
                     musicPlayButton.classList.add('playing');
+                    localStorage.setItem(isMusicPlayingKey, 'true');
                 })
                 .catch(error => {
-                    console.warn("Autoplay prevented:", error);
-                    // If autoplay is prevented, the button will remain '🎵' and user can click it.
+                    console.error("Manual play prevented:", error);
+                    alert("Please allow media playback in your browser settings to hear the music!");
                 });
         } else {
-            musicPlayButton.textContent = '🎵'; // Default to play icon if not playing
-            musicPlayButton.classList.remove('playing');
-        }
-
-        // Handle button click for play/pause
-        musicPlayButton.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play()
-                    .then(() => {
-                        musicPlayButton.textContent = '⏸️'; // Change to pause icon
-                        musicPlayButton.classList.add('playing');
-                        localStorage.setItem(isMusicPlayingKey, 'true');
-                    })
-                    .catch(error => {
-                        console.error("Manual play prevented:", error);
-                        alert("Please allow media playback in your browser settings to hear the music!");
-                    });
-            } else {
-                backgroundMusic.pause();
-                musicPlayButton.textContent = '🎵'; // Change to play icon
-                musicPlayButton.classList.remove('playing');
-                localStorage.setItem(isMusicPlayingKey, 'false');
-            }
-        });
-
-        // Save current playback time before navigating away
-        window.addEventListener('beforeunload', () => {
-            if (!backgroundMusic.paused) {
-                localStorage.setItem(musicPlaybackTimeKey, backgroundMusic.currentTime.toString());
-                localStorage.setItem(isMusicPlayingKey, 'true'); // Ensure state is saved as playing
-            } else {
-                 localStorage.setItem(isMusicPlayingKey, 'false'); // Ensure state is saved as paused
-            }
-        });
-
-        // Handle music ending (though it's looped, good practice)
-        backgroundMusic.addEventListener('ended', () => {
-            musicPlayButton.textContent = '🎵';
+            backgroundMusic.pause();
+            musicPlayButton.textContent = '🎵'; // Change to play icon
             musicPlayButton.classList.remove('playing');
             localStorage.setItem(isMusicPlayingKey, 'false');
-        });
-    } // End of conditional music logic
+        }
+    });
 
+    // Save current playback time before navigating away
+    window.addEventListener('beforeunload', () => {
+        if (!backgroundMusic.paused) {
+            localStorage.setItem(musicPlaybackTimeKey, backgroundMusic.currentTime.toString());
+            localStorage.setItem(isMusicPlayingKey, 'true'); // Ensure state is saved as playing
+        } else {
+             localStorage.setItem(isMusicPlayingKey, 'false'); // Ensure state is saved as paused
+        }
+    });
+
+    // Handle music ending (though it's looped, good practice)
+    backgroundMusic.addEventListener('ended', () => {
+        musicPlayButton.textContent = '🎵';
+        musicPlayButton.classList.remove('playing');
+        localStorage.setItem(isMusicPlayingKey, 'false');
+    });
 
     // Background star drift setup
     document.querySelectorAll('.star').forEach(star => {
@@ -91,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
     });
 
-    // Particle Effect
+    // Particles setup
     document.querySelectorAll('.particle').forEach(particle => {
         particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
         particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
@@ -123,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else {
                 transitionMessage = "Stepping closer to forever...";
             }
+
 
             // Redirect to transition.html with the target page as a parameter
             window.location.href = `transition.html?to=${encodeURIComponent(targetPage)}&message=${encodeURIComponent(transitionMessage)}`;
