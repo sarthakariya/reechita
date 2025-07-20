@@ -1,57 +1,60 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inject background elements once per page load
-    const backgroundElementsContainer = document.createElement('div');
-    backgroundElementsContainer.classList.add('background-elements');
-    backgroundElementsContainer.innerHTML = `
-        <div class="moon"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
-    `;
-    // Add stars and particles
-    for (let i = 0; i < 50; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
-        star.style.top = `${Math.random() * 100}vh`;
-        star.style.left = `${Math.random() * 100}vw`;
-        star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
-        star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
-        star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
-        star.style.animationDelay = `${Math.random() * 6}s`;
-        backgroundElementsContainer.appendChild(star);
-    }
+    // Inject background elements once per page load - CHECK ADDED HERE
+    const existingBackground = document.querySelector('.background-elements');
+    if (!existingBackground) { // Only inject if it doesn't already exist
+        const backgroundElementsContainer = document.createElement('div');
+        backgroundElementsContainer.classList.add('background-elements');
+        backgroundElementsContainer.innerHTML = `
+            <div class="moon"></div>
+            <div class="distant-scenery"></div>
+            <div class="water-shimmer"></div>
+        `;
+        // Add stars and particles
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
+            star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
+            star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
+            star.style.animationDelay = `${Math.random() * 6}s`;
+            backgroundElementsContainer.appendChild(star);
+        }
 
-    for (let i = 0; i < 30; i++) {
-        const glow = document.createElement('div');
-        glow.classList.add('ethereal-glow');
-        glow.style.setProperty('--x', Math.random() * 100);
-        glow.style.setProperty('--y', Math.random() * 100);
-        glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
-        glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
-        glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
-        glow.style.animationDelay = `${Math.random() * 10}s`;
-        glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
-        glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
-        backgroundElementsContainer.appendChild(glow);
-    }
+        for (let i = 0; i < 30; i++) {
+            const glow = document.createElement('div');
+            glow.classList.add('ethereal-glow');
+            glow.style.setProperty('--x', Math.random() * 100);
+            glow.style.setProperty('--y', Math.random() * 100);
+            glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
+            glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
+            glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
+            glow.style.animationDelay = `${Math.random() * 10}s`;
+            glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
+            glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
+            backgroundElementsContainer.appendChild(glow);
+        }
 
-    for (let i = 0; i < 60; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
-        particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
-        particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
-        particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
-        particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
-        particle.style.animationDelay = `${Math.random() * 10}s`;
-        particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
-        particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
-        backgroundElementsContainer.appendChild(particle);
-    }
+        for (let i = 0; i < 60; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
+            particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
+            particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
+            particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
+            particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
+            particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
+            backgroundElementsContainer.appendChild(particle);
+        }
 
-    document.body.prepend(backgroundElementsContainer);
+        document.body.prepend(backgroundElementsContainer);
+    } // End of the if (!existingBackground) check
 
 
     // Music Playback Logic (now conditional)
