@@ -1,360 +1,470 @@
-/* General Body Styles */
+/* style.css */
+
+:root {
+    /* Dark Elegant Theme Colors */
+    --bg-gradient-start: #0a0712;
+    --bg-gradient-end: #1c0b2e;
+    --container-bg: rgba(30, 15, 50, 0.7); /* Adjusted transparency for boxes */
+    --text-light: #e0e0e0;
+    --text-heading: #FFD700;
+    --primary-accent: #FF69B1; /* Slightly adjusted pink */
+    --secondary-accent: #8A2BE2;
+    --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+}
+
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #1A0D32; /* Deep purple background */
-    color: #E0BBE4; /* Light purple text */
-    overflow: hidden; /* Hide overflow for background animations */
-    position: relative;
-    min-height: 100vh;
+    font-family: 'Lora', serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* For vertical alignment */
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    color: var(--text-light);
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* Background Animations */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Music Play Button Styling */
+#music-play-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 105, 180, 0.8); /* Primary accent with transparency */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
+    opacity: 0; /* Start hidden */
+    animation: fadeIn 1s ease-out forwards 1s; /* Fade in after a delay */
+}
+
+#music-play-button:hover {
+    background: rgba(255, 105, 180, 1);
+    transform: scale(1.05);
+}
+#music-play-button.playing {
+     background: rgba(138, 43, 226, 0.8); /* Secondary accent when playing */
+}
+
+/* --- Background Scenery --- */
 .background-scenery {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: -3;
     overflow: hidden;
-    z-index: -1; /* Send to back */
 }
 
 .moon {
     position: absolute;
-    top: 5%;
-    right: 5%;
-    width: 80px;
-    height: 80px;
-    background-color: #F8F8F8; /* White moon */
+    width: clamp(70px, 9vw, 90px);
+    height: clamp(70px, 9vw, 90px);
     border-radius: 50%;
-    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5);
+    background-color: #fff8db;
+    box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset;
+    opacity: 0.8;
+    top: 10%;
+    right: 15%;
+    /* Made moonDrift more pronounced */
+    animation: moonDrift 100s linear infinite alternate, moonPulse 3s ease-in-out infinite alternate, moonGlow 5s ease-in-out infinite alternate;
 }
+
+@keyframes moonDrift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-50vw, 25vh); } /* More significant drift */
+}
+@keyframes moonPulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 0.95; } 100% { transform: scale(1); opacity: 0.8; } }
+@keyframes moonGlow {
+    0% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
+    50% { box-shadow: 0 0 70px #fff8db, 0 0 150px #fff8db inset; } /* More prominent glow */
+    100% { box-shadow: 0 0 40px #fff8db, 0 0 100px #fff8db inset; }
+}
+
 
 .star {
     position: absolute;
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 50%;
-    opacity: 0.8;
-    animation: twinkle 4s infinite ease-in-out alternate, starDrift var-animation-duration infinite linear;
+    opacity: 0; /* Start hidden */
+    animation: twinkle 2s infinite alternate ease-in-out forwards, starDrift 30s linear infinite alternate;
+    box-shadow: 0 0 8px #ffffff;
 }
+/* More stars with varied positions and delays */
+.star:nth-child(1) { top: 20%; left: 10%; width: 2px; height: 2px; animation-delay: 0.3s; animation-duration: 2.2s; }
+.star:nth-child(2) { top: 30%; right: 5%; width: 3px; height: 3px; animation-delay: 1.1s; animation-duration: 2.5s; }
+.star:nth-child(3) { bottom: 15%; left: 25%; width: 1px; height: 1px; animation-delay: 0.7s; animation-duration: 1.8s; }
+.star:nth-child(4) { top: 5%; right: 30%; width: 4px; height: 4px; animation-delay: 1.8s; animation-duration: 3s; }
+.star:nth-child(5) { top: 50%; left: 5%; width: 2.5px; height: 2.5px; animation-delay: 0.9s; animation-duration: 2.7s; }
+.star:nth-child(6) { bottom: 20%; right: 10%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; animation-duration: 2.2s; }
+.star:nth-child(7) { top: 15%; left: 40%; width: 2px; height: 2px; animation-delay: 2.5s; animation-duration: 2.7s; }
+.star:nth-child(8) { bottom: 5%; right: 35%; width: 1.5px; height: 1.5px; animation-delay: 0.1s; animation-duration: 1.9s; }
+.star:nth-child(9) { top: 60%; right: 20%; width: 2.8px; height: 2.8px; animation-delay: 3.2s; animation-duration: 2.4s; }
+.star:nth-child(10) { bottom: 40%; left: 50%; width: 3.2px; height: 3.2px; animation-delay: 0.8s; animation-duration: 2.9s; }
+.star:nth-child(11) { top: 5%; left: 55%; width: 1.7px; height: 1.7px; animation-delay: 1.5s; animation-duration: 2.1s; }
+.star:nth-child(12) { bottom: 30%; right: 45%; width: 2.1px; height: 2.1px; animation-delay: 2.9s; animation-duration: 2.6s; }
+.star:nth-child(13) { top: 75%; left: 10%; width: 2.5px; height: 2.5px; animation-delay: 1.3s; animation-duration: 2.3s; }
+.star:nth-child(14) { top: 40%; right: 40%; width: 3px; height: 3px; animation-delay: 0.6s; animation-duration: 2.8s; }
+.star:nth-child(15) { bottom: 10%; left: 60%; width: 1.8px; height: 1.8px; animation-delay: 2.1s; animation-duration: 2.0s; }
 
-/* Adjust star sizes and positions */
-.star:nth-child(2) { top: 10%; left: 15%; width: 3px; height: 3px; }
-.star:nth-child(3) { top: 30%; left: 80%; width: 2px; height: 2px; animation-delay: 1s; }
-.star:nth-child(4) { top: 50%; left: 5%; width: 4px; height: 4px; animation-delay: 2s; }
-.star:nth-child(5) { top: 70%; left: 60%; width: 2.5px; height: 2.5px; animation-delay: 3s; }
-.star:nth-child(6) { top: 20%; left: 40%; width: 3.5px; height: 3.5px; animation-delay: 0.5s; }
 
 @keyframes twinkle {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.2; }
+    0% { opacity: 0; transform: scale(0.8); }
+    20% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+    80% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
 }
-
 @keyframes starDrift {
     0% { transform: translate(0, 0); }
-    100% {
-        transform: translate(var(--star-drift-x), var(--star-drift-y));
-    }
+    100% { transform: translate(calc(var(--star-drift-x, 0) * 1px), calc(var(--star-drift-y, 0) * 1px)); }
 }
 
+.distant-scenery {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 250px;
+    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250"><defs><filter id="blurFilter"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><path fill="%231a0e28" d="M0,200 L100,150 L200,180 L300,120 L400,160 L500,100 L600,130 L700,80 L800,130 L900,90 L1000,120 L1000,250 L0,250 Z" filter="url(%23blurFilter)" opacity="0.7"/><path fill="%2313091e" d="M0,220 L150,170 L300,200 L450,110 L600,140 L750,100 L900,130 L1000,110 L1000,200 L0,200 Z" filter="url(%23blurFilter)" opacity="0.9"/></svg>') repeat-x bottom;
+    background-size: cover, 100% 100%; pointer-events: none; z-index: -2;
+    transform: translateY(50px); animation: sceneryParallax 180s linear infinite alternate;
+}
+@keyframes sceneryParallax { 0% { background-position: 0% 100%; } 100% { background-position: 100% 100%; } }
 
+.water-shimmer {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
+    background: linear-gradient(to bottom, rgba(40, 15, 60, 0.4) 0%, rgba(10, 5, 15, 0.7) 100%);
+    box-shadow: 0 0 60px rgba(80, 0, 120, 0.7); opacity: 0.9; pointer-events: none; z-index: -1;
+    animation: waterFlow 20s linear infinite, waterRipple 10s ease-in-out infinite alternate;
+}
+@keyframes waterFlow { 0% { background-position: 0% 0%; } 100% { background-position: 100% 0%; } }
+@keyframes waterRipple { 0% { transform: scaleY(1); opacity: 0.9; } 50% { transform: scaleY(1.04) translateX(1%); opacity: 1; } 100% { transform: scaleY(1); opacity: 0.9; } }
+
+
+/* Ethereal Glow Animation */
 .ethereal-glow {
-    position: absolute;
-    background: radial-gradient(circle, rgba(255,105,180,0.5) 0%, rgba(255,105,180,0) 70%);
+    position: fixed;
+    background: radial-gradient(circle at center, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0) 70%);
     border-radius: 50%;
-    filter: blur(50px);
-    opacity: 0.6;
-    animation: glow-move var-animation-duration infinite alternate ease-in-out;
-    transform: translate(-50%, -50%);
-    top: var(--y, 50%); /* Default values */
-    left: var(--x, 50%);
+    pointer-events: none;
+    z-index: -1;
+    animation: glowFloat 20s infinite ease-in-out;
+    opacity: 0;
 }
 
-@keyframes glow-move {
-    0% { transform: translate(var(--x, -50%), var(--y, -50%)) scale(1); }
-    50% { transform: translate(calc(var(--x, -50%) + 10vw), calc(var(--y, -50%) + 10vh)) scale(1.1); }
-    100% { transform: translate(var(--x, -50%), var(--y, -50%)) scale(1); }
+@keyframes glowFloat {
+    0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(0.5); opacity: 0; }
+    50% { opacity: 0.8; transform: translate(calc(var(--x) * 1vw + 15vw), calc(var(--y) * 1vh + 15vh)) scale(1.2); }
+    100% { opacity: 0; transform: translate(calc(var(--x) * 1vw + 30vw), calc(var(--y) * 1vh + 30vh)) scale(0.5); }
 }
-
+/* Particle Effect */
 .particle {
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     opacity: 0;
-    animation: particle-drift var-animation-duration infinite linear;
-    top: var(--p-y, 0);
-    left: var(--p-x, 0);
-    transform: scale(var(--p-scale, 1));
+    animation: particleFloat 15s infinite ease-out forwards;
+    pointer-events: none;
+    z-index: -1;
 }
 
-@keyframes particle-drift {
-    0% { opacity: 0; transform: translate(0, 0) scale(var(--p-scale, 1)); }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; transform: translate(var(--p-dx, 0), var(--p-dy, 0)) scale(var(--p-scale, 1)); }
+@keyframes particleFloat {
+    0% { transform: translate(var(--p-x, 0), var(--p-y, 0)) scale(0); opacity: 0; }
+    10% { opacity: 1; transform: scale(1); }
+    80% { opacity: 0.8; transform: translate(calc(var(--p-x, 0) + var(--p-dx, 0)), calc(var(--p-y, 0) + var(--p-dy, 0))) scale(var(--p-scale, 1)); }
+    100% { opacity: 0; transform: translate(calc(var(--p-x, 0) + var(--p-dx, 0)), calc(var(--p-y, 0) + var(--p-dy, 0))) scale(0.2); }
 }
 
-
-/* Main Container Styles */
 .container {
-    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    border-radius: 25px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 600px;
+    background-color: var(--container-bg);
+    padding: clamp(2rem, 5vw, 3rem) clamp(3.5rem, 7vw, 5rem);
+    border-radius: 40px 15px 40px 15px; /* Different shape for boxes */
+    box-shadow: var(--shadow-deep);
+    max-width: 55rem;
     width: 90%;
-    position: relative; /* For z-index */
-    z-index: 10; /* Above background elements */
-    margin: 20px; /* Add margin for smaller screens */
-    box-sizing: border-box; /* Include padding in width */
+    margin: 5vh auto;
+    transform: scale(0.8);
+    opacity: 0;
+    animation: zoomInFade 1.5s ease-out forwards, containerFloat 12s ease-in-out infinite alternate;
+    position: relative;
+    z-index: 10;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    perspective: 1000px;
+    animation-delay: 0.5s; /* Delay container pop-in slightly after page load */
 }
 
-/* Text Styles */
-.title-text {
-    font-family: 'Dancing Script', cursive; /* Elegant script font */
-    font-size: 3em;
-    color: #FF69B4; /* Hot pink */
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+@keyframes zoomInFade {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+@keyframes containerFloat {
+    0% { transform: translateY(0px) rotateX(0deg); }
+    50% { transform: translateY(-10px) rotateX(1deg); }
+    100% { transform: translateY(0px) rotateX(0deg); }
 }
 
-.subtitle-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.2em;
-    color: #FFD700; /* Gold */
-    margin-top: 30px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+/* Inner card separation (visual, not actual floating cards) */
+.section-break {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin: 3.5rem 0; /* Increased margin */
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
 }
-
-.body-text {
-    font-family: 'Arial', sans-serif;
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #E0BBE4; /* Lighter purple */
-    margin-bottom: 25px;
-}
-
-.quote-text {
-    font-family: 'Cursive', sans-serif; /* A fallback cursive font */
-    font-size: 1.2em;
-    font-style: italic;
-    color: #F0F0F0; /* Off-white */
-    margin: 30px 0;
-    line-height: 1.8;
-}
-
-.small-text {
-    font-size: 0.9em;
-    color: #BDBDBD; /* Greyish */
-    margin-top: 20px;
-}
+/* Stagger the section breaks to appear quickly after container */
+.section-break:nth-of-type(1) { animation-delay: 1.8s; }
+.section-break:nth-of-type(2) { animation-delay: 2.3s; }
+.section-break:nth-of-type(3) { animation-delay: 2.8s; }
+.section-break:nth-of-type(4) { animation-delay: 3.3s; }
 
 
-/* Button Group */
-.button-group {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
-    justify-content: center;
-    gap: 20px; /* Space between buttons */
+h1 {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 2rem;
+    text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+    opacity: 0; /* Start hidden for animation */
+    line-height: 1.2;
+    animation: fadeInScale 1.5s ease-out forwards 1.5s; /* Fade in and scale for heading */
+}
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* Button Styles */
-.button, .choice-button {
-    display: inline-block;
-    padding: 15px 30px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+h2 {
+    font-family: 'Pacifico', cursive; /* A different elegant font for subheadings */
+    color: var(--primary-accent); /* Pink accent for headings */
+    font-size: clamp(1.8rem, 3.8vw, 3rem);
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.3);
+    opacity: 0; /* Start hidden for animation */
+    animation: fadeInSlideUp 1s ease-out forwards;
 }
 
-.button {
-    background-color: #FF69B4; /* Hot pink */
-    color: white;
-    letter-spacing: 0.5px;
-}
+/* Stagger animations for headings on page2.html if desired */
+.container h2:nth-of-type(1) { animation-delay: 2s; } /* First h2 */
+.container h2:nth-of-type(2) { animation-delay: 2.5s; } /* Second h2 */
+.container h2:nth-of-type(3) { animation-delay: 3s; } /* Third h2 */
+.container h2:nth-of-type(4) { animation-delay: 3.5s; } /* Fourth h2 */
+.container h2:nth-of-type(5) { animation-delay: 4s; } /* Fifth h2 */
 
-.button:hover {
-    background-color: #FF4DAB; /* Slightly darker pink */
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
 
-.choice-button.yes {
-    background-color: #4CAF50; /* Green */
-    color: white;
-}
-
-.choice-button.yes:hover {
-    background-color: #45a049; /* Darker green */
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.choice-button.no {
-    background-color: #F44336; /* Red */
-    color: white;
-}
-
-.choice-button.no:hover {
-    background-color: #da3329; /* Darker red */
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* Page specific animations */
-.main-page .title-text, .main-page .body-text, .main-page .button-group {
-    animation: fadeInScale 1s ease-out forwards;
-}
-
-.main-page .body-text {
-    animation-delay: 0.5s;
-}
-.main-page .button-group {
-    animation-delay: 1s;
-}
-
-.slide-in {
-    animation: slideInFromLeft 0.8s ease-out forwards;
-}
-
-.fade-in {
+p {
+    font-family: 'Lora', serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+    line-height: 1.9;
+    margin-bottom: 2.5rem;
+    color: var(--text-light);
+    opacity: 0; /* Start hidden for animation */
+    text-align: justify;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2);
     animation: fadeIn 1s ease-out forwards;
 }
 
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* Stagger paragraphs */
+.container p:nth-of-type(1) { animation-delay: 1.7s; }
+.container p:nth-of-type(2) { animation-delay: 2.0s; }
+.container p:nth-of-type(3) { animation-delay: 2.3s; }
+.container p:nth-of-type(4) { animation-delay: 2.6s; }
+.container p:nth-of-type(5) { animation-delay: 2.9s; }
+.container p:nth-of-type(6) { animation-delay: 3.2s; }
+.container p:nth-of-type(7) { animation-delay: 3.5s; }
+.container p:nth-of-type(8) { animation-delay: 3.8s; }
+.container p:nth-of-type(9) { animation-delay: 4.1s; }
+.container p:nth-of-type(10) { animation-delay: 4.4s; }
+.container p:nth-of-type(11) { animation-delay: 4.7s; }
+.container p:nth-of-type(12) { animation-delay: 5.0s; }
+.container p:nth-of-type(13) { animation-delay: 5.3s; }
+.container p:nth-of-type(14) { animation-delay: 5.6s; }
+
+
+/* Specific glowing text effects - still active */
+.glowing-text {
+    color: #FFB6C1; /* Light pink base */
+    text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4);
+    animation: pulseGlow 2s infinite alternate ease-in-out;
+}
+@keyframes pulseGlow {
+    0% { text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4); }
+    50% { text-shadow: 0 0 12px rgba(255, 182, 193, 0.9), 0 0 20px rgba(255, 182, 193, 0.6), 0 0 30px rgba(255, 255, 255, 0.3); }
+    100% { text-shadow: 0 0 8px rgba(255, 182, 193, 0.7), 0 0 15px rgba(255, 182, 193, 0.4); }
 }
 
-@keyframes slideInFromLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.highlight {
+    color: var(--primary-accent);
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5);
+    position: relative;
+    display: inline-block;
+    animation: textSparkle 1.8s infinite alternate ease-in-out;
+    transform-origin: center;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+@keyframes textSparkle {
+    0% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
+    50% { text-shadow: 1px 1px 5px rgba(255, 105, 180, 0.7), 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.6); transform: scale(1.02); }
+    100% { text-shadow: 1px 1px 3px rgba(255, 105, 180, 0.5), 0 0 8px rgba(255, 255, 255, 0.4); transform: scale(1); }
 }
 
+/* New glowing text style */
+.glowing-purple {
+    color: #DDA0DD; /* Plum */
+    text-shadow: 0 0 10px rgba(221, 160, 221, 0.8), 0 0 20px rgba(221, 160, 221, 0.5);
+    animation: purpleGlow 2.5s infinite alternate ease-in-out;
+}
+@keyframes purpleGlow {
+    0% { text-shadow: 0 0 10px rgba(221, 160, 221, 0.8), 0 0 20px rgba(221, 160, 221, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(221, 160, 221, 1), 0 0 25px rgba(221, 160, 221, 0.7), 0 0 35px rgba(255, 255, 255, 0.4); }
+    100% { text-shadow: 0 0 10px rgba(221, 160, 221, 0.8), 0 0 20px rgba(221, 160, 221, 0.5); }
+}
 
-/* Music button styles */
-#music-play-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 1.5em;
+.button-container {
+    margin-top: 3.5rem;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    gap: clamp(1.2rem, 3vw, 1.8rem);
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fadeInScaleButtons 1.5s ease-out forwards;
+    animation-delay: 3.5s; /* Buttons appear quickly after content */
+}
+
+@keyframes fadeInScaleButtons {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.button {
+    display: inline-block;
+    padding: clamp(1rem, 2.5vw, 1.2rem) clamp(2rem, 4.5vw, 2.5rem);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    color: var(--bg-gradient-start);
+    background: linear-gradient(45deg, var(--primary-accent), #FFB6C1);
+    border: none;
+    border-radius: 25px 10px 25px 10px; /* Different shape for buttons */
+    text-decoration: none;
+    transition: all 0.4s ease;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    z-index: 100; /* Ensure it's above other elements */
+    box-shadow: 0 8px 18px rgba(255, 105, 180, 0.5);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    animation: buttonPopIn 0.8s ease-out forwards;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+/* Stagger button animation */
+.button:first-child { animation-delay: 3.8s; } /* Adjusted delay */
+
+
+@keyframes buttonPopIn {
+    0% { transform: scale(0.5) translateY(20px); opacity: 0; }
+    80% { transform: scale(1.05) translateY(-5px); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-#music-play-button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translate(-50%, -50%);
+    z-index: 1;
 }
 
-#music-play-button.playing {
-    /* Style when music is playing, e.g., a subtle glow */
-    box-shadow: 0 0 15px 5px rgba(255, 105, 180, 0.7);
+.button:hover::before {
+    width: 250%;
+    height: 250%;
+}
+
+.button:hover {
+    background: linear-gradient(45deg, #FFB6C1, var(--primary-accent));
+    transform: translateY(-0.25rem) scale(1.02);
+    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.7);
+    color: var(--bg-gradient-end);
+}
+
+.emoji {
+    vertical-align: middle;
+    margin: 0 0.4rem;
+    font-size: 1.2em;
+    display: inline-block;
+    animation: emojiPulse 1.8s infinite ease-in-out;
+    text-shadow: 0 0 5px rgba(255,255,255,0.3);
+}
+@keyframes emojiPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* Animations for text elements */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 
-/* Responsive Adjustments */
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
+    p { font-size: clamp(0.9rem, 1.7vw, 1.2rem); }
+    .button { font-size: clamp(1rem, 2.2vw, 1.3rem); padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.2rem); }
+    .container { padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(3rem, 6vw, 4.5rem); max-width: 50rem; }
+}
+
 @media (max-width: 768px) {
-    .container {
-        padding: 25px;
-    }
-
-    .title-text {
-        font-size: 2.5em;
-    }
-
-    .subtitle-text {
-        font-size: 1.8em;
-    }
-
-    .body-text, .quote-text {
-        font-size: 1em;
-    }
-
-    .button, .choice-button {
-        padding: 12px 25px;
-        font-size: 1em;
-    }
-
-    .button-group {
-        flex-direction: column;
-        gap: 15px;
-    }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); }
+    h2 { font-size: clamp(1.4rem, 4.5vw, 2.2rem); }
+    p { font-size: clamp(0.85rem, 2.2vw, 1.15rem); }
+    .button { font-size: clamp(0.95rem, 2.8vw, 1.15rem); padding: clamp(0.8rem, 1.8vw, 1rem) clamp(1.6rem, 3.5vw, 2rem); }
+    .container { padding: clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5.5vw, 4rem); max-width: 90%; }
+    .heart-container { width: 100px; height: 100px; } /* For transition page */
+    .message { font-size: clamp(1.5rem, 5vw, 2.5rem); } /* For transition page */
+    .sub-message { font-size: clamp(1rem, 2.5vw, 1.2rem); } /* For transition page */
+    .progress-bar-container { width: clamp(150px, 80vw, 300px); } /* For transition page */
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 20px;
-        margin: 10px;
-    }
-
-    .title-text {
-        font-size: 2em;
-    }
-
-    .subtitle-text {
-        font-size: 1.5em;
-    }
-
-    .body-text, .quote-text {
-        font-size: 0.9em;
-    }
-
-    .button, .choice-button {
-        padding: 10px 20px;
-        font-size: 0.9em;
-    }
-
-    #music-play-button {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2em;
-        bottom: 15px;
-        right: 15px;
-    }
+    h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+    h2 { font-size: clamp(1.2rem, 5.5vw, 2rem); }
+    p { font-size: clamp(0.8rem, 3vw, 1.1rem); }
+    .button { font-size: clamp(0.85rem, 3.5vw, 1.1rem); padding: clamp(0.7rem, 1.6vw, 0.9rem) clamp(1.4rem, 3vw, 1.8rem); }
+    .container { padding: clamp(1.2rem, 3.5vw, 2.2rem) clamp(1.5rem, 4vw, 2.5rem); }
 }
