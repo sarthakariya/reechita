@@ -11,100 +11,62 @@
     --secondary-accent: #8A2BE2;
     --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
     font-size: 16px;
+    --moon-size: 250px; /* Base moon size */
 }
 
-/* Base Styles */
 body {
-    font-family: 'Lora', serif; /* Elegant serif font */
-    color: var(--text-light);
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    font-family: 'Lora', serif;
+    color: var(--text-light);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-    animation: backgroundShift 20s ease infinite alternate; /* Subtle background shift */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* For background elements positioning */
 }
 
-@keyframes backgroundShift {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-
-/* Accessibility: Hide content visually but keep it for screen readers */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-/* Background Dynamic Elements (All Pages) */
+/* Background Elements - Fixed position to allow content to scroll over them */
 .background-elements {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    z-index: -1; /* Ensure background elements stay behind content */
-    pointer-events: none; /* Prevent interference with clicks */
+    overflow: hidden; /* Hide anything that goes beyond viewport */
+    z-index: -1; /* Place behind main content */
 }
 
-/* Moon */
 .moon {
     position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle at 30% 30%, #fefefe, #ccc, #999);
+    top: 5%;
+    right: 10%;
+    width: var(--moon-size);
+    height: var(--moon-size);
+    background: url('image_27cda2.png') no-repeat center center / contain; /* Moon image */
     border-radius: 50%;
-    box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4);
-    top: 10%;
-    left: 15%;
-    animation: moonDrift 60s linear infinite alternate, moonPulse 5s ease-in-out infinite alternate, moonGlow 10s ease infinite;
-    opacity: 0.9;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.6), 0 0 100px rgba(255, 255, 255, 0.3);
+    animation: moonDrift 40s ease-in-out infinite alternate;
 }
 
 @keyframes moonDrift {
     0% { transform: translate(0, 0); }
-    100% { transform: translate(10vw, 5vh); }
+    50% { transform: translate(-50px, 30px); } /* More noticeable drift */
+    100% { transform: translate(0, 0); }
 }
 
-@keyframes moonPulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.02); }
-}
-
-@keyframes moonGlow {
-    0% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4); }
-    50% { box-shadow: 0 0 60px rgba(255, 255, 255, 0.8), 0 0 120px rgba(255, 255, 255, 0.5); }
-    100% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4); }
-}
-
-/* Stars */
 .star {
     position: absolute;
-    background: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    animation: twinkle 4s ease-in-out infinite alternate, starDrift var(--star-drift-duration) ease-in-out infinite alternate;
     opacity: 0;
-    animation: twinkle 4s infinite ease-in-out alternate, starDrift var(--star-drift-duration) linear infinite alternate;
-    box-shadow: 0 0 5px #fff;
+    animation-fill-mode: forwards;
 }
 
 @keyframes twinkle {
-    0%, 100% { opacity: 0; transform: scale(0.5); }
-    50% { opacity: 1; transform: scale(1); }
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
 }
 
 @keyframes starDrift {
@@ -112,484 +74,392 @@ body {
     100% { transform: translate(var(--star-drift-x), var(--star-drift-y)); }
 }
 
-/* Distant Scenery (Parallax effect) */
 .distant-scenery {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 30%; /* Adjust as needed */
-    /* Updated background image URL */
-    background: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffreepng%2Fmountain-landscape-and-starry-night_13067585.html&psig=AOvVaw2_0hSdqr6cKnxHx5QAF9Yx&ust=1753123624482000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCPCa5ciMzI4DFQAAAAAdAAAAABAU') repeat-x bottom center;
-    background-size: contain;
-    animation: sceneryParallax 120s linear infinite alternate;
-    opacity: 0.6;
+    background: url('https://i.pinimg.com/1200x/97/16/c1/9716c10e7baf5ae1de227cad48fae96d.jpg') repeat-x bottom center / contain; /* Distant city/mountains */
+    background-position: 0% 100%; /* Ensure it aligns to the bottom */
+    filter: brightness(0.6) contrast(1.2); /* Make it dark and silhouette-like */
+    animation: sceneryDrift 120s linear infinite;
 }
 
-@keyframes sceneryParallax {
-    0% { background-position: 0% bottom; }
-    100% { background-position: 100% bottom; }
+@keyframes sceneryDrift {
+    0% { background-position: 0% 100%; }
+    100% { background-position: 100% 100%; } /* Drift horizontally */
 }
 
-/* Water Shimmer at the bottom */
 .water-shimmer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 10%; /* Height of the water effect */
-    background: radial-gradient(ellipse at 50% 100%, rgba(135, 206, 235, 0.3) 0%, rgba(25, 25, 112, 0.5) 70%, transparent 100%);
-    overflow: hidden;
+    height: 15%; /* Height of the water */
+    background: url('image_284261.jpg') repeat-x bottom center / 150%; /* Water shimmer texture */
+    animation: shimmer 80s linear infinite;
+    opacity: 0.4;
+    filter: blur(2px) brightness(0.8);
 }
 
-.water-shimmer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 10%, transparent 20%, rgba(255, 255, 255, 0.1) 30%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%, rgba(255, 255, 255, 0.1) 70%, transparent 80%);
-    background-size: 50% 100%;
-    animation: waterFlow 30s linear infinite;
+@keyframes shimmer {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 0%; }
 }
 
-.water-shimmer::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-    animation: waterRipple 20s ease-in-out infinite alternate;
-}
-
-@keyframes waterFlow {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-@keyframes waterRipple {
-    0% { transform: scale(1, 0.8) translateY(0); opacity: 1; }
-    50% { transform: scale(1.05, 1.2) translateY(-5%); opacity: 0.7; }
-    100% { transform: scale(1, 0.8) translateY(0); opacity: 1; }
-}
-
-
-/* Ethereal Glows */
 .ethereal-glow {
     position: absolute;
-    background: radial-gradient(circle, var(--primary-accent), var(--secondary-accent), transparent 70%);
+    background: radial-gradient(circle at center, rgba(138, 43, 226, 0.4) 0%, rgba(255, 105, 177, 0.3) 50%, transparent 100%); /* Mix of secondary and primary accent */
     border-radius: 50%;
-    opacity: 0.3;
-    filter: blur(50px);
-    animation: glowFloat var(--glow-duration) ease-in-out infinite alternate, glowPulse var(--glow-duration) ease-in-out infinite alternate;
+    filter: blur(40px);
+    animation: glowDrift var(--glow-duration) ease-in-out infinite alternate, glowPulse var(--glow-duration) infinite alternate;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
 
-@keyframes glowFloat {
+@keyframes glowDrift {
     0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(var(--glow-scale)); }
-    100% { transform: translate(calc((var(--x) + var(--dx)) * 1vw), calc((var(--y) + var(--dy)) * 1vh)) scale(calc(var(--glow-scale) * 1.1)); }
+    100% { transform: translate(calc((var(--x) + var(--dx)) * 1vw), calc((var(--y) + var(--dy)) * 1vh)) scale(var(--glow-scale)); }
 }
 
 @keyframes glowPulse {
     0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.5; }
+    50% { opacity: 0.7; }
 }
 
-/* Particles */
 .particle {
     position: absolute;
-    background: #fff;
+    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
+    filter: blur(0.5px);
+    animation: particleDrift var(--p-duration) linear infinite, particleFade var(--p-duration) infinite alternate;
     opacity: 0;
-    animation: particleFloat var(--p-duration) ease-in-out infinite alternate;
-    box-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+    animation-fill-mode: forwards;
 }
 
-@keyframes particleFloat {
-    0% { transform: translate(var(--p-x), var(--p-y)) scale(var(--p-scale)); opacity: 0; }
-    25% { opacity: 1; }
-    75% { opacity: 1; }
-    100% { transform: translate(calc(var(--p-x) + var(--p-dx)), calc(var(--p-y) + var(--p-dy))) scale(var(--p-scale)); opacity: 0; }
+@keyframes particleDrift {
+    0% { transform: translate(var(--p-x), var(--p-y)) scale(var(--p-scale)); }
+    100% { transform: translate(calc(var(--p-x) + var(--p-dx)), calc(var(--p-y) + var(--p-dy))) scale(var(--p-scale)); }
 }
 
-/* Main Content Container */
-.container {
-    background-color: var(--container-bg); /* Adjusted transparency */
-    padding: 30px 40px;
-    border-radius: 40px 15px 40px 15px; /* Different, slightly irregular shape */
-    box-shadow: var(--shadow-deep);
-    text-align: center;
-    max-width: 800px;
-    width: 90%;
-    margin: 40px auto;
-    position: relative;
-    z-index: 1; /* Ensure content is above background elements */
-    overflow: hidden; /* For inner animations */
+@keyframes particleFade {
+    0%, 100% { opacity: 0; }
+    20%, 80% { opacity: 0.8; }
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px 25px;
-        margin: 20px auto;
-        width: 95%;
-    }
-    .moon {
-        width: 120px;
-        height: 120px;
-    }
-}
-
-@media (max-width: 480px) {
-    :root {
-        font-size: 14px;
-    }
-    .container {
-        padding: 15px 20px;
-        border-radius: 20px 8px 20px 8px;
-    }
-    .moon {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-/* Text Styles */
-h1 {
-    font-family: 'Great Vibes', cursive; /* Elegant script font */
-    color: var(--text-heading);
-    font-size: 3.5em;
-    margin-bottom: 25px;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    animation: fadeInScale 1.5s ease-out forwards;
-}
-
-h2 {
-    font-family: 'Pacifico', cursive; /* Another elegant script font */
-    color: var(--primary-accent);
-    font-size: 2.2em;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
-    animation: fadeInSlideUp 1.2s ease-out forwards; /* New animation */
-}
-
-p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 20px; /* Consistent gaps */
-    animation: fadeIn 1s ease-out forwards; /* Staggered animation handled by JS */
-    opacity: 0; /* Default hidden for staggered animation */
-}
-
-/* Specific text highlighting and glowing */
-.glowing-text {
-    color: #FFB6C1; /* Light pink */
-    text-shadow: 0 0 8px #FFB6C1, 0 0 15px #FFB6C1;
-    animation: textGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes textGlow {
-    0%, 100% { text-shadow: 0 0 8px #FFB6C1, 0 0 15px #FFB6C1; }
-    50% { text-shadow: 0 0 12px #FFB6C1, 0 0 25px #FFB6C1; }
-}
-
-.highlight {
-    color: var(--primary-accent);
-    font-weight: bold;
-    animation: sparkleText 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes sparkleText {
-    0%, 100% { text-shadow: 0 0 5px var(--primary-accent); }
-    50% { text-shadow: 0 0 10px var(--primary-accent), 0 0 20px rgba(255, 255, 255, 0.3); }
-}
-
-.glowing-purple {
-    color: #DA70D6; /* Orchid / Plum */
-    text-shadow: 0 0 8px #DA70D6, 0 0 15px #DA70D6;
-    animation: purpleTextGlow 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes purpleTextGlow {
-    0%, 100% { text-shadow: 0 0 8px #DA70D6, 0 0 15px #DA70D6; }
-    50% { text-shadow: 0 0 12px #DA70D6, 0 0 25px #DA70D6; }
-}
-
-
-/* Animations for content elements */
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeInSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-
-/* Section Break (Visual separator) */
-.section-break {
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-    margin: 40px auto;
-    animation: fadeIn 1.5s ease-out forwards; /* Staggered animation handled by JS */
-    opacity: 0; /* Default hidden for staggered animation */
-}
-
-/* Button Styles */
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px; /* Consistent gaps between buttons */
-    margin-top: 40px;
-    animation: fadeIn 1.5s ease-out forwards;
-}
-
-.button, .choice-button {
-    background-color: var(--primary-accent);
-    color: #fff;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 25px 10px 25px 10px; /* Different button shape */
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    position: relative;
-    overflow: hidden;
-    animation: buttonPopIn 1s ease-out forwards;
-}
-
-.button:hover, .choice-button:hover {
-    background-color: var(--secondary-accent);
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-}
-
-.button::before, .choice-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    animation: buttonSparkle 0.6s ease-out;
-}
-
-@keyframes buttonSparkle {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
-}
-
-@keyframes buttonPopIn {
-    from {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Music Playback Button (Unique style) */
-#music-play-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #FFD700;
-    border: 2px solid #FFD700;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#music-play-button.playing {
-    background-color: rgba(255, 215, 0, 0.2);
-}
-
-#music-play-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
-}
-
-/* Transition Page Styles (for transition.html) */
-.transition-container {
-    background-color: var(--container-bg);
-    padding: 50px;
-    border-radius: 20px;
-    box-shadow: var(--shadow-deep);
-    text-align: center;
-    max-width: 600px;
-    width: 90%;
-    margin: 100px auto;
-    position: relative;
-    z-index: 1;
-}
-
-#transitionMessage {
-    font-family: 'Great Vibes', cursive;
-    color: var(--text-heading);
-    font-size: 2.8em;
-    margin-bottom: 30px;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-}
-
-.progress-bar-container { /* This style is reused for both preloader and transition */
-    width: 80%;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    margin: 20px auto;
-    overflow: hidden;
-    height: 25px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-#progressBar { /* For transition.html */
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
-    border-radius: 10px;
-    transition: width 0.1s linear;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: bold;
-    font-size: 0.9em;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-#progressText { /* For transition.html */
-    margin-left: 10px;
-}
-
-/* Responsive adjustments for progress bar */
-@media (max-width: 768px) {
-    .progress-bar-container {
-        width: 90%;
-    }
-}
-
-@media (max-width: 480px) {
-    .progress-bar-container {
-        width: 95%;
-        height: 20px;
-    }
-    #progressBar {
-        font-size: 0.8em;
-    }
-}
-
-/* Preloader Styles (for index.html) */
+/* Preloader styles (only for pages that include #preloader HTML) */
 #preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-    z-index: 9999; /* Ensure it's on top of everything */
+    background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.5s ease-out; /* Smooth fade-out */
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+    color: var(--text-light);
+    font-family: 'Pacifico', cursive;
 }
 
 #preloader.hidden {
     opacity: 0;
-    pointer-events: none; /* Make it unclickable when hidden */
+    pointer-events: none;
 }
-
-/* Spinner was removed. Progress bar styles are now applied to the .progress-bar-container within #preloader */
 
 .preloader-message {
-    font-family: 'Great Vibes', cursive;
-    color: var(--text-heading);
-    font-size: 2em;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-    margin-bottom: 20px; /* Added spacing */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInSlideUp 1.5s ease-out forwards 0.5s;
+    text-align: center;
 }
 
-/* Progress bar for Index page preloader - Specific overrides if needed */
-#preloader .progress-bar-container { /* Target container within preloader specifically */
-    margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
+.progress-bar-container {
+    width: 80%;
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-#indexProgressBar { /* Specific ID for the index page progress bar */
+#indexProgressBar {
     height: 100%;
-    width: 0%; /* Starts at 0 */
+    width: 0%;
     background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
     border-radius: 10px;
-    transition: width 0.1s linear; /* Smooth fill */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    font-size: 0.8rem;
+    color: white;
+    transition: width 0.1s linear; /* Smooth progress bar movement */
+}
+
+#indexProgressText {
+    margin-left: 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+/* Main content styles */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: var(--container-bg);
+    border-radius: 40px 15px 40px 15px; /* Different shape */
+    box-shadow: var(--shadow-deep);
+    text-align: center;
+    position: relative; /* For z-index if needed */
+    z-index: 1; /* Ensure it's above background elements */
+    opacity: 0; /* Start hidden for staggered animation */
+    transform: translateY(20px); /* Start slightly below */
+    animation: fadeInSlideUp 1.5s ease-out forwards 5s, float 15s ease-in-out infinite; /* Added float animation */
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5rem;
+    color: var(--text-heading);
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start slightly below */
+    /* Combined animations: fadeInSlideUp (for appearance) and heartBeat (for continuous pulse) */
+    animation: fadeInSlideUp 1.5s ease-out forwards, heartBeat 5s infinite; /* Heartbeat duration changed to 5s */
+    text-shadow: 0 0 15px var(--text-heading), 0 0 25px var(--primary-accent); /* Added for visual pop */
+}
+
+h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.8rem;
+    color: var(--primary-accent);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start slightly below */
+    animation: fadeInSlideUp 1.5s ease-out forwards;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Subtle shadow for readability */
+}
+
+p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    text-align: justify;
+    opacity: 0; /* Start hidden for staggered animation */
+    transform: translateY(10px); /* Start slightly below */
+    animation: fadeInSlideUp 1s ease-out forwards; /* Applied by script.js with delay */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Subtle shadow for readability */
+}
+
+.highlight {
+    color: var(--primary-accent);
     font-weight: bold;
-    font-size: 0.9em;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    animation: textGlowPulse 3s infinite alternate; /* Apply glow pulse */
 }
 
-#indexProgressText { /* Specific ID for the index page progress text */
-    margin-left: 10px; /* Space for the text inside the bar */
+.glowing-text {
+    color: var(--secondary-accent);
+    font-weight: bold;
+    animation: textGlowPulse 3s infinite alternate; /* Apply glow pulse */
+}
+
+.glowing-purple {
+    color: var(--secondary-accent); /* Keep color for clarity */
+    font-weight: bold;
+    animation: textGlowPulse 3s infinite alternate; /* Apply glow pulse */
 }
 
 
-/* Responsive adjustments for preloader */
-@media (max-width: 480px) {
-    #preloader .progress-bar-container {
-        width: 95%;
-        height: 20px;
-    }
-    #indexProgressBar {
-        font-size: 0.8em;
-    }
-    .preloader-message {
-        font-size: 1.5em;
-    }
+.section-break {
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--primary-accent), transparent);
+    margin: 40px auto;
+    opacity: 0; /* Will be animated by script.js */
+    transform: scaleX(0.8); /* Start scaled down, slightly more visible */
+    animation: fadeInScaleX 1s ease-out forwards; /* Applied by script.js with delay */
+}
+
+
+.button-container {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+    color: white;
+    text-decoration: none;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2rem;
+    border-radius: 25px 10px 25px 10px; /* Different button shape */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start slightly below */
+    animation: buttonPopIn 1s ease-out forwards;
+    animation-delay: 5.5s; /* Example delay after preloader & container */
+}
+
+.button:hover {
+    transform: scale(1.05) translateY(-3px); /* Slightly more pronounced */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 15px var(--primary-accent); /* Added glow on hover */
+}
+
+/* Music play button */
+#music-play-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    animation: pulse 2s infinite ease-in-out; /* Apply pulse animation */
+}
+
+#music-play-button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+#music-play-button.playing {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 15px var(--primary-accent);
+}
+
+
+/* Transition Page Styles */
+.transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #0a0712, #1c0b2e);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-light);
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5rem;
+    z-index: 9999;
+}
+
+.transition-message {
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeInSlideUp 1.5s ease-out forwards;
+}
+
+.progress-bar {
+    width: 80%;
+    max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    height: 25px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+#progressBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #FFD700, var(--primary-accent));
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #333;
+    transition: width 0.1s linear;
+}
+
+#progressText {
+    margin-left: 15px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+/* General Animations (can be reused) */
+@keyframes fadeInSlideUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInScaleX {
+    0% { opacity: 0; transform: scaleX(0); }
+    100% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes buttonPopIn {
+    0% { opacity: 0; transform: scale(0.5); }
+    80% { opacity: 1; transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* NEW ANIMATIONS */
+@keyframes heartBeat { /* Already defined, but now used on h1 with 5s duration */
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulse { /* For music button */
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0.4); }
+    70% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0.4); }
+}
+
+@keyframes float { /* For main content container */
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes textGlowPulse { /* For highlight/glowing text */
+    0% { text-shadow: 0 0 5px var(--primary-accent), 0 0 10px var(--primary-accent); }
+    50% { text-shadow: 0 0 15px var(--primary-accent), 0 0 25px var(--primary-accent); }
+    100% { text-shadow: 0 0 5px var(--primary-accent), 0 0 10px var(--primary-accent); }
 }
