@@ -233,11 +233,11 @@
             opacity: 0;
             animation: fadeIn 1s ease-out forwards;
         }
-        /* Stagger the section breaks */
-        .section-break:nth-of-type(1) { animation-delay: 2.5s; } /* Adjusted delay based on new content flow */
-        .section-break:nth-of-type(2) { animation-delay: 3.5s; }
-        .section-break:nth-of-type(3) { animation-delay: 4.5s; }
-        .section-break:nth-of-type(4) { animation-delay: 5.5s; }
+        /* Stagger the section breaks to appear quickly after container */
+        .section-break:nth-of-type(1) { animation-delay: 1.8s; }
+        .section-break:nth-of-type(2) { animation-delay: 2.3s; }
+        .section-break:nth-of-type(3) { animation-delay: 2.8s; }
+        .section-break:nth-of-type(4) { animation-delay: 3.3s; }
 
 
         h1 {
@@ -262,8 +262,7 @@
             margin-top: 3.5rem;
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 5px rgba(255, 105, 180, 0.3);
-            opacity: 1; /* Always visible */
-            /* Removed animation */
+            opacity: 1; /* Always visible by default */
         }
 
         p {
@@ -272,10 +271,9 @@
             line-height: 1.9;
             margin-bottom: 2.5rem;
             color: var(--text-light);
-            opacity: 1; /* Always visible */
+            opacity: 1; /* Always visible by default */
             text-align: justify;
             text-shadow: 0 0 5px rgba(0,0,0,0.2);
-            /* Removed animation and span wrapping */
         }
 
         /* Specific glowing text effects - still active */
@@ -327,7 +325,7 @@
             opacity: 0;
             transform: scale(0.9);
             animation: fadeInScaleButtons 1.5s ease-out forwards;
-            animation-delay: 6s; /* Buttons appear quickly after content */
+            animation-delay: 3.5s; /* Buttons appear quickly after content */
         }
 
         @keyframes fadeInScaleButtons {
@@ -356,7 +354,7 @@
             text-transform: uppercase;
         }
         /* Stagger button animation */
-        .button:first-child { animation-delay: 6.3s; } /* Adjusted delay based on overall content flow */
+        .button:first-child { animation-delay: 3.8s; } /* Adjusted delay */
 
 
         @keyframes buttonPopIn {
