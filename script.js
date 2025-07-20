@@ -1,6 +1,36 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Preloader logic (NEW) - This part runs first when the DOM is ready
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        let pageLoaded = false;
+        let minimumTimeElapsed = false;
+
+        // Function to hide preloader when both conditions are met
+        const hidePreloader = () => {
+            if (pageLoaded && minimumTimeElapsed) {
+                preloader.classList.add('hidden'); // Hide the preloader
+                // Optionally remove the preloader from DOM after transition
+                preloader.addEventListener('transitionend', () => {
+                    preloader.remove();
+                });
+            }
+        };
+
+        // Condition 1: Page fully loaded (all assets like images, music, etc.)
+        window.addEventListener('load', () => {
+            pageLoaded = true;
+            hidePreloader();
+        });
+
+        // Condition 2: Minimum 5 seconds elapsed
+        setTimeout(() => {
+            minimumTimeElapsed = true;
+            hidePreloader();
+        }, 5000); // 5000 milliseconds = 5 seconds
+    }
+
     // Inject background elements once per page load - CHECK ADDED HERE
     const existingBackground = document.querySelector('.background-elements');
     if (!existingBackground) { // Only inject if it doesn't already exist
@@ -54,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         document.body.prepend(backgroundElementsContainer);
-    } // End of the if (!existingBackground) check
+    }
 
 
     // Music Playback Logic (now conditional)
