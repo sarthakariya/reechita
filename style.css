@@ -111,19 +111,19 @@ body {
     0% { transform: translate(0, 0); }
     100% { transform: translate(var(--star-drift-x), var(--star-drift-y)); }
 }
-/* In your style.css file, find this section: */
+
+/* Distant Scenery (Parallax effect) */
 .distant-scenery {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 30%; /* Adjust as needed */
-    /* REPLACE THE OLD BACKGROUND LINE WITH THIS NEW ONE: */
+    /* Updated background image URL */
     background: url('https://as2.ftcdn.net/v2/jpg/14/30/89/55/1000_F_1430895515_PnXMoB0IX2oocY6MPYL9J8KmbvC9z0FK.webp') repeat-x bottom center;
     background-size: contain;
     animation: sceneryParallax 120s linear infinite alternate;
     opacity: 0.6;
-
 }
 
 @keyframes sceneryParallax {
@@ -456,7 +456,7 @@ p {
     box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
 }
 
-/* Transition Page Styles */
+/* Transition Page Styles (for transition.html) */
 .transition-container {
     background-color: var(--container-bg);
     padding: 50px;
@@ -521,5 +521,60 @@ p {
     }
     #progressBar {
         font-size: 0.8em;
+    }
+}
+
+/* Preloader Styles (for index.html) */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    z-index: 9999; /* Ensure it's on top of everything */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out; /* Smooth fade-out */
+}
+
+#preloader.hidden {
+    opacity: 0;
+    pointer-events: none; /* Make it unclickable when hidden */
+}
+
+.spinner {
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid var(--primary-accent);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.preloader-message {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2em;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+/* Responsive adjustments for preloader */
+@media (max-width: 480px) {
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 6px;
+    }
+    .preloader-message {
+        font-size: 1.5em;
     }
 }
