@@ -3,27 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transitioning...</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <title>Loading...</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(180deg, #1A0D32 0%, #301A50 100%); /* Dark purple gradient */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 30px;
+            animation: pulse 1.5s infinite alternate ease-in-out;
+            transform-origin: center;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #FF69B4; /* Hot pink */
+            border-radius: 50%;
+            transform: rotate(-45deg);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #FF69B4; /* Hot pink */
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+
+        .sparkle-1 {
+            position: absolute;
+            top: 20%;
+            left: 70%;
+            width: 30px;
+            height: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><path d="M12 .5L9.5 8.5L.5 11L9.5 13.5L12 21.5L14.5 13.5L23.5 11L14.5 8.5L12 .5Z"/></svg>');
+            background-size: contain;
+            animation: twinkle 1s infinite alternate;
+        }
+
+        .sparkle-2 {
+            position: absolute;
+            top: 60%;
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><path d="M12 .5L9.5 8.5L.5 11L9.5 13.5L12 21.5L14.5 13.5L23.5 11L14.5 8.5L12 .5Z"/></svg>');
+            background-size: contain;
+            animation: twinkle 1.2s infinite alternate;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(-45deg); }
+            100% { transform: scale(1.05) rotate(-45deg); }
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        .message {
+            font-family: 'Dancing Script', cursive; /* Example font, ensure it's imported in style.css or here */
+            color: #FFD700; /* Gold color */
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .sub-message {
+            font-family: 'Arial', sans-serif;
+            color: #E0BBE4; /* Lighter purple */
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .progress-bar-container {
+            width: 80%;
+            max-width: 400px;
+            background-color: #4A2E73; /* Darker purple */
+            border-radius: 15px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Initial width */
+            background-color: #FF69B4; /* Hot pink */
+            border-radius: 15px;
+            transition: width 0.3s ease-in-out; /* Smooth transition for width change */
+        }
+
+        .progress-text {
+            font-family: 'Arial', sans-serif;
+            color: #E0BBE4; /* Lighter purple */
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
-    <div class="background-elements">
+    <div class="background-scenery">
         <div class="moon"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
     </div>
+    <div class="ethereal-glow"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
 
-    <div class="container">
-        <div class="heart-container">
-            <div class="heart"></div>
-            <div class="sparkle" style="top: 20%; left: 30%; width: 8px; height: 8px; animation-delay: 0.2s;"></div>
-            <div class="sparkle" style="top: 50%; left: 70%; width: 6px; height: 6px; animation-delay: 0.5s;"></div>
-            <div class="sparkle" style="top: 80%; left: 40%; width: 7px; height: 7px; animation-delay: 0.8s;"></div>
-        </div>
-        <div class="message" id="transitionMessage">Creating Magic</div>
-        <div class="sub-message">A beautiful surprise is loading ...</div>
+    <div class="heart-container">
+        <div class="heart"></div>
+        <div class="sparkle-1"></div>
+        <div class="sparkle-2"></div>
     </div>
+    <div class="message" id="transitionMessage">Creating Magic</div>
+    <div class="sub-message">A beautiful surprise is loading ...</div>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0%</div>
 
     <script src="script.js"></script>
 </body>
