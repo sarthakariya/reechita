@@ -10,8 +10,6 @@
         /* Specific styles for acknowledgement.html */
         .container {
             text-align: center;
-            /* Ensure the container fully fades in before redirect */
-            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
         }
 
         .response-heading {
@@ -32,75 +30,135 @@
             margin-bottom: 3rem;
             color: var(--text-light);
             opacity: 0;
-            animation: fadeIn 1.5s ease-out forwards 1s;
+            animation: fadeInSlideUp 1.5s ease-out forwards 1s;
         }
 
-        /* New animation for text on acknowledgement page */
-        @keyframes subtleGlow {
-            0%, 100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-            50% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.3); }
+        .final-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px 10px 25px 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Lora', serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            animation: buttonPopIn 1s ease-out forwards 1.5s;
+        }
+
+        .final-button:hover {
+            background: linear-gradient(45deg, var(--secondary-accent), var(--primary-accent));
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .final-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: buttonSparkle 0.8s ease-out;
         }
     </style>
 </head>
 <body>
-    <audio id="backgroundMusic" loop>
-        <source src="perfect_instrumental.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <button id="music-play-button">🎵</button>
-
     <div class="background-elements">
         <div class="moon"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
     </div>
 
-    <div class="ethereal-glow" style="--x: 10; --y: 20; width: 150px; height: 150px; animation-delay: 0s;"></div>
-    <div class="ethereal-glow" style="--x: 70; --y: 50; width: 200px; height: 200px; animation-delay: 5s;"></div>
-    <div class="ethereal-glow" style="--x: 30; --y: 80; width: 100px; height: 100px; animation-delay: 10s;"></div>
-
-    <div class="particle" style="top: 20%; left: 15%; width: 3px; height: 3px; --p-x: 15vw; --p-y: 20vh; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
-    <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-x: 80vw; --p-y: 50vh; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
-    <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
-    <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
-
-    <div class="container visible-content">
-        <div class="response-heading" id="responseHeading"></div>
-        <div class="response-message" id="responseMessage"></div>
-        </div>
+    <div class="container">
+        <h1 class="response-heading" id="responseHeading"></h1>
+        <p class="response-message" id="responseMessage"></p>
+        <a href="index.html" class="final-button" id="index-button">Back to the Stars ✨</a>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const backgroundElementsContainer = document.querySelector('.background-elements');
+            if (backgroundElementsContainer) {
+                // Stars
+                for (let i = 0; i < 50; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
+                    star.style.top = `${Math.random() * 100}vh`;
+                    star.style.left = `${Math.random() * 100}vw`;
+                    star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
+                    star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
+                    star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
+                    star.style.animationDelay = `${Math.random() * 6}s`;
+                    backgroundElementsContainer.appendChild(star);
+                }
+
+                // Ethereal Glows
+                for (let i = 0; i < 30; i++) {
+                    const glow = document.createElement('div');
+                    glow.classList.add('ethereal-glow');
+                    glow.style.setProperty('--x', Math.random() * 100);
+                    glow.style.setProperty('--y', Math.random() * 100);
+                    glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
+                    glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
+                    glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
+                    glow.style.animationDelay = `${Math.random() * 10}s`;
+                    glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
+                    glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
+                    backgroundElementsContainer.appendChild(glow);
+                }
+
+                // Particles
+                for (let i = 0; i < 60; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
+                    particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
+                    particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
+                    particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
+                    particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
+                    particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
+                    backgroundElementsContainer.appendChild(particle);
+                }
+            }
+
+
             const urlParams = new URLSearchParams(window.location.search);
             const response = urlParams.get('response');
             const responseHeading = document.getElementById('responseHeading');
             const responseMessage = document.getElementById('responseMessage');
+            const indexButton = document.getElementById('index-button');
 
             if (response === 'yes') {
-                responseHeading.textContent = "My Promise to You ✨";
-                responseMessage.innerHTML = "Thank you for being you, Reechita. You are truly perfect in every way. ✨";
+                responseHeading.textContent = "OMG, Reechita, Really?! 😭💖";
+                responseMessage.textContent = "My heart just did a backflip! This is the most beautiful 'YES' I've ever heard. Thank you for making my universe infinitely brighter. I can't wait to see where our journey takes us. I love you, Reechita! 🥺✨";
             } else if (response === 'no') {
-                responseHeading.textContent = "It's Okay 💜";
-                responseMessage.innerHTML = "I understand and respect your decision. Our connection truly means a lot, and I cherish our friendship. Your happiness is what matters most. 😊";
+                responseHeading.textContent = "Oh... 💔";
+                responseMessage.textContent = "My heart aches, but I understand. Thank you for your honesty, Reechita. Even though it's not the answer I hoped for, I'll always cherish the moments we've shared. Wishing you all the happiness in the world. 😔";
             } else {
-                responseHeading.textContent = "Oops!";
-                responseMessage.innerHTML = "Something went wrong, or you landed here directly. But thank you for being here! 😊";
+                responseHeading.textContent = "Oops! Something went wrong.";
+                responseMessage.textContent = "It looks like we lost your response. Please try again or go back to the beginning.";
+                indexButton.textContent = "Go Back";
             }
 
-            // Apply subtle glow animation to the text
-            responseHeading.style.animation = 'subtleGlow 3s ease-in-out infinite alternate, ' + responseHeading.style.animation;
-            responseMessage.style.animation = 'subtleGlow 3s ease-in-out infinite alternate, ' + responseMessage.style.animation;
-
-
-            // Redirect to index.html after 5 seconds
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 5000); // 5000 milliseconds = 5 seconds
+            // Optional: Automatically redirect after a few seconds
+            // setTimeout(() => {
+            //     window.location.href = 'index.html';
+            // }, 5000); // Redirect after 5 seconds
         });
     </script>
-    <script src="script.js"></script>
 </body>
 </html>
