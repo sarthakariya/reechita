@@ -3,162 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Response 💝</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Acknowledgement</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Specific styles for acknowledgement.html */
-        .container {
-            text-align: center;
-        }
-
-        .response-heading {
-            font-family: 'Great Vibes', cursive;
-            color: var(--text-heading);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 2rem;
-            text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
-            line-height: 1.2;
-            opacity: 0;
-            animation: fadeInScale 1.5s ease-out forwards 0.5s;
-        }
-
-        .response-message {
-            font-family: 'Lora', serif;
-            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
-            line-height: 1.8;
-            margin-bottom: 3rem;
-            color: var(--text-light);
-            opacity: 0;
-            animation: fadeInSlideUp 1.5s ease-out forwards 1s;
-        }
-
-        .final-button {
-            display: inline-block;
-            padding: 15px 30px;
-            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
-            color: #fff;
-            text-decoration: none;
-            border-radius: 25px 10px 25px 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            font-family: 'Lora', serif;
-            font-size: 1.1em;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            opacity: 0;
-            animation: buttonPopIn 1s ease-out forwards 1.5s;
-        }
-
-        .final-button:hover {
-            background: linear-gradient(45deg, var(--secondary-accent), var(--primary-accent));
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .final-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            animation: buttonSparkle 0.8s ease-out;
-        }
-    </style>
 </head>
 <body>
-    <div class="background-elements">
+    <div class="background-scenery">
         <div class="moon"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+    <div class="ethereal-glow"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <div class="container fade-in">
+        <h1 class="title-text" id="responseHeading"></h1>
+        <p class="body-text" id="responseMessage"></p>
+        <div class="button-group">
+            <a href="index.html" class="button" id="last-button">AND THE JOURNEY CONTINUES... ❤️</a>
+        </div>
     </div>
 
-    <div class="container">
-        <h1 class="response-heading" id="responseHeading"></h1>
-        <p class="response-message" id="responseMessage"></p>
-        <a href="index.html" class="final-button" id="index-button">Back to the Stars ✨</a>
-    </div>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="music-play-button" aria-label="Play or pause music">🎵</button>
 
     <script>
+        // This script is specific to acknowledgement.html and should remain here
         document.addEventListener('DOMContentLoaded', () => {
-            const backgroundElementsContainer = document.querySelector('.background-elements');
-            if (backgroundElementsContainer) {
-                // Stars
-                for (let i = 0; i < 50; i++) {
-                    const star = document.createElement('div');
-                    star.classList.add('star');
-                    star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
-                    star.style.top = `${Math.random() * 100}vh`;
-                    star.style.left = `${Math.random() * 100}vw`;
-                    star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
-                    star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
-                    star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
-                    star.style.animationDelay = `${Math.random() * 6}s`;
-                    backgroundElementsContainer.appendChild(star);
-                }
-
-                // Ethereal Glows
-                for (let i = 0; i < 30; i++) {
-                    const glow = document.createElement('div');
-                    glow.classList.add('ethereal-glow');
-                    glow.style.setProperty('--x', Math.random() * 100);
-                    glow.style.setProperty('--y', Math.random() * 100);
-                    glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
-                    glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
-                    glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
-                    glow.style.animationDelay = `${Math.random() * 10}s`;
-                    glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
-                    glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
-                    backgroundElementsContainer.appendChild(glow);
-                }
-
-                // Particles
-                for (let i = 0; i < 60; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
-                    particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
-                    particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
-                    particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
-                    particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
-                    particle.style.animationDelay = `${Math.random() * 10}s`;
-                    particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
-                    particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
-                    backgroundElementsContainer.appendChild(particle);
-                }
-            }
-
-
             const urlParams = new URLSearchParams(window.location.search);
             const response = urlParams.get('response');
             const responseHeading = document.getElementById('responseHeading');
             const responseMessage = document.getElementById('responseMessage');
-            const indexButton = document.getElementById('index-button');
 
             if (response === 'yes') {
-                responseHeading.textContent = "OMG, Reechita, Really?! 😭💖";
-                responseMessage.textContent = "My heart just did a backflip! This is the most beautiful 'YES' I've ever heard. Thank you for making my universe infinitely brighter. I can't wait to see where our journey takes us. I love you, Reechita! 🥺✨";
+                responseHeading.textContent = "My Promise to You ❤️";
+                responseMessage.innerHTML = "Thank you for being you, Reechita. You are truly perfect in every way. ✨";
             } else if (response === 'no') {
-                responseHeading.textContent = "Oh... 💔";
-                responseMessage.textContent = "My heart aches, but I understand. Thank you for your honesty, Reechita. Even though it's not the answer I hoped for, I'll always cherish the moments we've shared. Wishing you all the happiness in the world. 😔";
+                responseHeading.textContent = "It's Okay 💜";
+                responseMessage.innerHTML = "I understand and respect your decision. Our connection truly means a lot, and I cherish our friendship. Your happiness is what matters most. 😊";
             } else {
-                responseHeading.textContent = "Oops! Something went wrong.";
-                responseMessage.textContent = "It looks like we lost your response. Please try again or go back to the beginning.";
-                indexButton.textContent = "Go Back";
+                responseHeading.textContent = "Oops!";
+                responseMessage.innerHTML = "Something went wrong, or you landed here directly. But thank you for being here! 😊";
             }
-
-            // Optional: Automatically redirect after a few seconds
-            // setTimeout(() => {
-            //     window.location.href = 'index.html';
-            // }, 5000); // Redirect after 5 seconds
         });
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
