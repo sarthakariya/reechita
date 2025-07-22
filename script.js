@@ -1,3 +1,5 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     // Preloader logic (Updated for progress bar and 5-second minimum)
     const preloader = document.getElementById('preloader');
@@ -188,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.animationFillMode = 'forwards'; // Keep the end state of the animation
     });
 
+
     // Universal transition button logic
     document.querySelectorAll('.button').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -214,22 +217,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Specific logic for transition.html - Removed progress bar
+    // Specific logic for transition.html
     if (window.location.pathname.includes('transition.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const targetPage = urlParams.get('to');
         const customMessage = urlParams.get('message');
         const transitionMessageElement = document.getElementById('transitionMessage');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
 
         if (customMessage) {
             transitionMessageElement.textContent = customMessage;
         }
 
-        // Set a timeout to navigate after a fixed duration (e.g., 2 seconds for heart animation)
-        setTimeout(() => {
-            if (targetPage) {
-                window.location.href = targetPage;
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 5;
+            if (progress <= 100) {
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${progress}%`;
+            } else {
+                clearInterval(interval);
+                if (targetPage) {
+                    window.location.href = targetPage;
+                }
             }
-        }, 2000); // Navigate after 2 seconds
+        }, 150); // Speed of loading bar
     }
 });
