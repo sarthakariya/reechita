@@ -28,13 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, { once: true }); // Ensure listener is only called once
             }
         };
-
         // Condition 1: Page fully loaded (all assets like images, music, etc.)
         window.addEventListener('load', () => {
             pageLoaded = true;
             hidePreloader();
         });
-
         // Condition 2: Minimum 5 seconds elapsed, and drive progress bar animation
         const minDuration = 5000; // 5 seconds
         const intervalDuration = 50; // Update every 50ms for smooth animation
@@ -52,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
             indexProgressText.textContent = `${Math.floor(currentProgress)}%`;
             hidePreloader(); // Check if ready to hide
         }, intervalDuration);
-
         // Fallback to ensure minimumTimeElapsed is set after 5 seconds
         setTimeout(() => {
             minimumTimeElapsed = true;
@@ -163,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(isMusicPlayingKey, 'false');
             }
         });
-
         // Save current playback time before navigating away
         window.addEventListener('beforeunload', () => {
             if (!backgroundMusic.paused) {
@@ -173,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(isMusicPlayingKey, 'false'); // Ensure state is saved as paused
             }
         });
-
         // Handle music ending (though it's looped, good practice)
         backgroundMusic.addEventListener('ended', () => {
             musicPlayButton.textContent = '🎵';
@@ -189,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.animationDelay = `${0.5 + index * 0.2}s`;
         el.style.animationFillMode = 'forwards'; // Keep the end state of the animation
     });
-
     // Universal transition button logic
     document.querySelectorAll('.button').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -216,22 +210,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Specific logic for transition.html - Removed progress bar
+    // Specific logic for transition.html
     if (window.location.pathname.includes('transition.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const targetPage = urlParams.get('to');
         const customMessage = urlParams.get('message');
         const transitionMessageElement = document.getElementById('transitionMessage');
-
+        // Removed: const progressBar = document.getElementById('progressBar');
+        // Removed: const progressText = document.getElementById('progressText');
         if (customMessage) {
             transitionMessageElement.textContent = customMessage;
         }
 
-        // Set a timeout to navigate after a fixed duration (e.g., 2 seconds for heart animation)
+        // Removed progress bar update logic. Redirect after a short delay.
         setTimeout(() => {
             if (targetPage) {
                 window.location.href = targetPage;
             }
-        }, 2000); // Navigate after 2 seconds
+        }, 1500); // 1.5 second delay to show the message
     }
 });
