@@ -10,6 +10,8 @@
         /* Specific styles for acknowledgement.html */
         .container {
             text-align: center;
+            /* Ensure the container fully fades in before redirect */
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
         }
 
         .response-heading {
@@ -33,10 +35,10 @@
             animation: fadeIn 1.5s ease-out forwards 1s;
         }
 
-        .final-button {
-            margin-top: 3.5rem;
-            opacity: 0;
-            animation: fadeInScaleButtons 1.5s ease-out forwards 1.5s;
+        /* New animation for text on acknowledgement page */
+        @keyframes subtleGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            50% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.3); }
         }
     </style>
 </head>
@@ -65,16 +67,12 @@
     <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
     <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
 
-    <div class="container">
+    <div class="container visible-content">
         <div class="response-heading" id="responseHeading"></div>
         <div class="response-message" id="responseMessage"></div>
-        <div class="final-button">
-            <a href="index.html" class="button" id="last-button">AND THE JOURNEY CONTINUES... <span class="emoji">💖</span></a>
         </div>
-    </div>
 
     <script>
-        // This script is specific to acknowledgement.html and should remain here
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const response = urlParams.get('response');
@@ -91,6 +89,16 @@
                 responseHeading.textContent = "Oops!";
                 responseMessage.innerHTML = "Something went wrong, or you landed here directly. But thank you for being here! 😊";
             }
+
+            // Apply subtle glow animation to the text
+            responseHeading.style.animation = 'subtleGlow 3s ease-in-out infinite alternate, ' + responseHeading.style.animation;
+            responseMessage.style.animation = 'subtleGlow 3s ease-in-out infinite alternate, ' + responseMessage.style.animation;
+
+
+            // Redirect to index.html after 5 seconds
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 5000); // 5000 milliseconds = 5 seconds
         });
     </script>
     <script src="script.js"></script>
