@@ -162,30 +162,34 @@ body {
     width: 100%;
     height: 100%;
     background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-    /* This creates a light reflection from the top */
+    animation: waterRipple 20s ease-in-out infinite alternate;
 }
 
 @keyframes waterFlow {
-    0% { background-position: 0% 0; }
-    100% { background-position: -100% 0; }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes waterRipple {
+    0% { transform: scale(1, 0.8) translateY(0); opacity: 1; }
+    50% { transform: scale(1.05, 1.2) translateY(-5%); opacity: 0.7; }
+    100% { transform: scale(1, 0.8) translateY(0); opacity: 1; }
 }
 
 
 /* Ethereal Glows */
 .ethereal-glow {
     position: absolute;
-    background: radial-gradient(circle, rgba(138, 43, 226, 0.7) 0%, rgba(255, 105, 180, 0.5) 50%, transparent 100%);
+    background: radial-gradient(circle, var(--primary-accent), var(--secondary-accent), transparent 70%);
     border-radius: 50%;
-    opacity: 0;
-    animation: glowFloat var(--glow-duration) ease-in-out infinite alternate, glowPulse 3s ease-in-out infinite alternate;
-    filter: blur(20px);
+    opacity: 0.3;
+    filter: blur(50px);
+    animation: glowFloat var(--glow-duration) ease-in-out infinite alternate, glowPulse var(--glow-duration) ease-in-out infinite alternate;
 }
 
 @keyframes glowFloat {
-    0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(var(--glow-scale)); opacity: 0; }
-    25% { opacity: 0.7; }
-    75% { opacity: 0.7; }
-    100% { transform: translate(calc(var(--x) + var(--dx)) * 1vw), calc((var(--y) + var(--dy)) * 1vh)) scale(calc(var(--glow-scale) * 1.1)); }
+    0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(var(--glow-scale)); }
+    100% { transform: translate(calc((var(--x) + var(--dx)) * 1vw), calc((var(--y) + var(--dy)) * 1vh)) scale(calc(var(--glow-scale) * 1.1)); }
 }
 
 @keyframes glowPulse {
@@ -219,56 +223,74 @@ body {
     text-align: center;
     max-width: 800px;
     width: 90%;
-    margin: 50px auto;
+    z-index: 10;
     position: relative;
-    z-index: 1;
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: fadeInSlideUp 1.5s ease-out forwards; /* Initial container animation */
+    /* Initial state for JavaScript visibility class */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    animation: containerPulse 5s infinite alternate ease-in-out; /* New: subtle pulse */
 }
 
-/* Headings */
+@keyframes containerPulse {
+    0% { transform: scale(1); box-shadow: var(--shadow-deep); }
+    100% { transform: scale(1.005); box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7); }
+}
+
+.container.visible-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Headings & Text */
 h1 {
     font-family: 'Great Vibes', cursive;
     color: var(--text-heading);
     font-size: clamp(3rem, 6vw, 5rem);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-shadow: 4px 4px 10px rgba(0,0,0,0.5);
-    line-height: 1.2;
-    opacity: 0; /* Default hidden for animation */
-    animation: fadeInScale 1.5s ease-out forwards; /* Apply animation to h1 */
+    line-height: 1.1;
+    opacity: 0;
+    animation: fadeInScale 1.5s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 h2 {
-    font-family: 'Great Vibes', cursive;
+    font-family: 'Dancing Script', cursive;
     color: var(--primary-accent);
-    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
-    text-shadow: 3px 3px 8px rgba(0,0,0,0.4);
-    line-height: 1.3;
-    opacity: 0; /* Default hidden for animation */
-    animation: fadeInSlideUp 1.5s ease-out forwards; /* New animation for h2 */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: fadeInSlideUp 1.2s ease-out forwards;
 }
 
-/* Paragraphs */
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 p {
     font-family: 'Lora', serif;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    line-height: 1.8;
-    margin-bottom: 1.2rem;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
     color: var(--text-light);
-    opacity: 0; /* Default hidden for staggered animation */
-    animation: fadeIn 1s ease-out; /* ADDED: Apply fadeIn animation here */
+    opacity: 0; /* Handled by JS */
 }
 
-/* Section Break */
 .section-break {
-    border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
     margin: 3rem auto;
-    width: 70%;
-    opacity: 0; /* Default hidden for staggered animation */
-    animation: fadeIn 1s ease-out; /* ADDED: Apply fadeIn animation here */
+    border-radius: 5px;
+    opacity: 0; /* Handled by JS */
 }
 
 /* Specific text highlighting and glowing */
@@ -297,7 +319,7 @@ p {
 .glowing-purple {
     color: #DA70D6; /* Orchid / Plum */
     text-shadow: 0 0 8px #DA70D6, 0 0 15px #DA70D6;
-    animation: purpleTextGlow 2s ease-in-out infinite alternate;
+    animation: purpleTextGlow 2.5s ease-in-out infinite alternate;
 }
 
 @keyframes purpleTextGlow {
@@ -308,10 +330,8 @@ p {
 /* Buttons */
 .button-container {
     margin-top: 3rem;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards 2s; /* Apply initial fade-in */
 }
 
 .button, .choice-button {
@@ -321,23 +341,24 @@ p {
     color: #fff;
     text-decoration: none;
     border-radius: 25px 10px 25px 10px; /* Different button shape */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-    font-family: 'Lora', serif;
-    font-size: 1.1em;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
     font-weight: bold;
-    position: relative; /* For sparkle effect */
-    overflow: hidden; /* For sparkle effect */
-    z-index: 1;
-    opacity: 0; /* Default hidden for animation */
-    animation: buttonPopIn 1s ease-out forwards; /* Apply initial animation */
-    animation-delay: 2s; /* Stagger animation */
+    font-size: 1.1em;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    opacity: 0; /* Default hidden for staggered animation */
+    animation: buttonPopIn 1s ease-out forwards;
 }
 
 .button:hover, .choice-button:hover {
     background: linear-gradient(45deg, var(--secondary-accent), var(--primary-accent));
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 0 8px rgba(255,255,255,0.7); /* New: text shadow on hover */
 }
 
 .button::before, .choice-button::before {
@@ -351,20 +372,19 @@ p {
     border-radius: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
-    animation: buttonSparkle 0.8s ease-out; /* Adjusted duration for more noticeable sparkle */
+    animation: buttonSparkle 0.6s ease-out;
 }
 
 @keyframes buttonSparkle {
     0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(2); /* Increased scale */ }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(4); /* Increased scale */ }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
 }
 
 @keyframes buttonPopIn {
     from { opacity: 0; transform: scale(0.5); }
     to { opacity: 1; transform: scale(1); }
 }
-
 
 /* Music Playback Button (Unique style) */
 #music-play-button {
@@ -382,24 +402,33 @@ p {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s ease;
     z-index: 1000;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    transition: all 0.3s ease;
+    animation: musicButtonPulse 2s infinite ease-in-out; /* New: pulse animation */
 }
 
 #music-play-button:hover {
     background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
     transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 1);
 }
 
 #music-play-button.playing {
-    animation: musicPulse 1.5s infinite alternate;
+    background-color: rgba(50, 0, 50, 0.7); /* Darker when playing */
+    color: #FF69B1;
+    border-color: #FF69B1;
+    animation: musicButtonPulse 2s infinite ease-in-out, playingGlow 1.5s infinite alternate;
 }
 
-@keyframes musicPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+@keyframes musicButtonPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 215, 0, 1); }
+}
+
+@keyframes playingGlow {
+    0%, 100% { border-color: #FF69B1; box-shadow: 0 0 10px #FF69B1; }
+    50% { border-color: #8A2BE2; box-shadow: 0 0 20px #8A2BE2; }
 }
 
 
@@ -427,121 +456,83 @@ p {
 .preloader-message {
     font-family: 'Great Vibes', cursive;
     color: var(--text-heading);
-    font-size: 2.5em; /* Slightly larger */
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); /* Stronger glow */
-    margin-bottom: 30px; /* Increased spacing */
+    font-size: 2em;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    margin-bottom: 20px; /* Added spacing */
 }
 
 /* Progress bar for Index page preloader - Specific overrides if needed */
-.progress-bar-container {
-    width: 60%; /* Wider bar */
-    max-width: 400px;
-    background-color: rgba(255, 255, 255, 0.1); /* Lighter background */
-    border-radius: 15px; /* More rounded */
-    height: 20px; /* Thicker bar */
-    overflow: hidden;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Inner shadow */
+#preloader .progress-bar-container { /* Target container within preloader specifically */
     margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 #indexProgressBar { /* Specific ID for the index page progress bar */
     height: 100%;
     width: 0%; /* Starts at 0 */
     background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
-    border-radius: 15px; /* Match container */
+    border-radius: 10px;
     transition: width 0.1s linear; /* Smooth fill */
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-weight: bold;
-    font-size: 1em; /* Larger percentage text */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    font-size: 0.9em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-#indexProgressText {
-    margin-top: 15px; /* Spacing below the bar */
-    font-size: 1.2em; /* Larger percentage text */
+#indexProgressText { /* Specific ID for the index page progress text */
+    margin-left: 10px; /* Space between bar and text */
     color: var(--text-light);
-    opacity: 0.8;
-}
-
-/* Animations for general content on pages (h1, p, buttons, etc.) */
-@keyframes fadeInScale {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes fadeInSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeInScaleButtons {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    font-size: 1em;
 }
 
 
 /* Specific styles for transition.html */
 .heart-container {
     position: relative;
-    width: 150px; /* Adjusted size */
-    height: 135px; /* Adjusted size (approx 90% of width for heart shape) */
-    margin: 50px auto 30px auto; /* Centered with spacing */
-    animation: heartBeat 5s infinite ease-in-out; /* Heartbeat animation for 5 seconds */
-    transform-origin: center;
+    width: 150px;
+    height: 135px;
+    margin-bottom: 30px;
+    animation: heartBeat 1.5s infinite ease-in-out;
 }
 
 .heart {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--primary-accent); /* Pink heart */
-    border-radius: 50% 50% 0 0;
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary-accent);
     transform: rotate(-45deg);
-    transform-origin: 50% 50%;
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); /* Initial glow */
-    transition: background-color 0.3s ease; /* Smooth color transition */
+    top: 20px;
+    left: 25px;
+    border-radius: 50% 0 50% 50%; /* Adjust border-radius to form a heart */
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
 }
 
 .heart::before,
 .heart::after {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
     background-color: var(--primary-accent);
-    border-radius: 50% 50% 0 0;
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+    border-radius: 50%;
 }
 
 .heart::before {
-    transform: rotate(90deg);
-    top: -50%;
-    left: 50%;
-    transform-origin: 0 100%;
+    top: -50px;
+    left: 0;
 }
 
 .heart::after {
-    transform: rotate(90deg);
-    top: 50%;
-    left: -50%;
-    transform-origin: 100% 0;
+    top: 0;
+    left: 50px;
 }
-
 
 @keyframes heartBeat {
     0%, 100% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
     15% { transform: scale(1.1) rotate(-45deg); box-shadow: 0 0 45px rgba(255, 105, 180, 1), 0 0 60px rgba(255, 255, 255, 0.5); }
     30% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
-    100% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
 }
 
 .sparkle {
@@ -579,4 +570,29 @@ p {
     animation-delay: 1.5s;
 }
 
-/* Removed progress bar container and text for transition.html */
+/* Removed the progress bar container and related styles for transition.html */
+/*
+.progress-bar-container {
+    width: clamp(200px, 60vw, 400px);
+    height: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+    border-radius: 10px;
+    transition: width 0.3s ease-out;
+}
+
+.progress-text {
+    margin-top: 10px;
+    font-size: 1em;
+    color: var(--text-light);
+}
+*/
