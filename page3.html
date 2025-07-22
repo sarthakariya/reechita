@@ -6,32 +6,14 @@
     <title>The Big Question 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    <audio id="backgroundMusic" loop>
-        <source src="perfect_instrumental.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <button id="music-play-button">🎵</button>
-
     <div class="background-elements">
         <div class="moon"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
     </div>
-
-    <div class="ethereal-glow" style="--x: 10; --y: 20; width: 150px; height: 150px; animation-delay: 0s;"></div>
-    <div class="ethereal-glow" style="--x: 70; --y: 50; width: 200px; height: 200px; animation-delay: 5s;"></div>
-    <div class="ethereal-glow" style="--x: 30; --y: 80; width: 100px; height: 100px; animation-delay: 10s;"></div>
-
-    <div class="particle" style="top: 20%; left: 15%; width: 3px; height: 3px; --p-x: 15vw; --p-y: 20vh; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
-    <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-x: 80vw; --p-y: 50vh; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
-    <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
-    <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
-
 
     <div class="container">
         <div class="question-text">
@@ -39,40 +21,15 @@
         </div>
 
         <div class="choice-buttons-container">
-            <a href="acknowledgement.html?response=yes" class="choice-button yes">YES! 💍</a>
-            <a href="acknowledgement.html?response=no" class="choice-button no">I'M SORRY... 💔</a>
+            <a href="acknowledgement.html?response=yes" class="choice-button yes">YES! 💘</a>
+            <a href="acknowledgement.html?response=no" class="choice-button no">No 💔</a>
         </div>
-        <div class="message-below" id="buttonMessage">Choose your heart's true answer...</div>
+
+        <p class="message-below">
+            (Don't think too hard, the universe is waiting!)
+        </p>
     </div>
 
-    <script>
-        // Specific script for page3.html
-        document.addEventListener('DOMContentLoaded', () => {
-            const yesButton = document.querySelector('.choice-button.yes');
-            const noButton = document.querySelector('.choice-button.no');
-            const buttonMessage = document.getElementById('buttonMessage');
-
-            yesButton.addEventListener('mouseover', () => {
-                buttonMessage.textContent = "Say YES and make my heart flutter! 💖";
-                buttonMessage.style.opacity = 1;
-            });
-
-            noButton.addEventListener('mouseover', () => {
-                buttonMessage.textContent = "Even if it's no, my feelings for you will remain. 💜";
-                buttonMessage.style.opacity = 1;
-            });
-
-            yesButton.addEventListener('mouseout', () => {
-                buttonMessage.textContent = "Choose your heart's true answer...";
-                buttonMessage.style.opacity = 1;
-            });
-
-            noButton.addEventListener('mouseout', () => {
-                buttonMessage.textContent = "Choose your heart's true answer...";
-                buttonMessage.style.opacity = 1;
-            });
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
