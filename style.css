@@ -619,3 +619,372 @@ p {
     animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats, alternates direction */
     transform-origin: center; /* Ensures scaling is from the center */
 }
+
+
+/* CSS-drawn Heart Shape */
+.css-heart {
+    position: relative;
+    width: 120px; /* Adjust size as needed */
+    height: 100px;
+    background-color: var(--primary-accent); /* Pink heart */
+    transform: rotate(-45deg);
+    margin: 50px auto 30px; /* Centered with top/bottom margin */
+    box-shadow: 0 0 30px var(--primary-accent), 0 0 50px rgba(255, 105, 177, 0.5); /* Glowing effect */
+    border-radius: 20px; /* Slightly rounded edges for the base square */
+}
+.css-heart::before,
+.css-heart::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 100px;
+    background-color: var(--primary-accent);
+    border-radius: 50%;
+}
+.css-heart::before {
+    top: -50%;
+    left: 0;
+}
+.css-heart::after {
+    left: 50%;
+    top: 0;
+}
+
+/* Ensure heart beat animation is visible for this element */
+.heart-animation-wrapper .beating-heart {
+    animation: heartBeat 1.5s infinite ease-in-out; /* Faster beat for loading */
+    transform-origin: center center;
+}
+
+/* Transition Page Specific Styles (Refinement) */
+.transition-container {
+    padding: 60px; /* More padding */
+    max-width: 700px; /* Slightly wider */
+    margin: 100px auto;
+    /* Ensure it has its own entrance animation */
+    opacity: 0; /* Start hidden for its own animation */
+    transform: translateY(20px) scale(0.95);
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+.transition-container.visible-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.transition-message-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2.8em; /* Kept existing size */
+    margin-top: 30px; /* Space after heart */
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    animation: fadeInSlideUp 1s ease-out forwards; /* Add animation */
+    opacity: 0; /* Initial state for animation */
+}
+
+.transition-progress-bar { /* To specifically style the progress bar on transition.html */
+    width: 70%; /* Smaller progress bar */
+    height: 15px; /* Thinner */
+    margin: 40px auto 0; /* Adjust margin for spacing */
+}
+#progressBar {
+    border-radius: 8px; /* Smoother edges */
+}
+#progressText {
+    font-size: 0.8em; /* Smaller text */
+}
+
+/* Responsive adjustments for transition page */
+@media (max-width: 768px) {
+    .transition-container {
+        padding: 40px;
+        max-width: 90%;
+    }
+    .css-heart {
+        width: 90px;
+        height: 75px;
+    }
+    .css-heart::before,
+    .css-heart::after {
+        width: 90px;
+        height: 75px;
+    }
+    .transition-message-text {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .transition-container {
+        padding: 25px;
+    }
+    .css-heart {
+        width: 70px;
+        height: 60px;
+    }
+    .css-heart::before,
+    .css-heart::after {
+        width: 70px;
+        height: 60px;
+    }
+    .transition-message-text {
+        font-size: 1.8em;
+    }
+    .transition-progress-bar {
+        width: 85%;
+        height: 12px;
+    }
+}
+3. Update your script.js file by replacing its entire content with this code:
+
+JavaScript
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    const preloader = document.getElementById('preloader');
+    const indexProgressBar = document.getElementById('indexProgressBar');
+    const indexProgressText = document.getElementById('indexProgressText');
+    const container = document.querySelector('.container');
+
+    // Determine if it's the main index page by checking the path and presence of all preloader elements
+    const isIndexPageWithPreloader = (window.location.pathname.endsWith('/') || window.location.pathname.endsWith('/index.html') || window.location.pathname.endsWith('/index.htm')) &&
+                                     preloader && indexProgressBar && indexProgressText;
+    
+    // Logic for the full preloader experience (typically only on index.html)
+    if (isIndexPageWithPreloader) {
+        let pageLoaded = false;
+        let minimumTimeElapsed = false;
+        let currentProgress = 0;
+
+        const hidePreloader = () => {
+            if (pageLoaded && minimumTimeElapsed) {
+                indexProgressBar.style.width = '100%';
+                indexProgressText.textContent = '100%';
+                preloader.classList.add('hidden'); // Start hiding preloader
+                container.classList.add('visible-content'); // Show main content
+                preloader.addEventListener('transitionend', () => {
+                    preloader.remove(); // Remove preloader from DOM after transition
+                }, { once: true });
+            }
+        };
+
+        window.addEventListener('load', () => {
+            pageLoaded = true;
+            hidePreloader();
+        });
+
+        const minDuration = 5000; // 5 seconds minimum
+        const intervalDuration = 50;
+        const increment = 100 / (minDuration / intervalDuration);
+
+        const progressInterval = setInterval(() => {
+            currentProgress += increment;
+            if (currentProgress >= 100) {
+                currentProgress = 100;
+                clearInterval(progressInterval);
+                minimumTimeElapsed = true;
+            }
+            indexProgressBar.style.width = `${currentProgress}%`;
+            indexProgressText.textContent = `${Math.floor(currentProgress)}%`;
+            hidePreloader();
+        }, intervalDuration);
+
+        setTimeout(() => {
+            minimumTimeElapsed = true;
+            hidePreloader();
+        }, minDuration);
+
+    } 
+    // Logic for all other pages (like page2.html, page3.html) that have a main container
+    else if (container && !window.location.pathname.includes('transition.html')) {
+        // Ensure the container becomes visible on non-index and non-transition pages
+        setTimeout(() => {
+            container.classList.add('visible-content');
+        }, 50); 
+    }
+
+    // Music Playback Logic (remains unchanged)
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const musicPlayButton = document.getElementById('music-play-button');
+
+    if (backgroundMusic && musicPlayButton) {
+        const isMusicPlayingKey = 'isMusicPlaying';
+        const musicPlaybackTimeKey = 'musicPlaybackTime';
+
+        const savedPlaybackTime = localStorage.getItem(musicPlaybackTimeKey);
+        const savedMusicState = localStorage.getItem(isMusicPlayingKey);
+
+        if (savedPlaybackTime) {
+            backgroundMusic.currentTime = parseFloat(savedPlaybackTime);
+        }
+
+        if (savedMusicState === 'true') {
+            backgroundMusic.play()
+                .then(() => {
+                    musicPlayButton.textContent = '⏸️';
+                    musicPlayButton.classList.add('playing');
+                })
+                .catch(error => {
+                    console.warn("Autoplay prevented:", error);
+                });
+        } else {
+            musicPlayButton.textContent = '🎵';
+            musicPlayButton.classList.remove('playing');
+        }
+
+        musicPlayButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play()
+                    .then(() => {
+                        musicPlayButton.textContent = '⏸️';
+                        musicPlayButton.classList.add('playing');
+                        localStorage.setItem(isMusicPlayingKey, 'true');
+                    })
+                    .catch(error => {
+                        console.error("Manual play prevented:", error);
+                        alert("Please allow media playback in your browser settings to hear the music!");
+                    });
+            } else {
+                backgroundMusic.pause();
+                musicPlayButton.textContent = '🎵';
+                musicPlayButton.classList.remove('playing');
+                localStorage.setItem(isMusicPlayingKey, 'false');
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (!backgroundMusic.paused) {
+                localStorage.setItem(musicPlaybackTimeKey, backgroundMusic.currentTime.toString());
+                localStorage.setItem(isMusicPlayingKey, 'true');
+            } else {
+                localStorage.setItem(isMusicPlayingKey, 'false');
+            }
+        });
+
+        backgroundMusic.addEventListener('ended', () => {
+            musicPlayButton.textContent = '🎵';
+            musicPlayButton.classList.remove('playing');
+            localStorage.setItem(isMusicPlayingKey, 'false');
+        });
+    }
+
+    // Populate background elements (stars, glows, particles)
+    const backgroundElementsContainer = document.querySelector('.background-elements');
+    if (backgroundElementsContainer) {
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
+            star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
+            star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
+            star.style.animationDelay = `${Math.random() * 6}s`;
+            backgroundElementsContainer.appendChild(star);
+        }
+
+        for (let i = 0; i < 30; i++) {
+            const glow = document.createElement('div');
+            glow.classList.add('ethereal-glow');
+            glow.style.setProperty('--x', Math.random() * 100);
+            glow.style.setProperty('--y', Math.random() * 100);
+            glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
+            glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
+            glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
+            glow.style.animationDelay = `${Math.random() * 10}s`;
+            glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
+            glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
+            backgroundElementsContainer.appendChild(glow);
+        }
+
+        for (let i = 0; i < 60; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
+            particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
+            particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
+            particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
+            particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
+            particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
+            backgroundElementsContainer.appendChild(particle);
+        }
+    }
+
+    // Staggered text and section-break animations
+    const elementsToAnimate = document.querySelectorAll('p, .section-break');
+    elementsToAnimate.forEach((el, index) => {
+        el.style.animationDelay = `${0.5 + index * 0.2}s`;
+        el.style.animationFillMode = 'forwards';
+    });
+
+    // Universal transition button logic
+    document.querySelectorAll('.button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            if (button.getAttribute('href').startsWith('#')) {
+                return;
+            }
+            e.preventDefault();
+            const targetPage = button.getAttribute('href');
+            let transitionMessage = "Stepping closer to forever..."; // Default message
+
+            if (button.id === "acknowledgement-button") {
+                transitionMessage = "Unveiling the next chapter...";
+            } else if (button.id === "last-button") {
+                transitionMessage = "Thank You!";
+            } else if (button.id === "index-button") {
+                transitionMessage = "Heading back home...";
+            }
+            
+            // Specific message for transition to page3.html (the "big question")
+            if (targetPage.includes('page3.html')) {
+                 transitionMessage = "Heart is reaching for you...";
+            }
+
+
+            window.location.href = `transition.html?to=${encodeURIComponent(targetPage)}&message=${encodeURIComponent(transitionMessage)}`;
+        });
+    });
+
+    // Specific logic for transition.html
+    if (window.location.pathname.includes('transition.html')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetPage = urlParams.get('to');
+        const customMessage = urlParams.get('message');
+        const transitionMessageElement = document.getElementById('transitionMessage');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const transitionContainer = document.querySelector('.transition-container'); 
+
+        // Set the message or a default if none provided
+        if (customMessage) {
+            transitionMessageElement.textContent = customMessage;
+        } else {
+            transitionMessageElement.textContent = "Loading..."; // Fallback default
+        }
+
+        // Make the transition container visible
+        if (transitionContainer) {
+            setTimeout(() => {
+                transitionContainer.classList.add('visible-content');
+            }, 50); // Small delay for CSS initial state
+        }
+
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 5; 
+            if (progress <= 100) {
+                if (progressBar) progressBar.style.width = `${progress}%`;
+                if (progressText) progressText.textContent = `${progress}%`;
+            } else {
+                clearInterval(interval);
+                if (targetPage) {
+                    window.location.href = targetPage;
+                }
+            }
+        }, 250); // Adjusted to 250ms per step for a 5-second total duration (100% / 5% per step = 20 steps; 20 steps * 250ms = 5000ms)
+    }
+});
