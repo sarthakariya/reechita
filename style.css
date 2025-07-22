@@ -539,7 +539,8 @@ p {
     position: relative;
     transform: rotate(-45deg);
     box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
-    animation: heartBeat 1.5s infinite ease-in-out, heartGlow 2s infinite alternate;
+    /* Adjusted heart animations for longer duration and smoother pulse */
+    animation: heartBeat 5s infinite ease-in-out, heartGlow 5s infinite alternate;
 }
 
 .heart::before,
@@ -562,18 +563,24 @@ p {
     top: 0;
 }
 
+/* Polished heartBeat animation */
 @keyframes heartBeat {
     0%, 100% { transform: scale(1) rotate(-45deg); }
     15% { transform: scale(1.1) rotate(-45deg); }
     30% { transform: scale(1) rotate(-45deg); }
+    45% { transform: scale(1.08) rotate(-45deg); } /* Added intermediate scale */
+    60% { transform: scale(1) rotate(-45deg); }
 }
 
+/* Polished heartGlow animation */
 @keyframes heartGlow {
     0%, 100% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
     15% { box-shadow: 0 0 45px rgba(255, 105, 180, 1), 0 0 60px rgba(255, 255, 255, 0.5); }
     30% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
-    100% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
+    45% { box-shadow: 0 0 40px rgba(255, 105, 180, 0.8), 0 0 50px rgba(255, 255, 255, 0.4); }
+    60% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
 }
+
 
 .sparkle {
     position: absolute;
@@ -770,7 +777,7 @@ p {
 
 .secret-heart.visible {
     opacity: 1;
-    animation: heartBeat 1s infinite alternate; /* Use existing heart beat animation */
+    animation: heartBeat 5s infinite alternate; /* Use existing heart beat animation, now 5s */
 }
 
 .secret-message-box {
