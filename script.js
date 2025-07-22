@@ -216,93 +216,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Specific logic for transition.html
+    // Specific logic for transition.html - Removed progress bar
     if (window.location.pathname.includes('transition.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const targetPage = urlParams.get('to');
         const customMessage = urlParams.get('message');
         const transitionMessageElement = document.getElementById('transitionMessage');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
+
         if (customMessage) {
             transitionMessageElement.textContent = customMessage;
         }
 
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 5;
-            if (progress <= 100) {
-                progressBar.style.width = `${progress}%`;
-                progressText.textContent = `${progress}%`;
-            } else {
-                clearInterval(interval);
-                if (targetPage) {
-                    window.location.href = targetPage;
-                }
-            }
-        }, 150); // Speed of loading bar
-    }
-
-    // Easter Egg: Hidden Heart 💖
-    const body = document.body;
-    let clickCount = 0;
-    const secretHeart = document.createElement('div');
-    secretHeart.classList.add('secret-heart');
-    secretHeart.style.position = 'absolute';
-    secretHeart.style.display = 'none'; // Hidden by default
-    secretHeart.innerHTML = '❤️'; // Display a heart symbol
-    body.appendChild(secretHeart);
-
-    const secretMessageBox = document.createElement('div');
-    secretMessageBox.classList.add('secret-message-box');
-    body.appendChild(secretMessageBox);
-
-    // Function to show a temporary message box
-    const showTemporaryMessage = (message, duration = 3000) => {
-        secretMessageBox.textContent = message;
-        secretMessageBox.classList.add('show');
+        // Set a timeout to navigate after a fixed duration (e.g., 2 seconds for heart animation)
         setTimeout(() => {
-            secretMessageBox.classList.remove('show');
-        }, duration);
-    };
-
-    // Event listener for clicks on the body to trigger the heart
-    body.addEventListener('click', (event) => {
-        clickCount++;
-        // Easter Egg 1: Heart appears on 5th click
-        if (clickCount === 5) {
-            secretHeart.style.display = 'block';
-            secretHeart.style.top = `${event.clientY - 12.5}px`; // Center the heart
-            secretHeart.style.left = `${event.clientX - 12.5}px`; // Center the heart
-            secretHeart.classList.add('visible');
-            showTemporaryMessage("You found a hidden heart! ❤️", 2000);
-        } else if (clickCount > 5 && secretHeart.classList.contains('visible')) {
-            // Make the heart follow the mouse for a bit after it's revealed
-            secretHeart.style.top = `${event.clientY - 12.5}px`;
-            secretHeart.style.left = `${event.clientX - 12.5}px`;
-        }
-    });
-
-    // Easter Egg 2: Specific phrase trigger (example: type "ReechitaMagic")
-    let typedSequence = '';
-    const secretPhrase = 'reechitamagic'; // Lowercase for case-insensitivity
-
-    document.addEventListener('keydown', (event) => {
-        typedSequence += event.key.toLowerCase();
-        if (typedSequence.includes(secretPhrase)) {
-            showTemporaryMessage("Reechita's Magic activated! ✨", 3000);
-            // Add a temporary visual effect, e.g., make all text sparkle
-            document.querySelectorAll('h1, h2, p').forEach(el => {
-                el.style.animation = 'sparkleText 0.5s infinite alternate';
-                setTimeout(() => {
-                    el.style.animation = ''; // Remove animation after a short while
-                }, 1500);
-            });
-            typedSequence = ''; // Reset sequence
-        }
-        // Keep the sequence from getting too long
-        if (typedSequence.length > secretPhrase.length * 2) {
-            typedSequence = typedSequence.substring(typedSequence.length - secretPhrase.length);
-        }
-    });
+            if (targetPage) {
+                window.location.href = targetPage;
+            }
+        }, 2000); // Navigate after 2 seconds
+    }
 });
