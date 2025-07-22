@@ -258,7 +258,8 @@ p {
     line-height: 1.8;
     margin-bottom: 1.2rem;
     color: var(--text-light);
-    opacity: 0; /* Handled by JS */
+    opacity: 0; /* Default hidden for staggered animation */
+    animation: fadeIn 1s ease-out; /* ADDED: Apply fadeIn animation here */
 }
 
 /* Section Break */
@@ -267,6 +268,7 @@ p {
     margin: 3rem auto;
     width: 70%;
     opacity: 0; /* Default hidden for staggered animation */
+    animation: fadeIn 1s ease-out; /* ADDED: Apply fadeIn animation here */
 }
 
 /* Specific text highlighting and glowing */
