@@ -603,3 +603,19 @@ p {
         font-size: 1.5em;
     }
 }
+
+/* New: Heartbeat Animation */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.08); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.05); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+.beating-heart {
+    display: inline-block; /* Essential for transform on inline elements */
+    animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats, alternates direction */
+    transform-origin: center; /* Ensures scaling is from the center */
+}
