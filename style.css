@@ -10,7 +10,7 @@
     --primary-accent: #FF69B1; /* Slightly adjusted pink */
     --secondary-accent: #8A2BE2;
     --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
-    font-size: 16px;
+    font-size: 16px; /* Base font size, will adjust with media queries or clamp */
 }
 
 /* Base Styles */
@@ -19,8 +19,8 @@ body {
     color: var(--text-light);
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    min-height: 100vh; /* Ensure body takes full viewport height */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,8 +65,9 @@ body {
 /* Moon */
 .moon {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    /* Use clamp for responsive sizing, with a base of 15vw, min 80px, max 200px */
+    width: clamp(80px, 15vw, 200px);
+    height: clamp(80px, 15vw, 200px);
     background: radial-gradient(circle at 30% 30%, #fefefe, #ccc, #999);
     border-radius: 50%;
     box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4);
@@ -119,9 +120,8 @@ body {
     left: 0;
     width: 100%;
     height: 30%; /* Adjust as needed */
-    /* Updated background image URL */
     background: url('https://as2.ftcdn.net/v2/jpg/14/30/89/55/1000_F_1430895515_PnXMoB0IX2oocY6MPYL9J8KmbvC9z0FK.webp') repeat-x bottom center;
-    background-size: contain;
+    background-size: contain; /* Ensures the image is contained within the element */
     animation: sceneryParallax 120s linear infinite alternate;
     opacity: 0.6;
 }
@@ -217,13 +217,13 @@ body {
 /* Main Content Container */
 .container {
     background-color: var(--container-bg); /* Adjusted transparency */
-    padding: 30px 40px;
+    padding: clamp(15px, 5vw, 40px) clamp(20px, 6vw, 50px); /* Responsive padding */
     border-radius: 40px 15px 40px 15px; /* Different, slightly irregular shape */
     box-shadow: var(--shadow-deep);
     text-align: center;
     max-width: 800px;
     width: 90%;
-    margin: 40px auto;
+    margin: clamp(20px, 5vh, 40px) auto; /* Responsive margin */
     position: relative;
     z-index: 1; /* Ensure content is above background elements */
     overflow: hidden; /* For inner animations */
@@ -240,31 +240,25 @@ body {
     transform: translateY(0) scale(1);
 }
 
-
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
+    /* Base font size adjustment for smaller screens */
+    :root {
+        font-size: 15px;
+    }
     .container {
-        padding: 20px 25px;
-        margin: 20px auto;
-        width: 95%;
+        border-radius: 30px 10px 30px 10px; /* Slightly adjust shape for smaller screens */
     }
-    .moon {
-        width: 120px;
-        height: 120px;
-    }
+    /* Moon size is already handled by clamp(), but if needed specific adjustments could go here */
 }
 
 @media (max-width: 480px) {
+    /* Base font size adjustment for very small screens */
     :root {
         font-size: 14px;
     }
     .container {
-        padding: 15px 20px;
-        border-radius: 20px 8px 20px 8px;
-    }
-    .moon {
-        width: 80px;
-        height: 80px;
+        border-radius: 20px 8px 20px 8px; /* More adjusted shape for very small screens */
     }
 }
 
@@ -272,8 +266,8 @@ body {
 h1 {
     font-family: 'Great Vibes', cursive; /* Elegant script font */
     color: var(--text-heading);
-    font-size: 3.5em;
-    margin-bottom: 25px;
+    font-size: clamp(2.5em, 7vw, 3.5em); /* Responsive font size */
+    margin-bottom: clamp(15px, 4vw, 25px); /* Responsive margin */
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
     animation: fadeInScale 1.5s ease-out forwards;
 }
@@ -281,17 +275,17 @@ h1 {
 h2 {
     font-family: 'Pacifico', cursive; /* Another elegant script font */
     color: var(--primary-accent);
-    font-size: 2.2em;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    font-size: clamp(1.8em, 5vw, 2.2em); /* Responsive font size */
+    margin-top: clamp(20px, 5vw, 30px); /* Responsive margin */
+    margin-bottom: clamp(15px, 4vw, 20px); /* Responsive margin */
     text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
     animation: fadeInSlideUp 1.2s ease-out forwards; /* New animation */
 }
 
 p {
-    font-size: 1.1em;
+    font-size: clamp(1em, 2.5vw, 1.1em); /* Responsive font size */
     line-height: 1.6;
-    margin-bottom: 20px; /* Consistent gaps */
+    margin-bottom: clamp(15px, 4vw, 20px); /* Responsive margin */
     animation: fadeIn 1s ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
@@ -330,46 +324,28 @@ p {
     50% { text-shadow: 0 0 12px #DA70D6, 0 0 25px #DA70D6; }
 }
 
-
 /* Animations for content elements */
 @keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes fadeInSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
-
 
 /* Section Break (Visual separator) */
 .section-break {
-    width: 80%;
+    width: clamp(50%, 70vw, 80%); /* Responsive width */
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-    margin: 40px auto;
+    margin: clamp(20px, 5vh, 40px) auto; /* Responsive margin */
     animation: fadeIn 1.5s ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
@@ -379,18 +355,18 @@ p {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 25px; /* Consistent gaps between buttons */
-    margin-top: 40px;
+    gap: clamp(15px, 4vw, 25px); /* Responsive gap */
+    margin-top: clamp(20px, 5vh, 40px); /* Responsive margin */
     animation: fadeIn 1.5s ease-out forwards;
 }
 
 .button, .choice-button {
     background-color: var(--primary-accent);
     color: #fff;
-    padding: 15px 30px;
+    padding: clamp(10px, 3.5vw, 15px) clamp(20px, 7vw, 30px); /* Responsive padding */
     border: none;
     border-radius: 25px 10px 25px 10px; /* Different button shape */
-    font-size: 1.2em;
+    font-size: clamp(1em, 2.5vw, 1.2em); /* Responsive font size */
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;
@@ -399,6 +375,9 @@ p {
     position: relative;
     overflow: hidden;
     animation: buttonPopIn 1s ease-out forwards;
+    /* Ensure buttons stack nicely on small screens */
+    flex-basis: auto; /* Allow buttons to shrink */
+    min-width: 120px; /* Minimum width to prevent them from becoming too small */
 }
 
 .button:hover, .choice-button:hover {
@@ -428,28 +407,22 @@ p {
 }
 
 @keyframes buttonPopIn {
-    from {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 /* Music Playback Button (Unique style) */
 #music-play-button {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: clamp(10px, 3vw, 20px); /* Responsive bottom */
+    right: clamp(10px, 3vw, 20px); /* Responsive right */
     background-color: rgba(0, 0, 0, 0.6);
     color: #FFD700;
     border: 2px solid #FFD700;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5em;
+    width: clamp(40px, 10vw, 50px); /* Responsive width */
+    height: clamp(40px, 10vw, 50px); /* Responsive height */
+    font-size: clamp(1.2em, 3vw, 1.5em); /* Responsive font size */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -471,13 +444,13 @@ p {
 /* Transition Page Styles (for transition.html) */
 .transition-container {
     background-color: var(--container-bg);
-    padding: 50px;
+    padding: clamp(30px, 10vw, 50px); /* Responsive padding */
     border-radius: 20px;
     box-shadow: var(--shadow-deep);
     text-align: center;
     max-width: 600px;
     width: 90%;
-    margin: 100px auto;
+    margin: clamp(50px, 15vh, 100px) auto; /* Responsive margin */
     position: relative;
     z-index: 1;
 }
@@ -485,18 +458,19 @@ p {
 #transitionMessage {
     font-family: 'Great Vibes', cursive;
     color: var(--text-heading);
-    font-size: 2.8em;
-    margin-bottom: 30px;
+    font-size: clamp(2em, 6vw, 2.8em); /* Responsive font size */
+    margin-bottom: clamp(15px, 5vw, 30px); /* Responsive margin */
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
 
-.progress-bar-container { /* This style is reused for both preloader and transition */
-    width: 80%;
+.progress-bar-container {
+    /* This style is reused for both preloader and transition */
+    width: clamp(80%, 85vw, 90%); /* Responsive width */
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    margin: 20px auto;
+    margin: clamp(10px, 3vw, 20px) auto; /* Responsive margin */
     overflow: hidden;
-    height: 25px;
+    height: clamp(20px, 5vw, 25px); /* Responsive height */
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -511,95 +485,10 @@ p {
     justify-content: center;
     color: #fff;
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: clamp(0.8em, 2vw, 0.9em); /* Responsive font size */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 #progressText { /* For transition.html */
     margin-left: 10px;
-}
-
-/* Responsive adjustments for progress bar */
-@media (max-width: 768px) {
-    .progress-bar-container {
-        width: 90%;
-    }
-}
-
-@media (max-width: 480px) {
-    .progress-bar-container {
-        width: 95%;
-        height: 20px;
-    }
-    #progressBar {
-        font-size: 0.8em;
-    }
-}
-
-/* Preloader Styles (for index.html) */
-#preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-    z-index: 9999; /* Ensure it's on top of everything */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.5s ease-out; /* Smooth fade-out */
-}
-
-#preloader.hidden {
-    opacity: 0;
-    pointer-events: none; /* Make it unclickable when hidden */
-}
-
-.preloader-message {
-    font-family: 'Great Vibes', cursive;
-    color: var(--text-heading);
-    font-size: 2em;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-    margin-bottom: 20px; /* Added spacing */
-}
-
-/* Progress bar for Index page preloader - Specific overrides if needed */
-#preloader .progress-bar-container { /* Target container within preloader specifically */
-    margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
-}
-
-#indexProgressBar { /* Specific ID for the index page progress bar */
-    height: 100%;
-    width: 0%; /* Starts at 0 */
-    background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
-    border-radius: 10px;
-    transition: width 0.1s linear; /* Smooth fill */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: bold;
-    font-size: 0.9em;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-#indexProgressText { /* Specific ID for the index page progress text */
-    margin-left: 10px; /* Space for the text inside the bar */
-}
-
-
-/* Responsive adjustments for preloader */
-@media (max-width: 480px) {
-    #preloader .progress-bar-container {
-        width: 95%;
-        height: 20px;
-    }
-    #indexProgressBar {
-        font-size: 0.8em;
-    }
-    .preloader-message {
-        font-size: 1.5em;
-    }
 }
