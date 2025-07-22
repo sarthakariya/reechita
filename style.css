@@ -10,7 +10,7 @@
     --primary-accent: #FF69B1; /* Slightly adjusted pink */
     --secondary-accent: #8A2BE2;
     --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
-    font-size: 16px; /* Base font size, will adjust with media queries or clamp */
+    font-size: 16px;
 }
 
 /* Base Styles */
@@ -19,8 +19,8 @@ body {
     color: var(--text-light);
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    min-height: 100vh; /* Ensure body takes full viewport height */
+    overflow-x: hidden;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,9 +65,8 @@ body {
 /* Moon */
 .moon {
     position: absolute;
-    /* Use clamp for responsive sizing, with a base of 15vw, min 80px, max 200px */
-    width: clamp(80px, 15vw, 200px);
-    height: clamp(80px, 15vw, 200px);
+    width: 200px;
+    height: 200px;
     background: radial-gradient(circle at 30% 30%, #fefefe, #ccc, #999);
     border-radius: 50%;
     box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4);
@@ -120,8 +119,9 @@ body {
     left: 0;
     width: 100%;
     height: 30%; /* Adjust as needed */
+    /* Updated background image URL */
     background: url('https://as2.ftcdn.net/v2/jpg/14/30/89/55/1000_F_1430895515_PnXMoB0IX2oocY6MPYL9J8KmbvC9z0FK.webp') repeat-x bottom center;
-    background-size: contain; /* Ensures the image is contained within the element */
+    background-size: contain;
     animation: sceneryParallax 120s linear infinite alternate;
     opacity: 0.6;
 }
@@ -217,13 +217,13 @@ body {
 /* Main Content Container */
 .container {
     background-color: var(--container-bg); /* Adjusted transparency */
-    padding: clamp(15px, 5vw, 40px) clamp(20px, 6vw, 50px); /* Responsive padding */
+    padding: 30px 40px;
     border-radius: 40px 15px 40px 15px; /* Different, slightly irregular shape */
     box-shadow: var(--shadow-deep);
     text-align: center;
     max-width: 800px;
     width: 90%;
-    margin: clamp(20px, 5vh, 40px) auto; /* Responsive margin */
+    margin: 40px auto;
     position: relative;
     z-index: 1; /* Ensure content is above background elements */
     overflow: hidden; /* For inner animations */
@@ -240,25 +240,31 @@ body {
     transform: translateY(0) scale(1);
 }
 
+
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
-    /* Base font size adjustment for smaller screens */
-    :root {
-        font-size: 15px;
-    }
     .container {
-        border-radius: 30px 10px 30px 10px; /* Slightly adjust shape for smaller screens */
+        padding: 20px 25px;
+        margin: 20px auto;
+        width: 95%;
     }
-    /* Moon size is already handled by clamp(), but if needed specific adjustments could go here */
+    .moon {
+        width: 120px;
+        height: 120px;
+    }
 }
 
 @media (max-width: 480px) {
-    /* Base font size adjustment for very small screens */
     :root {
         font-size: 14px;
     }
     .container {
-        border-radius: 20px 8px 20px 8px; /* More adjusted shape for very small screens */
+        padding: 15px 20px;
+        border-radius: 20px 8px 20px 8px;
+    }
+    .moon {
+        width: 80px;
+        height: 80px;
     }
 }
 
@@ -266,8 +272,8 @@ body {
 h1 {
     font-family: 'Great Vibes', cursive; /* Elegant script font */
     color: var(--text-heading);
-    font-size: clamp(2.5em, 7vw, 3.5em); /* Responsive font size */
-    margin-bottom: clamp(15px, 4vw, 25px); /* Responsive margin */
+    font-size: 3.5em;
+    margin-bottom: 25px;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
     animation: fadeInScale 1.5s ease-out forwards;
 }
@@ -275,17 +281,17 @@ h1 {
 h2 {
     font-family: 'Pacifico', cursive; /* Another elegant script font */
     color: var(--primary-accent);
-    font-size: clamp(1.8em, 5vw, 2.2em); /* Responsive font size */
-    margin-top: clamp(20px, 5vw, 30px); /* Responsive margin */
-    margin-bottom: clamp(15px, 4vw, 20px); /* Responsive margin */
+    font-size: 2.2em;
+    margin-top: 30px;
+    margin-bottom: 20px;
     text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
     animation: fadeInSlideUp 1.2s ease-out forwards; /* New animation */
 }
 
 p {
-    font-size: clamp(1em, 2.5vw, 1.1em); /* Responsive font size */
+    font-size: 1.1em;
     line-height: 1.6;
-    margin-bottom: clamp(15px, 4vw, 20px); /* Responsive margin */
+    margin-bottom: 20px; /* Consistent gaps */
     animation: fadeIn 1s ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
@@ -340,49 +346,54 @@ p {
     to { opacity: 1; }
 }
 
-/* Section Break (Visual separator) */
-.section-break {
-    width: clamp(50%, 70vw, 80%); /* Responsive width */
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-    margin: clamp(20px, 5vh, 40px) auto; /* Responsive margin */
-    animation: fadeIn 1.5s ease-out forwards; /* Staggered animation handled by JS */
-    opacity: 0; /* Default hidden for staggered animation */
+@keyframes fadeInScaleButtons {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* Button Styles */
+/* Section Break */
+.section-break {
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--secondary-accent), transparent);
+    margin: 40px auto;
+    opacity: 0; /* Default hidden for staggered animation */
+    animation: fadeIn 1s ease-out forwards; /* Staggered animation handled by JS */
+}
+
+/* Buttons */
 .button-container {
+    margin-top: 30px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
     justify-content: center;
-    gap: clamp(15px, 4vw, 25px); /* Responsive gap */
-    margin-top: clamp(20px, 5vh, 40px); /* Responsive margin */
-    animation: fadeIn 1.5s ease-out forwards;
+    gap: 20px;
 }
 
 .button, .choice-button {
-    background-color: var(--primary-accent);
-    color: #fff;
-    padding: clamp(10px, 3.5vw, 15px) clamp(20px, 7vw, 30px); /* Responsive padding */
-    border: none;
-    border-radius: 25px 10px 25px 10px; /* Different button shape */
-    font-size: clamp(1em, 2.5vw, 1.2em); /* Responsive font size */
-    font-weight: bold;
-    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+    color: white;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2em;
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 25px 10px 25px 10px; /* Different button shape */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    animation: buttonPopIn 1s ease-out forwards;
-    /* Ensure buttons stack nicely on small screens */
-    flex-basis: auto; /* Allow buttons to shrink */
-    min-width: 120px; /* Minimum width to prevent them from becoming too small */
+    cursor: pointer;
+    border: none;
+    font-weight: normal;
+    animation: buttonPopIn 1s ease-out forwards; /* Button entrance animation */
 }
 
 .button:hover, .choice-button:hover {
-    background-color: var(--secondary-accent);
-    transform: translateY(-5px);
+    background: linear-gradient(45deg, var(--secondary-accent), var(--primary-accent));
+    transform: translateY(-5px) scale(1.02);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
@@ -414,15 +425,15 @@ p {
 /* Music Playback Button (Unique style) */
 #music-play-button {
     position: fixed;
-    bottom: clamp(10px, 3vw, 20px); /* Responsive bottom */
-    right: clamp(10px, 3vw, 20px); /* Responsive right */
+    bottom: 20px;
+    right: 20px;
     background-color: rgba(0, 0, 0, 0.6);
     color: #FFD700;
     border: 2px solid #FFD700;
     border-radius: 50%;
-    width: clamp(40px, 10vw, 50px); /* Responsive width */
-    height: clamp(40px, 10vw, 50px); /* Responsive height */
-    font-size: clamp(1.2em, 3vw, 1.5em); /* Responsive font size */
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -438,57 +449,352 @@ p {
 
 #music-play-button:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 1);
 }
 
-/* Transition Page Styles (for transition.html) */
-.transition-container {
-    background-color: var(--container-bg);
-    padding: clamp(30px, 10vw, 50px); /* Responsive padding */
-    border-radius: 20px;
-    box-shadow: var(--shadow-deep);
-    text-align: center;
-    max-width: 600px;
-    width: 90%;
-    margin: clamp(50px, 15vh, 100px) auto; /* Responsive margin */
-    position: relative;
-    z-index: 1;
+/* Preloader Styles (for index.html) */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    z-index: 9999; /* Ensure it's on top of everything */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out; /* Smooth fade-out */
 }
 
-#transitionMessage {
+#preloader.hidden {
+    opacity: 0;
+    pointer-events: none; /* Make it unclickable when hidden */
+}
+
+.preloader-message {
     font-family: 'Great Vibes', cursive;
     color: var(--text-heading);
-    font-size: clamp(2em, 6vw, 2.8em); /* Responsive font size */
-    margin-bottom: clamp(15px, 5vw, 30px); /* Responsive margin */
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    font-size: 2em;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    margin-bottom: 20px; /* Added spacing */
 }
 
-.progress-bar-container {
-    /* This style is reused for both preloader and transition */
-    width: clamp(80%, 85vw, 90%); /* Responsive width */
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    margin: clamp(10px, 3vw, 20px) auto; /* Responsive margin */
-    overflow: hidden;
-    height: clamp(20px, 5vw, 25px); /* Responsive height */
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+/* Progress bar for Index page preloader - Specific overrides if needed */
+#preloader .progress-bar-container { /* Target container within preloader specifically */
+    margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
 }
 
-#progressBar { /* For transition.html */
+#indexProgressBar { /* Specific ID for the index page progress bar */
     height: 100%;
-    width: 0%;
+    width: 0%; /* Starts at 0 */
     background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
     border-radius: 10px;
-    transition: width 0.1s linear;
+    transition: width 0.1s linear; /* Smooth fill */
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-weight: bold;
-    font-size: clamp(0.8em, 2vw, 0.9em); /* Responsive font size */
+    font-size: 0.9em;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-#progressText { /* For transition.html */
-    margin-left: 10px;
+#indexProgressText { /* Specific ID for the index page progress text */
+    margin-left: 10px; /* Space for the text inside the bar */
+}
+
+/* Responsive adjustments for preloader */
+@media (max-width: 480px) {
+    #preloader .progress-bar-container {
+        width: 95%;
+        height: 20px;
+    }
+    #indexProgressBar {
+        font-size: 0.8em;
+    }
+    .preloader-message {
+        font-size: 1.5em;
+    }
+}
+
+
+/* Transition Page Styles (transition.html) */
+.heart-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    animation: fadeInScale 1.5s ease-out forwards;
+}
+
+.heart {
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary-accent);
+    position: relative;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+    animation: heartBeat 1.5s infinite ease-in-out, heartGlow 2s infinite alternate;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background-color: var(--primary-accent);
+    border-radius: 50%;
+}
+
+.heart::before {
+    top: -50px;
+    left: 0;
+}
+
+.heart::after {
+    left: 50px;
+    top: 0;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1) rotate(-45deg); }
+    15% { transform: scale(1.1) rotate(-45deg); }
+    30% { transform: scale(1) rotate(-45deg); }
+}
+
+@keyframes heartGlow {
+    0%, 100% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
+    15% { box-shadow: 0 0 45px rgba(255, 105, 180, 1), 0 0 60px rgba(255, 255, 255, 0.5); }
+    30% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
+    100% { transform: scale(1) rotate(-45deg); box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); }
+}
+
+.sparkle {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 1.5s infinite ease-out;
+    z-index: 1;
+}
+
+@keyframes sparkle {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.message {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #FFD700; /* Gold */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+.sub-message {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: #e0e0e0;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 1.5s;
+}
+
+.progress-bar-container {
+    width: clamp(200px, 60vw, 400px);
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 2s;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #FF69B1, #8A2BE2);
+    border-radius: 5px;
+    transition: width 0.1s linear;
+}
+
+.progress-text {
+    font-size: 1.1em;
+    color: #fff;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 2.2s;
+}
+
+/* Page 3 Specific Styles */
+.question-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 2rem;
+    text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeInScale 1.5s ease-out forwards 0.5s;
+}
+
+.emoji {
+    font-size: 1.2em; /* Make emojis slightly larger */
+    display: inline-block;
+    animation: pulse 1s infinite alternate; /* Subtle pulse animation for emojis */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+.choice-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Increased gap for better spacing */
+    margin-top: 4rem;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Specific button colors for Page 3 */
+.choice-button.yes {
+    background: linear-gradient(45deg, #4CAF50, #8BC34A); /* Green gradient */
+    box-shadow: 0 8px 15px rgba(76, 175, 80, 0.4);
+    animation-delay: 1s; /* Stagger animation */
+}
+
+.choice-button.yes:hover {
+    background: linear-gradient(45deg, #8BC34A, #4CAF50);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.6);
+}
+
+.choice-button.no {
+    background: linear-gradient(45deg, #F44336, #FF7043); /* Red gradient */
+    box-shadow: 0 8px 15px rgba(244, 67, 54, 0.4);
+    animation-delay: 1.2s; /* Stagger animation */
+}
+
+.choice-button.no:hover {
+    background: linear-gradient(45deg, #FF7043, #F44336);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(244, 67, 54, 0.6);
+}
+
+.message-below {
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    line-height: 1.5;
+    margin-top: 2rem;
+    color: var(--text-light);
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards 1.5s;
+    transition: opacity 0.5s ease-in-out; /* Smooth transition for message change */
+}
+
+
+/* Acknowledgement Page Styles */
+.response-heading {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 2rem;
+    text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeInScale 1.5s ease-out forwards 0.5s;
+}
+
+.response-message {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    color: var(--text-light);
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards 1s;
+}
+
+.final-button {
+    margin-top: 3.5rem;
+    opacity: 0;
+    animation: fadeInScaleButtons 1.5s ease-out forwards 1.5s;
+}
+
+/* Easter Egg Styles */
+.secret-heart {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: #FF69B1; /* Primary accent pink */
+    transform: rotate(-45deg);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    border-radius: 50%; /* Make it round initially */
+    filter: blur(2px);
+    z-index: 10; /* Above regular content */
+}
+
+.secret-heart::before,
+.secret-heart::after {
+    content: '';
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    background-color: #FF69B1;
+    border-radius: 50%;
+}
+
+.secret-heart::before {
+    top: -12.5px;
+    left: 0;
+}
+
+.secret-heart::after {
+    left: 12.5px;
+    top: 0;
+}
+
+.secret-heart.visible {
+    opacity: 1;
+    animation: heartBeat 1s infinite alternate; /* Use existing heart beat animation */
+}
+
+.secret-message-box {
+    position: fixed;
+    bottom: 80px; /* Above the music button */
+    right: 20px;
+    background-color: rgba(30, 15, 50, 0.95); /* Container background */
+    color: var(--text-light);
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-deep);
+    z-index: 1001; /* Above everything */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s;
+    max-width: 300px;
+    text-align: center;
+    font-family: 'Lora', serif;
+    border: 1px solid var(--primary-accent);
+}
+
+.secret-message-box.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
