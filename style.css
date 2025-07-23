@@ -964,3 +964,87 @@ body.success-theme {
     box-shadow: 0 0 15px rgba(255, 105, 180, 0.7),
                 0 0 30px rgba(255, 105, 180, 0.4);
 }
+/* --- New CSS for Transition Preloader --- */
+.transition-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.transition-preloader.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Heart Spinner Animation */
+.heart-spinner {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    transform: rotate(45deg);
+}
+.heart-spinner div {
+    top: 32px;
+    left: 32px;
+    position: absolute;
+    background: #FFD1DC; /* Pink heart color */
+    animation: heart-spinner 1.2s infinite cubic-bezier(0.2, 0.4, 0.8, 0.6);
+}
+.heart-spinner div:after,
+.heart-spinner div:before {
+    content: " ";
+    position: absolute;
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: #FFD1DC; /* Pink heart color */
+}
+.heart-spinner div:before {
+    left: -24px;
+    border-radius: 50% 0 0 50%;
+}
+.heart-spinner div:after {
+    top: -24px;
+    border-radius: 50% 50% 0 0;
+}
+
+@keyframes heart-spinner {
+    0% { transform: scale(0.6); opacity: 0.7; }
+    50% { transform: scale(1.0); opacity: 1; }
+    100% { transform: scale(0.6); opacity: 0.7; }
+}
+
+/* --- New CSS for Falling Chocolates --- */
+.falling-chocolate {
+    position: absolute;
+    font-size: 2em; /* Adjust size of chocolate emojis */
+    opacity: 0;
+    animation: fallAndFade 8s linear forwards;
+    pointer-events: none; /* Make sure they don't interfere with clicks */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Small shadow for depth */
+    z-index: 999; /* Above other background elements but below UI */
+}
+
+@keyframes fallAndFade {
+    0% {
+        transform: translate(var(--start-x), var(--start-y)) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% {
+        transform: translate(var(--end-x), 105vh) rotate(var(--rotate-deg)) scale(1.2);
+        opacity: 0;
+    }
+}
