@@ -105,6 +105,54 @@
                 max-width: unset;
             }
         }
+
+        /* NEW Background Elements CSS */
+
+        /* Floating Orb Styles */
+        .floating-orb {
+            position: absolute;
+            background: rgba(173, 216, 230, 0.15); /* Light blue, semi-transparent */
+            border-radius: 50%;
+            filter: blur(5px);
+            opacity: 0;
+            animation: orbFloat 15s infinite ease-in-out alternate, fadeInOut 15s infinite ease-in-out;
+            pointer-events: none; /* Make sure they don't interfere with clicks */
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(var(--orb-start-x), var(--orb-start-y)) scale(var(--orb-scale)); opacity: 0.5; }
+            50% { transform: translate(calc(var(--orb-start-x) + var(--orb-drift-x)), calc(var(--orb-start-y) + var(--orb-drift-y))) scale(calc(var(--orb-scale) * 1.1)); opacity: 0.7; }
+            100% { transform: translate(var(--orb-start-x), var(--orb-start-y)) scale(var(--orb-scale)); opacity: 0.5; }
+        }
+
+        /* Nebula Cloud Styles */
+        .nebula-cloud {
+            position: absolute;
+            width: var(--nebula-size);
+            height: var(--nebula-size);
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.1) 0%, rgba(138, 43, 226, 0.1) 50%, transparent 100%); /* Pink to purple gradient */
+            border-radius: 50%;
+            filter: blur(50px); /* Heavy blur for a gaseous look */
+            opacity: 0;
+            animation: nebulaDrift 25s infinite ease-in-out alternate, fadeInOut 25s infinite ease-in-out;
+            pointer-events: none;
+            will-change: transform, opacity; /* Optimize animation */
+        }
+
+        @keyframes nebulaDrift {
+            0% { transform: translate(var(--nebula-start-x), var(--nebula-start-y)) scale(1); opacity: 0.4; }
+            40% { transform: translate(calc(var(--nebula-start-x) + var(--nebula-drift-x1)), calc(var(--nebula-start-y) + var(--nebula-drift-y1))) scale(1.1); opacity: 0.6; }
+            80% { transform: translate(calc(var(--nebula-start-x) + var(--nebula-drift-x2)), calc(var(--nebula-start-y) + var(--nebula-drift-y2))) scale(0.9); opacity: 0.3; }
+            100% { transform: translate(var(--nebula-start-x), var(--nebula-start-y)) scale(1); opacity: 0.4; }
+        }
+
+        /* Generic fadeInOut for new elements */
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: var(--initial-opacity, 0.5); }
+            90% { opacity: var(--initial-opacity, 0.5); }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -118,7 +166,7 @@
         <div class="moon"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
-    </div>
+        </div>
 
     <div class="container">
         <div class="question-text">
@@ -129,4 +177,11 @@
 
         <div class="button-container choice-buttons">
             <a class="button choice-button yes" id="yesButton">YES! 🥰</a>
-            <a class="button choice-button no" id="noButton">No,
+            <a class="button choice-button no" id="noButton">No, thank you 💜</a>
+        </div>
+
+        </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
