@@ -26,7 +26,7 @@
         <div class="heart-animation-wrapper">
             <div class="css-heart beating-heart"></div>
         </div>
-        <h1 id="transitionMessage" class="transition-message-text"></h1>
+        <h1 id="transitionMessage" class="transition-message-text">Preparing the next confession...</h1>
         <div class="progress-bar-container transition-progress-bar">
             <div id="progressBar"></div>
             <div id="progressText">0%</div>
@@ -34,5 +34,36 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const transitionMessage = document.getElementById('transitionMessage');
+            const transitionDuration = 3000; // 3 seconds for the transition
+            let progress = 0;
+            const intervalTime = 50; // Update every 50ms
+
+            const updateProgress = () => {
+                progress += (intervalTime / transitionDuration) * 100;
+                if (progress > 100) progress = 100;
+
+                if (progressBar) progressBar.style.width = `${progress}%`;
+                if (progressText) progressText.textContent = `${Math.floor(progress)}%`;
+
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    // Redirect to page2.html after the transition
+                    window.location.href = 'page2.html';
+                }
+            };
+
+            const progressInterval = setInterval(updateProgress, intervalTime);
+
+            // Optional: Set a message for the transition if not already set
+            if (transitionMessage && !transitionMessage.textContent) {
+                 transitionMessage.textContent = 'One moment, loading something special...';
+            }
+        });
+    </script>
 </body>
 </html>
