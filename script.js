@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const paragraphs = document.querySelectorAll('.container p');
     const sections = document.querySelectorAll('.section-break, .button-container'); // Elements to stagger
     const musicPlayButton = document.getElementById('music-play-button');
-    const backgroundAudio = new Audio('audio/romantic_bgm.mp3'); // Path to your background music
+    // CHANGED: Audio path to match perfect_instrumental.mp3 as in HTML
+    const backgroundAudio = new Audio('perfect_instrumental.mp3'); 
     backgroundAudio.loop = true;
     backgroundAudio.volume = 0.5; // Adjust volume as needed
 
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (isPlaying) {
+        // Attempt to play, but catch potential autoplay policy errors
         backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
         musicPlayButton.classList.add('playing');
     }
