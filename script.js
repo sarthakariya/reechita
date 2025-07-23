@@ -1,14 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
     const paragraphs = document.querySelectorAll('.container p');
-    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons'); // Added .choice-buttons for stagger
+    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
     const backgroundAudio = new Audio('perfect_instrumental.mp3'); 
     backgroundAudio.loop = true;
     backgroundAudio.volume = 0.5;
 
     // --- Dynamic Background Elements Initialization ---
-    // These functions will now be called on every page that includes script.js
     createStars();
     createEtherealGlows();
     createParticles();
@@ -88,42 +87,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 section.style.opacity = 1;
             });
         }
-        // Specific handling for question-text and message-below elements if they have their own animations
         const questionText = document.querySelector('.question-text');
         if (questionText && !questionText.classList.contains('animated-already')) {
              questionText.style.animationDelay = '0.5s';
              questionText.classList.add('animated-already');
-             questionText.style.opacity = 1; // Explicitly set opacity for pre-animated elements
+             questionText.style.opacity = 1;
         }
-        const messageBelow = document.querySelector('.message-below');
-        if (messageBelow && !messageBelow.classList.contains('animated-already')) {
-             messageBelow.style.animationDelay = '1.5s';
-             messageBelow.classList.add('animated-already');
-             // opacity is controlled by a separate animation or yes/no click for confirmationMessage
-        }
+        // Removed messageBelow reference as the element is removed from HTML
     }
 
     // --- page3.html (Confession Page) Specific Logic ---
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
-    const confirmationMessage = document.getElementById('confirmationMessage'); 
+    // Removed confirmationMessage reference as the element is removed from HTML
 
     if (yesButton && noButton) {
         yesButton.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior for delayed redirect
             
-            if (confirmationMessage) {
-                confirmationMessage.style.opacity = 1;
-                confirmationMessage.style.animation = 'fadeInSlideUp 1s ease-out forwards';
-            }
+            // Removed confirmationMessage animation here
             
             yesButton.classList.add('disappear');
-            noButton.classList.add('disappear'); // Make both disappear initially
+            noButton.classList.add('disappear'); 
 
             document.body.classList.add('success-theme'); 
-            createFallingHearts(); // Trigger falling hearts animation
+            createFallingHearts(); 
             
-            // Redirect after 1 second
             setTimeout(() => { 
                 window.location.href = 'acknowledgement.html?response=yes'; 
             }, 1000); 
@@ -135,15 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 noButton.classList.remove('shake'); 
             }, 500); 
-            // The button will not redirect or disappear, it just shakes and continues to evade on hover.
         });
 
         // No button float logic (on mouseover)
         noButton.addEventListener('mouseover', () => {
-            // Only evade if the button hasn't "disappeared" (i.e., if 'Yes' wasn't clicked)
             if (noButton.classList.contains('disappear')) return; 
 
-            const moveRange = 120; // Increased range for more pronounced movement
+            const moveRange = 120; 
             const containerRect = mainContainer ? mainContainer.getBoundingClientRect() : document.body.getBoundingClientRect();
             const buttonRect = noButton.getBoundingClientRect();
 
@@ -158,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 newX = buttonRect.left + deltaX;
                 newY = buttonRect.top + deltaY;
 
-                // Ensure it stays within the container boundaries (with some padding)
                 const padding = 20; 
                 newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
                 newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
@@ -166,7 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 attempts++;
             } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5));
 
-            // Get current transform to apply relative movement
             const currentTransform = getComputedStyle(noButton).transform;
             let currentX = 0, currentY = 0;
             if (currentTransform && currentTransform !== 'none') {
@@ -186,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         noButton.addEventListener('mouseout', () => {
-            // The button stays in its new position after mouseout for continuous evasion
+            // Button stays in new position
         });
     }
 });
