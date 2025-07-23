@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createStars();
     createEtherealGlows();
     createParticles();
-    createAuraGlows(); // NEW: Call for aura glow
-    createStreaks();   // NEW: Call for streaks
+    createAuraGlows(); 
+    createStreaks();   
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
@@ -52,9 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (preloader) {
         let loadProgress = 0;
-        // Smoothened: Interval changed to 45ms for 100 steps over 4.5 seconds
         const interval = setInterval(() => {
-            loadProgress += 1; // Increment by 1 for 100 steps
+            loadProgress += 1;
             if (indexProgressBar) indexProgressBar.style.width = loadProgress + '%';
             if (indexProgressText) indexProgressText.textContent = `${loadProgress}% Loading...`;
 
@@ -67,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     staggerAnimations();
                 }
             }
-        }, 45); // Adjusted for 4.5 seconds (45ms * 100 steps)
+        }, 45); 
     } else if (mainContainer) {
         mainContainer.classList.add('visible-content');
         staggerAnimations();
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (paragraphs.length > 0) {
             paragraphs.forEach((p, index) => {
                 p.style.animationDelay = `${0.5 + index * 0.3}s`;
-                p.style.opacity = 1; // Ensure opacity is set for animation to apply
+                p.style.opacity = 1;
             });
         }
 
@@ -86,9 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sections.forEach((section, index) => {
                 const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
                 section.style.animationDelay = `${baseDelay + index * 0.3}s`;
-                section.style.opacity = 1; // Ensure opacity is set for animation to apply
+                section.style.opacity = 1;
             });
         }
+        // Specific handling for question-text and message-below elements if they have their own animations
         const questionText = document.querySelector('.question-text');
         if (questionText && !questionText.classList.contains('animated-already')) {
              questionText.style.animationDelay = '0.5s';
@@ -106,12 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- page3.html (Confession Page) Specific Logic ---
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
-    const confirmationMessage = document.getElementById('confirmationMessage'); // This refers to the .message-below paragraph
+    const confirmationMessage = document.getElementById('confirmationMessage'); 
 
     if (yesButton && noButton) {
-        yesButton.addEventListener('click', () => {
-            // The redirection is handled by the 'href' attribute on the button itself.
-            // This JS focuses on the visual effects on the current page before redirection.
+        yesButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior for delayed redirect
             
             if (confirmationMessage) {
                 confirmationMessage.style.opacity = 1;
@@ -119,52 +118,55 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             yesButton.classList.add('disappear');
-            noButton.classList.add('disappear'); // Make both disappear
+            noButton.classList.add('disappear'); // Make both disappear initially
 
-            document.body.classList.add('success-theme'); // Apply success theme (e.g., green tint)
+            document.body.classList.add('success-theme'); 
             createFallingHearts(); // Trigger falling hearts animation
+            
+            // Redirect after 1 second
+            setTimeout(() => { 
+                window.location.href = 'acknowledgement.html?response=yes'; 
+            }, 1000); 
         });
 
-        noButton.addEventListener('click', () => {
-            noButton.classList.add('shake'); // Add shake animation
+        noButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior, making it unclickable
+            noButton.classList.add('shake'); 
             setTimeout(() => {
-                noButton.classList.remove('shake'); // Remove shake after duration
-                // The button will not disappear on 'No' click, it will just shake and then float if hovered again.
+                noButton.classList.remove('shake'); 
             }, 500); 
-            // The redirection is handled by the 'href' attribute on the button for 'no'.
+            // The button will not redirect or disappear, it just shakes and continues to evade on hover.
         });
 
-        // No button float logic
+        // No button float logic (on mouseover)
         noButton.addEventListener('mouseover', () => {
-            if (noButton.classList.contains('disappear')) return; // If already disappeared by 'Yes', don't float
+            // Only evade if the button hasn't "disappeared" (i.e., if 'Yes' wasn't clicked)
+            if (noButton.classList.contains('disappear')) return; 
 
-            const moveRange = 100; // Increased range for more movement
-            // Use the body's boundaries if mainContainer is not found or too small
+            const moveRange = 120; // Increased range for more pronounced movement
             const containerRect = mainContainer ? mainContainer.getBoundingClientRect() : document.body.getBoundingClientRect();
             const buttonRect = noButton.getBoundingClientRect();
 
             let newX, newY;
             let attempts = 0;
-            const maxAttempts = 50; // Max attempts to find a valid position
+            const maxAttempts = 50; 
 
             do {
-                let deltaX = (Math.random() - 0.5) * 2 * moveRange; // Random delta within range
+                let deltaX = (Math.random() - 0.5) * 2 * moveRange; 
                 let deltaY = (Math.random() - 0.5) * 2 * moveRange;
 
                 newX = buttonRect.left + deltaX;
                 newY = buttonRect.top + deltaY;
 
                 // Ensure it stays within the container boundaries (with some padding)
-                const padding = 20; // Keep button 20px away from edge
+                const padding = 20; 
                 newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
                 newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
 
                 attempts++;
-            // Try again if the new position is too close to the old, or outside bounds (should be handled by max/min)
             } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5));
 
-            // Calculate transform values relative to its current position
-            // We use transform for smooth animation relative to its original rendered spot
+            // Get current transform to apply relative movement
             const currentTransform = getComputedStyle(noButton).transform;
             let currentX = 0, currentY = 0;
             if (currentTransform && currentTransform !== 'none') {
@@ -179,21 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const transformX = newX - buttonRect.left + currentX;
             const transformY = newY - buttonRect.top + currentY;
 
-
-            noButton.style.transition = 'transform 0.3s ease-out'; // Smooth transition for movement
+            noButton.style.transition = 'transform 0.3s ease-out'; 
             noButton.style.transform = `translate(${transformX}px, ${transformY}px)`;
         });
 
         noButton.addEventListener('mouseout', () => {
-            // Optional: You can make it return to its original spot on mouseout
-            // noButton.style.transition = 'transform 0.3s ease-out';
-            // noButton.style.transform = 'translate(0, 0)'; 
-            // For this project, let it stay in the new position.
+            // The button stays in its new position after mouseout for continuous evasion
         });
     }
 });
 
-// --- Function for falling hearts animation (Reusable, from page3.html logic) ---
+// --- Function for falling hearts animation ---
 function createFallingHearts() {
     const heartCount = 40;
     const heartEmojis = ['💖', '✨', '❤️', '💕', '💫', '🧡', '💜', '💙'];
@@ -204,11 +202,11 @@ function createFallingHearts() {
         heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
 
         const startX = Math.random() * 100;
-        const startY = - (Math.random() * 200); // Start off-screen above
-        const endX = startX + (Math.random() - 0.5) * 60; // Drift left/right
-        const rotateDeg = (Math.random() - 0.5) * 720; // Full rotations
-        const size = Math.random() * 1.5 + 1; // 1em to 2.5em
-        const duration = Math.random() * 8 + 5; // 5s to 13s
+        const startY = - (Math.random() * 200); 
+        const endX = startX + (Math.random() - 0.5) * 60; 
+        const rotateDeg = (Math.random() - 0.5) * 720; 
+        const size = Math.random() * 1.5 + 1; 
+        const duration = Math.random() * 8 + 5; 
         const delay = Math.random() * 5;
 
         heart.style.cssText = `
@@ -228,19 +226,19 @@ function createFallingHearts() {
 // --- Functions to create dynamic background elements ---
 function createStars() {
     const backgroundElements = document.querySelector('.background-elements');
-    if (!backgroundElements) return; // Ensure container exists
+    if (!backgroundElements) return;
 
     const numberOfStars = 100;
     for (let i = 0; i < numberOfStars; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
-        const size = Math.random() * 2 + 1; // 1px to 3px
-        const x = Math.random() * 100; // 0 to 100vw
-        const y = Math.random() * 100; // 0 to 100vh
-        const duration = Math.random() * 10 + 5; // 5s to 15s
-        const delay = Math.random() * 5; // 0s to 5s
-        const driftX = (Math.random() - 0.5) * 20; // -10vw to 10vw
-        const driftY = (Math.random() - 0.5) * 20; // -10vh to 10vh
+        const size = Math.random() * 2 + 1; 
+        const x = Math.random() * 100; 
+        const y = Math.random() * 100; 
+        const duration = Math.random() * 10 + 5; 
+        const delay = Math.random() * 5; 
+        const driftX = (Math.random() - 0.5) * 20; 
+        const driftY = (Math.random() - 0.5) * 20; 
 
         star.style.cssText = `
             width: ${size}px;
@@ -259,19 +257,19 @@ function createStars() {
 
 function createEtherealGlows() {
     const backgroundElements = document.querySelector('.background-elements');
-    if (!backgroundElements) return; // Ensure container exists
+    if (!backgroundElements) return;
 
     const numberOfGlows = 5;
     for (let i = 0; i < numberOfGlows; i++) {
         const glow = document.createElement('div');
         glow.classList.add('ethereal-glow');
-        const size = Math.random() * 200 + 100; // 100px to 300px
-        const x = Math.random() * 100; // 0 to 100vw
-        const y = Math.random() * 100; // 0 to 100vh
-        const duration = Math.random() * 20 + 10; // 10s to 30s
-        const delay = Math.random() * 5; // 0s to 5s
-        const driftX = (Math.random() - 0.5) * 30; // -15vw to 15vw
-        const driftY = (Math.random() - 0.5) * 30; // -15vh to 15vh
+        const size = Math.random() * 200 + 100; 
+        const x = Math.random() * 100; 
+        const y = Math.random() * 100; 
+        const duration = Math.random() * 20 + 10; 
+        const delay = Math.random() * 5; 
+        const driftX = (Math.random() - 0.5) * 30; 
+        const driftY = (Math.random() - 0.5) * 30; 
 
         glow.style.cssText = `
             width: ${size}px;
@@ -293,19 +291,19 @@ function createEtherealGlows() {
 
 function createParticles() {
     const backgroundElements = document.querySelector('.background-elements');
-    if (!backgroundElements) return; // Ensure container exists
+    if (!backgroundElements) return;
 
     const numberOfParticles = 30;
     for (let i = 0; i < numberOfParticles; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-        const size = Math.random() * 3 + 1; // 1px to 4px
-        const x = Math.random() * 100; // 0 to 100vw
-        const y = Math.random() * 100; // 0 to 100vh
-        const duration = Math.random() * 10 + 5; // 5s to 15s
-        const delay = Math.random() * 5; // 0s to 5s
-        const driftX = (Math.random() - 0.5) * 40; // -20vw to 20vw
-        const driftY = (Math.random() - 0.5) * 40; // -20vh to 20vh
+        const size = Math.random() * 3 + 1; 
+        const x = Math.random() * 100; 
+        const y = Math.random() * 100; 
+        const duration = Math.random() * 10 + 5; 
+        const delay = Math.random() * 5; 
+        const driftX = (Math.random() - 0.5) * 40; 
+        const driftY = (Math.random() - 0.5) * 40; 
 
         particle.style.cssText = `
             width: ${size}px;
@@ -325,24 +323,23 @@ function createParticles() {
     }
 }
 
-// --- NEW: Function to create Aura Glows ---
 function createAuraGlows() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
 
-    const numberOfAuras = 3; // A few large, subtle glows
+    const numberOfAuras = 3; 
     for (let i = 0; i < numberOfAuras; i++) {
         const aura = document.createElement('div');
         aura.classList.add('aura-glow');
-        const size = Math.random() * 300 + 400; // 400px to 700px for large glows
-        const x = Math.random() * 100; // 0 to 100vw
-        const y = Math.random() * 100; // 0 to 100vh
-        const durationPulse = Math.random() * 10 + 10; // 10s to 20s
-        const durationDrift = Math.random() * 15 + 15; // 15s to 30s
+        const size = Math.random() * 300 + 400; 
+        const x = Math.random() * 100; 
+        const y = Math.random() * 100; 
+        const durationPulse = Math.random() * 10 + 10; 
+        const durationDrift = Math.random() * 15 + 15; 
         const delay = Math.random() * 10;
 
-        const driftX = (Math.random() - 0.5) * 40; // -20vw to 20vw
-        const driftY = (Math.random() - 0.5) * 40; // -20vh to 20vh
+        const driftX = (Math.random() - 0.5) * 40; 
+        const driftY = (Math.random() - 0.5) * 40; 
 
         aura.style.cssText = `
             width: ${size}px;
@@ -359,7 +356,6 @@ function createAuraGlows() {
     }
 }
 
-// --- NEW: Function to create Streaks ---
 function createStreaks() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
@@ -368,10 +364,10 @@ function createStreaks() {
     for (let i = 0; i < numberOfStreaks; i++) {
         const streak = document.createElement('div');
         streak.classList.add('streak');
-        const y = Math.random() * 100; // Vertical position
-        const duration = Math.random() * 10 + 6; // 6s to 16s
+        const y = Math.random() * 100; 
+        const duration = Math.random() * 10 + 6; 
         const delay = Math.random() * 5;
-        const width = Math.random() * 300 + 150; // Vary width for different streaks
+        const width = Math.random() * 300 + 150; 
 
         streak.style.cssText = `
             top: ${y}vh;
