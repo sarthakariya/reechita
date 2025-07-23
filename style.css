@@ -10,7 +10,17 @@
     --primary-accent: #FF69B1; /* Slightly adjusted pink */
     --secondary-accent: #8A2BE2;
     --shadow-deep: 0 15px 40px rgba(0, 0, 0, 0.6);
-    font-size: 16px;
+    font-size: 16px; /* Base font size */
+
+    /* Animation speeds - added for easier global adjustments */
+    --animation-duration-fast: 0.3s;
+    --animation-duration-medium: 1s;
+    --animation-duration-slow: 1.5s;
+}
+
+/* Global Box Sizing for easier layout management */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 /* Base Styles */
@@ -32,7 +42,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 
     /* Transition for theme change */
-    transition: background 1s ease-in-out;
+    transition: background var(--animation-duration-medium) ease-in-out;
 }
 
 @keyframes backgroundShift {
@@ -278,7 +288,7 @@ h1 {
     font-size: 3.5em;
     margin-bottom: 25px;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    animation: fadeInScale 1.5s ease-out forwards;
+    animation: fadeInScale var(--animation-duration-slow) ease-out forwards;
 }
 
 h2 {
@@ -295,7 +305,7 @@ p {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 20px; /* Consistent gaps */
-    animation: fadeIn 1s ease-out forwards; /* Staggered animation handled by JS */
+    animation: fadeIn var(--animation-duration-medium) ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
 
@@ -314,7 +324,7 @@ p {
 .highlight {
     color: var(--primary-accent);
     font-weight: bold;
-    animation: sparkleText 1.5s ease-in-out infinite alternate;
+    animation: sparkleText var(--animation-duration-slow) ease-in-out infinite alternate;
 }
 
 @keyframes sparkleText {
@@ -373,7 +383,7 @@ p {
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
     margin: 40px auto;
-    animation: fadeIn 1.5s ease-out forwards; /* Staggered animation handled by JS */
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
 
@@ -384,7 +394,7 @@ p {
     justify-content: center;
     gap: 25px; /* Consistent gaps between buttons */
     margin-top: 40px;
-    animation: fadeIn 1.5s ease-out forwards;
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
 }
 
 .button, .choice-button {
@@ -397,11 +407,11 @@ p {
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color var(--animation-duration-fast) ease, transform var(--animation-duration-fast) ease, box-shadow var(--animation-duration-fast) ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     position: relative; /* Essential for evasion to work with transform */
     overflow: hidden;
-    animation: buttonPopIn 1s ease-out forwards;
+    animation: buttonPopIn var(--animation-duration-medium) ease-out forwards;
 }
 
 .button:hover, .choice-button:hover {
@@ -459,7 +469,7 @@ p {
     cursor: pointer;
     z-index: 1000;
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color var(--animation-duration-fast) ease, transform var(--animation-duration-fast) ease, box-shadow var(--animation-duration-fast) ease;
 }
 
 #music-play-button.playing {
@@ -681,7 +691,7 @@ p {
     margin-top: 30px; /* Space after heart */
     margin-bottom: 30px;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    animation: fadeInSlideUp 1s ease-out forwards; /* Add animation */
+    animation: fadeInSlideUp var(--animation-duration-medium) ease-out forwards; /* Add animation */
     opacity: 0; /* Initial state for animation */
 }
 
@@ -764,14 +774,14 @@ p {
     line-height: 1.6;
     margin-bottom: 2rem;
     opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
+    animation: fadeIn var(--animation-duration-medium) ease-out forwards;
 }
 
 /* Specific button colors for Yes/No */
 .button-yes {
     background-color: #4CAF50; /* Green for Yes */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color var(--animation-duration-fast) ease, transform var(--animation-duration-fast) ease, box-shadow var(--animation-duration-fast) ease;
 }
 
 .button-yes:hover {
@@ -784,7 +794,7 @@ p {
     background-color: #F44336; /* Red for No */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     /* Added transition for evasion effect */
-    transition: background-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease, opacity 0.5s ease-out;
+    transition: background-color var(--animation-duration-fast) ease, transform 0.2s ease-out, box-shadow var(--animation-duration-fast) ease, opacity 0.5s ease-out;
 }
 
 .button-no:hover {
@@ -829,7 +839,7 @@ p {
     margin-top: 30px;
     text-shadow: 0 0 15px rgba(255, 105, 177, 0.8), 0 0 25px rgba(255, 215, 0, 0.5); /* Stronger glow */
     opacity: 0;
-    animation: fadeInSlideUp 1s ease-out forwards;
+    animation: fadeInSlideUp var(--animation-duration-medium) ease-out forwards;
     z-index: 5; /* Ensure it's above other elements if necessary */
     position: relative;
 }
@@ -841,7 +851,7 @@ p {
     border-radius: 15px;
     margin: 25px auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 1.5s ease-out forwards;
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
     opacity: 0;
 }
 
@@ -852,7 +862,7 @@ p {
     border-radius: 15px;
     margin: 25px auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 1.5s ease-out forwards;
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
     opacity: 0;
 }
 
@@ -865,7 +875,7 @@ p {
 body.success-theme {
     background: linear-gradient(135deg, #FF69B1, #8A2BE2, #FFD700); /* A very celebratory gradient */
     animation: successBackgroundShift 20s ease infinite alternate; /* Keep existing shift */
-    transition: background 1s ease-in-out; /* Smooth transition to new background */
+    transition: background var(--animation-duration-medium) ease-in-out; /* Smooth transition to new background */
 }
 
 @keyframes successBackgroundShift {
