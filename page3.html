@@ -3,31 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Big Question 💖</title>
+    <title>The Big Question! 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="music-play-button">🎵</button>
+
     <div class="background-elements">
         <div class="moon"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
-    </div>
+        </div>
+
+    <div id="preloader" style="display: none;"></div> 
 
     <div class="container">
-        <div class="question-text">
-            Reechita, would you do me the honor of <br>being my girlfriend? <span class="emoji">💖✨</span>
-        </div>
-
-        <div class="choice-buttons-container">
-            <a href="acknowledgement.html?response=yes" class="choice-button yes">YES! 💘</a>
-            <a href="acknowledgement.html?response=no" class="choice-button no">No 💔</a>
-        </div>
-
-        <p class="message-below">
-            (Don't think too hard, the universe is waiting!)
+        <h1 class="confession-text" style="animation-delay: 0.5s;">
+            Every day with you is a cherished moment,
+            <br>a story unfolding, beautiful and true.
+        </h1>
+        <p class="supporting-text" style="animation-delay: 1.5s;">
+            My heart has found its rhythm with yours,
+            <br>a melody I wish to dance to forever.
+            <span class="brackets" style="animation-delay: 2.0s;">(You're like the missing piece I never knew I needed, Reechita.)</span>
         </p>
+        <p class="supporting-text" style="animation-delay: 2.5s;">
+            So, with all my heart and soul...
+        </p>
+
+        <h1 class="confession-text main-question" style="animation-delay: 3.0s;">
+            Will you do me the honor of being my
+            <span class="glowing-purple">(Tungsten Iodine Iron)</span>?
+            <span class="beating-heart" style="font-size: 1.2em;">💖</span>
+        </h1>
+
+        <div class="buttons-container">
+            <a href="acknowledgement.html?response=yes" class="button choice-button" id="yesButton">Yes!</a>
+            <a href="#" class="button choice-button" id="noButton">No...</a>
+        </div>
+
+        <div id="teasingMessage" class="teasing-message"></div>
     </div>
 
     <script src="script.js"></script>
