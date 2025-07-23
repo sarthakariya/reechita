@@ -3,172 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Confession 💖</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
-    
+    <title>My Confession</title>
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        /* This internal style block can be removed if all content is in style.css */
-        /* Currently, the relevant page3-specific text styles are already in style.css */
-        
-        /* General body styles for the entire page's default text - these are also in style.css now */
-        body {
-            font-family: 'Lora', serif; /* Elegant and readable font for general text */
-            font-size: 0.95rem; /* Make the default text size slightly smaller */
-            color: #F0F0F0; /* A soft, very light white/off-white for general text */
-            line-height: 1.6; /* Ensures good spacing between lines for readability */
-        }
-
-        .container {
-            text-align: center;
-            /* Added max-width to keep content from stretching too wide on very large screens */
-            max-width: 900px; 
-            margin-left: auto;
-            margin-right: auto;
-            padding: 20px; /* Some padding around content */
-        }
-
-        /* Existing Styles for the new introductory heading */
-        /* These are now largely overridden by .confession-intro-line-1 and .confession-intro-line-2 in style.css */
-        .pre-question-heading {
-            font-family: 'Lora', serif;
-            color: #F8F8F8;
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            margin-bottom: 1rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-            line-height: 1.3;
-            padding: 0 5%;
-            opacity: 0;
-        }
-
-        /* Existing Styles for the new introductory paragraph */
-        /* These are now largely overridden by .confession-body-line-1 and .confession-body-line-2 in style.css */
-        .pre-question-paragraph {
-            font-family: 'Lora', serif;
-            color: #F8F8F8;
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            line-height: 1.4;
-            padding: 0 5%;
-            opacity: 0;
-        }
-
-        /* Specific styles for the main question text - these are also in style.css now */
-        .question-text {
-            font-family: 'Great Vibes', cursive;
-            color: #FFD1DC;
-            font-size: clamp(2.3rem, 4.2vw, 3.2rem);
-            margin-bottom: 2rem;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
-            line-height: 1.2;
-            opacity: 0;
-            animation: none;
-        }
-
-        /* Styling for emojis within the question text - also in style.css */
-        .question-text .emoji {
-            color: #FFFFFF;
-            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-        }
-
-        /* Styling for the Yes/No buttons - also in style.css */
-        .choice-button {
-            color: #FFFFFF;
-            font-family: 'Lora', serif;
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            letter-spacing: 0.05em;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        /* Styling for the music play button - also in style.css */
-        #music-play-button {
-            color: #FFD1DC;
-            border-color: #FFD1DC;
-            background-color: rgba(255, 209, 220, 0.1);
-            box-shadow: 0 0 10px rgba(255, 209, 220, 0.5);
-        }
-
-        #music-play-button.playing {
-            color: #FFFFFF;
-            border-color: #FFFFFF;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-        }
-
-        /* Background Element: Wind Gusts - also in style.css */
-        .wind-gust {
-            position: absolute;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-            height: 2px;
-            filter: blur(0.5px);
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
-            animation: sweepWind var(--duration) linear infinite;
-        }
-
-        @keyframes sweepWind {
-            0% { transform: translateX(-100vw) scaleX(0.5); opacity: 0; }
-            5% { opacity: 0.2; }
-            50% { transform: translateX(100vw) scaleX(1); opacity: 0.1; }
-            95% { opacity: 0; }
-            100% { transform: translateX(200vw) scaleX(0.5); opacity: 0; }
-        }
-
-        /* Background Element: Flying Wings - also in style.css */
-        .flying-wing {
-            position: absolute;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50% / 30%;
-            filter: blur(1px);
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
-            animation: wingFloat var(--duration) infinite ease-in-out, fadeInOut var(--duration) infinite;
-        }
-
-        @keyframes wingFloat {
-            0% { transform: translate(var(--wing-x-start, 0vw), var(--wing-y-start, 0vh)) rotate(0deg); }
-            25% { transform: translate(calc(var(--wing-x-start, 0vw) + var(--wing-drift-x, 10vw)), calc(var(--wing-y-start, 0vh) + var(--wing-drift-y, 5vh))) rotate(5deg); }
-            50% { transform: translate(var(--wing-x-start, 0vw), var(--wing-y-start, 0vh)) rotate(0deg); }
-            75% { transform: translate(calc(var(--wing-x-start, 0vw) - var(--wing-drift-x, 10vw)), calc(var(--wing-y-start, 0vh) - var(--wing-drift-y, 5vh))) rotate(-5deg); }
-            100% { transform: translate(var(--wing-x-start, 0vw), var(--wing-y-start, 0vh)) rotate(0deg); }
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; }
-            10%, 90% { opacity: var(--wing-opacity, 0.15); }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-elements">
-        </div>
-
-    <div class="container">
-        <button id="music-play-button" aria-label="Play/Pause Music">
-            <i class="fas fa-music"></i>
-        </button>
-
-        <p class="confession-intro-line-1">Soo, you know what I am going to say, don't you? 😉</p>
+    <div class="background-elements"></div>
+    <div class="container" id="page3-content">
+        <p class="confession-intro-line-1">oo, you know what I am going to say, don't you? 😉</p>
         <p class="confession-intro-line-2">Every day with YOU is a cherished moment, beautiful and true...</p>
         <p class="confession-body-line-1">Sooo, may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</p>
         <p class="confession-body-line-2">So, with all my heart and soul... ✨</p>
-
-        <div class="question-text">
-            Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?
-        </div>
-
+        
+        <h2 class="question-text" id="finalQuestion">Will you be my Valentine?</h2>
+        
         <div class="choice-buttons">
-            <button id="yesButton" class="choice-button yes">YES, ABSOLUTELY! 💖</button>
-            <button id="noButton" class="choice-button no">No.... 💔</button>
+            <button class="choice-button yes" id="yesButton">Yes! Of Course!</button>
+            <button class="choice-button no" id="noButton">Sorry, I can't</button>
         </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    
+    <div id="dynamic-transition-preloader">
+        <div class="preloader-dual-hearts">
+            <div class="heart heart-left"></div>
+            <div class="heart heart-right"></div>
+        </div>
+        <div class="transition-preloader-message">Loading...</div>
+    </div>
+
+    <button id="music-play-button" aria-label="Play/Pause Music">
+        <i class="fas fa-music"></i>
+    </button>
+    <audio id="background-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <script src="script.js"></script>
-</body>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> </body>
 </html>
