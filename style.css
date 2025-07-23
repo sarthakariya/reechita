@@ -235,8 +235,8 @@ body {
 }
 
 @keyframes orbFloat {
-    0% { transform: translate(var(--orb-x), var(--orb-y)) scale(var(--orb-scale)); }
-    100% { transform: translate(calc(var(--orb-x) + var(--orb-dx)), calc(var(--orb-y) + var(--orb-dy))) scale(calc(var(--orb-scale) * 1.1)); }
+    0% { transform: translate(calc(var(--orb-x) * 1vw), calc(var(--orb-y) * 1vh)) scale(var(--orb-scale)); }
+    100% { transform: translate(calc((var(--orb-x) + var(--orb-dx)) * 1vw), calc((var(--orb-y) + var(--orb-dy)) * 1vh)) scale(calc(var(--orb-scale) * 1.1)); }
 }
 
 @keyframes orbPulse {
@@ -1122,7 +1122,7 @@ body.success-theme {
                 0 0 30px rgba(255, 105, 180, 0.4);
 }
 
-/* --- NEW: Specific styles for the Preloader's Single Straight Heart --- */
+/* --- NEW: Specific styles for the Preloader's Single Straight Heart (for index.html) --- */
 .preloader-single-heart {
     position: relative;
     width: 100px; /* Adjust size as needed */
@@ -1189,6 +1189,72 @@ body.success-theme {
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
 }
+
+/* --- New Styles for the Two Connecting Hearts --- */
+.connecting-hearts-container {
+    display: flex;
+    justify-content: center; /* Center the hearts initially */
+    align-items: center;
+    width: 100vw; /* Take full viewport width for movement */
+    height: 180px; /* Sufficient height for hearts */
+    overflow: hidden; /* Hide hearts when outside view */
+    position: relative;
+    margin-bottom: 30px;
+    z-index: 100;
+}
+
+.connecting-heart {
+    position: absolute; /* Absolute position within connecting-hearts-container for animation */
+    width: 90px;
+    height: 80px;
+    background-color: var(--primary-accent);
+    transform: rotate(-45deg);
+    box-shadow: 0 0 20px var(--primary-accent), 0 0 35px rgba(255, 105, 177, 0.7);
+    border-radius: 12px;
+    animation: heartBeat 1.2s infinite ease-in-out; /* Subtle pulse */
+    opacity: 1; /* Will be managed by convergence animation */
+}
+/* Re-use pseudo-elements for heart shape */
+.connecting-heart::before,
+.connecting-heart::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    border-radius: 50%;
+    box-shadow: inherit;
+}
+.connecting-heart::before { top: -50%; left: 0; }
+.connecting-heart::after { left: 50%; top: 0; }
+
+/* Keyframes for hearts coming together */
+@keyframes leftHeartConverge {
+    0% { transform: translateX(-50vw) rotate(-45deg); opacity: 0; } /* Start off-screen left */
+    20% { opacity: 1; }
+    100% { transform: translateX(-45px) rotate(-45deg); opacity: 1; } /* Meet slightly left of center */
+}
+
+@keyframes rightHeartConverge {
+    0% { transform: translateX(50vw) rotate(-45deg); opacity: 0; } /* Start off-screen right */
+    20% { opacity: 1; }
+    100% { transform: translateX(45px) rotate(-45deg); opacity: 1; } /* Meet slightly right of center */
+}
+
+/* Apply animation classes to hearts created by JS */
+/* These classes will be added dynamically by script.js */
+.connecting-heart.left-positioned {
+    left: 50%; /* Position roughly at center-left before translateX */
+    margin-left: -45px; /* Half width of heart */
+    animation: leftHeartConverge 5s ease-in-out forwards;
+}
+
+.connecting-heart.right-positioned {
+    left: 50%; /* Position roughly at center-right before translateX */
+    margin-left: -45px; /* Half width of heart */
+    animation: rightHeartConverge 5s ease-in-out forwards;
+}
+
 
 /* Old heart spinner (now unused for main preloader, but kept in case transition preloader uses it) */
 /* If you want a *different* spinner for the transition, this is where you'd define it */
