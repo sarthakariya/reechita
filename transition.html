@@ -20,7 +20,7 @@
         <div class="moon"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
-        </div>
+    </div>
 
     <div class="container transition-container">
         <div class="heart-animation-wrapper">
@@ -39,9 +39,9 @@
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
             const transitionMessage = document.getElementById('transitionMessage');
-            const transitionDuration = 3000; // 3 seconds for the transition
+            const transitionDuration = 5000; // CHANGED: 5 seconds for the transition
             let progress = 0;
-            const intervalTime = 50; // Update every 50ms
+            const intervalTime = 50; // Update every 50ms for smoother progress
 
             const updateProgress = () => {
                 progress += (intervalTime / transitionDuration) * 100;
@@ -52,14 +52,12 @@
 
                 if (progress >= 100) {
                     clearInterval(progressInterval);
-                    // Redirect to page2.html after the transition
-                    window.location.href = 'page2.html';
+                    window.location.href = 'page2.html'; // Redirect to page2.html after the transition
                 }
             };
 
             const progressInterval = setInterval(updateProgress, intervalTime);
 
-            // Optional: Set a message for the transition if not already set
             if (transitionMessage && !transitionMessage.textContent) {
                  transitionMessage.textContent = 'One moment, loading something special...';
             }
