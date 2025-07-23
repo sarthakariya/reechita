@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (paragraphs.length > 0) {
             paragraphs.forEach((p, index) => {
                 p.style.animationDelay = `${0.5 + index * 0.3}s`;
-                p.style.opacity = 1;
+                p.style.opacity = 1; // Ensure visibility after animation
             });
         }
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sections.forEach((section, index) => {
                 const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
                 section.style.animationDelay = `${baseDelay + index * 0.3}s`;
-                section.style.opacity = 1;
+                section.style.opacity = 1; // Ensure visibility after animation
             });
         }
         // Special case for question-text in page3.html, if it's not a 'p' tag.
@@ -98,8 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmationMessage = document.getElementById('confirmationMessage');
 
     if (yesButton && noButton) { // Check if these elements exist (meaning we are on page3.html)
-        // Ensure noButton is positionable for evasion (relative is fine with flexbox parent)
-        noButton.style.position = 'relative';
+        // noButton.style.position = 'relative'; // Removed as it's already in CSS
 
         yesButton.addEventListener('click', () => {
             confirmationMessage.style.opacity = 1; // Make confirmation message visible
@@ -139,6 +138,25 @@ document.addEventListener('DOMContentLoaded', () => {
             let deltaX = (Math.random() - 0.5) * 2 * moveRange;
             let deltaY = (Math.random() - 0.5) * 2 * moveRange;
 
+            // Ensure the button stays within the container boundaries (approximate)
+            const rect = noButton.getBoundingClientRect();
+            const containerRect = mainContainer.getBoundingClientRect();
+
+            let newX = rect.left + deltaX;
+            let newY = rect.top + deltaY;
+
+            // Clamp X position
+            if (newX < containerRect.left) newX = containerRect.left;
+            if (newX + rect.width > containerRect.right) newX = containerRect.right - rect.width;
+
+            // Clamp Y position
+            if (newY < containerRect.top) newY = containerRect.top;
+            if (newY + rect.height > containerRect.bottom) newY = containerRect.bottom - rect.height;
+
+            // Calculate new delta relative to original position
+            deltaX = newX - rect.left;
+            deltaY = newY - rect.top;
+
             noButton.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
         });
 
@@ -156,25 +174,35 @@ function createFallingHearts() {
     const heartEmojis = ['💖', '✨', '❤️', '💕', '💫', '🧡', '💜', '💙']; // More emojis
 
     for (let i = 0; i < heartCount; i++) {
-        const heart = document.createElement('div');
+        const heart = document.createElement('span');
         heart.classList.add('falling-heart');
         heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
 
-        // Randomize initial position, animation duration, delay, and rotation
-        const startX = Math.random() * 100; // % from left (viewport width)
-        const duration = 5 + Math.random() * 5; // 5-10 seconds for fall
-        const delay = Math.random() * 8; // 0-8 seconds delay for staggered fall
-        const rotateDeg = -50 + Math.random() * 100; // -50 to +50 degrees rotation
-        const endX = Math.random() * 100; // % from left for end position
+        // Randomize initial position (start above viewport)
+        const startX = Math.random() * 100; // 0 to 100vw
+        const startY = - (Math.random() * 200); // -200px to -0px (above viewport)
+        
+        // Randomize ending position (off-center to simulate drift)
+        const endX = startX + (Math.random() - 0.5) * 60; // Drift left/right by up to 30vw
+        const rotateDeg = (Math.random() - 0.5) * 720; // Rotate up to 360 degrees in either direction
 
-        heart.style.left = `${startX}vw`; // Use vw for horizontal positioning
-        heart.style.animationDuration = `${duration}s`;
-        heart.style.animationDelay = `${delay}s`;
-        // Pass variables to CSS for individual heart animation paths
-        heart.style.setProperty('--start-x', `${startX}vw`);
-        heart.style.setProperty('--end-x', `${endX}vw`);
-        heart.style.setProperty('--rotate-deg', `${rotateDeg}deg`);
+        // Randomize size
+        const size = Math.random() * 1.5 + 1; // 1em to 2.5em
 
+        // Randomize duration and delay
+        const duration = Math.random() * 8 + 5; // 5s to 13s
+        const delay = Math.random() * 5; // 0s to 5s
+
+        heart.style.cssText = `
+            font-size: ${size}em;
+            left: ${startX}vw;
+            top: ${startY}px;
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --start-x: 0vw; /* CSS variable for initial X offset in animation */
+            --end-x: ${endX - startX}vw; /* CSS variable for final X offset relative to startX */
+            --rotate-deg: ${rotateDeg}deg;
+        `;
         document.body.appendChild(heart);
     }
 }
