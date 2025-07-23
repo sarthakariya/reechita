@@ -1,50 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Response 💝</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="background-elements">
-        <div class="moon"></div>
-        <div class="star" style="top: 5%; left: 10%; width: 3px; height: 3px; --star-drift-duration: 40s; --star-drift-x: 5vw; --star-drift-y: 2vh;"></div>
-        <div class="star" style="top: 15%; left: 80%; width: 2px; height: 2px; --star-drift-duration: 50s; --star-drift-x: -8vw; --star-drift-y: -3vh;"></div>
-        <div class="star" style="top: 30%; left: 25%; width: 4px; height: 4px; --star-drift-duration: 35s; --star-drift-x: 10vw; --star-drift-y: 5vh;"></div>
-        <div class="star" style="top: 50%; left: 60%; width: 3.5px; height: 3.5px; --star-drift-duration: 45s; --star-drift-x: -12vw; --star-drift-y: 8vh;"></div>
-        <div class="star" style="top: 70%; left: 15%; width: 2.5px; height: 2.5px; --star-drift-duration: 55s; --star-drift-x: 7vw; --star-drift-y: -2vh;"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
-        <div class="ethereal-glow" style="top: 20%; left: 30%; width: 150px; height: 150px; --glow-duration: 20s; --x: 20; --y: 30; --dx: 5; --dy: -5; --glow-scale: 1;"></div>
-        <div class="ethereal-glow" style="top: 70%; left: 80%; width: 100px; height: 100px; --glow-duration: 15s; --x: 70; --y: 80; --dx: -8; --dy: 3; --glow-scale: 0.8;"></div>
-        <div class="particle" style="top: 20%; left: 20%; width: 3px; height: 3px; --p-x: 20vw; --p-y: 20vh; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
-        <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-x: 80vw; --p-y: 50vh; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
-        <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
-        <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
-    </div>
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContainer = document.querySelector('.container');
+    const paragraphs = document.querySelectorAll('.container p');
+    const sections = document.querySelectorAll('.section-break, .button-container'); // Elements to stagger
+    const musicPlayButton = document.getElementById('music-play-button');
+    const backgroundAudio = new Audio('audio/romantic_bgm.mp3'); // Path to your background music
+    backgroundAudio.loop = true;
+    backgroundAudio.volume = 0.5; // Adjust volume as needed
 
-    <div class="container visible-content">
-        <div class="question-text">
-            Soo, Uk what i am going to say u dont u 😉... <br>Every day with YOU is a cherished moment, beautiful and true...
-            <br><br>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....
-            <br><br>So, with all my heart and soul... ✨
-            <br><br>Will you do me the honor of being my&nbsp;Girlfriend (Tungsten Iodine Iron) *forever*?
-        </div>
+    // --- Music Playback Logic ---
+    const savedTime = localStorage.getItem('musicCurrentTime');
+    const isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
 
-        <div class="button-container">
-            <button class="button choice-button button-yes" id="yesButton">YES! Absolutely! ❤️</button>
-            <button class="button choice-button button-no" id="noButton">Sorry, No 💔</button>
-        </div>
+    if (savedTime) {
+        backgroundAudio.currentTime = parseFloat(savedTime);
+    }
 
-        <p id="confirmationMessage" class="response-message">Yay! I knew you'd say yes! You've made me the happiest person ever! 💖</p>
+    if (isPlaying) {
+        backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
+        musicPlayButton.classList.add('playing');
+    }
 
-        <button id="music-play-button">
-            <span class="music-icon">🎵</span>
-        </button>
-    </div>
+    musicPlayButton.addEventListener('click', () => {
+        if (backgroundAudio.paused) {
+            backgroundAudio.play().catch(e => console.error("Play prevented:", e));
+            musicPlayButton.classList.add('playing');
+            localStorage.setItem('musicIsPlaying', 'true');
+        } else {
+            backgroundAudio.pause();
+            musicPlayButton.classList.remove('playing');
+            localStorage.setItem('musicIsPlaying', 'false');
+        }
+    });
 
-    <script src="script.js"></script>
-</body>
-</html>
+    window.addEventListener('beforeunload', () => {
+        localStorage.setItem('musicCurrentTime', backgroundAudio.currentTime);
+        localStorage.setItem('musicIsPlaying', !backgroundAudio.paused);
+    });
+
+    // --- Preloader & Main Content Visibility ---
+    const preloader = document.getElementById('preloader');
+    const indexProgressBar = document.getElementById('indexProgressBar');
+    const indexProgressText = document.getElementById('indexProgressText');
+
+    let loadProgress = 0;
+    // Changed interval to 450ms for 4.5 seconds total (450ms * 10 steps)
+    const interval = setInterval(() => {
+        loadProgress += 10;
+        if (indexProgressBar) indexProgressBar.style.width = loadProgress + '%';
+        if (indexProgressText) indexProgressText.textContent = `${loadProgress}% Loading...`;
+
+        if (loadProgress >= 100) {
+            clearInterval(interval);
+            if (preloader) {
+                preloader.classList.add('hidden');
+                preloader.addEventListener('transitionend', () => preloader.remove());
+            }
+            if (mainContainer) {
+                mainContainer.classList.add('visible-content'); // Reveal the main content
+                staggerAnimations(); // Start staggered animations after main content is visible
+            }
+        }
+    }, 450); // Adjusted for 4.5 seconds
+
+    // If preloader isn't present (e.g., on subsequent pages), just reveal content and stagger
+    if (!preloader && mainContainer) {
+        mainContainer.classList.add('visible-content');
+        staggerAnimations();
+    }
+
+    // --- Staggered Paragraph and Section Animations ---
+    function staggerAnimations() {
+        // Only run if paragraphs are present (i.e., not the simple acknowledgement page)
+        if (paragraphs.length > 0) {
+            paragraphs.forEach((p, index) => {
+                p.style.animationDelay = `${0.5 + index * 0.3}s`; // Stagger paragraphs
+                p.style.opacity = 1; // Ensure they become visible
+            });
+        }
+
+
+        // Only run if sections are present
+        if (sections.length > 0) {
+            sections.forEach((section, index) => {
+                // Adjust delay to follow paragraphs or start earlier if no paragraphs
+                const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
+                section.style.animationDelay = `${baseDelay + index * 0.3}s`; // Stagger sections
+                section.style.opacity = 1; // Ensure they become visible
+            });
+        }
+    }
+
+
+    // --- Acknowledgement.html (Page 3) Specific Logic ---
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+    const confirmationMessage = document.getElementById('confirmationMessage');
+
+    if (yesButton && noButton) { // Check if these elements exist (meaning we are on acknowledgement.html)
+        // Ensure noButton is positionable for evasion
+        noButton.style.position = 'relative'; // Allows transform to move it relative to its original spot
+
+        yesButton.addEventListener('click', () => {
+            confirmationMessage.style.opacity = 1; // Make confirmation message visible
+            confirmationMessage.style.animation = 'fadeInSlideUp 1s ease-out forwards'; // Animate it in
+            
+            // Hide buttons with animation
+            yesButton.classList.add('disappear');
+            noButton.classList.add('disappear');
+
+            // --- Make "Yes" page beautiful! ---
+            document.body.classList.add('success-theme'); // Apply success theme background
+            createFallingHearts(); // Start falling hearts animation
+
+            // Optional: Hide the button container after a short delay
+            setTimeout(() => {
+                const buttonContainer = document.querySelector('.button-container');
+                if (buttonContainer) {
+                    buttonContainer.classList.add('disappear');
+                }
+            }, 500);
+        });
+
+        noButton.addEventListener('click', () => {
+            noButton.classList.add('shake'); // Add shake animation
+            setTimeout(() => {
+                noButton.classList.remove('shake');
+                noButton.classList.add('disappear'); // Make it disappear
+                // Optionally, you might want a different message or effect if "No" is chosen.
+                // For now, it just disappears.
+            }, 500); // Duration of the shake animation
+        });
+
+        // --- "No" Button Evasion Logic ---
+        // This makes the button move randomly within a small range when hovered
+        noButton.addEventListener('mouseover', () => {
+            if (noButton.classList.contains('disappear')) return; // Don't move if already disappearing
+
+            const moveRange = 80; // Max pixels to move from its current position
+            let deltaX = (Math.random() - 0.5) * 2 * moveRange;
+            let deltaY = (Math.random() - 0.5) * 2 * moveRange;
+
+            // Optional: Prevent button from going too far outside the main content area
+            // This is more complex if the button is `position: relative` within its flex parent.
+            // For a simple 'evade', `translate` is good.
+
+            noButton.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        });
+
+        // Reset the button's position when the mouse leaves it
+        noButton.addEventListener('mouseout', () => {
+            if (noButton.classList.contains('disappear')) return;
+            noButton.style.transform = 'translate(0, 0)'; // Return to original position
+        });
+    }
+});
+
+// --- Function for falling hearts animation (Reusable) ---
+function createFallingHearts() {
+    const heartCount = 40; // Number of hearts
+    const heartEmojis = ['💖', '✨', '❤️', '💕', '💫', '🧡', '💜', '💙']; // More emojis
+
+    for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('falling-heart');
+        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+        // Randomize initial position, animation duration, delay, and rotation
+        const startX = Math.random() * 100; // % from left (viewport width)
+        const duration = 5 + Math.random() * 5; // 5-10 seconds for fall
+        const delay = Math.random() * 8; // 0-8 seconds delay for staggered fall
+        const rotateDeg = -50 + Math.random() * 100; // -50 to +50 degrees rotation
+        const endX = Math.random() * 100; // % from left for end position
+
+        heart.style.left = `${startX}vw`; // Use vw for horizontal positioning
+        heart.style.animationDuration = `${duration}s`;
+        heart.style.animationDelay = `${delay}s`;
+        // Pass variables to CSS for individual heart animation paths
+        heart.style.setProperty('--start-x', `${startX}vw`);
+        heart.style.setProperty('--end-x', `${endX}vw`);
+        heart.style.setProperty('--rotate-deg', `${rotateDeg}deg`);
+
+        document.body.appendChild(heart);
+    }
+}
