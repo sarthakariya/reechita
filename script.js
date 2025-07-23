@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const indexProgressText = document.getElementById('indexProgressText');
     const preloaderMessageElement = document.getElementById('animatedPreloaderMessage'); // Get the message element
     const preloaderHeart = document.querySelector('#preloader .preloader-single-heart'); // UPDATED SELECTOR
-    const originalPreloaderMessage = "Loading  words  directly  from  Sarthak's  Heart...  ✨💗"; // Original message
+    const originalPreloaderMessage = "Loading words directly from Sarthak's Heart... ✨💗"; // Original message
 
 
     if (preloader) {
@@ -240,14 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- New Function: Show Transition Preloader (for page2 to page3) ---
+    // --- UPDATED Function: Show Transition Preloader (for page2 to page3) ---
     window.showTransitionPreloader = function(targetPage) {
         const preloaderDiv = document.createElement('div');
         preloaderDiv.id = 'dynamic-transition-preloader'; // Use a unique ID
         preloaderDiv.classList.add('transition-preloader');
-        // Using the single heart for transition preloader as well for consistency
         preloaderDiv.innerHTML = `
-            <div class="preloader-single-heart"></div>
+            <div class="preloader-dual-hearts">
+                <div class="heart heart-left"></div>
+                <div class="heart heart-right"></div>
+            </div>
             <div class="transition-preloader-message">Transitioning...</div>
         `;
         document.body.appendChild(preloaderDiv);
@@ -257,10 +259,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
         preloaderDiv.classList.add('active');
 
+        // Create and animate the dual hearts
+        createDualHearts(preloaderDiv.querySelector('.preloader-dual-hearts'));
+
+
         setTimeout(() => {
             window.location.href = targetPage;
         }, 1200); // Show preloader for 1.2 seconds, adjusted for snappier transition
     };
+
+    // --- NEW Function: Create and Animate Dual Hearts for Transition Preloader ---
+    function createDualHearts(container) {
+        const leftHeart = container.querySelector('.heart-left');
+        const rightHeart = container.querySelector('.heart-right');
+
+        // Initial positions for animation
+        leftHeart.style.transform = 'translateX(-100%)';
+        rightHeart.style.transform = 'translateX(100%)';
+        leftHeart.style.opacity = '0';
+        rightHeart.style.opacity = '0';
+
+        // Animate them into view
+        setTimeout(() => {
+            leftHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+            rightHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+            leftHeart.style.transform = 'translateX(0)';
+            rightHeart.style.transform = 'translateX(0)';
+            leftHeart.style.opacity = '1';
+            rightHeart.style.opacity = '1';
+        }, 50); // Small delay to ensure initial styles are applied before transition
+
+        // Further animation: subtle pulse
+        leftHeart.style.animation = 'heartPulse 1.5s infinite alternate ease-in-out';
+        rightHeart.style.animation = 'heartPulse 1.5s infinite alternate ease-in-out 0.2s'; // Staggered pulse
+    }
+
 });
 
 // --- Function for falling hearts animation ---
