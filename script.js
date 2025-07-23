@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
-    // Updated selector to include h2 and p elements for staggering animations
+    // Updated selector to include h2 and p elements that should be staggered
     const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h2'); 
     const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createStreaks();   
     createFloatingOrbs(); 
     createNebulaClouds(); 
+    createWindGusts(); // NEW: Initialize the wind gusts
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
@@ -76,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Staggered Paragraph and Section Animations (for various pages) ---
     function staggerAnimations() {
-        // Updated to use paragraphsAndHeadings to include h2 and p elements for staggering
+        // Now includes h2 and p elements for staggering
         if (paragraphsAndHeadings.length > 0) {
-            paragraphsAndHeadings.forEach((el, index) => { // Changed 'p' to 'el' for element
+            paragraphsAndHeadings.forEach((el, index) => { 
                 el.style.animationDelay = `${0.5 + index * 0.3}s`;
                 el.style.opacity = 1;
             });
@@ -95,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     section.style.opacity = 1; 
                 } else {
                     // Apply staggered animation to other sections
-                    const baseDelay = paragraphsAndHeadings.length > 0 ? 1 + paragraphsAndHeadings.length * 0.3 : 0.5;
+                    // Calculate base delay based on the number of previous text elements
+                    const baseDelay = paragraphsAndHeadings.length > 0 ? 0.5 + paragraphsAndHeadings.length * 0.3 : 0.5;
                     section.style.animationDelay = `${baseDelay + index * 0.3}s`;
                     section.style.opacity = 1;
                 }
             });
         }
-        // Removed specific questionText animation as it's now handled by paragraphsAndHeadings
     }
 
     // --- page3.html (Confession Page) Specific Logic ---
@@ -374,7 +375,7 @@ function createStreaks() {
     }
 }
 
-// NEW FUNCTION: Create Floating Orbs
+// Function to create Floating Orbs
 function createFloatingOrbs() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
@@ -410,7 +411,7 @@ function createFloatingOrbs() {
     }
 }
 
-// NEW FUNCTION: Create Nebula Clouds
+// Function to create Nebula Clouds
 function createNebulaClouds() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
@@ -445,5 +446,30 @@ function createNebulaClouds() {
             --initial-opacity: ${Math.random() * 0.2 + 0.1};
         `;
         backgroundElements.appendChild(nebula);
+    }
+}
+
+// NEW FUNCTION: Create Wind Gusts
+function createWindGusts() {
+    const backgroundElements = document.querySelector('.background-elements');
+    if (!backgroundElements) return;
+
+    const numberOfGusts = 8; // Number of wind gusts
+    for (let i = 0; i < numberOfGusts; i++) {
+        const gust = document.createElement('div');
+        gust.classList.add('wind-gust');
+
+        const y = Math.random() * 100; // Random vertical position
+        const width = Math.random() * 400 + 200; // Random width
+        const duration = Math.random() * 10 + 10; // Animation duration
+        const delay = Math.random() * 10; // Staggered start
+
+        gust.style.cssText = `
+            top: ${y}vh;
+            width: ${width}px;
+            --duration: ${duration}s; /* Pass duration via CSS variable */
+            animation-delay: ${delay}s;
+        `;
+        backgroundElements.appendChild(gust);
     }
 }
