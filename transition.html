@@ -17,10 +17,7 @@
     <button id="music-play-button">🎵</button>
 
     <div class="background-elements">
-        <div class="moon"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
-    </div>
+        </div>
 
     <div class="container transition-container">
         <div class="heart-animation-wrapper">
@@ -39,9 +36,9 @@
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
             const transitionMessage = document.getElementById('transitionMessage');
-            const transitionDuration = 5000; // CHANGED: 5 seconds for the transition
+            const transitionDuration = 3500; // Adjusted for a slightly faster transition
             let progress = 0;
-            const intervalTime = 50; // Update every 50ms for smoother progress
+            const intervalTime = 40; // Update every 40ms for smoother progress
 
             const updateProgress = () => {
                 progress += (intervalTime / transitionDuration) * 100;
@@ -58,8 +55,18 @@
 
             const progressInterval = setInterval(updateProgress, intervalTime);
 
-            if (transitionMessage && !transitionMessage.textContent) {
-                 transitionMessage.textContent = 'One moment, loading something special...';
+            // Animate transition message when it appears
+            if (transitionMessage) {
+                transitionMessage.classList.add('visible-content'); // Trigger fadeInSlideUp
+                if (!transitionMessage.textContent) {
+                    transitionMessage.textContent = 'One moment, loading something special...';
+                }
+            }
+
+            // Ensure the container is visible on DOMContentLoaded
+            const mainContainer = document.querySelector('.transition-container');
+            if (mainContainer) {
+                mainContainer.classList.add('visible-content');
             }
         });
     </script>
