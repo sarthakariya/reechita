@@ -14,15 +14,18 @@
         <source src="perfect_instrumental.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
     <button id="music-play-button">🎵</button>
 
     <div class="background-elements">
         <div class="moon"></div>
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
-        </div>
+    </div>
 
-    <div id="preloader" style="display: none;"></div> 
+    <div id="transition-preloader" class="transition-preloader">
+        <div class="heart-spinner"></div>
+    </div>
 
     <div class="container">
         <h1>A person who can make ordinary to Extraordinary!!!</h1>
@@ -118,7 +121,9 @@
         </p>
 
         <div class="button-container">
-            <a href="page3.html" class="button">➡️ Continue to the big question…</a>
+            <a href="#" class="button" onclick="showTransitionPreloader('page3.html'); return false;">
+                ➡️ Continue to the big question…
+            </a>
         </div>
     </div>
 
