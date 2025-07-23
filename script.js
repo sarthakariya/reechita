@@ -1,12 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
     const paragraphs = document.querySelectorAll('.container p');
-    const sections = document.querySelectorAll('.section-break, .button-container'); // Elements to stagger
+    const sections = document.querySelectorAll('.section-break, .button-container');
     const musicPlayButton = document.getElementById('music-play-button');
-    // CHANGED: Audio path to match perfect_instrumental.mp3 as in HTML
     const backgroundAudio = new Audio('perfect_instrumental.mp3'); 
     backgroundAudio.loop = true;
-    backgroundAudio.volume = 0.5; // Adjust volume as needed
+    backgroundAudio.volume = 0.5;
+
+    // --- Dynamic Background Elements Initialization ---
+    // These functions will now be called on every page that includes script.js
+    createStars();
+    createEtherealGlows();
+    createParticles();
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
@@ -17,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (isPlaying) {
-        // Attempt to play, but catch potential autoplay policy errors
         backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
         musicPlayButton.classList.add('playing');
     }
@@ -44,11 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const indexProgressBar = document.getElementById('indexProgressBar');
     const indexProgressText = document.getElementById('indexProgressText');
 
-    if (preloader) { // Only run preloader logic if preloader elements exist (i.e., on index.html)
+    if (preloader) {
         let loadProgress = 0;
-        // Changed interval to 450ms for 4.5 seconds total (450ms * 10 steps = 4500ms)
+        // Smoothened: Interval changed to 45ms for 100 steps over 4.5 seconds
         const interval = setInterval(() => {
-            loadProgress += 10;
+            loadProgress += 1; // Increment by 1 for 100 steps
             if (indexProgressBar) indexProgressBar.style.width = loadProgress + '%';
             if (indexProgressText) indexProgressText.textContent = `${loadProgress}% Loading...`;
 
@@ -57,64 +61,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 preloader.classList.add('hidden');
                 preloader.addEventListener('transitionend', () => preloader.remove());
                 if (mainContainer) {
-                    mainContainer.classList.add('visible-content'); // Reveal the main content
-                    staggerAnimations(); // Start staggered animations
+                    mainContainer.classList.add('visible-content');
+                    staggerAnimations();
                 }
             }
-        }, 450); // Adjusted for 4.5 seconds
-    } else if (mainContainer) { // If preloader isn't present (e.g., on subsequent pages like page3.html), just reveal content and stagger
+        }, 45); // Adjusted for 4.5 seconds (45ms * 100 steps)
+    } else if (mainContainer) {
         mainContainer.classList.add('visible-content');
         staggerAnimations();
     }
 
     // --- Staggered Paragraph and Section Animations (for various pages) ---
     function staggerAnimations() {
-        // Only run if paragraphs are present (e.g., on story pages, not confession directly)
         if (paragraphs.length > 0) {
             paragraphs.forEach((p, index) => {
                 p.style.animationDelay = `${0.5 + index * 0.3}s`;
-                p.style.opacity = 1; // Ensure visibility after animation
+                p.style.opacity = 1;
             });
         }
 
-        // Only run if sections are present
         if (sections.length > 0) {
             sections.forEach((section, index) => {
                 const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
                 section.style.animationDelay = `${baseDelay + index * 0.3}s`;
-                section.style.opacity = 1; // Ensure visibility after animation
+                section.style.opacity = 1;
             });
         }
-        // Special case for question-text in page3.html, if it's not a 'p' tag.
         const questionText = document.querySelector('.question-text');
         if (questionText && !questionText.classList.contains('animated-already')) {
-             questionText.style.animationDelay = '0.5s'; // Ensure it animates
-             questionText.classList.add('animated-already'); // Prevent re-animating
+             questionText.style.animationDelay = '0.5s';
+             questionText.classList.add('animated-already');
         }
     }
-
 
     // --- page3.html (Confession Page) Specific Logic ---
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
     const confirmationMessage = document.getElementById('confirmationMessage');
 
-    if (yesButton && noButton) { // Check if these elements exist (meaning we are on page3.html)
-        // noButton.style.position = 'relative'; // Removed as it's already in CSS
-
+    if (yesButton && noButton) {
         yesButton.addEventListener('click', () => {
-            confirmationMessage.style.opacity = 1; // Make confirmation message visible
-            confirmationMessage.style.animation = 'fadeInSlideUp 1s ease-out forwards'; // Animate it in
+            confirmationMessage.style.opacity = 1;
+            confirmationMessage.style.animation = 'fadeInSlideUp 1s ease-out forwards';
             
-            // Hide buttons with animation
             yesButton.classList.add('disappear');
             noButton.classList.add('disappear');
 
-            // --- Make "Yes" page beautiful! ---
-            document.body.classList.add('success-theme'); // Apply success theme background
-            createFallingHearts(); // Start falling hearts animation
+            document.body.classList.add('success-theme');
+            createFallingHearts();
 
-            // Optional: Hide the button container after a short delay
             setTimeout(() => {
                 const buttonContainer = document.querySelector('.button-container');
                 if (buttonContainer) {
@@ -124,76 +119,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         noButton.addEventListener('click', () => {
-            noButton.classList.add('shake'); // Add shake animation
+            noButton.classList.add('shake');
             setTimeout(() => {
                 noButton.classList.remove('shake');
-                noButton.classList.add('disappear'); // Make it disappear
-            }, 500); // Duration of the shake animation
+                noButton.classList.add('disappear');
+            }, 500);
         });
 
-        // --- "No" Button Evasion Logic ---
-        // This makes the button move randomly within a small range when hovered
         noButton.addEventListener('mouseover', () => {
-            if (noButton.classList.contains('disappear')) return; // Don't move if already disappearing
+            if (noButton.classList.contains('disappear')) return;
 
-            const moveRange = 80; // Max pixels to move from its current position
+            const moveRange = 80;
             let deltaX = (Math.random() - 0.5) * 2 * moveRange;
             let deltaY = (Math.random() - 0.5) * 2 * moveRange;
 
-            // Ensure the button stays within the container boundaries (approximate)
             const rect = noButton.getBoundingClientRect();
             const containerRect = mainContainer.getBoundingClientRect();
 
             let newX = rect.left + deltaX;
             let newY = rect.top + deltaY;
 
-            // Clamp X position
             if (newX < containerRect.left) newX = containerRect.left;
             if (newX + rect.width > containerRect.right) newX = containerRect.right - rect.width;
 
-            // Clamp Y position
             if (newY < containerRect.top) newY = containerRect.top;
             if (newY + rect.height > containerRect.bottom) newY = containerRect.bottom - rect.height;
 
-            // Calculate new delta relative to original position
             deltaX = newX - rect.left;
             deltaY = newY - rect.top;
 
             noButton.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
         });
 
-        // Reset the button's position when the mouse leaves it
         noButton.addEventListener('mouseout', () => {
             if (noButton.classList.contains('disappear')) return;
-            noButton.style.transform = 'translate(0, 0)'; // Return to original position
+            noButton.style.transform = 'translate(0, 0)';
         });
     }
 });
 
-// --- Function for falling hearts animation (Reusable) ---
+// --- Function for falling hearts animation (Reusable, from page3.html logic) ---
 function createFallingHearts() {
-    const heartCount = 40; // Number of hearts
-    const heartEmojis = ['💖', '✨', '❤️', '💕', '💫', '🧡', '💜', '💙']; // More emojis
+    const heartCount = 40;
+    const heartEmojis = ['💖', '✨', '❤️', '💕', '💫', '🧡', '💜', '💙'];
 
     for (let i = 0; i < heartCount; i++) {
         const heart = document.createElement('span');
         heart.classList.add('falling-heart');
         heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
 
-        // Randomize initial position (start above viewport)
-        const startX = Math.random() * 100; // 0 to 100vw
-        const startY = - (Math.random() * 200); // -200px to -0px (above viewport)
-        
-        // Randomize ending position (off-center to simulate drift)
-        const endX = startX + (Math.random() - 0.5) * 60; // Drift left/right by up to 30vw
-        const rotateDeg = (Math.random() - 0.5) * 720; // Rotate up to 360 degrees in either direction
-
-        // Randomize size
-        const size = Math.random() * 1.5 + 1; // 1em to 2.5em
-
-        // Randomize duration and delay
-        const duration = Math.random() * 8 + 5; // 5s to 13s
-        const delay = Math.random() * 5; // 0s to 5s
+        const startX = Math.random() * 100;
+        const startY = - (Math.random() * 200);
+        const endX = startX + (Math.random() - 0.5) * 60;
+        const rotateDeg = (Math.random() - 0.5) * 720;
+        const size = Math.random() * 1.5 + 1;
+        const duration = Math.random() * 8 + 5;
+        const delay = Math.random() * 5;
 
         heart.style.cssText = `
             font-size: ${size}em;
@@ -201,10 +182,104 @@ function createFallingHearts() {
             top: ${startY}px;
             animation-duration: ${duration}s;
             animation-delay: ${delay}s;
-            --start-x: 0vw; /* CSS variable for initial X offset in animation */
-            --end-x: ${endX - startX}vw; /* CSS variable for final X offset relative to startX */
+            --start-x: 0vw;
+            --end-x: ${endX - startX}vw;
             --rotate-deg: ${rotateDeg}deg;
         `;
         document.body.appendChild(heart);
+    }
+}
+
+// --- NEW: Functions to create dynamic background elements ---
+function createStars() {
+    const backgroundElements = document.querySelector('.background-elements');
+    const numberOfStars = 100; // Increased for more density
+    for (let i = 0; i < numberOfStars; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const size = Math.random() * 2 + 1; // 1px to 3px
+        const x = Math.random() * 100; // 0 to 100vw
+        const y = Math.random() * 100; // 0 to 100vh
+        const duration = Math.random() * 10 + 5; // 5s to 15s
+        const delay = Math.random() * 5; // 0s to 5s
+        const driftX = (Math.random() - 0.5) * 20; // -10vw to 10vw
+        const driftY = (Math.random() - 0.5) * 20; // -10vh to 10vh
+
+        star.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}vw;
+            top: ${y}vh;
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --star-drift-x: ${driftX}vw;
+            --star-drift-y: ${driftY}vh;
+            --star-drift-duration: ${duration}s;
+        `;
+        backgroundElements.appendChild(star);
+    }
+}
+
+function createEtherealGlows() {
+    const backgroundElements = document.querySelector('.background-elements');
+    const numberOfGlows = 5;
+    for (let i = 0; i < numberOfGlows; i++) {
+        const glow = document.createElement('div');
+        glow.classList.add('ethereal-glow');
+        const size = Math.random() * 200 + 100; // 100px to 300px
+        const x = Math.random() * 100; // 0 to 100vw
+        const y = Math.random() * 100; // 0 to 100vh
+        const duration = Math.random() * 20 + 10; // 10s to 30s
+        const delay = Math.random() * 5; // 0s to 5s
+        const driftX = (Math.random() - 0.5) * 30; // -15vw to 15vw
+        const driftY = (Math.random() - 0.5) * 30; // -15vh to 15vh
+
+        glow.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}vw;
+            top: ${y}vh;
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --x: ${x};
+            --y: ${y};
+            --dx: ${driftX};
+            --dy: ${driftY};
+            --glow-duration: ${duration}s;
+            --glow-scale: ${size / 200}; /* Normalize scale */
+        `;
+        backgroundElements.appendChild(glow);
+    }
+}
+
+function createParticles() {
+    const backgroundElements = document.querySelector('.background-elements');
+    const numberOfParticles = 30;
+    for (let i = 0; i < numberOfParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 3 + 1; // 1px to 4px
+        const x = Math.random() * 100; // 0 to 100vw
+        const y = Math.random() * 100; // 0 to 100vh
+        const duration = Math.random() * 10 + 5; // 5s to 15s
+        const delay = Math.random() * 5; // 0s to 5s
+        const driftX = (Math.random() - 0.5) * 40; // -20vw to 20vw
+        const driftY = (Math.random() - 0.5) * 40; // -20vh to 20vh
+
+        particle.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}vw;
+            top: ${y}vh;
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --p-x: ${x}vw;
+            --p-y: ${y}vh;
+            --p-dx: ${driftX}vw;
+            --p-dy: ${driftY}vh;
+            --p-duration: ${duration}s;
+            --p-scale: ${size / 2}; /* Normalize scale */
+        `;
+        backgroundElements.appendChild(particle);
     }
 }
