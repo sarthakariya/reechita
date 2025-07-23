@@ -30,6 +30,9 @@ body {
     animation: backgroundShift 20s ease infinite alternate; /* Subtle background shift */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Transition for theme change */
+    transition: background 1s ease-in-out;
 }
 
 @keyframes backgroundShift {
@@ -396,7 +399,7 @@ p {
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    position: relative;
+    position: relative; /* Essential for evasion to work with transform */
     overflow: hidden;
     animation: buttonPopIn 1s ease-out forwards;
 }
@@ -764,6 +767,7 @@ p {
     animation: fadeIn 1s ease-out forwards;
 }
 
+/* Specific button colors for Yes/No */
 .button-yes {
     background-color: #4CAF50; /* Green for Yes */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
@@ -779,12 +783,14 @@ p {
 .button-no {
     background-color: #F44336; /* Red for No */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    /* Added transition for evasion effect */
+    transition: background-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease, opacity 0.5s ease-out;
 }
 
 .button-no:hover {
     background-color: #da3329;
-    transform: translateY(-3px);
+    /* Transform for evasion will override this in JS, but keeping for general hover */
+    /* transform: translateY(-3px); */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
@@ -820,11 +826,13 @@ p {
 #confirmationMessage {
     font-family: 'Pacifico', cursive;
     color: var(--primary-accent);
-    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-size: clamp(2.5rem, 5vw, 3.5rem); /* Made larger for impact */
     margin-top: 30px;
-    text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
+    text-shadow: 0 0 15px rgba(255, 105, 177, 0.8), 0 0 25px rgba(255, 215, 0, 0.5); /* Stronger glow */
     opacity: 0;
     animation: fadeInSlideUp 1s ease-out forwards;
+    z-index: 5; /* Ensure it's above other elements if necessary */
+    position: relative;
 }
 
 /* Styles for images */
@@ -852,4 +860,41 @@ p {
 /* Centering utility */
 .text-center {
     text-align: center;
+}
+
+/* --- New styles for "Yes" page beautiful theme --- */
+body.success-theme {
+    background: linear-gradient(135deg, #FF69B1, #8A2BE2, #FFD700); /* A very celebratory gradient */
+    animation: successBackgroundShift 20s ease infinite alternate; /* Keep existing shift */
+    transition: background 1s ease-in-out; /* Smooth transition to new background */
+}
+
+@keyframes successBackgroundShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Falling hearts animation for "Yes" page */
+.falling-heart {
+    position: fixed;
+    font-size: 2em; /* Size of heart */
+    pointer-events: none; /* Don't block clicks */
+    animation: fall var(--duration) ease-in forwards; /* Animation name, duration from JS */
+    opacity: 0; /* Starts invisible */
+    z-index: 10;
+    transform: translateY(-50px) translateX(var(--start-x)) rotate(0deg); /* Initial position */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-50px) translateX(var(--start-x)) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(var(--end-x)) rotate(var(--rotate-deg));
+        opacity: 0;
+    }
 }
