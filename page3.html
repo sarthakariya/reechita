@@ -25,7 +25,7 @@
 
         /* Styles for the individual heading parts of the question */
         .question-text h2 {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Pacifico', cursive; /* NEW FONT: Pacifico */
             color: var(--text-heading);
             text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
             margin-bottom: 1rem; /* Space between headings/text */
@@ -40,7 +40,7 @@
         }
 
         .question-text .main-question {
-            font-size: clamp(2.5rem, 5.5vw, 4rem); /* Largest for the main question */
+            font-size: clamp(2.3rem, 5vw, 3.5rem); /* Adjusted: A little smaller for the main question */
             margin-top: 1.5rem; /* Space before main question */
         }
 
@@ -134,8 +134,8 @@
         </div>
 
         <div class="button-container choice-buttons">
-            <a href="acknowledgement.html?response=yes" class="button choice-button yes" id="yesButton">YES! 🥰</a>
-            <a href="acknowledgement.html?response=no" class="button choice-button no" id="noButton">No, thank you 💜</a>
+            <a class="button choice-button yes" id="yesButton">YES! 🥰</a>
+            <a class="button choice-button no" id="noButton">No, thank you 💜</a>
         </div>
 
         <p class="message-below" id="confirmationMessage">
