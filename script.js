@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const indexProgressBar = document.getElementById('indexProgressBar');
     const indexProgressText = document.getElementById('indexProgressText');
     const preloaderMessageElement = document.getElementById('animatedPreloaderMessage'); // Get the message element
-    const preloaderHeart = document.querySelector('#preloader .heart-spinner');
+    const preloaderHeart = document.querySelector('#preloader .preloader-single-heart'); // UPDATED SELECTOR
     const originalPreloaderMessage = "Loading words from Sarthak's Heart..."; // Original message
 
 
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loadProgress > 100) loadProgress = 100; // Cap at 100%
 
             if (indexProgressBar) indexProgressBar.style.width = loadProgress + '%';
-            if (indexProgressText) indexProgressText.textContent = `${Math.floor(loadProgress)}% Loading...`;
+            if (indexProgressText) indexProgressText.textContent = `${Math.floor(loadProgress)}%`; // REMOVED "LOADING..."
 
             if (loadProgress >= 100) {
                 clearInterval(interval);
@@ -245,8 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const preloaderDiv = document.createElement('div');
         preloaderDiv.id = 'dynamic-transition-preloader'; // Use a unique ID
         preloaderDiv.classList.add('transition-preloader');
+        // Using the single heart for transition preloader as well for consistency
         preloaderDiv.innerHTML = `
-            <div class="heart-spinner"><div></div></div>
+            <div class="preloader-single-heart"></div>
             <div class="transition-preloader-message">Transitioning...</div>
         `;
         document.body.appendChild(preloaderDiv);
