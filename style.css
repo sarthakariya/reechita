@@ -735,256 +735,121 @@ p {
         height: 12px;
     }
 }
-3. Update your script.js file by replacing its entire content with this code:
 
-JavaScript
+/* --- Specific styles for Acknowledgement/Page 3 (from ahemm.txt) --- */
 
-// script.js
+/* Overrides for .container on acknowledgement.html */
+.container {
+    text-align: center;
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    const preloader = document.getElementById('preloader');
-    const indexProgressBar = document.getElementById('indexProgressBar');
-    const indexProgressText = document.getElementById('indexProgressText');
-    const container = document.querySelector('.container');
+.response-heading {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 2rem;
+    text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeInScale 1.5s ease-out forwards 0.5s;
+}
 
-    // Determine if it's the main index page by checking the path and presence of all preloader elements
-    const isIndexPageWithPreloader = (window.location.pathname.endsWith('/') || window.location.pathname.endsWith('/index.html') || window.location.pathname.endsWith('/index.htm')) &&
-                                     preloader && indexProgressBar && indexProgressText;
-    
-    // Logic for the full preloader experience (typically only on index.html)
-    if (isIndexPageWithPreloader) {
-        let pageLoaded = false;
-        let minimumTimeElapsed = false;
-        let currentProgress = 0;
+.response-message {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
 
-        const hidePreloader = () => {
-            if (pageLoaded && minimumTimeElapsed) {
-                indexProgressBar.style.width = '100%';
-                indexProgressText.textContent = '100%';
-                preloader.classList.add('hidden'); // Start hiding preloader
-                container.classList.add('visible-content'); // Show main content
-                preloader.addEventListener('transitionend', () => {
-                    preloader.remove(); // Remove preloader from DOM after transition
-                }, { once: true });
-            }
-        };
+.button-yes {
+    background-color: #4CAF50; /* Green for Yes */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        window.addEventListener('load', () => {
-            pageLoaded = true;
-            hidePreloader();
-        });
+.button-yes:hover {
+    background-color: #45a049;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
 
-        const minDuration = 5000; // 5 seconds minimum
-        const intervalDuration = 50;
-        const increment = 100 / (minDuration / intervalDuration);
+.button-no {
+    background-color: #F44336; /* Red for No */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        const progressInterval = setInterval(() => {
-            currentProgress += increment;
-            if (currentProgress >= 100) {
-                currentProgress = 100;
-                clearInterval(progressInterval);
-                minimumTimeElapsed = true;
-            }
-            indexProgressBar.style.width = `${currentProgress}%`;
-            indexProgressText.textContent = `${Math.floor(currentProgress)}%`;
-            hidePreloader();
-        }, intervalDuration);
+.button-no:hover {
+    background-color: #da3329;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
 
-        setTimeout(() => {
-            minimumTimeElapsed = true;
-            hidePreloader();
-        }, minDuration);
+/* Question text styles */
+.question-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.8rem, 6vw, 5rem); /* Larger for the main question */
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.6);
+    line-height: 1.2;
+    animation: fadeInScale 1.8s ease-out forwards;
+    opacity: 0;
+    /* Added for consistent heart animation for the "big question" page */
+}
+.emoji {
+    font-size: 0.8em; /* Slightly smaller than text */
+    margin-left: 10px;
+}
 
-    } 
-    // Logic for all other pages (like page2.html, page3.html) that have a main container
-    else if (container && !window.location.pathname.includes('transition.html')) {
-        // Ensure the container becomes visible on non-index and non-transition pages
-        setTimeout(() => {
-            container.classList.add('visible-content');
-        }, 50); 
-    }
+/* Specific styles for the "No" button animation */
+@keyframes shakeNo {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
 
-    // Music Playback Logic (remains unchanged)
-    const backgroundMusic = document.getElementById('backgroundMusic');
-    const musicPlayButton = document.getElementById('music-play-button');
+.button-no.shake {
+    animation: shakeNo 0.5s ease-in-out;
+}
 
-    if (backgroundMusic && musicPlayButton) {
-        const isMusicPlayingKey = 'isMusicPlaying';
-        const musicPlaybackTimeKey = 'musicPlaybackTime';
+/* Confirmation message for "Yes" */
+#confirmationMessage {
+    font-family: 'Pacifico', cursive;
+    color: var(--primary-accent);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    margin-top: 30px;
+    text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
+    opacity: 0;
+    animation: fadeInSlideUp 1s ease-out forwards;
+}
 
-        const savedPlaybackTime = localStorage.getItem(musicPlaybackTimeKey);
-        const savedMusicState = localStorage.getItem(isMusicPlayingKey);
+/* Styles for images */
+.content-image {
+    max-width: 80%; /* Adjust as needed */
+    height: auto;
+    border-radius: 15px;
+    margin: 25px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.5s ease-out forwards;
+    opacity: 0;
+}
 
-        if (savedPlaybackTime) {
-            backgroundMusic.currentTime = parseFloat(savedPlaybackTime);
-        }
+/* Styles for GIFs */
+.content-gif {
+    max-width: 90%; /* Adjust as needed */
+    height: auto;
+    border-radius: 15px;
+    margin: 25px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.5s ease-out forwards;
+    opacity: 0;
+}
 
-        if (savedMusicState === 'true') {
-            backgroundMusic.play()
-                .then(() => {
-                    musicPlayButton.textContent = '⏸️';
-                    musicPlayButton.classList.add('playing');
-                })
-                .catch(error => {
-                    console.warn("Autoplay prevented:", error);
-                });
-        } else {
-            musicPlayButton.textContent = '🎵';
-            musicPlayButton.classList.remove('playing');
-        }
-
-        musicPlayButton.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play()
-                    .then(() => {
-                        musicPlayButton.textContent = '⏸️';
-                        musicPlayButton.classList.add('playing');
-                        localStorage.setItem(isMusicPlayingKey, 'true');
-                    })
-                    .catch(error => {
-                        console.error("Manual play prevented:", error);
-                        alert("Please allow media playback in your browser settings to hear the music!");
-                    });
-            } else {
-                backgroundMusic.pause();
-                musicPlayButton.textContent = '🎵';
-                musicPlayButton.classList.remove('playing');
-                localStorage.setItem(isMusicPlayingKey, 'false');
-            }
-        });
-
-        window.addEventListener('beforeunload', () => {
-            if (!backgroundMusic.paused) {
-                localStorage.setItem(musicPlaybackTimeKey, backgroundMusic.currentTime.toString());
-                localStorage.setItem(isMusicPlayingKey, 'true');
-            } else {
-                localStorage.setItem(isMusicPlayingKey, 'false');
-            }
-        });
-
-        backgroundMusic.addEventListener('ended', () => {
-            musicPlayButton.textContent = '🎵';
-            musicPlayButton.classList.remove('playing');
-            localStorage.setItem(isMusicPlayingKey, 'false');
-        });
-    }
-
-    // Populate background elements (stars, glows, particles)
-    const backgroundElementsContainer = document.querySelector('.background-elements');
-    if (backgroundElementsContainer) {
-        for (let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
-            star.style.top = `${Math.random() * 100}vh`;
-            star.style.left = `${Math.random() * 100}vw`;
-            star.style.setProperty('--star-drift-x', (Math.random() - 0.5) * 300 + 'px');
-            star.style.setProperty('--star-drift-y', (Math.random() - 0.5) * 200 + 'px');
-            star.style.setProperty('--star-drift-duration', `${28 + Math.random() * 12}s`);
-            star.style.animationDelay = `${Math.random() * 6}s`;
-            backgroundElementsContainer.appendChild(star);
-        }
-
-        for (let i = 0; i < 30; i++) {
-            const glow = document.createElement('div');
-            glow.classList.add('ethereal-glow');
-            glow.style.setProperty('--x', Math.random() * 100);
-            glow.style.setProperty('--y', Math.random() * 100);
-            glow.style.setProperty('--dx', (Math.random() - 0.5) * 20);
-            glow.style.setProperty('--dy', (Math.random() - 0.5) * 20);
-            glow.style.setProperty('--glow-scale', Math.random() * 0.5 + 0.5);
-            glow.style.animationDelay = `${Math.random() * 10}s`;
-            glow.style.setProperty('--glow-duration', `${15 + Math.random() * 10}s`);
-            glow.style.width = glow.style.height = `${Math.random() * 100 + 100}px`;
-            backgroundElementsContainer.appendChild(glow);
-        }
-
-        for (let i = 0; i < 60; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.setProperty('--p-x', `${Math.random() * 100}vw`);
-            particle.style.setProperty('--p-y', `${Math.random() * 100}vh`);
-            particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 20}vw`);
-            particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 20}vh`);
-            particle.style.setProperty('--p-scale', Math.random() * 0.5 + 0.5);
-            particle.style.animationDelay = `${Math.random() * 10}s`;
-            particle.style.setProperty('--p-duration', `${10 + Math.random() * 10}s`);
-            particle.style.width = particle.style.height = `${Math.random() * 4 + 2}px`;
-            backgroundElementsContainer.appendChild(particle);
-        }
-    }
-
-    // Staggered text and section-break animations
-    const elementsToAnimate = document.querySelectorAll('p, .section-break');
-    elementsToAnimate.forEach((el, index) => {
-        el.style.animationDelay = `${0.5 + index * 0.2}s`;
-        el.style.animationFillMode = 'forwards';
-    });
-
-    // Universal transition button logic
-    document.querySelectorAll('.button').forEach(button => {
-        button.addEventListener('click', (e) => {
-            if (button.getAttribute('href').startsWith('#')) {
-                return;
-            }
-            e.preventDefault();
-            const targetPage = button.getAttribute('href');
-            let transitionMessage = "Stepping closer to forever..."; // Default message
-
-            if (button.id === "acknowledgement-button") {
-                transitionMessage = "Unveiling the next chapter...";
-            } else if (button.id === "last-button") {
-                transitionMessage = "Thank You!";
-            } else if (button.id === "index-button") {
-                transitionMessage = "Heading back home...";
-            }
-            
-            // Specific message for transition to page3.html (the "big question")
-            if (targetPage.includes('page3.html')) {
-                 transitionMessage = "Heart is reaching for you...";
-            }
-
-
-            window.location.href = `transition.html?to=${encodeURIComponent(targetPage)}&message=${encodeURIComponent(transitionMessage)}`;
-        });
-    });
-
-    // Specific logic for transition.html
-    if (window.location.pathname.includes('transition.html')) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetPage = urlParams.get('to');
-        const customMessage = urlParams.get('message');
-        const transitionMessageElement = document.getElementById('transitionMessage');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const transitionContainer = document.querySelector('.transition-container'); 
-
-        // Set the message or a default if none provided
-        if (customMessage) {
-            transitionMessageElement.textContent = customMessage;
-        } else {
-            transitionMessageElement.textContent = "Loading..."; // Fallback default
-        }
-
-        // Make the transition container visible
-        if (transitionContainer) {
-            setTimeout(() => {
-                transitionContainer.classList.add('visible-content');
-            }, 50); // Small delay for CSS initial state
-        }
-
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 5; 
-            if (progress <= 100) {
-                if (progressBar) progressBar.style.width = `${progress}%`;
-                if (progressText) progressText.textContent = `${progress}%`;
-            } else {
-                clearInterval(interval);
-                if (targetPage) {
-                    window.location.href = targetPage;
-                }
-            }
-        }, 250); // Adjusted to 250ms per step for a 5-second total duration (100% / 5% per step = 20 steps; 20 steps * 250ms = 5000ms)
-    }
-});
+/* Centering utility */
+.text-center {
+    text-align: center;
+}
