@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     createAuraGlows(); 
     createStreaks();   
+    createFloatingOrbs(); // NEW background effect
+    createNebulaClouds(); // NEW background effect
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
@@ -93,19 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
              questionText.classList.add('animated-already');
              questionText.style.opacity = 1;
         }
-        // Removed messageBelow reference as the element is removed from HTML
     }
 
     // --- page3.html (Confession Page) Specific Logic ---
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
-    // Removed confirmationMessage reference as the element is removed from HTML
 
     if (yesButton && noButton) {
         yesButton.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior for delayed redirect
-            
-            // Removed confirmationMessage animation here
             
             yesButton.classList.add('disappear');
             noButton.classList.add('disappear'); 
@@ -362,5 +360,79 @@ function createStreaks() {
             --streak-duration: ${duration}s;
         `;
         backgroundElements.appendChild(streak);
+    }
+}
+
+// NEW FUNCTION: Create Floating Orbs
+function createFloatingOrbs() {
+    const backgroundElements = document.querySelector('.background-elements');
+    if (!backgroundElements) return;
+
+    const numberOfOrbs = 7; // Number of orbs to create
+    for (let i = 0; i < numberOfOrbs; i++) {
+        const orb = document.createElement('div');
+        orb.classList.add('floating-orb');
+        
+        const size = Math.random() * 80 + 30; // Orb size between 30px and 110px
+        const startX = Math.random() * 100; // Starting X position (vw)
+        const startY = Math.random() * 100; // Starting Y position (vh)
+        const driftX = (Math.random() - 0.5) * 50; // Horizontal drift (vw)
+        const driftY = (Math.random() - 0.5) * 50; // Vertical drift (vh)
+        const duration = Math.random() * 20 + 10; // Animation duration (s)
+        const delay = Math.random() * 10; // Animation delay (s)
+
+        orb.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${startX}vw;
+            top: ${startY}vh;
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --orb-start-x: ${startX}vw;
+            --orb-start-y: ${startY}vh;
+            --orb-drift-x: ${driftX}vw;
+            --orb-drift-y: ${driftY}vh;
+            --orb-scale: ${size / 80}; /* Normalize scale based on size */
+            --initial-opacity: ${Math.random() * 0.3 + 0.1}; /* Random initial opacity */
+        `;
+        backgroundElements.appendChild(orb);
+    }
+}
+
+// NEW FUNCTION: Create Nebula Clouds
+function createNebulaClouds() {
+    const backgroundElements = document.querySelector('.background-elements');
+    if (!backgroundElements) return;
+
+    const numberOfNebulas = 4; // Number of nebula clouds
+    for (let i = 0; i < numberOfNebulas; i++) {
+        const nebula = document.createElement('div');
+        nebula.classList.add('nebula-cloud');
+
+        const size = Math.random() * 500 + 300; // Nebula size between 300px and 800px
+        const startX = Math.random() * 100; 
+        const startY = Math.random() * 100; 
+        const driftX1 = (Math.random() - 0.5) * 80; // First drift point
+        const driftY1 = (Math.random() - 0.5) * 80;
+        const driftX2 = (Math.random() - 0.5) * 80; // Second drift point
+        const driftY2 = (Math.random() - 0.5) * 80;
+        const duration = Math.random() * 40 + 20; // Animation duration (s)
+        const delay = Math.random() * 15; // Animation delay (s)
+
+        nebula.style.cssText = `
+            --nebula-size: ${size}px;
+            left: ${startX}vw;
+            top: ${startY}vh;
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --nebula-start-x: ${startX}vw;
+            --nebula-start-y: ${startY}vh;
+            --nebula-drift-x1: ${driftX1}vw;
+            --nebula-drift-y1: ${driftY1}vh;
+            --nebula-drift-x2: ${driftX2}vw;
+            --nebula-drift-y2: ${driftY2}vh;
+            --initial-opacity: ${Math.random() * 0.2 + 0.1};
+        `;
+        backgroundElements.appendChild(nebula);
     }
 }
