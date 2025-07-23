@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const indexProgressText = document.getElementById('indexProgressText');
     const preloaderMessageElement = document.getElementById('animatedPreloaderMessage'); // Get the message element
     const preloaderHeart = document.querySelector('#preloader .preloader-single-heart'); // UPDATED SELECTOR
-    const originalPreloaderMessage = "Loading words from Sarthak's Heart..."; // Original message
+    const originalPreloaderMessage = "Loading  words  directly  from  Sarthak's  Heart...  ✨💗"; // Original message
 
 
     if (preloader) {
