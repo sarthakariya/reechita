@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
         yesButton.addEventListener('click', (event) => {
             event.preventDefault(); 
             
-            yesButton.classList.add('disappear');
-            noButton.classList.add('disappear'); 
+            // Removed: yesButton.classList.add('disappear'); // Removed 'disappear' animation
+            // Removed: noButton.classList.add('disappear');   // Removed 'disappear' animation
 
             document.body.classList.add('success-theme'); 
             createFallingHearts(); 
@@ -169,16 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         noButton.addEventListener('click', (event) => {
             event.preventDefault(); 
-            noButton.classList.add('shake'); 
-            setTimeout(() => {
-                noButton.classList.remove('shake'); 
-            }, 500); 
-            moveNoButton(noButton, mainContainer); // Re-added click movement
+            // Removed: noButton.classList.add('shake');   // Removed 'shake' animation
+            // Removed: setTimeout(() => { noButton.classList.remove('shake'); }, 500); // Removed 'shake' animation
+            moveNoButton(noButton, mainContainer); // Kept cursor movement
         });
 
-        // Re-added: mouseover event listener for the 'No' button
+        // Kept: mouseover event listener for the 'No' button
         noButton.addEventListener('mouseover', () => {
-            if (noButton.classList.contains('disappear')) return; 
+            if (noButton.classList.contains('disappear')) return; // Check if it's already disappearing (though we removed the class addition)
             moveNoButton(noButton, mainContainer); 
         });
 
