@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
-    // Updated selector to include h2 and p elements that should be staggered
-    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h2'); 
+    // Updated selector to include h2, p, and the question-text div for staggering animations
+    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h2, .container .question-text'); 
     const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
     const backgroundAudio = new Audio('perfect_instrumental.mp3'); 
@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createStreaks();   
     createFloatingOrbs(); 
     createNebulaClouds(); 
-    createWindGusts(); // NEW: Initialize the wind gusts
+    createWindGusts(); 
+    createFlyingWings(); // NEW: Initialize the flying wings
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Staggered Paragraph and Section Animations (for various pages) ---
     function staggerAnimations() {
-        // Now includes h2 and p elements for staggering
+        // Now includes h2, p, and the question-text div for staggering
         if (paragraphsAndHeadings.length > 0) {
             paragraphsAndHeadings.forEach((el, index) => { 
                 el.style.animationDelay = `${0.5 + index * 0.3}s`;
@@ -87,16 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (sections.length > 0) {
             sections.forEach((section, index) => {
-                // Check if the current section is related to buttons
                 const isButtonSection = section.classList.contains('button-container') || section.classList.contains('choice-buttons');
 
                 if (isButtonSection) {
-                    // Buttons appear instantly without delay or fade
-                    section.style.animation = 'none'; // Ensure no CSS animation affects it
+                    section.style.animation = 'none'; 
                     section.style.opacity = 1; 
                 } else {
-                    // Apply staggered animation to other sections
-                    // Calculate base delay based on the number of previous text elements
                     const baseDelay = paragraphsAndHeadings.length > 0 ? 0.5 + paragraphsAndHeadings.length * 0.3 : 0.5;
                     section.style.animationDelay = `${baseDelay + index * 0.3}s`;
                     section.style.opacity = 1;
@@ -152,19 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (yesButton && noButton) {
-        // Forcefully remove any existing CSS animations on the buttons themselves on load
         yesButton.style.animation = 'none';
         noButton.style.animation = 'none';
-        yesButton.style.opacity = '1'; // Ensure they are visible from the start
+        yesButton.style.opacity = '1'; 
         noButton.style.opacity = '1';
 
         yesButton.addEventListener('click', (event) => {
             event.preventDefault(); 
-            
-            // Buttons no longer disappear visually
             document.body.classList.add('success-theme'); 
             createFallingHearts(); 
-            
             setTimeout(() => { 
                 window.location.href = 'acknowledgement.html?response=yes'; 
             }, 1000); 
@@ -172,10 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         noButton.addEventListener('click', (event) => {
             event.preventDefault(); 
-            moveNoButton(noButton, mainContainer); // Kept cursor movement
+            moveNoButton(noButton, mainContainer); 
         });
 
-        // Kept: mouseover event listener for the 'No' button
         noButton.addEventListener('mouseover', () => {
             moveNoButton(noButton, mainContainer); 
         });
@@ -449,27 +441,63 @@ function createNebulaClouds() {
     }
 }
 
-// NEW FUNCTION: Create Wind Gusts
+// Function: Create Wind Gusts
 function createWindGusts() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
 
-    const numberOfGusts = 8; // Number of wind gusts
+    const numberOfGusts = 8; 
     for (let i = 0; i < numberOfGusts; i++) {
         const gust = document.createElement('div');
         gust.classList.add('wind-gust');
 
-        const y = Math.random() * 100; // Random vertical position
-        const width = Math.random() * 400 + 200; // Random width
-        const duration = Math.random() * 10 + 10; // Animation duration
-        const delay = Math.random() * 10; // Staggered start
+        const y = Math.random() * 100; 
+        const width = Math.random() * 400 + 200; 
+        const duration = Math.random() * 10 + 10; 
+        const delay = Math.random() * 10; 
 
         gust.style.cssText = `
             top: ${y}vh;
             width: ${width}px;
-            --duration: ${duration}s; /* Pass duration via CSS variable */
+            --duration: ${duration}s; 
             animation-delay: ${delay}s;
         `;
         backgroundElements.appendChild(gust);
+    }
+}
+
+// NEW FUNCTION: Create Flying Wings
+function createFlyingWings() {
+    const backgroundElements = document.querySelector('.background-elements');
+    if (!backgroundElements) return;
+
+    const numberOfWings = 6;
+    for (let i = 0; i < numberOfWings; i++) {
+        const wing = document.createElement('div');
+        wing.classList.add('flying-wing');
+
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const size = Math.random() * 80 + 50; 
+        const driftX = (Math.random() - 0.5) * 40;
+        const driftY = (Math.random() - 0.5) * 40;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 10;
+        const opacity = Math.random() * 0.2 + 0.05; 
+
+        wing.style.cssText = `
+            width: ${size}px;
+            height: ${size * 0.5}px; /* Half height for oval shape */
+            left: ${x}vw;
+            top: ${y}vh;
+            animation-duration: ${duration}s, ${duration}s; 
+            animation-delay: ${delay}s, ${delay}s;
+            --wing-x-start: ${x}vw;
+            --wing-y-start: ${y}vh;
+            --wing-drift-x: ${driftX}vw;
+            --wing-drift-y: ${driftY}vh;
+            --wing-opacity: ${opacity};
+        `;
+        backgroundElements.appendChild(wing);
     }
 }
