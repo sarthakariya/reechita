@@ -84,9 +84,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (sections.length > 0) {
             sections.forEach((section, index) => {
-                const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
-                section.style.animationDelay = `${baseDelay + index * 0.3}s`;
-                section.style.opacity = 1;
+                // Check if the current section is related to buttons
+                const isButtonSection = section.classList.contains('button-container') || section.classList.contains('choice-buttons');
+
+                if (isButtonSection) {
+                    section.style.animationDelay = '0s'; // No delay for buttons
+                    section.style.opacity = 1; // Make buttons visible immediately
+                } else {
+                    // Apply staggered animation to other sections
+                    const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
+                    section.style.animationDelay = `${baseDelay + index * 0.3}s`;
+                    section.style.opacity = 1;
+                }
             });
         }
         const questionText = document.querySelector('.question-text');
