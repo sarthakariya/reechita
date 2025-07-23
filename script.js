@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
-    const paragraphs = document.querySelectorAll('.container p');
+    // Updated selector to include h2 and p elements for staggering animations
+    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h2'); 
     const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
     const backgroundAudio = new Audio('perfect_instrumental.mp3'); 
@@ -75,10 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Staggered Paragraph and Section Animations (for various pages) ---
     function staggerAnimations() {
-        if (paragraphs.length > 0) {
-            paragraphs.forEach((p, index) => {
-                p.style.animationDelay = `${0.5 + index * 0.3}s`;
-                p.style.opacity = 1;
+        // Updated to use paragraphsAndHeadings to include h2 and p elements for staggering
+        if (paragraphsAndHeadings.length > 0) {
+            paragraphsAndHeadings.forEach((el, index) => { // Changed 'p' to 'el' for element
+                el.style.animationDelay = `${0.5 + index * 0.3}s`;
+                el.style.opacity = 1;
             });
         }
 
@@ -93,25 +95,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     section.style.opacity = 1; 
                 } else {
                     // Apply staggered animation to other sections
-                    const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
+                    const baseDelay = paragraphsAndHeadings.length > 0 ? 1 + paragraphsAndHeadings.length * 0.3 : 0.5;
                     section.style.animationDelay = `${baseDelay + index * 0.3}s`;
                     section.style.opacity = 1;
                 }
             });
         }
-        const questionText = document.querySelector('.question-text');
-        if (questionText && !questionText.classList.contains('animated-already')) {
-             questionText.style.animationDelay = '0.5s';
-             questionText.classList.add('animated-already');
-             questionText.style.opacity = 1;
-        }
+        // Removed specific questionText animation as it's now handled by paragraphsAndHeadings
     }
 
     // --- page3.html (Confession Page) Specific Logic ---
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
-    // Helper function to move the no button (re-enabled)
+    // Helper function to move the no button
     function moveNoButton(buttonElement, containerElement) {
         const moveRange = 120; 
         const containerRect = containerElement ? containerElement.getBoundingClientRect() : document.body.getBoundingClientRect();
