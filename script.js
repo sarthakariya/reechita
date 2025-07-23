@@ -101,34 +101,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
-    // Helper function to move the no button
+    // Helper function to move the no button (re-enabled)
     function moveNoButton(buttonElement, containerElement) {
-        const moveRange = 120; // How far the button can move
+        const moveRange = 120; 
         const containerRect = containerElement ? containerElement.getBoundingClientRect() : document.body.getBoundingClientRect();
         const buttonRect = buttonElement.getBoundingClientRect();
 
         let newX, newY;
         let attempts = 0;
-        const maxAttempts = 50; // Max attempts to find a new distinct position
+        const maxAttempts = 50; 
 
         do {
-            let deltaX = (Math.random() - 0.5) * 2 * moveRange; // Random value between -moveRange and +moveRange
+            let deltaX = (Math.random() - 0.5) * 2 * moveRange; 
             let deltaY = (Math.random() - 0.5) * 2 * moveRange;
 
             newX = buttonRect.left + deltaX;
             newY = buttonRect.top + deltaY;
 
-            // Ensure the button stays within the container boundaries with some padding
             const padding = 20; 
             newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
             newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
 
             attempts++;
-        } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5)); // Retry if new position is too close to old
+        } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5));
 
-        // Calculate the transform needed based on current computed transform
         const currentTransform = getComputedStyle(buttonElement).transform;
-        let currentTx = 0, currentTy = 0; // Current translate values
+        let currentTx = 0, currentTy = 0; 
         if (currentTransform && currentTransform !== 'none') {
             const matrix = currentTransform.match(/matrix.*\((.+)\)/);
             if (matrix) {
@@ -147,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (yesButton && noButton) {
         yesButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default link behavior for delayed redirect
+            event.preventDefault(); 
             
             yesButton.classList.add('disappear');
             noButton.classList.add('disappear'); 
@@ -161,18 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         noButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default link behavior, making it unclickable
+            event.preventDefault(); 
             noButton.classList.add('shake'); 
             setTimeout(() => {
                 noButton.classList.remove('shake'); 
             }, 500); 
-            moveNoButton(noButton, mainContainer); // Now moves on click too!
+            moveNoButton(noButton, mainContainer); // Re-added click movement
         });
 
-        // No button float logic (on mouseover)
+        // Re-added: mouseover event listener for the 'No' button
         noButton.addEventListener('mouseover', () => {
             if (noButton.classList.contains('disappear')) return; 
-            moveNoButton(noButton, mainContainer); // Existing hover movement
+            moveNoButton(noButton, mainContainer); 
         });
 
         noButton.addEventListener('mouseout', () => {
