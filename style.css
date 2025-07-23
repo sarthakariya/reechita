@@ -739,9 +739,9 @@ p {
     }
 }
 
-/* --- Specific styles for Acknowledgement/Page 3 (from ahemm.txt) --- */
+/* --- Specific styles for Confession/page3.html --- */
 
-/* Overrides for .container on acknowledgement.html */
+/* Overrides for .container on page3.html */
 .container {
     text-align: center;
 }
@@ -804,7 +804,6 @@ p {
     line-height: 1.2;
     animation: fadeInScale 1.8s ease-out forwards;
     opacity: 0;
-    /* Added for consistent heart animation for the "big question" page */
 }
 .emoji {
     font-size: 0.8em; /* Slightly smaller than text */
