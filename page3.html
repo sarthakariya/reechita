@@ -13,14 +13,47 @@
         }
 
         .question-text {
+            /* This div now acts as a container for the question elements */
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            opacity: 0; /* Initial opacity for the whole block */
+            animation: fadeInScale 1.5s ease-out forwards 0.5s; /* Animation for the whole block */
+            display: flex; /* Use flexbox for vertical stacking */
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+        }
+
+        /* Styles for the individual heading parts of the question */
+        .question-text h2 {
             font-family: 'Great Vibes', cursive;
             color: var(--text-heading);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 2rem;
             text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+            margin-bottom: 1rem; /* Space between headings/text */
             line-height: 1.2;
-            opacity: 0;
-            animation: fadeInScale 1.5s ease-out forwards 0.5s;
+            padding: 0 10px; /* Small padding to prevent text touching edges on very small screens */
+            box-sizing: border-box; /* Include padding in element's total width */
+        }
+
+        .question-text h2:first-child {
+            font-size: clamp(1.8rem, 4vw, 2.8rem); /* Slightly smaller for the opening statement */
+            margin-bottom: 1.5rem; /* More space after first heading */
+        }
+
+        .question-text .main-question {
+            font-size: clamp(2.5rem, 5.5vw, 4rem); /* Largest for the main question */
+            margin-top: 1.5rem; /* Space before main question */
+        }
+
+        /* Styles for the normal text part of the question */
+        .question-text p {
+            font-family: 'Lora', serif;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-light); /* Lighter color for normal text */
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 800px; /* Constrain width for readability */
+            padding: 0 20px; /* Padding for readability */
+            box-sizing: border-box;
         }
 
         .choice-buttons {
@@ -95,11 +128,9 @@
 
     <div class="container">
         <div class="question-text">
-            Soo, Uk what i am going to say u dont u 😉... Every day with YOU is a cherished moment, beautiful and true...
-            Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....
-            So, with all my heart and soul... ✨
-
-            Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?
+            <h2>Soo, Uk what i am going to say u dont u 😉... Every day with YOU is a cherished moment, beautiful and true...</h2>
+            <p>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever.... So, with all my heart and soul... ✨</p>
+            <h2 class="main-question">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?</h2>
         </div>
 
         <div class="button-container choice-buttons">
