@@ -88,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isButtonSection = section.classList.contains('button-container') || section.classList.contains('choice-buttons');
 
                 if (isButtonSection) {
-                    section.style.animationDelay = '0s'; // No delay for buttons
-                    section.style.opacity = 1; // Make buttons visible immediately
+                    // Buttons appear instantly without delay or fade
+                    section.style.animation = 'none'; // Ensure no CSS animation affects it
+                    section.style.opacity = 1; 
                 } else {
                     // Apply staggered animation to other sections
                     const baseDelay = paragraphs.length > 0 ? 1 + paragraphs.length * 0.3 : 0.5;
@@ -153,12 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (yesButton && noButton) {
+        // Forcefully remove any existing CSS animations on the buttons themselves on load
+        yesButton.style.animation = 'none';
+        noButton.style.animation = 'none';
+        yesButton.style.opacity = '1'; // Ensure they are visible from the start
+        noButton.style.opacity = '1';
+
         yesButton.addEventListener('click', (event) => {
             event.preventDefault(); 
             
-            // Removed: yesButton.classList.add('disappear'); // Removed 'disappear' animation
-            // Removed: noButton.classList.add('disappear');   // Removed 'disappear' animation
-
+            // Buttons no longer disappear visually
             document.body.classList.add('success-theme'); 
             createFallingHearts(); 
             
@@ -169,14 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         noButton.addEventListener('click', (event) => {
             event.preventDefault(); 
-            // Removed: noButton.classList.add('shake');   // Removed 'shake' animation
-            // Removed: setTimeout(() => { noButton.classList.remove('shake'); }, 500); // Removed 'shake' animation
             moveNoButton(noButton, mainContainer); // Kept cursor movement
         });
 
         // Kept: mouseover event listener for the 'No' button
         noButton.addEventListener('mouseover', () => {
-            if (noButton.classList.contains('disappear')) return; // Check if it's already disappearing (though we removed the class addition)
             moveNoButton(noButton, mainContainer); 
         });
 
