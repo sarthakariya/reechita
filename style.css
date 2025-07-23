@@ -696,17 +696,23 @@ p {
 }
 
 .preloader-message {
+    /* Existing styles for font, color, shadow */
+    overflow: hidden; /* To prevent words from showing prematurely */
+    white-space: nowrap; /* Keep words on one line for better control */
+    opacity: 0; /* Hidden by default, JS will make it 1 and animate words */
     font-family: 'Great Vibes', cursive;
     color: var(--text-heading);
     font-size: 2.2em; /* Slightly larger */
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5); /* Stronger glow */
     margin-bottom: 20px; /* Added spacing */
-    animation: pulseText 2s infinite alternate;
 }
 
-@keyframes pulseText {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(1.03); opacity: 0.9; }
+/* New: Animation for each word/span within the preloader message */
+.preloader-message .word-animated {
+    display: inline-block; /* Essential for transform/opacity on words */
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Animation for each word */
 }
 
 /* Progress bar for Index page preloader - Specific overrides if needed */
@@ -714,13 +720,14 @@ p {
     margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
     width: 70%; /* Make it a bit narrower for better aesthetics */
     box-shadow: 0 0 15px rgba(255, 105, 177, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    border-radius: 12px; /* Slightly more rounded */
 }
 
 #indexProgressBar { /* Specific ID for the index page progress bar */
     height: 100%;
     width: 0%; /* Starts at 0 */
-    background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
-    border-radius: 10px;
+    background: linear-gradient(to right, #FFD1DC, var(--primary-accent)); /* Softer pink gradient */
+    border-radius: 12px; /* Match container */
     transition: width 0.08s linear; /* Smooth fill, slightly faster */
     display: flex;
     align-items: center;
@@ -740,8 +747,8 @@ p {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.4); /* Brighter shine effect */
-    filter: blur(7px);
+    background: rgba(255,255,255,0.5); /* Brighter shine effect */
+    filter: blur(8px); /* More blur for ethereal look */
     opacity: 0;
     animation: progressBarShine 2.5s infinite ease-in-out;
 }
@@ -1154,13 +1161,16 @@ body.success-theme {
     height: 80px;
     transform: rotate(45deg);
     animation: heartBeat 1.2s infinite ease-in-out; /* Use your existing heartbeat */
+    /* Enhanced distinct look */
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493); /* Pink to Deep Pink gradient */
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7); /* Stronger, layered glow */
 }
 .heart-spinner div {
     top: 32px;
     left: 32px;
     position: absolute;
-    background: #FFD1DC; /* Pink heart color */
-    box-shadow: 0 0 15px #FFD1DC, 0 0 30px rgba(255, 209, 220, 0.7); /* Glow for the spinner */
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493); /* Match parent */
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7); /* Match parent */
 }
 .heart-spinner div:after,
 .heart-spinner div:before {
@@ -1169,8 +1179,8 @@ body.success-theme {
     display: block;
     width: 32px;
     height: 32px;
-    background: #FFD1DC; /* Pink heart color */
-    box-shadow: 0 0 15px #FFD1DC, 0 0 30px rgba(255, 209, 220, 0.7); /* Glow for the spinner */
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493); /* Match parent */
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7); /* Match parent */
 }
 .heart-spinner div:before {
     left: -24px;
