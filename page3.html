@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* General body styles for the entire page's default text */
+        /* This internal style block can be removed if all content is in style.css */
+        /* Currently, the relevant page3-specific text styles are already in style.css */
+        
+        /* General body styles for the entire page's default text - these are also in style.css now */
         body {
             font-family: 'Lora', serif; /* Elegant and readable font for general text */
             font-size: 0.95rem; /* Make the default text size slightly smaller */
@@ -28,82 +31,82 @@
         }
 
         /* Existing Styles for the new introductory heading */
-        /* These will be overridden/enhanced by the new classes below for yellow text */
+        /* These are now largely overridden by .confession-intro-line-1 and .confession-intro-line-2 in style.css */
         .pre-question-heading {
-            font-family: 'Lora', serif; /* Consistent with body text (less cursive) */
-            color: #F8F8F8; /* Slightly brighter white for this line */
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem); /* Smaller than main question */
-            margin-bottom: 1rem; /* Space after heading */
+            font-family: 'Lora', serif;
+            color: #F8F8F8;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            margin-bottom: 1rem;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
             line-height: 1.3;
-            padding: 0 5%; /* Add some padding for smaller screens */
-            opacity: 0; /* Handled by JS animation */
+            padding: 0 5%;
+            opacity: 0;
         }
 
         /* Existing Styles for the new introductory paragraph */
-        /* These will be overridden/enhanced by the new classes below for yellow text */
+        /* These are now largely overridden by .confession-body-line-1 and .confession-body-line-2 in style.css */
         .pre-question-paragraph {
-            font-family: 'Lora', serif; /* Consistent with body text (less cursive) */
-            color: #F8F8F8; /* Slightly brighter white for this line */
-            font-size: clamp(1rem, 2vw, 1.2rem); /* Even smaller */
-            margin-bottom: 1.5rem; /* Space after paragraph */
+            font-family: 'Lora', serif;
+            color: #F8F8F8;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-bottom: 1.5rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
             line-height: 1.4;
             padding: 0 5%;
-            opacity: 0; /* Handled by JS animation */
+            opacity: 0;
         }
 
-        /* Specific styles for the main question text */
-        .question-text { /* This now targets the <div> containing the final question */
-            font-family: 'Great Vibes', cursive; /* Keep the elegant and romantic font for the main question */
-            color: #FFD1DC; /* A beautiful, soft pink color for the question */
-            font-size: clamp(2.3rem, 4.2vw, 3.2rem); /* Responsive size, still prominent */
-            margin-bottom: 2rem; /* Space before buttons */
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4); /* Soft shadow for depth and readability */
+        /* Specific styles for the main question text - these are also in style.css now */
+        .question-text {
+            font-family: 'Great Vibes', cursive;
+            color: #FFD1DC;
+            font-size: clamp(2.3rem, 4.2vw, 3.2rem);
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             line-height: 1.2;
-            opacity: 0; /* Handled by JS animation */
-            animation: none; /* No animations on load unless via JS */
+            opacity: 0;
+            animation: none;
         }
 
-        /* Styling for emojis within the question text (now *inside* the new main question div) */
+        /* Styling for emojis within the question text - also in style.css */
         .question-text .emoji {
-            color: #FFFFFF; /* Pure white to make emojis pop and match the white accent */
-            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)); /* A gentle white glow */
+            color: #FFFFFF;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
         }
 
-        /* Styling for the Yes/No buttons */
+        /* Styling for the Yes/No buttons - also in style.css */
         .choice-button {
-            color: #FFFFFF; /* White text for great contrast against the button gradients */
-            font-family: 'Lora', serif; /* Consistent elegant font for button text */
-            font-size: clamp(1rem, 2vw, 1.15rem); /* Optimal size for readability */
-            letter-spacing: 0.05em; /* Slightly increased letter spacing for elegance */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Subtle shadow for button text */
+            color: #FFFFFF;
+            font-family: 'Lora', serif;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            letter-spacing: 0.05em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Styling for the music play button */
+        /* Styling for the music play button - also in style.css */
         #music-play-button {
-            color: #FFD1DC; /* Pink color for the music button icon */
-            border-color: #FFD1DC; /* Pink border */
-            background-color: rgba(255, 209, 220, 0.1); /* Very subtle pink background */
-            box-shadow: 0 0 10px rgba(255, 209, 220, 0.5); /* Matching pink glow */
+            color: #FFD1DC;
+            border-color: #FFD1DC;
+            background-color: rgba(255, 209, 220, 0.1);
+            box-shadow: 0 0 10px rgba(255, 209, 220, 0.5);
         }
 
         #music-play-button.playing {
-            color: #FFFFFF; /* White when playing */
-            border-color: #FFFFFF; /* White border when playing */
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Brighter white glow */
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
         }
 
-        /* Background Element: Wind Gusts */
+        /* Background Element: Wind Gusts - also in style.css */
         .wind-gust {
             position: absolute;
             background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-            height: 2px; /* Thin line */
-            filter: blur(0.5px); /* Soft blur */
+            height: 2px;
+            filter: blur(0.5px);
             pointer-events: none;
             z-index: 0;
-            opacity: 0; /* Starts invisible */
-            animation: sweepWind var(--duration) linear infinite; /* Use CSS variable for duration */
+            opacity: 0;
+            animation: sweepWind var(--duration) linear infinite;
         }
 
         @keyframes sweepWind {
@@ -114,15 +117,15 @@
             100% { transform: translateX(200vw) scaleX(0.5); opacity: 0; }
         }
 
-        /* Background Element: Flying Wings */
+        /* Background Element: Flying Wings - also in style.css */
         .flying-wing {
             position: absolute;
             background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50% / 30%; /* Oval shape for a soft wing */
-            filter: blur(1px); /* Soften edges */
+            border-radius: 50% / 30%;
+            filter: blur(1px);
             pointer-events: none;
             z-index: 0;
-            opacity: 0; /* Animated */
+            opacity: 0;
             animation: wingFloat var(--duration) infinite ease-in-out, fadeInOut var(--duration) infinite;
         }
 
@@ -136,13 +139,13 @@
 
         @keyframes fadeInOut {
             0%, 100% { opacity: 0; }
-            10%, 90% { opacity: var(--wing-opacity, 0.15); } /* Variable opacity */
+            10%, 90% { opacity: var(--wing-opacity, 0.15); }
         }
     </style>
 </head>
 <body>
     <div class="background-elements">
-    </div>
+        </div>
 
     <div class="container">
         <button id="music-play-button" aria-label="Play/Pause Music">
