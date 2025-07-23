@@ -23,76 +23,70 @@
     box-sizing: border-box;
 }
 
-/* General Body and HTML structure styles */
-html, body {
+/* Base Styles */
+body {
+    font-family: 'Lora', serif; /* Elegant serif font */
+    color: var(--text-light);
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Prevent scrolling unless content explicitly overflows within a container */
-    background-color: #0d011f; /* Deep violet background, almost black */
-    font-family: 'Lora', serif; /* Default font for the entire page */
-    color: #F0F0F0; /* Soft off-white default text color */
-    line-height: 1.6;
-    display: flex; /* Use flexbox for central alignment */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative; /* For background elements */
-}
-
-/* Container for main content, centered */
-.container {
-    position: relative;
-    z-index: 10; /* Ensure content is above background elements */
-    width: 90%; /* Responsive width */
-    max-width: 900px; /* Max width to prevent stretching on large screens */
-    margin: 0 auto; /* Center horizontally */
-    padding: 30px; /* Padding inside the container */
-    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent dark background for content */
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(138, 43, 226, 0.2); /* Soft dark shadow and subtle purple glow */
-    text-align: center;
-    min-height: 80vh; /* Ensure it takes up most of the viewport height */
+    overflow-x: hidden;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: 0; /* Hidden by default, visible via JS */
-    transition: opacity 1s ease-out; /* Smooth fade in */
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    animation: backgroundShift 20s ease infinite alternate; /* Subtle background shift */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Transition for theme change */
+    transition: background var(--animation-duration-medium) ease-in-out;
 }
 
-.container.visible-content {
-    opacity: 1;
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
-/* Background elements container (for stars, glows, etc.) */
-.background-elements {
+/* Accessibility: Hide content visually but keep it for screen readers */
+.sr-only {
     position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Background Dynamic Elements (All Pages) */
+.background-elements {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 0; /* Ensures it's behind the main content */
-    pointer-events: none; /* Allows clicks to pass through */
+    z-index: -1; /* Ensure background elements stay behind content */
+    pointer-events: none; /* Prevent interference with clicks */
 }
-
-/* --- Dynamic Background Elements --- */
 
 /* Stars */
 .star {
     position: absolute;
-    background-color: #fff;
+    background: #fff;
     border-radius: 50%;
     opacity: 0;
-    animation: twinkle 5s infinite ease-in-out alternate, starDrift var(--star-drift-duration) infinite linear;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    animation: twinkle 4s infinite ease-in-out alternate, starDrift var(--star-drift-duration) linear infinite alternate;
+    box-shadow: 0 0 5px #fff;
 }
 
 @keyframes twinkle {
-    0%, 100% { opacity: 0; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
 }
 
 @keyframes starDrift {
@@ -103,74 +97,130 @@ html, body {
 /* Ethereal Glows */
 .ethereal-glow {
     position: absolute;
-    background: radial-gradient(circle, rgba(138, 43, 226, 0.3) 0%, rgba(138, 43, 226, 0) 70%); /* Purple glow */
+    background: radial-gradient(circle, var(--primary-accent), var(--secondary-accent), transparent 70%);
     border-radius: 50%;
+    opacity: 0.3;
     filter: blur(50px);
-    opacity: 0;
-    animation: pulseGlow var(--glow-duration) infinite ease-in-out alternate, drift var(--glow-duration) infinite linear;
-    pointer-events: none;
+    animation: glowFloat var(--glow-duration) ease-in-out infinite alternate, glowPulse var(--glow-duration) ease-in-out infinite alternate;
 }
 
-@keyframes pulseGlow {
-    0%, 100% { transform: scale(var(--glow-scale, 1)); opacity: 0; }
-    50% { opacity: 0.8; transform: scale(calc(var(--glow-scale, 1) + 0.2)); }
+@keyframes glowFloat {
+    0% { transform: translate(calc(var(--x) * 1vw), calc(var(--y) * 1vh)) scale(var(--glow-scale)); }
+    100% { transform: translate(calc((var(--x) + var(--dx)) * 1vw), calc((var(--y) + var(--dy)) * 1vh)) scale(calc(var(--glow-scale) * 1.1)); }
 }
 
-@keyframes drift {
-    0% { transform: translate(var(--x, 0)vw, var(--y, 0)vh); }
-    100% { transform: translate(calc(var(--x, 0)vw + var(--dx, 20)vw), calc(var(--y, 0)vh + var(--dy, 20)vh)); }
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
 }
 
 /* Particles */
 .particle {
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.6);
+    background: #fff;
     border-radius: 50%;
     opacity: 0;
-    animation: particleFloat var(--p-duration) infinite ease-in-out, fadeInOut var(--p-duration) infinite;
-    filter: blur(0.5px);
+    animation: particleFloat var(--p-duration) ease-in-out infinite alternate;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
 }
 
 @keyframes particleFloat {
-    0% { transform: translate(0, 0) scale(var(--p-scale, 1)); }
-    50% { transform: translate(var(--p-dx, 10px), var(--p-dy, 10px)) scale(calc(var(--p-scale, 1) + 0.1)); }
-    100% { transform: translate(0, 0) scale(var(--p-scale, 1)); }
+    0% { transform: translate(var(--p-x), var(--p-y)) scale(var(--p-scale)); opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { transform: translate(calc(var(--p-x) + var(--p-dx)), calc(var(--p-y) + var(--p-dy))) scale(var(--p-scale)); opacity: 0; }
 }
 
-/* Aura Glows */
-.aura-glow {
+/* Moon */
+.moon {
     position: absolute;
-    background: radial-gradient(circle, rgba(255, 105, 180, 0.15) 0%, rgba(255, 105, 180, 0) 70%); /* Pink aura */
+    background: radial-gradient(circle at 30% 30%, #fefefe, #ccc, #999);
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0;
-    animation: fadeInOut var(--aura-drift-duration) infinite ease-in-out, auraDrift var(--aura-drift-duration) infinite linear;
-    pointer-events: none;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4);
+    animation: moonDrift 60s linear infinite alternate, moonPulse 5s ease-in-out infinite alternate, moonGlow 10s ease infinite;
+    opacity: 0.9;
+    z-index: -2; /* Ensure it's behind other background elements */
 }
 
-@keyframes auraDrift {
+@keyframes moonDrift {
     0% { transform: translate(0, 0); }
-    100% { transform: translate(var(--adx), var(--ady)); }
+    100% { transform: translate(10vw, 5vh); }
 }
 
-/* Streaks */
-.streak {
+@keyframes moonPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.02); }
+}
+
+@keyframes moonGlow {
+    0% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4); }
+    50% { box-shadow: 0 0 60px rgba(255, 255, 255, 0.8), 0 0 120px rgba(255, 255, 255, 0.5); }
+    100% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 100px rgba(255, 255, 255, 0.4); }
+}
+
+/* Distant Scenery (Parallax effect) */
+.distant-scenery {
     position: absolute;
-    height: 1px;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
-    width: 100px;
-    transform: translateX(0);
-    opacity: 0;
-    animation: streakFlow var(--streak-duration) infinite linear;
-    filter: blur(0.5px);
-    pointer-events: none;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%; /* Adjust as needed */
+    background: url('https://as2.ftcdn.net/v2/jpg/14/30/89/55/1000_F_1430895515_PnXMoB0IX2oocY6MPYL9J8KmbvC9z0FK.webp') repeat-x bottom center;
+    background-size: contain;
+    animation: sceneryParallax 120s linear infinite alternate;
+    opacity: 0.6;
+    z-index: -2; /* Ensure it's behind other background elements */
 }
 
-@keyframes streakFlow {
-    0% { transform: translateX(-100vw); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.1; }
-    100% { transform: translateX(100vw); opacity: 0; }
+@keyframes sceneryParallax {
+    0% { background-position: 0% bottom; }
+    100% { background-position: 100% bottom; }
+}
+
+/* Water Shimmer at the bottom */
+.water-shimmer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10%; /* Height of the water effect */
+    background: radial-gradient(ellipse at 50% 100%, rgba(135, 206, 235, 0.3) 0%, rgba(25, 25, 112, 0.5) 70%, transparent 100%);
+    overflow: hidden;
+    z-index: -2; /* Ensure it's behind other background elements */
+}
+
+.water-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 10%, transparent 20%, rgba(255, 255, 255, 0.1) 30%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%, rgba(255, 255, 255, 0.1) 70%, transparent 80%);
+    background-size: 50% 100%;
+    animation: waterFlow 30s linear infinite;
+}
+
+.water-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: waterRipple 20s ease-in-out infinite alternate;
+}
+
+@keyframes waterFlow {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes waterRipple {
+    0% { transform: scale(1, 0.8) translateY(0); opacity: 1; }
+    50% { transform: scale(1.05, 1.2) translateY(-5%); opacity: 0.7; }
+    100% { transform: scale(1, 0.8) translateY(0); opacity: 1; }
 }
 
 /* Floating Orbs */
@@ -180,642 +230,723 @@ html, body {
     border-radius: 50%;
     filter: blur(var(--orb-blur));
     opacity: var(--orb-opacity);
-    animation: orbFloat var(--orb-duration) infinite ease-in-out, pulse var(--orb-pulse-duration) infinite alternate ease-in-out;
+    animation: orbFloat var(--orb-duration) ease-in-out infinite alternate, orbPulse var(--orb-pulse-duration) ease-in-out infinite alternate;
 }
 
 @keyframes orbFloat {
-    0% { transform: translate(var(--orb-x, 0)vw, var(--orb-y, 0)vh) scale(var(--orb-scale, 1)); }
-    25% { transform: translate(calc(var(--orb-x, 0)vw + var(--orb-dx, 10)vw), calc(var(--orb-y, 0)vh + var(--orb-dy, 10)vh)) scale(calc(var(--orb-scale, 1) + 0.1)); }
-    50% { transform: translate(var(--orb-x, 0)vw, var(--orb-y, 0)vh) scale(var(--orb-scale, 1)); }
-    75% { transform: translate(calc(var(--orb-x, 0)vw - var(--orb-dx, 10)vw), calc(var(--orb-y, 0)vh - var(--orb-dy, 10)vh)) scale(calc(var(--orb-scale, 1) + 0.1)); }
-    100% { transform: translate(var(--orb-x, 0)vw, var(--orb-y, 0)vh) scale(var(--orb-scale, 1)); }
+    0% { transform: translate(calc(var(--orb-x) * 1vw), calc(var(--orb-y) * 1vh)) scale(var(--orb-scale)); }
+    100% { transform: translate(calc((var(--orb-x) + var(--orb-dx)) * 1vw), calc((var(--orb-y) + var(--orb-dy)) * 1vh)) scale(calc(var(--orb-scale) * 1.1)); }
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(var(--orb-scale, 1)); }
-    50% { transform: scale(calc(var(--orb-scale, 1) * 1.1)); }
+@keyframes orbPulse {
+    0%, 100% { opacity: var(--orb-opacity); }
+    50% { opacity: calc(var(--orb-opacity) + 0.2); }
 }
 
 /* Nebula Clouds */
 .nebula-cloud {
     position: absolute;
-    background: radial-gradient(circle, var(--cloud-color) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, var(--cloud-color) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(var(--cloud-blur));
     opacity: var(--cloud-opacity);
-    animation: cloudDrift var(--cloud-duration) infinite linear alternate;
+    animation: cloudDrift var(--cloud-duration) linear infinite alternate;
 }
 
 @keyframes cloudDrift {
-    0% { transform: translate(var(--cloud-x, 0)vw, var(--cloud-y, 0)vh) scale(var(--cloud-scale, 1)); }
-    100% { transform: translate(calc(var(--cloud-x, 0)vw + var(--cloud-dx, 20)vw), calc(var(--cloud-y, 0)vh + var(--cloud-dy, 20)vh)) scale(calc(var(--cloud-scale, 1) * 1.1)); }
+    0% { transform: translate(var(--cloud-x), var(--cloud-y)) scale(var(--cloud-scale)); }
+    100% { transform: translate(calc(var(--cloud-x) + var(--cloud-dx)), calc(var(--cloud-y) + var(--cloud-dy))) scale(var(--cloud-scale)); }
 }
 
 /* Wind Gusts */
 .wind-gust {
     position: absolute;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-    height: var(--gust-height, 2px);
-    width: var(--gust-width, 250px);
-    filter: blur(var(--gust-blur, 0.5px));
-    pointer-events: none;
-    z-index: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, var(--gust-opacity)), transparent);
+    height: var(--gust-height);
+    width: var(--gust-width);
+    filter: blur(var(--gust-blur));
+    animation: gustFlow var(--gust-duration) linear infinite;
     opacity: 0;
-    animation: sweepWind var(--gust-duration) linear infinite;
 }
 
-@keyframes sweepWind {
-    0% { transform: translateX(-100vw) scaleX(0.5); opacity: 0; }
-    5% { opacity: var(--gust-opacity, 0.2); }
-    50% { transform: translateX(100vw) scaleX(1); opacity: calc(var(--gust-opacity, 0.2) / 2); }
-    95% { opacity: 0; }
-    100% { transform: translateX(200vw) scaleX(0.5); opacity: 0; }
+@keyframes gustFlow {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    10% { opacity: var(--gust-opacity); }
+    90% { opacity: var(--gust-opacity); }
+    100% { transform: translateX(100vw); opacity: 0; }
 }
 
-/* Flying Wings */
+/* Flying Wings (simple abstract shapes) */
 .flying-wing {
     position: absolute;
-    background: radial-gradient(circle at center, var(--wing-color) 0%, transparent 70%);
-    border-radius: 50% / 30%; /* Oval shape for a soft wing */
-    filter: blur(1px);
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0;
-    animation: wingFloat var(--wing-duration) infinite ease-in-out, fadeInOut var(--wing-duration) infinite;
+    background: var(--wing-color);
+    clip-path: polygon(0% 20%, 50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%);
+    opacity: var(--wing-opacity);
+    animation: wingFly var(--wing-duration) linear infinite;
+    transform: scale(var(--wing-scale)) rotate(var(--wing-rotation));
 }
 
-@keyframes wingFloat {
-    0% { transform: translate(0vw, 0vh) scale(var(--wing-scale, 1)) rotate(var(--wing-rotation, 0deg)); }
-    25% { transform: translate(var(--wing-dx), var(--wing-dy)) scale(calc(var(--wing-scale, 1) + 0.1)) rotate(calc(var(--wing-rotation, 0deg) + 5deg)); }
-    50% { transform: translate(0vw, 0vh) scale(var(--wing-scale, 1)) rotate(var(--wing-rotation, 0deg)); }
-    75% { transform: translate(calc(var(--wing-dx) * -1), calc(var(--wing-dy) * -1)) scale(calc(var(--wing-scale, 1) + 0.1)) rotate(calc(var(--wing-rotation, 0deg) - 5deg)); }
-    100% { transform: translate(0vw, 0vh) scale(var(--wing-scale, 1)) rotate(var(--wing-rotation, 0deg)); }
+@keyframes wingFly {
+    0% { transform: translate(var(--wing-x), var(--wing-y)) scale(var(--wing-scale)) rotate(var(--wing-rotation)); opacity: 0; }
+    10% { opacity: var(--wing-opacity); }
+    90% { opacity: var(--wing-opacity); }
+    100% { transform: translate(calc(var(--wing-x) + var(--wing-dx)), calc(var(--wing-y) + var(--wing-dy))) scale(var(--wing-scale)) rotate(var(--wing-rotation)); opacity: 0; }
 }
 
 /* Shooting Stars */
 .shooting-star {
     position: absolute;
-    width: 2px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
     height: 2px;
-    background: white;
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+    width: 150px; /* Length of the tail */
     border-radius: 50%;
+    filter: blur(1px);
     opacity: 0;
-    animation: shootStar var(--shoot-duration) linear infinite var(--shoot-delay);
-    transform: translate(var(--start-x), var(--start-y)) rotate(var(--shoot-angle));
-    transform-origin: 0 0;
+    animation: shoot var(--shoot-duration) linear infinite;
+    z-index: 5; /* Above other background elements */
+    transform-origin: 100% 50%; /* Rotate from the head of the star */
 }
 
-@keyframes shootStar {
+@keyframes shoot {
     0% {
         transform: translate(var(--start-x), var(--start-y)) rotate(var(--shoot-angle));
-        opacity: 1;
-        width: 2px;
-        height: 2px;
+        opacity: 0;
     }
-    50% {
-        opacity: 0.5;
-        width: 100px; /* Tail effect */
-        height: 2px;
-    }
+    10% { opacity: 1; }
+    20% { opacity: 0; } /* Quick flash */
     100% {
         transform: translate(var(--end-x), var(--end-y)) rotate(var(--shoot-angle));
         opacity: 0;
-        width: 2px;
-        height: 2px;
     }
 }
 
-/* Moon */
-.moon {
-    position: absolute;
-    background: radial-gradient(circle at 30% 30%, #fefefe, #e0e0e0 60%, #c0c0c0);
-    border-radius: 50%;
-    box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 100px rgba(255, 255, 255, 0.5);
-    z-index: 1; /* Above general background elements, below content */
-    filter: blur(0.5px); /* Soften edges slightly */
-    animation: moonPulse 8s infinite alternate ease-in-out;
+
+/* Main Content Container */
+.container {
+    background-color: var(--container-bg); /* Adjusted transparency */
+    padding: 30px 40px;
+    border-radius: 40px 15px 40px 15px; /* Different, slightly irregular shape */
+    box-shadow: var(--shadow-deep);
+    text-align: center;
+    max-width: 800px;
+    width: 90%;
+    margin: 40px auto;
+    position: relative;
+    z-index: 1; /* Ensure content is above background elements */
+    overflow: hidden; /* For inner animations */
+    
+    /* === IMPORTANT ADDITIONS FOR PRELOADER FIX === */
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px) scale(0.95); /* Start slightly off and scaled down for entrance effect */
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out; /* Smooth transition */
 }
 
-@keyframes moonPulse {
-    0% { transform: scale(1); filter: blur(0.5px); opacity: 0.9; }
-    50% { transform: scale(1.02); filter: blur(0.8px); opacity: 1; }
-    100% { transform: scale(1); filter: blur(0.5px); opacity: 0.9; }
+/* === NEW RULE TO REVEAL THE MAIN CONTENT CONTAINER === */
+.container.visible-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
-/* Distant Scenery (Mountains) */
-.distant-scenery {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40%; /* Adjust height as needed */
-    background: url('mountains.png') repeat-x bottom center; /* Assuming you have a mountains.png */
-    background-size: contain; /* Or auto, cover, etc. depending on your image */
-    z-index: 2; /* Below content, above moon if moon is low */
-    opacity: 0.8; /* Slightly transparent */
-    animation: sceneryDrift 60s linear infinite alternate; /* Slow drift */
-    filter: brightness(0.7) contrast(1.2); /* Adjust for moonlit feel */
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 25px;
+        margin: 20px auto;
+        width: 95%;
+    }
+    .moon {
+        width: 120px;
+        height: 120px;
+    }
 }
 
-@keyframes sceneryDrift {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-5%); } /* Drifts slightly left */
+@media (max-width: 480px) {
+    :root {
+        font-size: 14px;
+    }
+    .container {
+        padding: 15px 20px;
+        border-radius: 20px 8px 20px 8px;
+    }
+    .moon {
+        width: 80px;
+        height: 80px;
+    }
 }
 
-/* Water Shimmer (for the bottom of the mountains) */
-.water-shimmer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 15%; /* Height of the water area */
-    background: linear-gradient(to top, rgba(50, 0, 100, 0.8), rgba(0, 0, 50, 0.5)); /* Dark blue/purple gradient */
-    z-index: 3; /* Above scenery */
-    box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.5);
+/* Text Styles */
+h1 {
+    font-family: 'Great Vibes', cursive; /* Elegant script font */
+    color: var(--text-heading);
+    font-size: 3.5em;
+    margin-bottom: 25px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    animation: fadeInScale var(--animation-duration-slow) ease-out forwards;
+}
+
+h2 {
+    font-family: 'Pacifico', cursive; /* Another elegant script font */
+    color: var(--primary-accent);
+    font-size: 2.2em;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
+    animation: fadeInSlideUp 1.2s ease-out forwards; /* New animation */
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px; /* Consistent gaps */
+    animation: fadeIn var(--animation-duration-medium) ease-out forwards; /* Staggered animation handled by JS */
+    opacity: 0; /* Default hidden for staggered animation */
+}
+
+/* Specific text highlighting and glowing */
+.glowing-text {
+    color: #FFB6C1; /* Light pink */
+    text-shadow: 0 0 8px #FFB6C1, 0 0 15px #FFB6C1;
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 8px #FFB6C1, 0 0 15px #FFB6C1; }
+    50% { text-shadow: 0 0 12px #FFB6C1, 0 0 25px #FFB6C1; }
+}
+
+.highlight {
+    color: var(--primary-accent);
+    font-weight: bold;
+    animation: sparkleText var(--animation-duration-slow) ease-in-out infinite alternate;
+}
+
+@keyframes sparkleText {
+    0%, 100% { text-shadow: 0 0 5px var(--primary-accent); }
+    50% { text-shadow: 0 0 10px var(--primary-accent), 0 0 20px rgba(255, 255, 255, 0.3); }
+}
+
+.glowing-purple {
+    color: #DA70D6; /* Orchid / Plum */
+    text-shadow: 0 0 8px #DA70D6, 0 0 15px #DA70D6;
+    animation: purpleTextGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes purpleTextGlow {
+    0%, 100% { text-shadow: 0 0 8px #DA70D6, 0 0 15px #DA70D6; }
+    50% { text-shadow: 0 0 12px #DA70D6, 0 0 25px #DA70D6; }
+}
+
+
+/* Animations for content elements */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Section Break (Visual separator) */
+.section-break {
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    margin: 40px auto;
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards; /* Staggered animation handled by JS */
+    opacity: 0; /* Default hidden for staggered animation */
+}
+
+/* Button Styles */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px; /* Consistent gaps between buttons */
+    margin-top: 40px;
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
+}
+
+.button, .choice-button {
+    background-color: var(--primary-accent);
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px 10px 25px 10px; /* Different button shape */
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color var(--animation-duration-fast) ease, transform var(--animation-duration-fast) ease, box-shadow var(--animation-duration-fast) ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    position: relative; /* Essential for evasion to work with transform */
     overflow: hidden;
+    animation: buttonPopIn var(--animation-duration-medium) ease-out forwards;
 }
 
-.water-shimmer::before {
+.button:hover, .choice-button:hover {
+    background-color: var(--secondary-accent);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.button::before, .choice-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: buttonSparkle 0.6s ease-out;
+}
+
+@keyframes buttonSparkle {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+}
+
+@keyframes buttonPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Music Playback Button (Unique style) */
+#music-play-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    transition: background-color var(--animation-duration-fast) ease, transform var(--animation-duration-fast) ease, box-shadow var(--animation-duration-fast) ease;
+}
+
+#music-play-button.playing {
+    background-color: rgba(255, 215, 0, 0.2);
+}
+
+#music-play-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+}
+
+/* Transition Page Styles (for transition.html) */
+.transition-container {
+    background-color: var(--container-bg);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-deep);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    margin: 100px auto;
+    position: relative;
+    z-index: 1;
+}
+
+#transitionMessage {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2.8em;
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.progress-bar-container { /* This style is reused for both preloader and transition */
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px auto;
+    overflow: hidden;
+    height: 25px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#progressBar { /* For transition.html */
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+    border-radius: 10px;
+    transition: width 0.1s linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    position: relative; /* For inner glow */
+    overflow: hidden; /* For inner glow */
+}
+#progressBar::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 200%; /* Wider to allow shimmering effect */
+    width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.05) 5px,
-        transparent 5px,
-        transparent 15px
-    );
-    animation: shimmer 15s linear infinite;
+    background: rgba(255,255,255,0.3); /* Shine effect */
+    filter: blur(5px);
+    opacity: 0;
+    animation: progressBarShine 2s infinite ease-in-out;
+}
+@keyframes progressBarShine {
+    0%, 100% { opacity: 0; transform: translateX(-100%); }
+    50% { opacity: 1; transform: translateX(100%); }
 }
 
-@keyframes shimmer {
-    0% { transform: translateX(0) translateY(0) rotate(0deg); }
-    100% { transform: translateX(-50%) translateY(5%) rotate(5deg); }
+#progressText { /* For transition.html */
+    margin-left: 10px;
 }
 
+/* Responsive adjustments for progress bar */
+@media (max-width: 768px) {
+    .progress-bar-container {
+        width: 90%;
+    }
+}
 
-/* --- Preloader for index.html --- */
+@media (max-width: 480px) {
+    .progress-bar-container {
+        width: 95%;
+        height: 20px;
+    }
+    #progressBar {
+        font-size: 0.8em;
+    }
+}
+
+/* Preloader Styles (for index.html) */
 #preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #0d011f; /* Match body background */
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    z-index: 9999; /* Ensure it's on top of everything */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    font-size: 1.8em;
-    z-index: 9999;
-    transition: opacity 0.5s ease-out;
+    transition: opacity 0.7s ease-out; /* Smooth fade-out */
 }
 
 #preloader.hidden {
     opacity: 0;
-    pointer-events: none; /* Allows interaction with content underneath */
+    pointer-events: none; /* Make it unclickable when hidden */
 }
 
-#preloader .preloader-single-heart {
-    width: 60px; /* Larger heart for index preloader */
-    height: 60px;
-    background-color: #ff69b4; /* Hot pink */
-    position: relative;
-    transform: rotate(-45deg);
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
-    animation: heartBeat 1.2s infinite alternate ease-in-out; /* Pulsing animation */
-    margin-bottom: 30px;
-    opacity: 0; /* Animated in by JS */
+.preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: preloaderEntrance 1s ease-out;
 }
 
-#preloader .preloader-single-heart:before,
-#preloader .preloader-single-heart:after {
-    content: "";
-    width: 60px;
-    height: 60px;
-    background-color: #ff69b4;
-    border-radius: 50%;
-    position: absolute;
+@keyframes preloaderEntrance {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-#preloader .preloader-single-heart:before {
-    top: -30px;
-    left: 0;
+.preloader-message {
+    /* Existing styles for font, color, shadow */
+    overflow: hidden; /* To prevent words from showing prematurely */
+    white-space: nowrap; /* Keep words on one line for better control */
+    opacity: 0; /* Hidden by default, JS will make it 1 and animate words */
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2.2em; /* Slightly larger */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5); /* Stronger glow */
+    margin-bottom: 20px; /* Added spacing */
 }
 
-#preloader .preloader-single-heart:after {
-    top: 0;
-    left: 30px;
-}
-
-@keyframes heartBeat {
-    0% { transform: rotate(-45deg) scale(0.8); }
-    100% { transform: rotate(-45deg) scale(1.1); }
-}
-
-#animatedPreloaderMessage {
-    font-family: 'Pacifico', cursive; /* Elegant cursive font */
-    font-size: clamp(1.5rem, 3vw, 2.5rem); /* Responsive size */
-    color: #FFD700; /* Gold-ish yellow for the message */
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-    margin-bottom: 25px;
-    display: inline-block; /* Allows word animation */
-    white-space: nowrap; /* Prevents wrapping if words are animated individually */
-    overflow: hidden; /* Hide overflow before text appears */
-}
-
-/* Animation for individual words in the preloader message */
-#animatedPreloaderMessage .word-animated {
-    display: inline-block; /* Essential for individual word animation */
+/* New: Animation for each word/span within the preloader message */
+.preloader-message .word-animated {
+    display: inline-block; /* Essential for transform/opacity on words */
     opacity: 0;
     transform: scale(0.8);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Animation for each word */
 }
 
-/* Progress Bar Container (ensure it's centered and styled) */
-.progress-bar-container {
-    width: 80%;
-    max-width: 400px;
-    height: 15px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 20px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(138, 43, 226, 0.3);
-    opacity: 0; /* Animated in by JS */
-    transition: opacity 1s ease-out;
-    position: relative; /* For progress text positioning */
+/* Progress bar for Index page preloader - Specific overrides if needed */
+#preloader .progress-bar-container { /* Target container within preloader specifically */
+    margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
+    width: 90%; /* MADE WIDER */
+    box-shadow: 0 0 15px rgba(255, 105, 177, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    border-radius: 12px; /* Slightly more rounded */
 }
 
-#indexProgressBar {
+#indexProgressBar { /* Specific ID for the index page progress bar */
     height: 100%;
-    width: 0%;
-    background: linear-gradient(to right, #ff69b4, #8a2be2); /* Pink to purple gradient */
-    border-radius: 10px;
-    transition: width 0.1s linear; /* Smooth fill */
-}
-
-#indexProgressText {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 0.8em;
-    font-weight: bold;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-}
-
-/* --- Music Play Button --- */
-#music-play-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 2px solid #FFD1DC; /* Pink border */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 0%; /* Starts at 0 */
+    background: linear-gradient(to right, #FFD1DC, var(--primary-accent)); /* Softer pink gradient */
+    border-radius: 12px; /* Match container */
+    transition: width 0.08s linear; /* Smooth fill, slightly faster */
     display: flex;
-    justify-content: center;
     align-items: center;
-    cursor: pointer;
-    font-size: 1.5em;
-    color: #FFD1DC; /* Pink color */
-    box-shadow: 0 0 10px rgba(255, 209, 220, 0.5);
-    transition: all 0.3s ease;
-    z-index: 100;
-}
-
-#music-play-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(255, 209, 220, 0.8);
-    transform: scale(1.1);
-}
-
-#music-play-button.playing {
-    color: #FFFFFF; /* White when playing */
-    border-color: #FFFFFF; /* White border when playing */
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Brighter white glow */
-    animation: subtleGlow 2s infinite alternate;
-}
-
-@keyframes subtleGlow {
-    from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
-    to { box-shadow: 0 0 20px rgba(255, 255, 255, 0.9); }
-}
-
-
-/* --- General Content Styles for all pages (e.g., page2.html, page3.html, acknowledgement.html) --- */
-.container p, .container h2 {
-    margin-bottom: 1.2rem;
-    padding: 0 10px; /* Small horizontal padding */
-    opacity: 0; /* Hidden by default, animated in by JS */
-    transition: opacity 0.5s ease-out; /* Smooth fade for staggered animation */
-}
-
-.section-break {
-    width: 60%;
-    margin: 30px auto;
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    opacity: 0; /* Hidden by default, animated in by JS */
-    transition: opacity 0.5s ease-out;
-}
-
-/* Specific styling for the confession page (page3.html) text */
-.confession-intro-line-1,
-.confession-intro-line-2 {
-    color: #FFD700; /* Gold-ish yellow for a warm feel */
-    font-family: 'Pacifico', cursive; /* Elegant cursive font */
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem); /* Larger and responsive */
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.4); /* Stronger glow */
-    margin-bottom: 20px; /* More space below each */
-    line-height: 1.3;
-    opacity: 0; /* Keep JS animation */
-    /* Add a specific animation for these if you want different from general p */
-    /* animation: fadeInScale 1s ease-out forwards; */
-}
-
-.confession-body-line-1,
-.confession-body-line-2 {
-    color: #FFFACD; /* Lemon Chiffon - a softer yellow */
-    font-family: 'Dancing Script', cursive; /* Another beautiful cursive font */
-    font-size: clamp(1.4rem, 3vw, 1.9rem); /* Slightly smaller than intro lines */
-    text-shadow: 0 0 10px rgba(255, 250, 205, 0.5), 0 0 20px rgba(255, 250, 205, 0.3);
-    margin-bottom: 25px; /* More space */
-    line-height: 1.4;
-    opacity: 0; /* Keep JS animation */
-    /* animation: fadeInScale 1s ease-out forwards; */
-}
-
-/* Main question text on page3.html */
-.question-text {
-    font-family: 'Great Vibes', cursive; /* Keeping this specific font */
-    color: #FFD1DC; /* Pink color */
-    font-size: clamp(2.3rem, 4.2vw, 3.2rem);
-    margin-top: 40px; /* Space above question */
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 209, 220, 0.7); /* Added pink glow */
-    line-height: 1.2;
-    opacity: 0; /* Handled by JS animation */
-    animation: none; /* No default CSS animation, JS handles it */
-}
-
-
-/* Choice Buttons Container (for page3.html) */
-.choice-buttons {
-    display: flex;
-    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
     justify-content: center;
-    gap: 30px; /* Space between buttons */
-    margin-top: 30px;
-    opacity: 0; /* Hidden by default, animated in by JS */
-    transition: opacity 0.5s ease-out;
-    width: 100%; /* Ensure container takes full width */
-}
-
-/* Individual Choice Buttons */
-.choice-button {
-    flex-grow: 1; /* Allow buttons to grow and fill space */
-    max-width: 250px; /* Max width for individual buttons */
-    padding: 15px 30px;
-    border: none;
-    border-radius: 30px;
-    font-size: clamp(1.1rem, 2vw, 1.3rem); /* Responsive font size */
+    color: #fff;
     font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    color: white; /* Default text color for buttons */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    font-size: 0.9em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    position: relative; /* For inner glow */
+    overflow: hidden; /* For inner glow */
 }
 
-.choice-button.yes {
-    background: linear-gradient(45deg, #4CAF50, #66BB6A); /* Green gradient */
-    border: 2px solid #388E3C;
-}
-
-.choice-button.yes:hover {
-    background: linear-gradient(45deg, #5cb85c, #73e677);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-.choice-button.no {
-    background: linear-gradient(45deg, #F44336, #EF5350); /* Red gradient */
-    border: 2px solid #D32F2F;
-}
-
-.choice-button.no:hover {
-    background: linear-gradient(45deg, #e57373, #ff8a80);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-
-/* --- Falling Hearts (for acknowledgement page) --- */
-.falling-heart {
-    position: fixed;
-    top: -50px; /* Start above the viewport */
-    pointer-events: none;
-    animation: fallAndFade var(--animation-duration) linear infinite;
-    z-index: 50; /* Above most content, but below preloader */
-    opacity: 0;
-    transform: translateX(var(--start-x)) rotate(0deg);
-}
-
-@keyframes fallAndFade {
-    0% {
-        transform: translate(var(--start-x, 0vw), -10vh) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.8;
-    }
-    100% {
-        transform: translate(var(--end-x, 0vw), 110vh) rotate(var(--rotate-deg, 360deg));
-        opacity: 0;
-    }
-}
-
-/* --- Falling Chocolates (for acknowledgement page) --- */
-.falling-chocolate {
-    position: fixed;
-    top: -50px; /* Start above the viewport */
-    pointer-events: none;
-    animation: fallAndRotate var(--animation-duration) linear infinite;
-    z-index: 50;
-    opacity: 0;
-}
-
-@keyframes fallAndRotate {
-    0% {
-        transform: translate(var(--start-x, 0vw), -10vh) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.9;
-    }
-    100% {
-        transform: translate(var(--end-x, 0vw), 110vh) rotate(var(--rotate-deg, 720deg));
-        opacity: 0;
-    }
-}
-
-
-/* --- Dynamic Transition Preloader (from page2 to page3 etc.) --- */
-#dynamic-transition-preloader { /* Use ID for specificity */
-    position: fixed;
+#indexProgressBar::after {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.95); /* Slightly darker overlay for stronger contrast */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Very high z-index to ensure it's always on top */
+    background: rgba(255,255,255,0.5); /* Brighter shine effect */
+    filter: blur(8px); /* More blur for ethereal look */
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease-out, visibility 0.4s ease-out; /* Smooth fade in/out */
-    color: #fff;
-    font-family: 'Georgia', serif; /* Or your preferred elegant font */
-    font-size: 1.5em;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: progressBarShine 2.5s infinite ease-in-out;
 }
 
-#dynamic-transition-preloader.active {
-    opacity: 1;
-    visibility: visible;
+#indexProgressText { /* Specific ID for the index page progress text */
+    /* margin-left: 10px; */ /* Removed this to keep text centered */
 }
 
-.transition-preloader-message {
-    margin-top: 20px;
-    opacity: 0;
-    animation: fadeIn 1s forwards 0.5s; /* Fade in message after hearts */
-    color: #FFD700; /* Yellow for consistency */
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+/* Responsive adjustments for preloader */
+@media (max-width: 480px) {
+    #preloader .progress-bar-container {
+        width: 95%;
+        height: 20px;
+    }
+    #indexProgressBar {
+        font-size: 0.8em;
+    }
+    .preloader-message {
+        font-size: 1.5em;
+    }
 }
 
-/* Dual Hearts Container */
-.preloader-dual-hearts {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px; /* Adjusted size for the container */
-    height: 75px;
+/* New: Heartbeat Animation */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.08); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.05); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+.beating-heart {
+    display: inline-block; /* Essential for transform on inline elements */
+    animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats, alternates direction */
+    transform-origin: center; /* Ensures scaling is from the center */
+}
+
+/* CSS-drawn Heart Shape */
+.css-heart {
     position: relative;
-    overflow: hidden; /* Important: keeps hearts initially off-screen */
+    width: 120px; /* Adjust size as needed */
+    height: 100px;
+    background-color: var(--primary-accent); /* Pink heart */
+    transform: rotate(-45deg);
+    margin: 50px auto 30px; /* Centered with top/bottom margin */
+    box-shadow: 0 0 30px var(--primary-accent), 0 0 50px rgba(255, 105, 177, 0.5); /* Glowing effect */
+    border-radius: 20px; /* Slightly rounded edges for the base square */
 }
 
-/* Individual Heart Styling */
-.preloader-dual-hearts .heart {
-    width: 45px; /* Size of the heart */
-    height: 45px; /* Size of the heart */
-    background-color: #ff69b4; /* Hot pink */
+.css-heart::before, .css-heart::after {
+    content: '';
     position: absolute;
-    transform: rotate(-45deg); /* Base rotation */
-    box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
-    animation: heartPulse 1.5s infinite alternate ease-in-out; /* Main pulse animation */
-    transition: transform 0.8s ease-out, opacity 0.8s ease-out; /* Ensure transition properties are here */
-}
-
-.preloader-dual-hearts .heart:before,
-.preloader-dual-hearts .heart:after {
-    content: "";
-    width: 45px;
-    height: 45px;
-    background-color: #ff69b4;
+    width: 120px;
+    height: 100px;
+    background-color: var(--primary-accent);
     border-radius: 50%;
-    position: absolute;
 }
 
-.preloader-dual-hearts .heart:before {
-    top: -22.5px; /* Half of height */
+.css-heart::before {
+    top: -50%;
     left: 0;
 }
 
-.preloader-dual-hearts .heart:after {
+.css-heart::after {
+    left: 50%;
     top: 0;
-    left: 22.5px; /* Half of width */
 }
 
-/* Positioning for dual hearts - CRITICAL for slide-in animation */
-.preloader-dual-hearts .heart-left {
-    left: 50%; /* Position relative to its container's center */
-    transform: translateX(-200px) rotate(-45deg); /* Start far left (off-screen) */
-    opacity: 0;
-    z-index: 2; /* Ensure left heart is on top during initial slide */
+/* Ensure heart beat animation is visible for this element */
+.heart-animation-wrapper .beating-heart {
+    animation: heartBeat 1.5s infinite ease-in-out; /* Faster beat for loading */
+    transform-origin: center center;
 }
 
-.preloader-dual-hearts .heart-right {
-    left: 50%; /* Position relative to its container's center */
-    transform: translateX(200px) rotate(-45deg); /* Start far right (off-screen) */
-    opacity: 0;
-    animation-delay: 0.2s; /* Stagger the pulse animation slightly */
+/* Transition Page Specific Styles (Refinement) */
+.transition-container {
+    padding: 60px; /* More padding */
+    max-width: 700px; /* Slightly wider */
+    margin: 100px auto;
+    /* Ensure it has its own entrance animation */
+    opacity: 0; /* Start hidden for its own animation */
+    transform: translateY(20px) scale(0.95);
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
 }
 
-/* Keyframes for animations (ensure these are present) */
-@keyframes heartPulse {
-    0% {
-        transform: rotate(-45deg) scale(0.9);
-        box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-    }
-    100% {
-        transform: rotate(-45deg) scale(1.1);
-        box-shadow: 0 0 30px rgba(255, 105, 180, 1);
-    }
+.transition-container.visible-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.transition-message-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2.8em; /* Kept existing size */
+    margin-top: 30px; /* Space after heart */
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    animation: fadeInSlideUp var(--animation-duration-medium) ease-out forwards; /* Add animation */
+    opacity: 0; /* Initial state for animation */
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px 15px;
-        min-height: 90vh;
-    }
+.transition-progress-bar { /* To specifically style the progress bar on transition.html */
+    width: 70%; /* Smaller progress bar */
+    height: 15px; /* Thinner */
+    margin: 40px auto 0; /* Adjust margin for spacing */
+}
 
-    #music-play-button {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2em;
-        bottom: 15px;
-        right: 15px;
-    }
+#progressBar {
+    border-radius: 8px; /* Smoother edges */
+}
 
-    .choice-buttons {
-        flex-direction: column; /* Stack buttons vertically on small screens */
-        gap: 15px;
-    }
+#progressText {
+    font-size: 0.8em;
+}
 
-    .choice-button {
-        max-width: 90%; /* Buttons take up more width */
-        font-size: 1.1em;
-        padding: 12px 20px;
-    }
-    
-    .question-text {
-        font-size: clamp(1.8rem, 5vw, 2.5rem); /* Adjust for smaller screens */
-    }
+/* Preloader heart spinner (if still needed, keep small and subtle) */
+.heart-spinner {
+    display: inline-block; /* Essential for transform */
+    position: relative;
+    width: 64px;
+    height: 64px;
+    transform: rotate(45deg);
+    animation: heartbeatSpinner 1.2s infinite ease-in-out;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+}
+.heart-spinner div {
+    top: 32px;
+    left: 32px;
+    position: absolute;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
+}
+.heart-spinner div:after,
+.heart-spinner div:before {
+    content: " ";
+    position: absolute;
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
+}
+.heart-spinner div:before {
+    left: -24px;
+    border-radius: 50% 0 0 50%;
+}
+.heart-spinner div:after {
+    top: -24px;
+    border-radius: 50% 50% 0 0;
+}
+@keyframes heartbeatSpinner {
+    0% { transform: rotate(45deg) scale(1); }
+    50% { transform: rotate(45deg) scale(1.1); }
+    100% { transform: rotate(45deg) scale(1); }
+}
 
-    .confession-intro-line-1,
-    .confession-intro-line-2 {
-        font-size: clamp(1.4rem, 4vw, 1.8rem);
-    }
+/* Specific spinner for preloader if needed */
+#preloader .heart-spinner {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 30px;
+    opacity: 0; /* Hidden by default, JS handles animation */
+    animation: preloaderHeartbeat 1.5s infinite ease-in-out forwards;
+}
 
-    .confession-body-line-1,
-    .confession-body-line-2 {
-        font-size: clamp(1.2rem, 3.5vw, 1.6rem);
-    }
+#preloader .heart-spinner div {
+    top: 40px;
+    left: 40px;
+    width: 40px;
+    height: 40px;
+}
+
+#preloader .heart-spinner div:after,
+#preloader .heart-spinner div:before {
+    width: 40px;
+    height: 40px;
+}
+
+#preloader .heart-spinner div:before {
+    left: -30px;
+}
+
+#preloader .heart-spinner div:after {
+    top: -30px;
+}
+
+@keyframes preloaderHeartbeat {
+    0% { opacity: 0; transform: rotate(45deg) scale(0.8); }
+    50% { opacity: 1; transform: rotate(45deg) scale(1.1); }
+    100% { opacity: 0.8; transform: rotate(45deg) scale(1); }
+}
+
+/* Background gradient for preloader - subtle animation */
+@keyframes preloaderGradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+#preloader {
+    animation: preloaderGradient 15s ease infinite alternate;
 }
