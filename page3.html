@@ -27,7 +27,8 @@
             padding: 20px; /* Some padding around content */
         }
 
-        /* Styles for the new introductory heading */
+        /* Existing Styles for the new introductory heading */
+        /* These will be overridden/enhanced by the new classes below for yellow text */
         .pre-question-heading {
             font-family: 'Lora', serif; /* Consistent with body text (less cursive) */
             color: #F8F8F8; /* Slightly brighter white for this line */
@@ -39,7 +40,8 @@
             opacity: 0; /* Handled by JS animation */
         }
 
-        /* Styles for the new introductory paragraph */
+        /* Existing Styles for the new introductory paragraph */
+        /* These will be overridden/enhanced by the new classes below for yellow text */
         .pre-question-paragraph {
             font-family: 'Lora', serif; /* Consistent with body text (less cursive) */
             color: #F8F8F8; /* Slightly brighter white for this line */
@@ -140,29 +142,25 @@
 </head>
 <body>
     <div class="background-elements">
-        </div>
+    </div>
 
     <div class="container">
         <button id="music-play-button" aria-label="Play/Pause Music">
             <i class="fas fa-music"></i>
         </button>
 
-        <h2 class="pre-question-heading">
-            Soo, you know what I am going to say, don't you? 😉<br>
-            Every day with YOU is a cherished moment, beautiful and true...
-        </h2>
-        <p class="pre-question-paragraph">
-            Sooo, may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....<br>
-            So, with all my heart and soul... ✨
-        </p>
+        <p class="confession-intro-line-1">Soo, you know what I am going to say, don't you? 😉</p>
+        <p class="confession-intro-line-2">Every day with YOU is a cherished moment, beautiful and true...</p>
+        <p class="confession-body-line-1">Sooo, may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</p>
+        <p class="confession-body-line-2">So, with all my heart and soul... ✨</p>
 
         <div class="question-text">
             Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?
         </div>
 
         <div class="choice-buttons">
-            <button id="yesButton" class="choice-button yes">YES</button>
-            <button id="noButton" class="choice-button no">NO</button>
+            <button id="yesButton" class="choice-button yes">YES, ABSOLUTELY! 💖</button>
+            <button id="noButton" class="choice-button no">No.... 💔</button>
         </div>
     </div>
 
