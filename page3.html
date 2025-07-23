@@ -10,6 +10,8 @@
         /* Specific styles for page3.html */
         .container {
             text-align: center;
+            position: relative; /* Needed for z-index to work */
+            z-index: 10; /* Ensures the container content is above most elements */
         }
 
         .question-text {
@@ -20,6 +22,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* Ensure it respects z-index within the container */
+            z-index: 12; /* Keep text slightly above other container elements if needed */
         }
 
         /* Styles for the individual heading parts of the question */
@@ -62,6 +66,8 @@
             justify-content: center;
             gap: 25px;
             margin-top: 3rem;
+            position: relative; /* Essential: allows z-index to work */
+            z-index: 15; /* Make sure buttons are on top of everything! */
         }
 
         .choice-button {
@@ -93,8 +99,6 @@
             box-shadow: 0 10px 20px rgba(244, 67, 54, 0.6);
         }
 
-        /* The message-below class and associated styling have been removed */
-
         @media (max-width: 600px) {
             .choice-buttons {
                 flex-direction: column;
@@ -106,7 +110,15 @@
             }
         }
 
-        /* NEW Background Elements CSS */
+        /* Essential for layering: Make sure background elements don't block clicks */
+        .background-elements {
+            position: absolute; /* Already absolute */
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* THIS IS KEY: Makes all elements within background-elements ignore mouse events */
+            z-index: 0; /* Ensures background is behind everything else */
+        }
+
+        /* Background Elements CSS */
 
         /* Floating Orb Styles */
         .floating-orb {
@@ -116,7 +128,7 @@
             filter: blur(5px);
             opacity: 0;
             animation: orbFloat 15s infinite ease-in-out alternate, fadeInOut 15s infinite ease-in-out;
-            pointer-events: none; /* Make sure they don't interfere with clicks */
+            /* pointer-events: none; - Moved to parent .background-elements for efficiency */
         }
 
         @keyframes orbFloat {
@@ -135,7 +147,7 @@
             filter: blur(50px); /* Heavy blur for a gaseous look */
             opacity: 0;
             animation: nebulaDrift 25s infinite ease-in-out alternate, fadeInOut 25s infinite ease-in-out;
-            pointer-events: none;
+            /* pointer-events: none; - Moved to parent .background-elements for efficiency */
             will-change: transform, opacity; /* Optimize animation */
         }
 
@@ -179,8 +191,7 @@
             <a class="button choice-button yes" id="yesButton">YES! 🥰</a>
             <a class="button choice-button no" id="noButton">No, thank you 💜</a>
         </div>
-
-        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
