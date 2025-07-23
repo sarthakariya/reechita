@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     createAuraGlows(); 
     createStreaks();   
-    createFloatingOrbs(); // NEW background effect
-    createNebulaClouds(); // NEW background effect
+    createFloatingOrbs(); 
+    createNebulaClouds(); 
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
@@ -101,6 +101,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
+    // Helper function to move the no button
+    function moveNoButton(buttonElement, containerElement) {
+        const moveRange = 120; // How far the button can move
+        const containerRect = containerElement ? containerElement.getBoundingClientRect() : document.body.getBoundingClientRect();
+        const buttonRect = buttonElement.getBoundingClientRect();
+
+        let newX, newY;
+        let attempts = 0;
+        const maxAttempts = 50; // Max attempts to find a new distinct position
+
+        do {
+            let deltaX = (Math.random() - 0.5) * 2 * moveRange; // Random value between -moveRange and +moveRange
+            let deltaY = (Math.random() - 0.5) * 2 * moveRange;
+
+            newX = buttonRect.left + deltaX;
+            newY = buttonRect.top + deltaY;
+
+            // Ensure the button stays within the container boundaries with some padding
+            const padding = 20; 
+            newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
+            newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
+
+            attempts++;
+        } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5)); // Retry if new position is too close to old
+
+        // Calculate the transform needed based on current computed transform
+        const currentTransform = getComputedStyle(buttonElement).transform;
+        let currentTx = 0, currentTy = 0; // Current translate values
+        if (currentTransform && currentTransform !== 'none') {
+            const matrix = currentTransform.match(/matrix.*\((.+)\)/);
+            if (matrix) {
+                const values = matrix[1].split(', ').map(Number);
+                currentTx = values[4];
+                currentTy = values[5];
+            }
+        }
+
+        const transformX = (newX - buttonRect.left) + currentTx;
+        const transformY = (newY - buttonRect.top) + currentTy;
+
+        buttonElement.style.transition = 'transform 0.3s ease-out'; 
+        buttonElement.style.transform = `translate(${transformX}px, ${transformY}px)`;
+    }
+
     if (yesButton && noButton) {
         yesButton.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior for delayed redirect
@@ -122,50 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 noButton.classList.remove('shake'); 
             }, 500); 
+            moveNoButton(noButton, mainContainer); // Now moves on click too!
         });
 
         // No button float logic (on mouseover)
         noButton.addEventListener('mouseover', () => {
             if (noButton.classList.contains('disappear')) return; 
-
-            const moveRange = 120; 
-            const containerRect = mainContainer ? mainContainer.getBoundingClientRect() : document.body.getBoundingClientRect();
-            const buttonRect = noButton.getBoundingClientRect();
-
-            let newX, newY;
-            let attempts = 0;
-            const maxAttempts = 50; 
-
-            do {
-                let deltaX = (Math.random() - 0.5) * 2 * moveRange; 
-                let deltaY = (Math.random() - 0.5) * 2 * moveRange;
-
-                newX = buttonRect.left + deltaX;
-                newY = buttonRect.top + deltaY;
-
-                const padding = 20; 
-                newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
-                newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
-
-                attempts++;
-            } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5));
-
-            const currentTransform = getComputedStyle(noButton).transform;
-            let currentX = 0, currentY = 0;
-            if (currentTransform && currentTransform !== 'none') {
-                const matrix = currentTransform.match(/matrix.*\((.+)\)/);
-                if (matrix) {
-                    const values = matrix[1].split(', ').map(Number);
-                    currentX = values[4];
-                    currentY = values[5];
-                }
-            }
-
-            const transformX = newX - buttonRect.left + currentX;
-            const transformY = newY - buttonRect.top + currentY;
-
-            noButton.style.transition = 'transform 0.3s ease-out'; 
-            noButton.style.transform = `translate(${transformX}px, ${transformY}px)`;
+            moveNoButton(noButton, mainContainer); // Existing hover movement
         });
 
         noButton.addEventListener('mouseout', () => {
@@ -368,18 +375,18 @@ function createFloatingOrbs() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
 
-    const numberOfOrbs = 7; // Number of orbs to create
+    const numberOfOrbs = 7; 
     for (let i = 0; i < numberOfOrbs; i++) {
         const orb = document.createElement('div');
         orb.classList.add('floating-orb');
         
-        const size = Math.random() * 80 + 30; // Orb size between 30px and 110px
-        const startX = Math.random() * 100; // Starting X position (vw)
-        const startY = Math.random() * 100; // Starting Y position (vh)
-        const driftX = (Math.random() - 0.5) * 50; // Horizontal drift (vw)
-        const driftY = (Math.random() - 0.5) * 50; // Vertical drift (vh)
-        const duration = Math.random() * 20 + 10; // Animation duration (s)
-        const delay = Math.random() * 10; // Animation delay (s)
+        const size = Math.random() * 80 + 30; 
+        const startX = Math.random() * 100; 
+        const startY = Math.random() * 100; 
+        const driftX = (Math.random() - 0.5) * 50; 
+        const driftY = (Math.random() - 0.5) * 50; 
+        const duration = Math.random() * 20 + 10; 
+        const delay = Math.random() * 10; 
 
         orb.style.cssText = `
             width: ${size}px;
@@ -392,8 +399,8 @@ function createFloatingOrbs() {
             --orb-start-y: ${startY}vh;
             --orb-drift-x: ${driftX}vw;
             --orb-drift-y: ${driftY}vh;
-            --orb-scale: ${size / 80}; /* Normalize scale based on size */
-            --initial-opacity: ${Math.random() * 0.3 + 0.1}; /* Random initial opacity */
+            --orb-scale: ${size / 80}; 
+            --initial-opacity: ${Math.random() * 0.3 + 0.1}; 
         `;
         backgroundElements.appendChild(orb);
     }
@@ -404,20 +411,20 @@ function createNebulaClouds() {
     const backgroundElements = document.querySelector('.background-elements');
     if (!backgroundElements) return;
 
-    const numberOfNebulas = 4; // Number of nebula clouds
+    const numberOfNebulas = 4; 
     for (let i = 0; i < numberOfNebulas; i++) {
         const nebula = document.createElement('div');
         nebula.classList.add('nebula-cloud');
 
-        const size = Math.random() * 500 + 300; // Nebula size between 300px and 800px
+        const size = Math.random() * 500 + 300; 
         const startX = Math.random() * 100; 
         const startY = Math.random() * 100; 
-        const driftX1 = (Math.random() - 0.5) * 80; // First drift point
+        const driftX1 = (Math.random() - 0.5) * 80; 
         const driftY1 = (Math.random() - 0.5) * 80;
-        const driftX2 = (Math.random() - 0.5) * 80; // Second drift point
+        const driftX2 = (Math.random() - 0.5) * 80; 
         const driftY2 = (Math.random() - 0.5) * 80;
-        const duration = Math.random() * 40 + 20; // Animation duration (s)
-        const delay = Math.random() * 15; // Animation delay (s)
+        const duration = Math.random() * 40 + 20; 
+        const delay = Math.random() * 15; 
 
         nebula.style.cssText = `
             --nebula-size: ${size}px;
