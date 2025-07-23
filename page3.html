@@ -3,196 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Big Question 💖</title>
+    <title>My Confession 💖</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
+    
     <style>
-        /* Specific styles for page3.html */
+        /* General body styles for the entire page's default text */
+        body {
+            font-family: 'Lora', serif; /* Elegant and readable font for general text */
+            font-size: 0.95rem; /* Make the default text size slightly smaller */
+            color: #F0F0F0; /* A soft, very light white/off-white for general text */
+            line-height: 1.6; /* Ensures good spacing between lines for readability */
+        }
+
         .container {
             text-align: center;
-            position: relative; /* Needed for z-index to work */
-            z-index: 10; /* Ensures the container content is above most elements */
         }
 
+        /* Specific styles for the main question text */
         .question-text {
+            font-family: 'Great Vibes', cursive; /* Keep the elegant and romantic font for the main question */
+            color: #FFD1DC; /* A beautiful, soft pink color for the question */
+            font-size: clamp(2.3rem, 4.2vw, 3.2rem); /* Responsive size, slightly smaller */
             margin-bottom: 2rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4); /* Soft shadow for depth and readability */
             line-height: 1.2;
-            opacity: 0;
-            animation: fadeInScale 1.5s ease-out forwards 0.5s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative; /* Ensure it respects z-index within the container */
-            z-index: 12; /* Keep text slightly above other container elements if needed */
+            opacity: 1; /* Ensures immediate visibility */
+            animation: none; /* No animations on load */
         }
 
-        /* Styles for the individual heading parts of the question */
-        .question-text h2 {
-            /* REPLACE 'Pacifico' with your desired heading font name */
-            font-family: 'Pacifico', cursive; /* Example: font-family: 'YourNewHeadingFont', cursive; */
-            color: var(--text-heading);
-            text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            padding: 0 10px;
-            box-sizing: border-box;
+        /* Styling for emojis within the question text */
+        .question-text .emoji {
+            color: #FFFFFF; /* Pure white to make emojis pop and match the white accent */
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)); /* A gentle white glow */
         }
 
-        .question-text h2:first-child {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            margin-bottom: 1.5rem;
-        }
-
-        .question-text .main-question {
-            font-size: clamp(2.3rem, 5vw, 3.5rem);
-            margin-top: 1.5rem;
-        }
-
-        /* Styles for the normal text part of the question */
-        .question-text p {
-            /* REPLACE 'Lora' with your desired normal text font name */
-            font-family: 'Lora', serif; /* Example: font-family: 'YourNewNormalTextFont', serif; */
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--text-light);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            max-width: 800px;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .choice-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 3rem;
-            position: relative; /* Essential: allows z-index to work */
-            z-index: 15; /* Make sure buttons are on top of everything! */
-        }
-
+        /* Styling for the Yes/No buttons */
         .choice-button {
-            flex-grow: 1;
-            max-width: 250px;
+            color: #FFFFFF; /* White text for great contrast against the button gradients */
+            font-family: 'Lora', serif; /* Consistent elegant font for button text */
+            font-size: clamp(1rem, 2vw, 1.15rem); /* Optimal size for readability */
+            letter-spacing: 0.05em; /* Slightly increased letter spacing for elegance */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Subtle shadow for button text */
         }
 
-        .choice-button.yes {
-            background: linear-gradient(45deg, #4CAF50, #8BC34A);
-            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.4);
-            animation-delay: 1s;
+        /* Styling for the music play button */
+        #music-play-button {
+            color: #FFD1DC; /* Pink color for the music button icon */
+            border-color: #FFD1DC; /* Pink border */
+            background-color: rgba(255, 209, 220, 0.1); /* Very subtle pink background */
+            box-shadow: 0 0 10px rgba(255, 209, 220, 0.5); /* Matching pink glow */
         }
 
-        .choice-button.yes:hover {
-            background: linear-gradient(45deg, #8BC34A, #4CAF50);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.6);
-        }
-
-        .choice-button.no {
-            background: linear-gradient(45deg, #F44336, #FF7043);
-            box-shadow: 0 8px 15px rgba(244, 67, 54, 0.4);
-            animation-delay: 1.2s;
-        }
-
-        .choice-button.no:hover {
-            background: linear-gradient(45deg, #FF7043, #F44336);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.6);
-        }
-
-        @media (max-width: 600px) {
-            .choice-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .choice-button {
-                width: 80%;
-                max-width: unset;
-            }
-        }
-
-        /* Essential for layering: Make sure background elements don't block clicks */
-        .background-elements {
-            position: absolute; /* Already absolute */
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* THIS IS KEY: Makes all elements within background-elements ignore mouse events */
-            z-index: 0; /* Ensures background is behind everything else */
-        }
-
-        /* Background Elements CSS */
-
-        /* Floating Orb Styles */
-        .floating-orb {
-            position: absolute;
-            background: rgba(173, 216, 230, 0.15); /* Light blue, semi-transparent */
-            border-radius: 50%;
-            filter: blur(5px);
-            opacity: 0;
-            animation: orbFloat 15s infinite ease-in-out alternate, fadeInOut 15s infinite ease-in-out;
-            /* pointer-events: none; - Moved to parent .background-elements for efficiency */
-        }
-
-        @keyframes orbFloat {
-            0% { transform: translate(var(--orb-start-x), var(--orb-start-y)) scale(var(--orb-scale)); opacity: 0.5; }
-            50% { transform: translate(calc(var(--orb-start-x) + var(--orb-drift-x)), calc(var(--orb-start-y) + var(--orb-drift-y))) scale(calc(var(--orb-scale) * 1.1)); opacity: 0.7; }
-            100% { transform: translate(var(--orb-start-x), var(--orb-start-y)) scale(var(--orb-scale)); opacity: 0.5; }
-        }
-
-        /* Nebula Cloud Styles */
-        .nebula-cloud {
-            position: absolute;
-            width: var(--nebula-size);
-            height: var(--nebula-size);
-            background: radial-gradient(circle, rgba(255, 105, 180, 0.1) 0%, rgba(138, 43, 226, 0.1) 50%, transparent 100%); /* Pink to purple gradient */
-            border-radius: 50%;
-            filter: blur(50px); /* Heavy blur for a gaseous look */
-            opacity: 0;
-            animation: nebulaDrift 25s infinite ease-in-out alternate, fadeInOut 25s infinite ease-in-out;
-            /* pointer-events: none; - Moved to parent .background-elements for efficiency */
-            will-change: transform, opacity; /* Optimize animation */
-        }
-
-        @keyframes nebulaDrift {
-            0% { transform: translate(var(--nebula-start-x), var(--nebula-start-y)) scale(1); opacity: 0.4; }
-            40% { transform: translate(calc(var(--nebula-start-x) + var(--nebula-drift-x1)), calc(var(--nebula-start-y) + var(--nebula-drift-y1))) scale(1.1); opacity: 0.6; }
-            80% { transform: translate(calc(var(--nebula-start-x) + var(--nebula-drift-x2)), calc(var(--nebula-start-y) + var(--nebula-drift-y2))) scale(0.9); opacity: 0.3; }
-            100% { transform: translate(var(--nebula-start-x), var(--nebula-start-y)) scale(1); opacity: 0.4; }
-        }
-
-        /* Generic fadeInOut for new elements */
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: var(--initial-opacity, 0.5); }
-            90% { opacity: var(--initial-opacity, 0.5); }
-            100% { opacity: 0; }
+        #music-play-button.playing {
+            color: #FFFFFF; /* White when playing */
+            border-color: #FFFFFF; /* White border when playing */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Brighter white glow */
         }
     </style>
 </head>
 <body>
-    <audio id="backgroundMusic" loop>
-        <source src="perfect_instrumental.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <button id="music-play-button">🎵</button>
-
     <div class="background-elements">
-        <div class="moon"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
         </div>
 
     <div class="container">
+        <button id="music-play-button" aria-label="Play/Pause Music">
+            <i class="fas fa-music"></i>
+        </button>
+
         <div class="question-text">
-            <h2>Soo, Uk what i am going to say u dont u 😉... Every day with YOU is a cherished moment, beautiful and true...</h2>
-            <p>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever.... So, with all my heart and soul... ✨</p>
-            <h2 class="main-question">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?</h2>
+            Reechita, would you do me the honor of <br>being my girlfriend? <span class="emoji">💖✨</span>
         </div>
 
-        <div class="button-container choice-buttons">
-            <a class="button choice-button yes" id="yesButton">YES! 🥰</a>
-            <a class="button choice-button no" id="noButton">No, thank you 💜</a>
+        <div class="choice-buttons">
+            <button id="yesButton" class="choice-button yes">YES</button>
+            <button id="noButton" class="choice-button no">NO</button>
         </div>
     </div>
 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
