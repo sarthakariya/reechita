@@ -13,65 +13,66 @@
         }
 
         .question-text {
-            /* This div now acts as a container for the question elements */
             margin-bottom: 2rem;
             line-height: 1.2;
-            opacity: 0; /* Initial opacity for the whole block */
-            animation: fadeInScale 1.5s ease-out forwards 0.5s; /* Animation for the whole block */
-            display: flex; /* Use flexbox for vertical stacking */
+            opacity: 0;
+            animation: fadeInScale 1.5s ease-out forwards 0.5s;
+            display: flex;
             flex-direction: column;
-            align-items: center; /* Center items horizontally */
+            align-items: center;
         }
 
         /* Styles for the individual heading parts of the question */
         .question-text h2 {
-            font-family: 'Pacifico', cursive; /* NEW FONT: Pacifico */
+            /* REPLACE 'Pacifico' with your desired heading font name */
+            font-family: 'Pacifico', cursive; /* Example: font-family: 'YourNewHeadingFont', cursive; */
             color: var(--text-heading);
             text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
-            margin-bottom: 1rem; /* Space between headings/text */
+            margin-bottom: 1rem;
             line-height: 1.2;
-            padding: 0 10px; /* Small padding to prevent text touching edges on very small screens */
-            box-sizing: border-box; /* Include padding in element's total width */
+            padding: 0 10px;
+            box-sizing: border-box;
         }
 
         .question-text h2:first-child {
-            font-size: clamp(1.8rem, 4vw, 2.8rem); /* Slightly smaller for the opening statement */
-            margin-bottom: 1.5rem; /* More space after first heading */
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 1.5rem;
         }
 
         .question-text .main-question {
-            font-size: clamp(2.3rem, 5vw, 3.5rem); /* Adjusted: A little smaller for the main question */
-            margin-top: 1.5rem; /* Space before main question */
+            font-size: clamp(2.3rem, 5vw, 3.5rem);
+            margin-top: 1.5rem;
         }
 
         /* Styles for the normal text part of the question */
         .question-text p {
-            font-family: 'Lora', serif;
+            /* REPLACE 'Lora' with your desired normal text font name */
+            font-family: 'Lora', serif; /* Example: font-family: 'YourNewNormalTextFont', serif; */
             font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--text-light); /* Lighter color for normal text */
+            color: var(--text-light);
             margin-bottom: 2rem;
             line-height: 1.6;
-            max-width: 800px; /* Constrain width for readability */
-            padding: 0 20px; /* Padding for readability */
+            max-width: 800px;
+            padding: 0 20px;
             box-sizing: border-box;
         }
 
         .choice-buttons {
             display: flex;
             justify-content: center;
-            gap: 25px; /* Spacing between Yes and No buttons */
+            gap: 25px;
             margin-top: 3rem;
         }
 
         .choice-button {
-            flex-grow: 1; /* Allow buttons to grow */
-            max-width: 250px; /* Max width for buttons */
+            flex-grow: 1;
+            max-width: 250px;
         }
 
         .choice-button.yes {
-            background: linear-gradient(45deg, #4CAF50, #8BC34A); /* Green gradient */
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
             box-shadow: 0 8px 15px rgba(76, 175, 80, 0.4);
-            animation-delay: 1s; /* Stagger animation */
+            animation-delay: 1s;
         }
 
         .choice-button.yes:hover {
@@ -81,9 +82,9 @@
         }
 
         .choice-button.no {
-            background: linear-gradient(45deg, #F44336, #FF7043); /* Red gradient */
+            background: linear-gradient(45deg, #F44336, #FF7043);
             box-shadow: 0 8px 15px rgba(244, 67, 54, 0.4);
-            animation-delay: 1.2s; /* Stagger animation */
+            animation-delay: 1.2s;
         }
 
         .choice-button.no:hover {
@@ -92,14 +93,7 @@
             box-shadow: 0 10px 20px rgba(244, 67, 54, 0.6);
         }
 
-        .message-below {
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-            line-height: 1.6;
-            margin-top: 30px;
-            color: var(--text-light);
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards 1.5s; /* Staggered after buttons */
-        }
+        /* The message-below class and associated styling have been removed */
 
         @media (max-width: 600px) {
             .choice-buttons {
@@ -107,8 +101,8 @@
                 align-items: center;
             }
             .choice-button {
-                width: 80%; /* Make buttons wider on small screens */
-                max-width: unset; /* Remove max-width constraint */
+                width: 80%;
+                max-width: unset;
             }
         }
     </style>
@@ -135,14 +129,4 @@
 
         <div class="button-container choice-buttons">
             <a class="button choice-button yes" id="yesButton">YES! 🥰</a>
-            <a class="button choice-button no" id="noButton">No, thank you 💜</a>
-        </div>
-
-        <p class="message-below" id="confirmationMessage">
-            I understand this is a big question, and there's no pressure at all. Your happiness is what matters most to me. Take your time, think about it, and know that no matter what, you're incredibly special.
-        </p>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+            <a class="button choice-button no" id="noButton">No,
