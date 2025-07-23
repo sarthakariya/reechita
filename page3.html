@@ -111,6 +111,31 @@
             95% { opacity: 0; }
             100% { transform: translateX(200vw) scaleX(0.5); opacity: 0; }
         }
+
+        /* Background Element: Flying Wings */
+        .flying-wing {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50% / 30%; /* Oval shape for a soft wing */
+            filter: blur(1px); /* Soften edges */
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0; /* Animated */
+            animation: wingFloat var(--duration) infinite ease-in-out, fadeInOut var(--duration) infinite;
+        }
+
+        @keyframes wingFloat {
+            0% { transform: translate(var(--wing-x-start, 0vw), var(--wing-y-start, 0vh)) rotate(0deg); }
+            25% { transform: translate(calc(var(--wing-x-start, 0vw) + var(--wing-drift-x, 10vw)), calc(var(--wing-y-start, 0vh) + var(--wing-drift-y, 5vh))) rotate(5deg); }
+            50% { transform: translate(var(--wing-x-start, 0vw), var(--wing-y-start, 0vh)) rotate(0deg); }
+            75% { transform: translate(calc(var(--wing-x-start, 0vw) - var(--wing-drift-x, 10vw)), calc(var(--wing-y-start, 0vh) - var(--wing-drift-y, 5vh))) rotate(-5deg); }
+            100% { transform: translate(var(--wing-x-start, 0vw), var(--wing-y-start, 0vh)) rotate(0deg); }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: var(--wing-opacity, 0.15); } /* Variable opacity */
+        }
     </style>
 </head>
 <body>
