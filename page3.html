@@ -7,7 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css.txt">
+    <link rel="stylesheet" href="style3.css">
 </head>
 <body>
     <div id="preloader">
@@ -24,7 +24,7 @@
     <div class="container">
         <div class="page3-text-container">
             <h1>Soo, Uk what i am going to say u dont u...</h1>
-            <p>Every day with YOU is a cherished moment, beautiful and true...</p>
+            <p>Every day with "YOU" is a cherished moment, beautiful and true...</p>
             <p>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</p>
             <p class="confession-prelude">So, with all my heart and soul... ✨</p>
             <p class="confession-main">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) <strong>*forever*</strong>?</p>
@@ -36,8 +36,19 @@
         </div>
     </div>
 
+    <div class="hearts-bg"></div>
     <div id="music-play-button">&#9654;</div> 
 
     <script src="script.js"></script>
+    <script>
+    for(let i=0;i<18;i++){
+        const heart=document.createElement('div');
+        heart.className='heart';
+        heart.style.left=Math.random()*100+'vw';
+        heart.style.animationDelay=(Math.random()*8)+'s';
+        heart.style.top=(Math.random()*80)+'vh';
+        document.querySelector('.hearts-bg').appendChild(heart);
+    }
+    </script>
 </body>
 </html>
