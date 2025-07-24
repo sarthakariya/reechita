@@ -1,386 +1,324 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    const backgroundElements = document.querySelector('.background-elements');
-    const preloader = document.getElementById('preloader');
-    const mainContentContainer = document.querySelector('.container');
-    const musicPlayButton = document.getElementById('music-play-button');
-    const musicAudio = new Audio('perfect_instrumental.mp3'); // REPLACE WITH YOUR MUSIC FILE PATH
-    musicAudio.loop = true; // Loop the music
-    musicAudio.volume = 0.6; // Set a default volume
+    // Function to generate a random number within a range
+    const getRandom = (min, max) => Math.random() * (max - min) + min;
 
-    // --- Preloader Logic ---
+    // Background Elements Initialization (dynamic generation based on CSS)
+    function initializeBackgroundEffects() {
+        const backgroundElements = document.createElement('div');
+        backgroundElements.className = 'background-elements';
+        document.body.prepend(backgroundElements); // Add to the beginning of the body
+
+        // --- Stars ---
+        const numStars = 100;
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = getRandom(1, 3);
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${getRandom(0, 100)}vw`;
+            star.style.top = `${getRandom(0, 100)}vh`;
+            star.style.animationDelay = `${getRandom(0, 5)}s`;
+            star.style.setProperty('--star-drift-duration', `${getRandom(20, 40)}s`);
+            star.style.setProperty('--star-drift-x', `${getRandom(-20, 20)}vw`);
+            star.style.setProperty('--star-drift-y', `${getRandom(-20, 20)}vh`);
+            backgroundElements.appendChild(star);
+        }
+
+        // --- Ethereal Glows ---
+        const numGlows = 8;
+        for (let i = 0; i < numGlows; i++) {
+            const glow = document.createElement('div');
+            glow.className = 'ethereal-glow';
+            const size = getRandom(100, 300);
+            glow.style.width = `${size}px`;
+            glow.style.height = `${size}px`;
+            glow.style.left = `${getRandom(0, 100)}vw`;
+            glow.style.top = `${getRandom(0, 100)}vh`;
+            glow.style.animationDelay = `${getRandom(0, 5)}s`;
+            glow.style.setProperty('--glow-duration', `${getRandom(15, 30)}s`);
+            glow.style.setProperty('--glow-scale', `${getRandom(0.8, 1.2)}`);
+            glow.style.setProperty('--x', `${getRandom(0, 100)}`);
+            glow.style.setProperty('--y', `${getRandom(0, 100)}`);
+            glow.style.setProperty('--dx', `${getRandom(-30, 30)}`);
+            glow.style.setProperty('--dy', `${getRandom(-30, 30)}`);
+            backgroundElements.appendChild(glow);
+        }
+
+        // --- Particles ---
+        const numParticles = 50;
+        for (let i = 0; i < numParticles; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = getRandom(2, 5);
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.setProperty('--p-x', `${getRandom(0, 100)}vw`);
+            particle.style.setProperty('--p-y', `${getRandom(0, 100)}vh`);
+            particle.style.setProperty('--p-dx', `${getRandom(-50, 50)}px`);
+            particle.style.setProperty('--p-dy', `${getRandom(-50, 50)}px`);
+            particle.style.setProperty('--p-scale', `${getRandom(0.5, 1.5)}`);
+            particle.style.setProperty('--p-duration', `${getRandom(5, 15)}s`);
+            particle.style.animationDelay = `${getRandom(0, 10)}s`;
+            backgroundElements.appendChild(particle);
+        }
+
+        // --- Moon ---
+        const moon = document.createElement('div');
+        moon.className = 'moon';
+        moon.style.width = '200px';
+        moon.style.height = '200px';
+        moon.style.left = `${getRandom(10, 80)}vw`;
+        moon.style.top = `${getRandom(5, 40)}vh`;
+        backgroundElements.appendChild(moon);
+
+        // --- Distant Scenery ---
+        const scenery = document.createElement('div');
+        scenery.className = 'distant-scenery';
+        backgroundElements.appendChild(scenery);
+
+        // --- Water Shimmer ---
+        const waterShimmer = document.createElement('div');
+        waterShimmer.className = 'water-shimmer';
+        backgroundElements.appendChild(waterShimmer);
+
+        // --- Floating Orbs ---
+        const numOrbs = 7;
+        const orbColors = ['#FF69B1', '#8A2BE2', '#FFD700', '#ADD8E6']; // Pink, Purple, Gold, Light Blue
+        for (let i = 0; i < numOrbs; i++) {
+            const orb = document.createElement('div');
+            orb.className = 'floating-orb';
+            const size = getRandom(80, 200);
+            orb.style.width = `${size}px`;
+            orb.style.height = `${size}px`;
+            orb.style.left = `${getRandom(0, 100)}vw`;
+            orb.style.top = `${getRandom(0, 100)}vh`;
+            orb.style.animationDelay = `${getRandom(0, 7)}s`;
+            orb.style.setProperty('--orb-color', orbColors[Math.floor(getRandom(0, orbColors.length))]);
+            orb.style.setProperty('--orb-blur', `${getRandom(30, 60)}px`);
+            orb.style.setProperty('--orb-opacity', `${getRandom(0.1, 0.4)}`);
+            orb.style.setProperty('--orb-duration', `${getRandom(20, 40)}s`);
+            orb.style.setProperty('--orb-pulse-duration', `${getRandom(3, 7)}s`);
+            orb.style.setProperty('--orb-x', `${getRandom(0, 100)}`);
+            orb.style.setProperty('--orb-y', `${getRandom(0, 100)}`);
+            orb.style.setProperty('--orb-dx', `${getRandom(-40, 40)}`);
+            orb.style.setProperty('--orb-dy', `${getRandom(-40, 40)}`);
+            orb.style.setProperty('--orb-scale', `${getRandom(0.7, 1.3)}`);
+            backgroundElements.appendChild(orb);
+        }
+
+        // --- Nebula Clouds ---
+        const numClouds = 5;
+        const cloudColors = ['rgba(138,43,226,0.6)', 'rgba(255,105,180,0.6)', 'rgba(255,215,0,0.6)']; // Purple, Pink, Gold
+        for (let i = 0; i < numClouds; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'nebula-cloud';
+            const size = getRandom(200, 500);
+            cloud.style.width = `${size}px`;
+            cloud.style.height = `${size * 0.7}px`; // More elliptical
+            cloud.style.left = `${getRandom(0, 100)}vw`;
+            cloud.style.top = `${getRandom(0, 100)}vh`;
+            cloud.style.animationDelay = `${getRandom(0, 10)}s`;
+            cloud.style.setProperty('--cloud-color', cloudColors[Math.floor(getRandom(0, cloudColors.length))]);
+            cloud.style.setProperty('--cloud-blur', `${getRandom(80, 150)}px`);
+            cloud.style.setProperty('--cloud-opacity', `${getRandom(0.1, 0.3)}`);
+            cloud.style.setProperty('--cloud-duration', `${getRandom(30, 60)}s`);
+            cloud.style.setProperty('--cloud-x', `${getRandom(-50, 50)}vw`);
+            cloud.style.setProperty('--cloud-y', `${getRandom(-50, 50)}vh`);
+            cloud.style.setProperty('--cloud-dx', `${getRandom(-100, 100)}vw`);
+            cloud.style.setProperty('--cloud-dy', `${getRandom(-100, 100)}vh`);
+            cloud.style.setProperty('--cloud-scale', `${getRandom(0.8, 1.5)}`);
+            backgroundElements.appendChild(cloud);
+        }
+
+        // --- Wind Gusts ---
+        const numGusts = 5;
+        for (let i = 0; i < numGusts; i++) {
+            const gust = document.createElement('div');
+            gust.className = 'wind-gust';
+            gust.style.top = `${getRandom(0, 100)}vh`;
+            gust.style.animationDelay = `${getRandom(0, 15)}s`;
+            gust.style.setProperty('--gust-opacity', `${getRandom(0.05, 0.2)}`);
+            gust.style.setProperty('--gust-height', `${getRandom(1, 3)}px`);
+            gust.style.setProperty('--gust-width', `${getRandom(200, 500)}px`);
+            gust.style.setProperty('--gust-blur', `${getRandom(0, 2)}px`);
+            gust.style.setProperty('--gust-duration', `${getRandom(10, 25)}s`);
+            backgroundElements.appendChild(gust);
+        }
+
+        // --- Flying Wings ---
+        const numWings = 6;
+        const wingColors = ['#fff', '#FFD1DC']; // White, Light Pink
+        for (let i = 0; i < numWings; i++) {
+            const wing = document.createElement('div');
+            wing.className = 'flying-wing';
+            const size = getRandom(20, 50);
+            wing.style.width = `${size}px`;
+            wing.style.height = `${size * 0.6}px`; // Wing aspect ratio
+            wing.style.animationDelay = `${getRandom(0, 20)}s`;
+            wing.style.setProperty('--wing-color', wingColors[Math.floor(getRandom(0, wingColors.length))]);
+            wing.style.setProperty('--wing-opacity', `${getRandom(0.2, 0.6)}`);
+            wing.style.setProperty('--wing-duration', `${getRandom(15, 30)}s`);
+            wing.style.setProperty('--wing-scale', `${getRandom(0.8, 1.2)}`);
+            wing.style.setProperty('--wing-rotation', `${getRandom(0, 360)}deg`);
+            wing.style.setProperty('--wing-x', `${getRandom(0, 100)}vw`);
+            wing.style.setProperty('--wing-y', `${getRandom(0, 100)}vh`);
+            wing.style.setProperty('--wing-dx', `${getRandom(-80, 80)}vw`);
+            wing.style.setProperty('--wing-dy', `${getRandom(-80, 80)}vh`);
+            backgroundElements.appendChild(wing);
+        }
+
+        // --- Shooting Stars ---
+        const numShootingStars = 3;
+        for (let i = 0; i < numShootingStars; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.animationDelay = `${getRandom(0, 20)}s`;
+            shootingStar.style.setProperty('--shoot-duration', `${getRandom(2, 5)}s`);
+            shootingStar.style.setProperty('--start-x', `${getRandom(10, 90)}vw`);
+            shootingStar.style.setProperty('--start-y', `${getRandom(10, 90)}vh`);
+            shootingStar.style.setProperty('--shoot-angle', `${getRandom(-45, 45)}deg`); // Angle of fall
+            shootingStar.style.setProperty('--end-x', `${getRandom(-20, 120)}vw`);
+            shootingStar.style.setProperty('--end-y', `${getRandom(-20, 120)}vh`);
+            backgroundElements.appendChild(shootingStar);
+        }
+    }
+
+    // Preloader and Content Reveal Logic
+    const preloader = document.getElementById('preloader');
+    const mainContainer = document.querySelector('.container');
     const indexProgressBar = document.getElementById('indexProgressBar');
     const indexProgressText = document.getElementById('indexProgressText');
-    const preloaderMessage = document.querySelector('.preloader-message');
-    let loadedAssets = 0;
-    const totalAssets = 5; // Example: count your images, fonts, main JS, etc.
+    let loadProgress = 0;
+    const totalLoadSteps = 100; // Represents 100%
 
-    function updatePreloaderProgress() {
-        loadedAssets++;
-        const progress = Math.min(100, (loadedAssets / totalAssets) * 100);
-        if (indexProgressBar) {
-            indexProgressBar.style.width = `${progress}%`;
-            if (indexProgressText) {
-                indexProgressText.textContent = `${Math.round(progress)}%`;
-            }
-        }
-
-        if (progress >= 100) {
-            // Animate preloader message words
-            const words = preloaderMessage.textContent.split(' ').map(word => `<span class="word-animated">${word}</span>`).join(' ');
-            preloaderMessage.innerHTML = words;
-            preloaderMessage.style.opacity = '1';
-
-            const animatedWords = document.querySelectorAll('.preloader-message .word-animated');
-            animatedWords.forEach((wordSpan, index) => {
-                setTimeout(() => {
-                    wordSpan.style.opacity = '1';
-                    wordSpan.style.transform = 'scale(1)';
-                }, index * 100); // Stagger words
-            });
-
-            // Hide preloader and show content after a short delay for word animation
-            setTimeout(() => {
-                if (preloader) {
-                    preloader.classList.add('hidden');
-                }
-                if (mainContentContainer) {
-                    mainContentContainer.classList.add('visible-content');
-                }
-            }, animatedWords.length * 100 + 500); // Delay based on word animation + 0.5s
-        }
-    }
-
-    // Call updateProgress for each "asset" loaded (e.g., images, main script itself)
-    // For a simple demo, we'll simulate loading
-    let simulatedLoadProgress = 0;
-    const simulateLoad = setInterval(() => {
-        simulatedLoadProgress += 20; // Increment by 20%
-        if (simulatedLoadProgress <= 100) {
-            const progress = simulatedLoadProgress;
-            if (indexProgressBar) {
-                indexProgressBar.style.width = `${progress}%`;
-                if (indexProgressText) {
-                    indexProgressText.textContent = `${Math.round(progress)}%`;
-                }
-            }
-        }
-        if (simulatedLoadProgress >= 100) {
-            clearInterval(simulateLoad);
-            // Once simulated loading is done, trigger the preloader message animation
-            const words = preloaderMessage.textContent.split(' ').map(word => `<span class="word-animated">${word}</span>`).join(' ');
-            preloaderMessage.innerHTML = words;
-            preloaderMessage.style.opacity = '1';
-
-            const animatedWords = document.querySelectorAll('.preloader-message .word-animated');
-            animatedWords.forEach((wordSpan, index) => {
-                setTimeout(() => {
-                    wordSpan.style.opacity = '1';
-                    wordSpan.style.transform = 'scale(1)';
-                }, index * 100); // Stagger words
-            });
-
-            setTimeout(() => {
-                if (preloader) {
-                    preloader.classList.add('hidden');
-                }
-                if (mainContentContainer) {
-                    mainContentContainer.classList.add('visible-content');
-                }
-                // Start staggered content animations after preloader hides
-                staggerContentAnimations();
-            }, animatedWords.length * 100 + 500); // Delay based on word animation + 0.5s
-        }
-    }, 200); // Simulate progress every 200ms
-
-    // --- Staggered Content Animations ---
-    function staggerContentAnimations() {
-        const paragraphs = document.querySelectorAll('.container p');
-        const sectionBreaks = document.querySelectorAll('.container .section-break');
-        const buttons = document.querySelectorAll('.container .button-container .button');
-
-        let delay = 0;
-
-        // Animate paragraphs
-        paragraphs.forEach((p, index) => {
-            setTimeout(() => {
-                p.style.opacity = '1';
-            }, delay + (index * 150)); // Stagger each paragraph
-            delay += 150;
-        });
-
-        // Animate section breaks
-        sectionBreaks.forEach((sb, index) => {
-            setTimeout(() => {
-                sb.style.opacity = '1';
-            }, delay + (index * 200));
-            delay += 200;
-        });
-
-        // Animate buttons
-        buttons.forEach((btn, index) => {
-            setTimeout(() => {
-                btn.style.opacity = '1';
-                btn.style.transform = 'scale(1)';
-            }, delay + (index * 250));
-        });
-    }
-
-    // --- Dynamic Background Elements Generation ---
-
-    // Function to create a generic dynamic element
-    function createDynamicElement(className, appendTo, randomProps, animationEndCallback = null) {
-        const element = document.createElement('div');
-        element.classList.add(className);
-
-        for (const prop in randomProps) {
-            element.style.setProperty(prop, randomProps[prop]);
-        }
-
-        appendTo.appendChild(element);
-
-        if (animationEndCallback) {
-            element.addEventListener('animationend', () => {
-                animationEndCallback(element);
-            });
-        } else {
-            // Default: remove after some time if no specific animationend callback
-            setTimeout(() => {
-                element.remove();
-            }, parseFloat(element.style.getPropertyValue('--duration') || '30') * 1000); // Use a common --duration variable if available
-        }
-        return element;
-    }
-
-    // Stars
-    function createStar() {
-        const size = Math.random() * 3 + 1; // 1 to 4px
-        const randomProps = {
-            'width': `${size}px`,
-            'height': `${size}px`,
-            'left': `${Math.random() * 100}vw`,
-            'top': `${Math.random() * 100}vh`,
-            '--star-drift-duration': `${Math.random() * 20 + 10}s`, // 10-30s
-            '--star-drift-x': `${(Math.random() - 0.5) * 100}px`, // -50 to +50px
-            '--star-drift-y': `${(Math.random() - 0.5) * 100}px`  // -50 to +50px
-        };
-        createDynamicElement('star', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createStar, 500); // Create a star every 0.5 seconds
-
-    // Ethereal Glows
-    function createEtherealGlow() {
-        const size = Math.random() * 150 + 50; // 50 to 200px
-        const duration = Math.random() * 15 + 10; // 10-25s
-        const opacity = Math.random() * 0.3 + 0.1; // 0.1 to 0.4
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const dx = (Math.random() - 0.5) * 30; // -15 to +15vw
-        const dy = (Math.random() - 0.5) * 30; // -15 to +15vh
-
-        const randomProps = {
-            'width': `${size}px`,
-            'height': `${size}px`,
-            'left': `${x}vw`,
-            'top': `${y}vh`,
-            '--glow-duration': `${duration}s`,
-            '--x': `${x}`,
-            '--y': `${y}`,
-            '--dx': `${dx}`,
-            '--dy': `${dy}`,
-            '--glow-scale': `${Math.random() * 0.5 + 0.8}`, // 0.8 to 1.3
-            'opacity': `${opacity}` // Set initial opacity
-        };
-        createDynamicElement('ethereal-glow', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createEtherealGlow, 2000); // Create a glow every 2 seconds
-
-    // Particles
-    function createParticle() {
-        const size = Math.random() * 4 + 2; // 2 to 6px
-        const duration = Math.random() * 5 + 3; // 3-8s
-        const x = `${Math.random() * 100}vw`;
-        const y = `${Math.random() * 100}vh`;
-        const dx = `${(Math.random() - 0.5) * 200}px`; // -100 to +100px
-        const dy = `${(Math.random() - 0.5) * 200}px`; // -100 to +100px
-
-        const randomProps = {
-            'width': `${size}px`,
-            'height': `${size}px`,
-            'left': x,
-            'top': y,
-            '--p-duration': `${duration}s`,
-            '--p-x': x,
-            '--p-y': y,
-            '--p-dx': dx,
-            '--p-dy': dy,
-            '--p-scale': `${Math.random() * 0.5 + 0.5}` // 0.5 to 1.0
-        };
-        createDynamicElement('particle', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createParticle, 300); // Create a particle every 0.3 seconds
-
-    // Floating Orbs
-    function createFloatingOrb() {
-        const size = Math.random() * 100 + 30; // 30 to 130px
-        const duration = Math.random() * 20 + 15; // 15-35s
-        const blur = Math.random() * 30 + 10; // 10-40px
-        const opacity = Math.random() * 0.4 + 0.1; // 0.1 to 0.5
-        const colors = ['#FF69B1', '#8A2BE2', '#FFD700', '#DA70D6', '#ADD8E6']; // Primary, Secondary, Gold, Orchid, LightBlue
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const dx = (Math.random() - 0.5) * 40;
-        const dy = (Math.random() - 0.5) * 40;
-
-        const randomProps = {
-            'width': `${size}px`,
-            'height': `${size}px`,
-            'left': `${x}vw`,
-            'top': `${y}vh`,
-            '--orb-color': color,
-            '--orb-blur': `${blur}px`,
-            '--orb-opacity': `${opacity}`,
-            '--orb-duration': `${duration}s`,
-            '--orb-pulse-duration': `${Math.random() * 5 + 3}s`,
-            '--orb-x': `${x}`,
-            '--orb-y': `${y}`,
-            '--orb-dx': `${dx}`,
-            '--orb-dy': `${dy}`,
-            '--orb-scale': `${Math.random() * 0.5 + 0.7}`
-        };
-        createDynamicElement('floating-orb', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createFloatingOrb, 3000); // Create an orb every 3 seconds
-
-    // Nebula Clouds
-    function createNebulaCloud() {
-        const size = Math.random() * 300 + 100; // 100 to 400px
-        const duration = Math.random() * 40 + 30; // 30-70s
-        const blur = Math.random() * 80 + 30; // 30-110px
-        const opacity = Math.random() * 0.3 + 0.05; // 0.05 to 0.35
-        const colors = ['rgba(138, 43, 226, 0.7)', 'rgba(255, 105, 180, 0.7)', 'rgba(255, 215, 0, 0.7)']; // Purple, Pink, Gold
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const dx = (Math.random() - 0.5) * 60;
-        const dy = (Math.random() - 0.5) * 60;
-
-        const randomProps = {
-            'width': `${size}px`,
-            'height': `${size}px`,
-            'left': `${x}vw`,
-            'top': `${y}vh`,
-            '--cloud-color': color,
-            '--cloud-blur': `${blur}px`,
-            '--cloud-opacity': `${opacity}`,
-            '--cloud-duration': `${duration}s`,
-            '--cloud-x': `${x}vw`,
-            '--cloud-y': `${y}vh`,
-            '--cloud-dx': `${dx}vw`,
-            '--cloud-dy': `${dy}vh`,
-            '--cloud-scale': `${Math.random() * 0.5 + 0.8}`
-        };
-        createDynamicElement('nebula-cloud', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createNebulaCloud, 5000); // Create a cloud every 5 seconds
-
-    // Wind Gusts
-    function createWindGust() {
-        const width = Math.random() * 300 + 100; // 100-400px
-        const height = Math.random() * 5 + 2; // 2-7px
-        const blur = Math.random() * 5 + 1; // 1-6px
-        const opacity = Math.random() * 0.2 + 0.05; // 0.05-0.25
-        const duration = Math.random() * 10 + 5; // 5-15s
-
-        const randomProps = {
-            'top': `${Math.random() * 100}vh`,
-            '--gust-opacity': `${opacity}`,
-            '--gust-height': `${height}px`,
-            '--gust-width': `${width}px`,
-            '--gust-blur': `${blur}px`,
-            '--gust-duration': `${duration}s`
-        };
-        createDynamicElement('wind-gust', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createWindGust, 1500); // Create a gust every 1.5 seconds
-
-    // Flying Wings
-    function createFlyingWing() {
-        const size = Math.random() * 80 + 30; // 30-110px
-        const duration = Math.random() * 15 + 10; // 10-25s
-        const opacity = Math.random() * 0.4 + 0.1; // 0.1-0.5
-        const colors = ['#FFD700', '#DA70D6', '#FF69B1']; // Gold, Orchid, Pink
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const rotation = Math.random() * 360;
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const dx = (Math.random() - 0.5) * 50;
-        const dy = (Math.random() - 0.5) * 50;
-
-        const randomProps = {
-            'width': `${size}px`,
-            'height': `${size * 0.7}px`, // Make wings slightly wider than tall
-            'left': `${x}vw`,
-            'top': `${y}vh`,
-            '--wing-color': color,
-            '--wing-opacity': `${opacity}`,
-            '--wing-duration': `${duration}s`,
-            '--wing-scale': `${Math.random() * 0.5 + 0.7}`,
-            '--wing-rotation': `${rotation}deg`,
-            '--wing-x': `${x}vw`,
-            '--wing-y': `${y}vh`,
-            '--wing-dx': `${dx}vw`,
-            '--wing-dy': `${dy}vh`
-        };
-        createDynamicElement('flying-wing', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createFlyingWing, 2500); // Create a wing every 2.5 seconds
-
-    // Shooting Stars
-    function createShootingStar() {
-        const duration = Math.random() * 3 + 2; // 2-5s
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 10; // Start mostly from the top part
-        const angle = Math.random() * 60 + 15; // 15 to 75 degrees for downward diagonal
-        const endX = startX + Math.random() * 50 + 20; // Travel right
-        const endY = startY + Math.random() * 50 + 20; // Travel down
-
-        const randomProps = {
-            'left': `${startX}vw`,
-            'top': `${startY}vh`,
-            '--shoot-duration': `${duration}s`,
-            '--start-x': `${startX}vw`,
-            '--start-y': `${startY}vh`,
-            '--shoot-angle': `${angle}deg`,
-            '--end-x': `${endX}vw`,
-            '--end-y': `${endY}vh`
-        };
-        createDynamicElement('shooting-star', backgroundElements, randomProps, (el) => el.remove());
-    }
-    setInterval(createShootingStar, 4000); // Create a shooting star every 4 seconds
-
-    // --- Music Play/Pause Logic ---
-    if (musicPlayButton && musicAudio) {
-        musicPlayButton.addEventListener('click', () => {
-            if (musicAudio.paused) {
-                musicAudio.play().then(() => {
-                    musicPlayButton.textContent = '⏸'; // Pause icon
-                    musicPlayButton.classList.add('playing');
-                }).catch(error => {
-                    console.error("Music play failed:", error);
-                    alert("Autoplay prevented music. Please interact with the page to enable music.");
-                });
+    // Function to update the preloader progress bar
+    function updateProgressBar() {
+        if (indexProgressBar && indexProgressText) {
+            loadProgress += getRandom(1, 5); // Simulate loading
+            if (loadProgress > 100) loadProgress = 100;
+            indexProgressBar.style.width = `${loadProgress}%`;
+            indexProgressText.textContent = `${Math.floor(loadProgress)}%`;
+            if (loadProgress < 100) {
+                requestAnimationFrame(updateProgressBar);
             } else {
-                musicAudio.pause();
-                musicPlayButton.textContent = '▶'; // Play icon
-                musicPlayButton.classList.remove('playing');
+                // Once loading is complete, reveal content
+                revealContent();
             }
+        } else {
+            // If preloader elements are not found, reveal content immediately
+            revealContent();
+        }
+    }
+
+    // Function to reveal main content and handle text animations
+    function revealContent() {
+        if (preloader) {
+            // Stop any ongoing progress bar animation
+            if (indexProgressBar) {
+                indexProgressBar.style.transition = 'none'; // Stop transition for immediate width set
+                indexProgressBar.style.width = '100%';
+            }
+            if (indexProgressText) {
+                indexProgressText.textContent = '100%';
+            }
+
+            preloader.classList.add('hidden');
+            // Remove preloader from DOM after transition for performance
+            preloader.addEventListener('transitionend', () => {
+                preloader.remove();
+                document.body.style.overflow = ''; // Restore scroll if it was hidden
+            }, { once: true });
+        }
+
+        if (mainContainer) {
+            mainContainer.classList.add('visible-content');
+
+            // === STAGGERED TEXT REVEAL FOR ALL PAGES ===
+            // Target specific text and button elements for staggered animation.
+            // This selector covers elements on both index.html and page3.html
+            const contentElements = mainContainer.querySelectorAll('h1, h2, p, .confession-prelude, .confession-main, .section-break, .button-container .button');
+
+            contentElements.forEach((el, index) => {
+                // Remove any existing inline opacity or animation for clean re-application
+                el.style.opacity = '';
+                el.style.animation = 'none';
+                // Trigger reflow to apply 'none' before applying new animation
+                void el.offsetWidth; 
+
+                // Apply fadeIn animation with a staggered delay
+                // The 0.5s initial delay ensures the preloader fade-out starts first
+                const delay = 0.5 + index * 0.15; // Staggered delay for each element
+                
+                if (el.classList.contains('confession-main')) {
+                    // For the main confession, apply fadeIn and then the pulseGlow
+                    el.style.animation = `fadeIn 0.8s ease-out forwards ${delay}s, pulseGlow 3s ease-in-out infinite alternate ${delay + 0.8}s`;
+                } else {
+                    el.style.animation = `fadeIn 0.8s ease-out forwards ${delay}s`;
+                }
+            });
+        }
+    }
+
+    // Start the preloader progress when content is loaded
+    initializeBackgroundEffects(); // Generate background elements immediately
+    updateProgressBar(); // Start preloader animation
+
+    // Music Play/Pause Button Logic
+    const musicPlayButton = document.getElementById('music-play-button');
+    if (musicPlayButton) {
+        // You would typically link an audio element here
+        // const backgroundMusic = document.getElementById('background-music-audio'); 
+        musicPlayButton.addEventListener('click', () => {
+            // Placeholder for music toggle logic
+            // if (backgroundMusic.paused) {
+            //     backgroundMusic.play();
+            //     musicPlayButton.textContent = '❚❚'; // Pause icon
+            // } else {
+            //     backgroundMusic.pause();
+            //     musicPlayButton.textContent = '▶'; // Play icon
+            // }
+            musicPlayButton.classList.toggle('playing'); // Visual indicator
+            console.log("Music play/pause toggled!"); // For demonstration
         });
     }
 
-    // Optional: Auto-play music if browser allows (most don't without user interaction)
-    // You might want to make the music button visible by default and let user click it.
-    // musicAudio.play().then(...).catch(...)
+    // Button Evasion Logic (if you have buttons with .button-container class)
+    const buttonContainers = document.querySelectorAll('.button-container');
+    buttonContainers.forEach(container => {
+        container.addEventListener('mousemove', (e) => {
+            const buttons = container.querySelectorAll('.button');
+            buttons.forEach(button => {
+                const rect = button.getBoundingClientRect();
+                const btnCenterX = rect.left + rect.width / 2;
+                const btnCenterY = rect.top + rect.height / 2;
+
+                const deltaX = e.clientX - btnCenterX;
+                const deltaY = e.clientY - btnCenterY;
+
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                const evadeRadius = 150; // Distance from button to start evading
+                const moveStrength = 20; // How much the button moves
+
+                if (distance < evadeRadius) {
+                    const angle = Math.atan2(deltaY, deltaX);
+                    const evadeX = -Math.cos(angle) * (evadeRadius - distance) / evadeRadius * moveStrength;
+                    const evadeY = -Math.sin(angle) * (evadeRadius - distance) / evadeRadius * moveStrength;
+
+                    button.style.transform = `translate(${evadeX}px, ${evadeY}px)`;
+                } else {
+                    button.style.transform = 'translate(0, 0)';
+                }
+            });
+        });
+
+        container.addEventListener('mouseleave', () => {
+            const buttons = container.querySelectorAll('.button');
+            buttons.forEach(button => {
+                button.style.transform = 'translate(0, 0)'; // Reset position on mouse leave
+            });
+        });
+    });
+
 });
