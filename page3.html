@@ -3,66 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Heart's Confession</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style3.css">
-    </head>
+    <title>My Confession to Reechita</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="style3.css"> <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
 <body>
-    <div id="preloader">
-        <div class="preloader-content">
-            <div class="preloader-message">Entering the moment...</div>
-            <div class="progress-bar-container">
-                <div id="indexProgressBar">
-                    <span id="indexProgressText">0%</span>
-                </div>
-            </div>
+    <div id="dynamic-transition-preloader" class="transition-preloader">
+        <div class="preloader-dual-hearts">
+            <div class="heart heart-left"></div>
+            <div class="heart heart-right"></div>
         </div>
+        <div class="transition-preloader-message">Preparing the Universe for Your Answer...</div>
     </div>
+
+    <div class="background-elements">
+        </div>
 
     <div class="container">
-        <div class="page3-text-container">
-            <h1>Soo, Uk what i am going to say u dont u...</h1>
-            <p>Every day with "YOU" is a cherished moment, beautiful and true...</p>
-            <p>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</p>
-            <p class="confession-prelude">So, with all my heart and soul... ✨</p>
-            <p class="confession-main">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) <strong>*forever*</strong>?</p>
-        </div>
+        <h1 class="sparkle-text">A Question from My Heart to Yours</h1>
 
-        <div class="button-container">
-            <a href="acknowledgement.html?response=yes" class="button">YES! ✨</a>
-            <a href="acknowledgement.html?response=no" class="button">I'm sorry, I can't 😔</a>
+        <p class="question-text">
+            Reechita, you mean the world to me. Every moment with you is a treasure,
+            and my feelings for you have grown deeper than words can express.
+            Will you be my girlfriend?
+        </p>
+
+        <div class="choice-buttons">
+            <button id="yesButton" class="button">Yes, Sarthak! ✨</button>
+            <button id="noButton" class="button">No</button>
         </div>
     </div>
 
-    <div class="hearts-bg"></div>
-    
-    <audio id="background-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
     <div id="music-play-button">
-        🎶
+        <span class="music-icon">🎵</span>
     </div>
 
     <script src="script.js"></script>
-    
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const heartsBg = document.querySelector('.hearts-bg');
-        if (heartsBg) { // Ensure the container exists
-            for(let i=0; i<18; i++){
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDelay = (Math.random() * 8) + 's';
-                heart.style.top = (Math.random() * 80) + 'vh'; // Adjusted to stay within view
-                heartsBg.appendChild(heart);
+        // Additional script for page3 specific behavior if needed
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ensure the dynamic preloader is shown on page load
+            // and then hidden by the main script.js which has the staggerAnimations
+            const preloader = document.getElementById('dynamic-transition-preloader');
+            if (preloader) {
+                preloader.classList.add('active'); // Activate preloader on load
+
+                // In a real scenario, you'd hide this after your page content is ready.
+                // For simplicity here, script.js's general content visibility might manage it,
+                // or you can add a specific timeout:
+                setTimeout(() => {
+                    preloader.classList.remove('active');
+                    preloader.addEventListener('transitionend', () => preloader.remove());
+                    // Trigger stagger animations for page 3 content
+                    const mainContainer = document.querySelector('.container');
+                    if (mainContainer) {
+                        mainContainer.classList.add('visible-content');
+                        // Call staggerAnimations from script.js if it's a global function
+                        if (typeof staggerAnimations === 'function') {
+                            staggerAnimations();
+                        }
+                    }
+                }, 1500); // Adjust this duration to match your preloader animation
             }
-        }
-    });
+        });
     </script>
 </body>
 </html>
