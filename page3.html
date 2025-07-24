@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Confession to Reechita</title>
+    <title>A Question from Sarthak's Heart</title>
     <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="style3.css"> <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,13 +19,11 @@
         </div>
 
     <div class="container">
-        <h1 class="sparkle-text">A Question from My Heart to Yours</h1>
-
-        <p class="question-text">
-            Reechita, you mean the world to me. Every moment with you is a treasure,
-            and my feelings for you have grown deeper than words can express.
-            Will you be my girlfriend?
-        </p>
+        <h1 class="sparkle-text">Soo, U know what I am going to say don't U...</h1>
+        <p>Every day with "YOU" is a cherished moment, beautiful and true...</p>
+        <p>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</p>
+        <p class="confession-prelude">So, with all my heart and soul... ✨</p>
+        <p class="confession-main">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) <strong>*forever*</strong>?</p>
 
         <div class="choice-buttons">
             <button id="yesButton" class="button">Yes, Sarthak! ✨</button>
@@ -39,25 +37,16 @@
 
     <script src="script.js"></script>
     <script>
-        // Additional script for page3 specific behavior if needed
         document.addEventListener('DOMContentLoaded', () => {
-            // Ensure the dynamic preloader is shown on page load
-            // and then hidden by the main script.js which has the staggerAnimations
             const preloader = document.getElementById('dynamic-transition-preloader');
             if (preloader) {
                 preloader.classList.add('active'); // Activate preloader on load
-
-                // In a real scenario, you'd hide this after your page content is ready.
-                // For simplicity here, script.js's general content visibility might manage it,
-                // or you can add a specific timeout:
                 setTimeout(() => {
                     preloader.classList.remove('active');
                     preloader.addEventListener('transitionend', () => preloader.remove());
-                    // Trigger stagger animations for page 3 content
                     const mainContainer = document.querySelector('.container');
                     if (mainContainer) {
                         mainContainer.classList.add('visible-content');
-                        // Call staggerAnimations from script.js if it's a global function
                         if (typeof staggerAnimations === 'function') {
                             staggerAnimations();
                         }
