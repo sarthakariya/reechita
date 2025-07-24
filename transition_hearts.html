@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting Hearts...</title>
+    <link rel="stylesheet" href="style.css.txt">
+</head>
+<body class="hearts-transition">
+    <div class="heart-container">
+        <div class="heart-left"></div>
+        <div class="heart-right"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heartLeft = document.querySelector('.heart-left');
+            const heartRight = document.querySelector('.heart-right');
+
+            // Apply initial animations for coming together
+            heartLeft.style.animation = 'heartLeftMove 2s ease-out forwards';
+            heartRight.style.animation = 'heartRightMove 2s ease-out forwards';
+
+            // Once hearts have moved together, apply the pulsing animation
+            setTimeout(() => {
+                heartLeft.classList.add('heart-joined');
+                heartRight.classList.add('heart-joined');
+            }, 2000); // After 2 seconds, when initial move animation finishes
+
+            // Redirect to page3.html after 5 seconds
+            setTimeout(() => {
+                window.location.href = 'page3.html';
+            }, 5000); // 5 seconds total for the animation
+        });
+    </script>
+</body>
+</html>
