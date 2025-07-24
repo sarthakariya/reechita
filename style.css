@@ -16,14 +16,6 @@
     --animation-duration-fast: 0.3s;
     --animation-duration-medium: 1s;
     --animation-duration-slow: 1.5s;
-
-    /*
-    * Missing CSS Custom Properties for dynamic background elements:
-    * These variables are typically set by JavaScript to create
-    * random positions, sizes, durations, and colors for elements
-    * like stars, glows, particles, orbs, clouds, gusts, wings, and shooting stars.
-    * If you need fallback static values without JavaScript, define them here.
-    */
 }
 
 /* Global Box Sizing for easier layout management */
@@ -38,10 +30,10 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    min-height: 10vh; /* Minimum height for scroll if content is short */
-    display: flex; /* Use flexbox for body to center content */
+    min-height: 100vh;
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Start content from top */
+    justify-content: center;
     align-items: center;
     position: relative;
     background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
@@ -204,7 +196,7 @@ body {
     left: 0;
     width: 200%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 10%, transparent 20%, rgba(255, 255, 255, 0.1) 30%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%, rgba(255, 255, 255, 0.1) 70%, transparent 80%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 10%, transparent 20%, rgba(255, 255, 255, 0.1) 30%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%, rgba(255, 255, 255, 0.1) 70%, transparent 80%);
     background-size: 50% 100%;
     animation: waterFlow 30s linear infinite;
 }
@@ -342,7 +334,7 @@ body {
     position: relative;
     z-index: 1; /* Ensure content is above background elements */
     overflow: hidden; /* For inner animations */
-
+    
     /* === IMPORTANT ADDITIONS FOR PRELOADER FIX === */
     opacity: 0; /* Start hidden */
     transform: translateY(20px) scale(0.95); /* Start slightly off and scaled down for entrance effect */
@@ -390,7 +382,7 @@ h1 {
     font-size: 3.5em;
     margin-bottom: 25px;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    opacity: 0; /* Default hidden for staggered animation */
+    animation: fadeInScale var(--animation-duration-slow) ease-out forwards;
 }
 
 h2 {
@@ -400,13 +392,14 @@ h2 {
     margin-top: 30px;
     margin-bottom: 20px;
     text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
-    opacity: 0; /* Default hidden for staggered animation */
+    animation: fadeInSlideUp 1.2s ease-out forwards; /* New animation */
 }
 
 p {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 20px; /* Consistent gaps */
+    animation: fadeIn var(--animation-duration-medium) ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
 
@@ -484,6 +477,7 @@ p {
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
     margin: 40px auto;
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
 
@@ -494,7 +488,7 @@ p {
     justify-content: center;
     gap: 25px; /* Consistent gaps between buttons */
     margin-top: 40px;
-    opacity: 0; /* Default hidden for staggered animation */
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
 }
 
 .button, .choice-button {
@@ -511,7 +505,7 @@ p {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     position: relative; /* Essential for evasion to work with transform */
     overflow: hidden;
-    opacity: 0; /* Default hidden for staggered animation */
+    animation: buttonPopIn var(--animation-duration-medium) ease-out forwards;
 }
 
 .button:hover, .choice-button:hover {
@@ -641,6 +635,7 @@ p {
     opacity: 0;
     animation: progressBarShine 2s infinite ease-in-out;
 }
+
 @keyframes progressBarShine {
     0%, 100% { opacity: 0; transform: translateX(-100%); }
     50% { opacity: 1; transform: translateX(100%); }
@@ -667,8 +662,8 @@ p {
     }
 }
 
-/* Preloader Styles (for index.html and page3.html - any page with preloader) */
-#preloader { /* Changed from #transition-preloader to a consistent #preloader */
+/* Preloader Styles (for index.html) */
+#preloader {
     position: fixed;
     top: 0;
     left: 0;
@@ -680,24 +675,27 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: 1; /* Explicitly visible by default */
     transition: opacity 0.7s ease-out; /* Smooth fade-out */
 }
+
 #preloader.hidden {
     opacity: 0;
     pointer-events: none; /* Make it unclickable when hidden */
 }
+
 .preloader-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     animation: preloaderEntrance 1s ease-out;
 }
+
 @keyframes preloaderEntrance {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
-.preloader-message {
+
+.preloader-message { /* Existing styles for font, color, shadow */
     overflow: hidden; /* To prevent words from showing prematurely */
     white-space: nowrap; /* Keep words on one line for better control */
     opacity: 0; /* Hidden by default, JS will make it 1 and animate words */
@@ -707,6 +705,7 @@ p {
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5); /* Stronger glow */
     margin-bottom: 20px; /* Added spacing */
 }
+
 /* New: Animation for each word/span within the preloader message */
 .preloader-message .word-animated {
     display: inline-block; /* Essential for transform/opacity on words */
@@ -714,6 +713,7 @@ p {
     transform: scale(0.8);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Animation for each word */
 }
+
 /* Progress bar for Index page preloader - Specific overrides if needed */
 #preloader .progress-bar-container { /* Target container within preloader specifically */
     margin-top: 0; /* Adjust margin if needed, as preloader-message already has margin-bottom */
@@ -721,6 +721,7 @@ p {
     box-shadow: 0 0 15px rgba(255, 105, 177, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
     border-radius: 12px; /* Slightly more rounded */
 }
+
 #indexProgressBar { /* Specific ID for the index page progress bar */
     height: 100%;
     width: 0%; /* Starts at 0 */
@@ -737,6 +738,7 @@ p {
     position: relative; /* For inner glow */
     overflow: hidden; /* For inner glow */
 }
+
 #indexProgressBar::after {
     content: '';
     position: absolute;
@@ -749,9 +751,11 @@ p {
     opacity: 0;
     animation: progressBarShine 2.5s infinite ease-in-out;
 }
+
 #indexProgressText { /* Specific ID for the index page progress text */
     /* margin-left: 10px; */ /* Removed this to keep text centered */
 }
+
 /* Responsive adjustments for preloader */
 @media (max-width: 480px) {
     #preloader .progress-bar-container {
@@ -778,215 +782,5 @@ p {
 
 .beating-heart {
     display: inline-block; /* Essential for transform on inline elements */
-    animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats, alternates direction */
-    transform-origin: center; /* Ensures scaling is from the center */
-}
-
-/* CSS-drawn Heart Shape */
-.css-heart {
-    position: relative;
-    width: 120px; /* Adjust size as needed */
-    height: 100px;
-    background-color: var(--primary-accent); /* Pink heart */
-    transform: rotate(-45deg);
-    margin: 50px auto 30px; /* Centered with top/bottom margin */
-    box-shadow: 0 0 30px var(--primary-accent), 0 0 50px rgba(255, 105, 177, 0.5); /* Glowing effect */
-    border-radius: 20px; /* Slightly rounded edges for the base square */
-}
-.css-heart::before, .css-heart::after {
-    content: '';
-    position: absolute;
-    width: 120px;
-    height: 100px;
-    background-color: var(--primary-accent);
-    border-radius: 50%;
-}
-.css-heart::before {
-    top: -50%;
-    left: 0;
-}
-.css-heart::after {
-    left: 50%;
-    top: 0;
-}
-
-/* Heart Spinner - (Keeping for compatibility, but its use is superseded by the new preloader) */
-.heart-spinner {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    transform: rotate(45deg);
-}
-.heart-spinner div {
-    top: 32px;
-    left: 32px;
-    position: absolute;
-    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
-    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
-}
-.heart-spinner div:after,
-.heart-spinner div:before {
-    content: " ";
-    position: absolute;
-    display: block;
-    width: 32px;
-    height: 32px;
-    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
-    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
-}
-.heart-spinner div:before {
-    left: -24px;
-    border-radius: 50% 0 0 50%;
-}
-.heart-spinner div:after {
-    top: -24px;
-    border-radius: 50% 50% 0 0;
-}
-
-/* === Specific styles for page3.html content === */
-.page3-text-container h1 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 2.5em; /* Smaller than index.html H1, but still prominent */
-    color: var(--text-heading); /* Gold color */
-    text-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-.page3-text-container p {
-    font-family: 'Lora', serif; /* Elegant serif font */
-    font-size: 0.95em; /* Slightly smaller text size for paragraphs */
-    line-height: 1.8;
-    margin-bottom: 20px;
-    color: var(--text-light); /* Light text color */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-    text-align: center;
-}
-
-.page3-text-container .confession-prelude {
-    font-family: 'Pacifico', cursive; /* A different, charming cursive font */
-    font-size: 1.1em; /* Slightly larger than regular paragraph */
-    color: var(--secondary-accent); /* Purple tint for a soft lead-in */
-    margin-top: 30px;
-    margin-bottom: 25px;
-    text-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
-    text-align: center;
-}
-
-.confession-main {
-    font-family: 'Great Vibes', cursive; /* Main confession in a grand cursive */
-    font-size: 2em; /* Prominent size for the main question */
-    color: var(--primary-accent); /* Pink as requested, from your theme */
-    margin-top: 40px;
-    margin-bottom: 50px;
-    text-shadow: 0 0 15px var(--primary-accent), 0 0 30px rgba(255, 105, 177, 0.7); /* Stronger pink glow */
-    line-height: 1.3;
-    text-align: center;
-    animation: pulseGlow 3s ease-in-out infinite alternate; /* Soft, continuous pulsing glow */
-}
-
-.confession-main strong {
-    font-weight: normal; /* Override default bold for strong tag */
-    font-style: italic; /* Make 'forever' italic */
-    color: #FFD1DC; /* Lighter pink for 'forever' */
-    text-shadow: 0 0 10px #FFD1DC;
-}
-
-/* Animations for staggered text reveal (handled by script.js but defined here) */
-.page3-text-container h1,
-.page3-text-container p,
-.page3-text-container .confession-prelude,
-.confession-main,
-.button-container {
-    opacity: 0; /* Start invisible for animation */
-}
-
-@keyframes pulseGlow {
-    0%, 100% { text-shadow: 0 0 15px var(--primary-accent), 0 0 30px rgba(255, 105, 177, 0.7); }
-    50% { text-shadow: 0 0 25px var(--primary-accent), 0 0 45px rgba(255, 105, 177, 0.9); }
-}
-
-/* === NEW: Heart Joining Animation for Transition Page === */
-body.hearts-transition {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #0a0712, #1c0b2e);
-    overflow: hidden;
-}
-
-.heart-container {
-    position: relative;
-    width: 250px; /* Adjust size of the animation area */
-    height: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.heart-left, .heart-right {
-    position: absolute;
-    width: 80px; /* Size of individual heart parts */
-    height: 70px;
-    background-color: var(--primary-accent); /* Pink color */
-    transform: rotate(-45deg);
-    border-radius: 15px; /* Rounded corners for the squares */
-    box-shadow: 0 0 25px var(--primary-accent), 0 0 50px rgba(255, 105, 177, 0.6); /* Glow */
-    opacity: 0; /* Hidden by default, animated in JS */
-}
-
-.heart-left::before, .heart-left::after,
-.heart-right::before, .heart-right::after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 70px;
-    background-color: var(--primary-accent);
-    border-radius: 50%;
-}
-
-.heart-left::before { top: -50%; left: 0; }
-.heart-left::after { left: 50%; top: 0; }
-.heart-right::before { top: -50%; left: 0; }
-.heart-right::after { left: 50%; top: 0; }
-
-/* Animations for the hearts */
-@keyframes heartLeftMove {
-    0% { transform: translateX(-150px) rotate(-45deg) scale(0); opacity: 0; }
-    20% { transform: translateX(-50px) rotate(-45deg) scale(1); opacity: 1; }
-    80% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
-    100% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
-}
-
-@keyframes heartRightMove {
-    0% { transform: translateX(150px) rotate(-45deg) scale(0); opacity: 0; }
-    20% { transform: translateX(50px) rotate(-45deg) scale(1); opacity: 1; }
-    80% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
-    100% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
-}
-
-@keyframes pulseJoinedHeart {
-    0%, 100% { transform: rotate(-45deg) scale(1.1); }
-    50% { transform: rotate(-45deg) scale(1.2); }
-}
-
-/* Class for the combined heart for pulsing */
-.heart-joined {
-    animation: pulseJoinedHeart 1.5s ease-in-out infinite alternate;
-}
-
-/* Final adjustments for the two hearts to perfectly overlay for a 'join' effect */
-.heart-left {
-    animation: heartLeftMove 2s forwards;
-    left: 0;
-    top: calc(50% - 35px); /* Center vertically adjusted for heart shape */
-    transform-origin: center;
-}
-.heart-right {
-    animation: heartRightMove 2s forwards;
-    right: 0;
-    top: calc(50% - 35px); /* Center vertically adjusted for heart shape */
-    transform-origin: center;
+    animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats...
 }
