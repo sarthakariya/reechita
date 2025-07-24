@@ -1,5 +1,3 @@
-script.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
     const backgroundElementsContainer = document.querySelector('.background-elements');
