@@ -669,7 +669,7 @@ p {
     }
 }
 
-/* Preloader Styles (for index.html) */
+/* Preloader Styles (for index.html and page3.html - any page with preloader) */
 #preloader {
     position: fixed;
     top: 0;
@@ -682,6 +682,7 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    opacity: 1; /* Explicitly visible by default */
     transition: opacity 0.7s ease-out; /* Smooth fade-out */
 }
 #preloader.hidden {
@@ -914,4 +915,88 @@ p {
 @keyframes pulseGlow {
     0%, 100% { text-shadow: 0 0 15px var(--primary-accent), 0 0 30px rgba(255, 105, 177, 0.7); }
     50% { text-shadow: 0 0 25px var(--primary-accent), 0 0 45px rgba(255, 105, 177, 0.9); }
+}
+
+/* === NEW: Heart Joining Animation for Transition Page === */
+body.hearts-transition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0a0712, #1c0b2e);
+    overflow: hidden;
+}
+
+.heart-container {
+    position: relative;
+    width: 250px; /* Adjust size of the animation area */
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.heart-left, .heart-right {
+    position: absolute;
+    width: 80px; /* Size of individual heart parts */
+    height: 70px;
+    background-color: var(--primary-accent); /* Pink color */
+    transform: rotate(-45deg);
+    border-radius: 15px; /* Rounded corners for the squares */
+    box-shadow: 0 0 25px var(--primary-accent), 0 0 50px rgba(255, 105, 177, 0.6); /* Glow */
+    opacity: 0; /* Hidden by default, animated in JS */
+}
+
+.heart-left::before, .heart-left::after,
+.heart-right::before, .heart-right::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 70px;
+    background-color: var(--primary-accent);
+    border-radius: 50%;
+}
+
+.heart-left::before { top: -50%; left: 0; }
+.heart-left::after { left: 50%; top: 0; }
+.heart-right::before { top: -50%; left: 0; }
+.heart-right::after { left: 50%; top: 0; }
+
+/* Animations for the hearts */
+@keyframes heartLeftMove {
+    0% { transform: translateX(-150px) rotate(-45deg) scale(0); opacity: 0; }
+    20% { transform: translateX(-50px) rotate(-45deg) scale(1); opacity: 1; }
+    80% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
+    100% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
+}
+
+@keyframes heartRightMove {
+    0% { transform: translateX(150px) rotate(-45deg) scale(0); opacity: 0; }
+    20% { transform: translateX(50px) rotate(-45deg) scale(1); opacity: 1; }
+    80% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
+    100% { transform: translateX(0) rotate(-45deg) scale(1.1); opacity: 1; }
+}
+
+@keyframes pulseJoinedHeart {
+    0%, 100% { transform: rotate(-45deg) scale(1.1); }
+    50% { transform: rotate(-45deg) scale(1.2); }
+}
+
+/* Class for the combined heart for pulsing */
+.heart-joined {
+    animation: pulseJoinedHeart 1.5s ease-in-out infinite alternate;
+}
+
+/* Final adjustments for the two hearts to perfectly overlay for a 'join' effect */
+.heart-left {
+    animation: heartLeftMove 2s forwards;
+    left: 0;
+    top: calc(50% - 35px); /* Center vertically adjusted for heart shape */
+    transform-origin: center;
+}
+.heart-right {
+    animation: heartRightMove 2s forwards;
+    right: 0;
+    top: calc(50% - 35px); /* Center vertically adjusted for heart shape */
+    transform-origin: center;
 }
