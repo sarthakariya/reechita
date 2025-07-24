@@ -38,10 +38,10 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    min-height: 100vh;
-    display: flex;
+    min-height: 10vh; /* Minimum height for scroll if content is short */
+    display: flex; /* Use flexbox for body to center content */
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Start content from top */
     align-items: center;
     position: relative;
     background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
@@ -204,7 +204,7 @@ body {
     left: 0;
     width: 200%;
     height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 10%, transparent 20%, rgba(255, 255, 255, 0.1) 30%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%, rgba(255, 255, 255, 0.1) 70%, transparent 80%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 10%, transparent 20%, rgba(255, 255, 255, 0.1) 30%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%, rgba(255, 255, 255, 0.1) 70%, transparent 80%);
     background-size: 50% 100%;
     animation: waterFlow 30s linear infinite;
 }
@@ -342,7 +342,7 @@ body {
     position: relative;
     z-index: 1; /* Ensure content is above background elements */
     overflow: hidden; /* For inner animations */
-    
+
     /* === IMPORTANT ADDITIONS FOR PRELOADER FIX === */
     opacity: 0; /* Start hidden */
     transform: translateY(20px) scale(0.95); /* Start slightly off and scaled down for entrance effect */
@@ -390,7 +390,7 @@ h1 {
     font-size: 3.5em;
     margin-bottom: 25px;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    animation: fadeInScale var(--animation-duration-slow) ease-out forwards;
+    opacity: 0; /* Default hidden for staggered animation */
 }
 
 h2 {
@@ -400,14 +400,13 @@ h2 {
     margin-top: 30px;
     margin-bottom: 20px;
     text-shadow: 0 0 10px rgba(255, 105, 177, 0.6);
-    animation: fadeInSlideUp 1.2s ease-out forwards; /* New animation */
+    opacity: 0; /* Default hidden for staggered animation */
 }
 
 p {
     font-size: 1.1em;
     line-height: 1.6;
     margin-bottom: 20px; /* Consistent gaps */
-    animation: fadeIn var(--animation-duration-medium) ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
 
@@ -485,7 +484,6 @@ p {
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
     margin: 40px auto;
-    animation: fadeIn var(--animation-duration-slow) ease-out forwards; /* Staggered animation handled by JS */
     opacity: 0; /* Default hidden for staggered animation */
 }
 
@@ -496,7 +494,7 @@ p {
     justify-content: center;
     gap: 25px; /* Consistent gaps between buttons */
     margin-top: 40px;
-    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
+    opacity: 0; /* Default hidden for staggered animation */
 }
 
 .button, .choice-button {
@@ -513,7 +511,7 @@ p {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     position: relative; /* Essential for evasion to work with transform */
     overflow: hidden;
-    animation: buttonPopIn var(--animation-duration-medium) ease-out forwards;
+    opacity: 0; /* Default hidden for staggered animation */
 }
 
 .button:hover, .choice-button:hover {
@@ -670,7 +668,7 @@ p {
 }
 
 /* Preloader Styles (for index.html and page3.html - any page with preloader) */
-#preloader {
+#preloader { /* Changed from #transition-preloader to a consistent #preloader */
     position: fixed;
     top: 0;
     left: 0;
@@ -812,21 +810,13 @@ p {
     top: 0;
 }
 
-/*
-* Potential Redundancy / Incomplete Section: Heart Spinner
-* This section defines another heart shape. If you are already
-* using '.css-heart' and '.beating-heart', this section might be
-* vestigial or intended for a different, distinct spinner/loader.
-* Its styles for 'div' and pseudo-elements are similar to '.css-heart'
-* but without the main '.heart-spinner' class itself having defined dimensions
-* or a transform property, it's unlikely to render correctly as a self-contained heart.
-*/
+/* Heart Spinner - (Keeping for compatibility, but its use is superseded by the new preloader) */
 .heart-spinner {
     display: inline-block;
     position: relative;
     width: 80px;
     height: 80px;
-    transform: rotate(45deg); /* Added for this example, usually would be on the heart itself */
+    transform: rotate(45deg);
 }
 .heart-spinner div {
     top: 32px;
