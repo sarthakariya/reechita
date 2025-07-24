@@ -3,59 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Index Page</title>
-    <link rel="stylesheet" href="style.css.txt"> <style>
-        /* Add any specific styles for the preloader or container if they are not in style.css.txt */
-        #preloader {
-            /* Basic preloader styles needed for it to display */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.7s ease-out;
-        }
-        #preloader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .container {
-            opacity: 0; /* Hidden by default, script makes it visible */
-            transform: translateY(20px) scale(0.95);
-            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-        }
-        .container.visible-content {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        /* Styles to position the navigation heart */
-        .navigation-heart-container {
-            position: fixed; /* Or 'absolute' if you want it relative to a parent */
-            bottom: 20px; /* Adjust as needed */
-            right: 20px; /* Adjust as needed */
-            z-index: 1000; /* Ensure it's above other content */
-        }
-
-        /* You might want to adjust the heart size for navigation */
-        .navigation-heart-container .css-heart {
-            width: 80px; /* Smaller for a nav element */
-            height: 70px;
-            margin: 0; /* Remove default margin from original css-heart */
-            cursor: pointer; /* Indicate it's clickable */
-        }
-    </style>
+    <title>Sarthak's Cosmic Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@400;700&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
+
+    <div class="background-elements">
+        </div>
+
     <div id="preloader">
         <div class="preloader-content">
-            <div class="preloader-message">Loading amazing experience...</div>
+            <div class="preloader-single-heart"></div> <div class="preloader-message" id="animatedPreloaderMessage">
+                </div>
             <div class="progress-bar-container">
                 <div id="indexProgressBar">
                     <span id="indexProgressText">0%</span>
@@ -64,19 +25,29 @@
         </div>
     </div>
 
-    <div class="container">
-        <h1>Welcome!</h1>
-        <p class="glowing-text">This is a <span class="highlight">beautiful</span> and <span class="glowing-purple">dynamic</span> page.</p>
-        <div class="section-break"></div>
-        <div class="button-container">
-            <a href="#" class="button">Explore More</a>
-        </div>
-    </div>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-    <div id="music-play-button">&#9654;</div> <div class="navigation-heart-container">
-        <a href="page2.html" class="beating-heart" title="Go to Page 2">
-            <div class="css-heart"></div>
-        </a>
+    <button id="music-play-button" aria-label="Toggle background music">🎵</button>
+
+    <div class="container">
+        <h1>A Special Confession for you, Miss Reechita! 💗✨</h1>
+
+        <p>ahemmmm~ 🌚 So… Miss Reechita…, (deep breath)… there’s something I’ve been wanting to tell you for a while now. Not because I had to… but because it’s you. And saying things to you always feels different... 😅✨</p>
+
+        <div class="section-break"></div>
+
+        <p>I don’t know how to start, honestly… like, every time I think about it, my mind just freezes a little. And yeah, maybe you're already guessing what’s hidden behind this little heart of mine.👀 But... hmm… let me pretend like you don’t, okay? 😋</p>
+
+        <div class="section-break"></div>
+
+        <h2>Ahemmmm~ let’s see if you’re ready. 😳🌸</h2>
+
+        <div class="button-container">
+            <a href="transition.html" class="button">Begin the Adventure</a>
+        </div>
     </div>
 
     <script src="script.js"></script>
