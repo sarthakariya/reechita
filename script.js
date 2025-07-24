@@ -71,23 +71,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- Moon ---
-        const moon = document.createElement('div');
-        moon.className = 'moon';
-        moon.style.width = '180px'; // Slightly larger moon
-        moon.style.height = '180px';
-        moon.style.left = `5vw`; // Explicitly top-left corner
-        moon.style.top = `5vh`;  // Explicitly top-left corner
-        backgroundElements.appendChild(moon);
+        const moon = document.querySelector('.moon'); // Select existing moon
+        if (moon) {
+            moon.style.width = '180px'; // Slightly larger moon
+            moon.style.height = '180px';
+            moon.style.left = `5vw`; // Explicitly top-left corner
+            moon.style.top = `5vh`;  // Explicitly top-left corner
+            // Existing moon will be picked up by CSS, no need to append again
+        } else {
+            // Fallback if moon wasn't in HTML, create it (though it is in the provided HTML)
+            const newMoon = document.createElement('div');
+            newMoon.className = 'moon';
+            newMoon.style.width = '180px';
+            newMoon.style.height = '180px';
+            newMoon.style.left = `5vw`;
+            newMoon.style.top = `5vh`;
+            backgroundElements.appendChild(newMoon);
+        }
+
 
         // --- Distant Scenery ---
-        const scenery = document.createElement('div');
-        scenery.className = 'distant-scenery';
-        backgroundElements.appendChild(scenery);
+        // Assuming .distant-scenery is already in HTML as per provided code
+        // const scenery = document.querySelector('.distant-scenery'); // No need to create if exists
+        // if (!scenery) { /* create it */ }
 
         // --- Water Shimmer ---
-        const waterShimmer = document.createElement('div');
-        waterShimmer.className = 'water-shimmer';
-        backgroundElements.appendChild(waterShimmer);
+        // Assuming .water-shimmer is already in HTML as per provided code
+        // const waterShimmer = document.querySelector('.water-shimmer'); // No need to create if exists
+        // if (!waterShimmer) { /* create it */ }
+
 
         // --- Floating Orbs ---
         const numOrbs = 10; // More orbs
@@ -153,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundElements.appendChild(gust);
         }
 
-        // --- Flying Wings ---
+        // --- Flying Wings (simple abstract shapes) ---
         const numWings = 10; // More wings
         const wingColors = ['#fff', '#FFD1DC', '#FFB6C1']; // White, Light Pink, Hot Pink
         for (let i = 0; i < numWings; i++) {
@@ -192,14 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Preloader and Content Reveal Logic
-    const preloader = document.getElementById('preloader');
+    const preloader = document.getElementById('preloader'); // Targeting the updated preloader ID
     const mainContainer = document.querySelector('.container');
     const indexProgressBar = document.getElementById('indexProgressBar');
     const indexProgressText = document.getElementById('indexProgressText');
     const preloaderMessage = document.querySelector('.preloader-message');
 
     let loadProgress = 0;
-    // const totalLoadSteps = 100; // Represents 100%
 
     // Function to update the preloader progress bar
     function updateProgressBar() {
@@ -280,12 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Apply fadeIn or fadeInSlideUp with a staggered delay
                 const delay = 0.8 + index * 0.18; // Increased initial delay and stagger for smoother reveal
-                
+
                 if (el.tagName === 'H1' || el.tagName === 'H2') {
                     el.style.animation = `fadeInSlideUp 1s ease-out forwards ${delay}s`;
                 } else if (el.classList.contains('confession-main')) {
                     el.style.animation = `fadeIn 1s ease-out forwards ${delay}s, pulseGlow 3s ease-in-out infinite alternate ${delay + 1}s`;
-                } else {
+                } else if (el.classList.contains('button') || el.closest('.button-container')) { // Target buttons and their container
+                     el.style.animation = `buttonPopIn 1s ease-out forwards ${delay}s`;
+                }
+                else {
                     el.style.animation = `fadeIn 1s ease-out forwards ${delay}s`;
                 }
             });
@@ -294,28 +308,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start the preloader and background effects when content is loaded
     initializeBackgroundEffects(); // Generate background elements immediately
-    animatePreloaderMessage(); // Start preloader message animation
-    updateProgressBar(); // Start preloader animation
+
+    // Only start preloader animation if preloader element exists
+    if (preloaderMessage && indexProgressBar && indexProgressText) {
+        animatePreloaderMessage(); // Start preloader message animation
+        updateProgressBar(); // Start preloader animation
+    } else {
+        // If preloader elements are missing, reveal content instantly
+        revealContent();
+    }
 
 
     // Music Play/Pause Button Logic
     const musicPlayButton = document.getElementById('music-play-button');
-    if (musicPlayButton) {
-        // You would typically link an audio element here
-        // const backgroundMusic = document.getElementById('background-music-audio'); 
-        musicPlayButton.addEventListener('click', () => {
-            // Placeholder for music toggle logic
-            // if (backgroundMusic.paused) {
-            //     backgroundMusic.play();
-            //     musicPlayButton.textContent = '❚❚'; // Pause icon
-            // } else {
-            //     backgroundMusic.pause();
-            //     musicPlayButton.textContent = '▶'; // Play icon
-            // }
-            musicPlayButton.classList.toggle('playing'); // Visual indicator
-            console.log("Music play/pause toggled!"); // For demonstration
-        });
-    }
+    const backgroundMusic = document.getElementById('backgroundMusic'); // Get the audio element
 
+    if (musicPlayButton && backgroundMusic) {
+        musicPlayButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play()
+                    .then(() => {
+                        musicPlayButton.textContent = '❚❚'; // Pause icon
+                        musicPlayButton.classList.add('playing');
+                    })
+                    .catch(error => {
+                        console.error("Autoplay prevented:", error);
+                        alert("Music autoplay was prevented by the browser. Please interact with the page first.");
+                    });
+            } else {
+                backgroundMusic.pause();
+                musicPlayButton.textContent = '🎵'; // Play icon (using a note now for clarity)
+                musicPlayButton.classList.remove('playing');
+            }
+        });
+        // Attempt to play music automatically, but handle browser autoplay policies
+        // This might not work without user interaction, so the button is essential
+        // backgroundMusic.play().catch(e => console.log("Autoplay blocked:", e));
+    }
     // Removed the button evasion logic as requested.
 });
