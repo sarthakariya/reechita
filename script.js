@@ -27,32 +27,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Music Playback Logic ---
     const savedTime = localStorage.getItem('musicCurrentTime');
-    const isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
+    let isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
 
     if (savedTime) {
         backgroundAudio.currentTime = parseFloat(savedTime);
     }
 
-    if (isPlaying) {
+    const playMusic = () => {
         backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
         musicPlayButton.classList.add('playing');
+        localStorage.setItem('musicIsPlaying', 'true');
+        isPlaying = true;
+    };
+
+    const pauseMusic = () => {
+        backgroundAudio.pause();
+        musicPlayButton.classList.remove('playing');
+        localStorage.setItem('musicIsPlaying', 'false');
+        isPlaying = false;
+    };
+
+    if (isPlaying) {
+        playMusic();
     }
 
     musicPlayButton.addEventListener('click', () => {
         if (backgroundAudio.paused) {
-            backgroundAudio.play().catch(e => console.error("Play prevented:", e));
-            musicPlayButton.classList.add('playing');
-            localStorage.setItem('musicIsPlaying', 'true');
+            playMusic();
         } else {
-            backgroundAudio.pause();
-            musicPlayButton.classList.remove('playing');
-            localStorage.setItem('musicIsPlaying', 'false');
+            pauseMusic();
         }
     });
 
     window.addEventListener('beforeunload', () => {
         localStorage.setItem('musicCurrentTime', backgroundAudio.currentTime);
-        localStorage.setItem('musicIsPlaying', !backgroundAudio.paused);
+        localStorage.setItem('musicIsPlaying', isPlaying);
     });
 
     // --- Preloader & Main Content Visibility (for index.html) ---
@@ -190,7 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
             newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
 
             attempts++;
-        } while (attempts < maxAttempts && (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5));
+            // Add a check to prevent the button from getting "stuck"
+            if (attempts >= maxAttempts) {
+                console.warn("Could not find a valid new position for the 'No' button.");
+                return; // Exit the function if we can't find a valid position
+            }
+        } while (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5);
 
         const currentTransform = getComputedStyle(buttonElement).transform;
         let currentTx = 0, currentTy = 0;
@@ -257,10 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Force reflow to ensure CSS transition applies
         preloaderDiv.offsetWidth;
 
-        preloaderDiv.classList.add('active');
-
         // Create and animate the dual hearts
         createDualHearts(preloaderDiv.querySelector('.preloader-dual-hearts'));
+
+        preloaderDiv.classList.add('active');
 
 
         setTimeout(() => {
@@ -286,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
             leftHeart.style.transform = 'translateX(0)';
             rightHeart.style.transform = 'translateX(0)';
             leftHeart.style.opacity = '1';
-            rightHeart.style.opacity = '1';
         }, 50); // Small delay to ensure initial styles are applied before transition
 
         // Further animation: subtle pulse
