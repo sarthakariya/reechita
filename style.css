@@ -40,6 +40,7 @@ body {
     animation: backgroundShift 20s ease infinite alternate; /* Subtle background shift */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
     /* Transition for theme change */
     transition: background var(--animation-duration-medium) ease-in-out;
 }
@@ -635,7 +636,6 @@ p {
     opacity: 0;
     animation: progressBarShine 2s infinite ease-in-out;
 }
-
 @keyframes progressBarShine {
     0%, 100% { opacity: 0; transform: translateX(-100%); }
     50% { opacity: 1; transform: translateX(100%); }
@@ -695,7 +695,8 @@ p {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.preloader-message { /* Existing styles for font, color, shadow */
+.preloader-message {
+    /* Existing styles for font, color, shadow */
     overflow: hidden; /* To prevent words from showing prematurely */
     white-space: nowrap; /* Keep words on one line for better control */
     opacity: 0; /* Hidden by default, JS will make it 1 and animate words */
@@ -752,9 +753,11 @@ p {
     animation: progressBarShine 2.5s infinite ease-in-out;
 }
 
+
 #indexProgressText { /* Specific ID for the index page progress text */
     /* margin-left: 10px; */ /* Removed this to keep text centered */
 }
+
 
 /* Responsive adjustments for preloader */
 @media (max-width: 480px) {
@@ -782,5 +785,644 @@ p {
 
 .beating-heart {
     display: inline-block; /* Essential for transform on inline elements */
-    animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats...
+    animation: heartBeat 5s infinite alternate; /* 5 seconds per cycle, repeats, alternates direction */
+    transform-origin: center; /* Ensures scaling is from the center */
+}
+
+
+/* CSS-drawn Heart Shape */
+.css-heart {
+    position: relative;
+    width: 120px; /* Adjust size as needed */
+    height: 100px;
+    background-color: var(--primary-accent); /* Pink heart */
+    transform: rotate(-45deg);
+    margin: 50px auto 30px; /* Centered with top/bottom margin */
+    box-shadow: 0 0 30px var(--primary-accent), 0 0 50px rgba(255, 105, 177, 0.5); /* Glowing effect */
+    border-radius: 20px; /* Slightly rounded edges for the base square */
+}
+.css-heart::before,
+.css-heart::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 100px;
+    background-color: var(--primary-accent);
+    border-radius: 50%;
+}
+.css-heart::before {
+    top: -50%;
+    left: 0;
+}
+.css-heart::after {
+    left: 50%;
+    top: 0;
+}
+
+/* Ensure heart beat animation is visible for this element */
+.heart-animation-wrapper .beating-heart {
+    animation: heartBeat 1.5s infinite ease-in-out; /* Faster beat for loading */
+    transform-origin: center center;
+}
+
+/* Transition Page Specific Styles (Refinement) */
+.transition-container {
+    padding: 60px; /* More padding */
+    max-width: 700px; /* Slightly wider */
+    margin: 100px auto;
+    /* Ensure it has its own entrance animation */
+    opacity: 0; /* Start hidden for its own animation */
+    transform: translateY(20px) scale(0.95);
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+.transition-container.visible-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.transition-message-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2.8em; /* Kept existing size */
+    margin-top: 30px; /* Space after heart */
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    animation: fadeInSlideUp var(--animation-duration-medium) ease-out forwards; /* Add animation */
+    opacity: 0; /* Initial state for animation */
+}
+
+.transition-progress-bar { /* To specifically style the progress bar on transition.html */
+    width: 70%; /* Smaller progress bar */
+    height: 15px; /* Thinner */
+    margin: 40px auto 0; /* Adjust margin for spacing */
+}
+#progressBar {
+    border-radius: 8px; /* Smoother edges */
+}
+#progressText {
+    font-size: 0.8em; /* Smaller text */
+}
+
+/* Responsive adjustments for transition page */
+@media (max-width: 768px) {
+    .transition-container {
+        padding: 40px;
+        max-width: 90%;
+    }
+    .css-heart {
+        width: 90px;
+        height: 75px;
+    }
+    .css-heart::before,
+    .css-heart::after {
+        width: 90px;
+        height: 75px;
+    }
+    .transition-message-text {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .transition-container {
+        padding: 25px;
+    }
+    .css-heart {
+        width: 70px;
+        height: 60px;
+    }
+    .css-heart::before,
+    .css-heart::after {
+        width: 70px;
+        height: 60px;
+    }
+    .transition-message-text {
+        font-size: 1.8em;
+    }
+    .transition-progress-bar {
+        width: 85%;
+        height: 12px;
+    }
+}
+
+/* --- Specific styles for Confession/page3.html --- */
+
+/* Overrides for .container on page3.html */
+.container {
+    text-align: center;
+}
+
+.response-heading {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 2rem;
+    text-shadow: 3px 3px 7px rgba(0,0,0,0.4);
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeInScale 1.5s ease-out forwards 0.5s;
+}
+
+.response-message {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeIn var(--animation-duration-medium) ease-out forwards;
+}
+
+/* Specific button colors for Yes/No */
+.button-yes {
+    background-color: #4CAF50; /* Green for Yes */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: background-color var(--animation-duration-fast) ease, transform var(--animation-duration-fast) ease, box-shadow var(--animation-duration-fast) ease;
+}
+
+.button-yes:hover {
+    background-color: #45a049;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.button-no {
+    background-color: #F44336; /* Red for No */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    /* Added transition for evasion effect */
+    transition: background-color var(--animation-duration-fast) ease, transform 0.2s ease-out, box-shadow var(--animation-duration-fast) ease, opacity 0.5s ease-out;
+}
+
+.button-no:hover {
+    background-color: #da3329;
+    /* Transform for evasion will override this in JS, but keeping for general hover */
+    /* transform: translateY(-3px); */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Question text styles */
+.question-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: clamp(2.8rem, 6vw, 5rem); /* Larger for the main question */
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.6);
+    line-height: 1.2;
+    animation: fadeInScale 1.8s ease-out forwards;
+    opacity: 0;
+}
+.emoji {
+    font-size: 0.8em; /* Slightly smaller than text */
+    margin-left: 10px;
+}
+
+/* Specific styles for the "No" button animation */
+@keyframes shakeNo {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.button-no.shake {
+    animation: shakeNo 0.5s ease-in-out;
+}
+
+/* Confirmation message for "Yes" */
+#confirmationMessage {
+    font-family: 'Pacifico', cursive;
+    color: var(--primary-accent);
+    font-size: clamp(2.5rem, 5vw, 3.5rem); /* Made larger for impact */
+    margin-top: 30px;
+    text-shadow: 0 0 15px rgba(255, 105, 177, 0.8), 0 0 25px rgba(255, 215, 0, 0.5); /* Stronger glow */
+    opacity: 0;
+    animation: fadeInSlideUp var(--animation-duration-medium) ease-out forwards;
+    z-index: 5; /* Ensure it's above other elements if necessary */
+    position: relative;
+}
+
+/* Styles for images */
+.content-image {
+    max-width: 80%; /* Adjust as needed */
+    height: auto;
+    border-radius: 15px;
+    margin: 25px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
+    opacity: 0;
+}
+
+/* Styles for GIFs */
+.content-gif {
+    max-width: 90%; /* Adjust as needed */
+    height: auto;
+    border-radius: 15px;
+    margin: 25px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn var(--animation-duration-slow) ease-out forwards;
+    opacity: 0;
+}
+
+/* Centering utility */
+.text-center {
+    text-align: center;
+}
+
+/* --- New styles for "Yes" page beautiful theme --- */
+body.success-theme {
+    background: linear-gradient(135deg, #FF69B1, #8A2BE2, #FFD700); /* A very celebratory gradient */
+    animation: successBackgroundShift 20s ease infinite alternate; /* Keep existing shift */
+    transition: background var(--animation-duration-medium) ease-in-out; /* Smooth transition to new background */
+}
+
+@keyframes successBackgroundShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Falling hearts animation for "Yes" page */
+.falling-heart {
+    position: fixed;
+    font-size: 2em; /* Size of heart */
+    pointer-events: none; /* Don't block clicks */
+    animation: fall var(--duration) ease-in forwards; /* Animation name, duration from JS */
+    opacity: 0; /* Starts invisible */
+    z-index: 10;
+    transform: translateY(-50px) translateX(var(--start-x)) rotate(0deg); /* Initial position */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-50px) translateX(var(--start-x)) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(var(--end-x)) rotate(var(--rotate-deg));
+        opacity: 0;
+    }
+}
+/* --- NEW: Aura Glow Effect (for 'aura baroli') --- */
+.aura-glow {
+    position: absolute;
+    background: radial-gradient(circle, rgba(135, 206, 235, 0.4) 0%, rgba(0, 0, 0, 0) 70%); /* Soft blue-ish glow */
+    border-radius: 50%;
+    filter: blur(50px); /* Heavy blur for ethereal look */
+    pointer-events: none; /* Allows clicks to pass through */
+    animation: auraPulse 15s infinite ease-in-out alternate, auraDrift var(--aura-drift-duration, 25s) infinite ease-in-out alternate;
+    z-index: 0; /* Ensures it's behind main content */
+    opacity: 0.6;
+}
+
+@keyframes auraPulse {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 0.9; }
+    100% { transform: scale(0.8); opacity: 0.6; }
+}
+
+@keyframes auraDrift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(var(--adx, 10vw), var(--ady, 10vh)); }
+}
+
+/* --- NEW: Streaks Effect --- */
+.streak {
+    position: absolute;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.0) 100%);
+    height: 2px; /* Thin line */
+    width: 200px; /* Length of the streak */
+    filter: blur(1px); /* Soft blur */
+    pointer-events: none;
+    animation: streakFlow var(--streak-duration, 8s) infinite linear;
+    z-index: 1; /* Above background, below main content */
+    opacity: 0; /* Starts invisible */
+}
+
+@keyframes streakFlow {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(200vw); opacity: 0; }
+}
+
+/* --- Heart Enhancements --- */
+/* The general beating heart class, might be used in other places */
+.beating-heart {
+    /* Existing beat animation */
+    /* Add a soft glow effect */
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7), /* Inner glow */
+                0 0 30px rgba(255, 105, 180, 0.4); /* Outer glow */
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for glow changes */
+}
+
+/* Ensure pseudo-elements also get some glow (if applicable to a heart type) */
+.beating-heart:after, .beating-heart:before {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7),
+                0 0 30px rgba(255, 105, 180, 0.4);
+}
+
+/* --- NEW: Specific styles for the Preloader's Single Straight Heart (for index.html) --- */
+.preloader-single-heart {
+    position: relative;
+    width: 100px; /* Adjust size as needed */
+    height: 90px;
+    background-color: var(--primary-accent); /* Pink heart color */
+    transform: rotate(-45deg); /* To get the heart shape */
+    margin-bottom: 30px; /* Spacing below the heart */
+    box-shadow: 0 0 25px var(--primary-accent), 0 0 40px rgba(255, 105, 177, 0.6); /* Enhanced glow */
+    border-radius: 15px; /* Softer corners */
+    animation: heartBeat 1.5s infinite ease-in-out; /* Subtle pulse animation */
+    opacity: 0; /* Starts hidden, revealed by JS */
+    transition: opacity 0.8s ease-out; /* Smooth fade-in */
+}
+/* Pseudo-elements to complete the heart shape */
+.preloader-single-heart::before,
+.preloader-single-heart::after {
+    content: '';
+    position: absolute;
+    width: 100%; /* Match parent width */
+    height: 100%; /* Match parent height */
+    background-color: inherit; /* Inherit background color */
+    border-radius: 50%; /* Create the rounded lobes */
+    box-shadow: inherit; /* Inherit glow effect */
+}
+.preloader-single-heart::before {
+    top: -50%;
+    left: 0;
+}
+.preloader-single-heart::after {
+    left: 50%;
+    top: 0;
+}
+
+
+/* --- New CSS for Transition Preloader (for page2 to page3) --- */
+.transition-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.98); /* Near black overlay */
+    display: flex;
+    flex-direction: column; /* To stack heart and message */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease; /* Faster transition */
+}
+
+.transition-preloader.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.transition-preloader-message {
+    font-family: 'Great Vibes', cursive;
+    color: var(--text-heading);
+    font-size: 2em;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* --- New Styles for the Two Connecting Hearts --- */
+.connecting-hearts-container {
+    display: flex;
+    justify-content: center; /* Center the hearts initially */
+    align-items: center;
+    width: 100vw; /* Take full viewport width for movement */
+    height: 180px; /* Sufficient height for hearts */
+    overflow: hidden; /* Hide hearts when outside view */
+    position: relative;
+    margin-bottom: 30px;
+    z-index: 100;
+}
+
+.connecting-heart {
+    position: absolute; /* Absolute position within connecting-hearts-container for animation */
+    width: 90px;
+    height: 80px;
+    background-color: var(--primary-accent);
+    transform: rotate(-45deg);
+    box-shadow: 0 0 20px var(--primary-accent), 0 0 35px rgba(255, 105, 177, 0.7);
+    border-radius: 12px;
+    animation: heartBeat 1.2s infinite ease-in-out; /* Subtle pulse */
+    opacity: 1; /* Will be managed by convergence animation */
+}
+/* Re-use pseudo-elements for heart shape */
+.connecting-heart::before,
+.connecting-heart::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    border-radius: 50%;
+    box-shadow: inherit;
+}
+.connecting-heart::before { top: -50%; left: 0; }
+.connecting-heart::after { left: 50%; top: 0; }
+
+/* Keyframes for hearts coming together */
+@keyframes leftHeartConverge {
+    0% { transform: translateX(-50vw) rotate(-45deg); opacity: 0; } /* Start off-screen left */
+    20% { opacity: 1; }
+    100% { transform: translateX(-45px) rotate(-45deg); opacity: 1; } /* Meet slightly left of center */
+}
+
+@keyframes rightHeartConverge {
+    0% { transform: translateX(50vw) rotate(-45deg); opacity: 0; } /* Start off-screen right */
+    20% { opacity: 1; }
+    100% { transform: translateX(45px) rotate(-45deg); opacity: 1; } /* Meet slightly right of center */
+}
+
+/* Apply animation classes to hearts created by JS */
+/* These classes will be added dynamically by script.js */
+.connecting-heart.left-positioned {
+    left: 50%; /* Position roughly at center-left before translateX */
+    margin-left: -45px; /* Half width of heart */
+    animation: leftHeartConverge 5s ease-in-out forwards;
+}
+
+.connecting-heart.right-positioned {
+    left: 50%; /* Position roughly at center-right before translateX */
+    margin-left: -45px; /* Half width of heart */
+    animation: rightHeartConverge 5s ease-in-out forwards;
+}
+
+
+/* Old heart spinner (now unused for main preloader, but kept in case transition preloader uses it) */
+/* If you want a *different* spinner for the transition, this is where you'd define it */
+/* For now, assuming .preloader-single-heart is good enough for all single-heart needs */
+/* Or you can remove this heart-spinner block entirely if you're sure it's not needed anywhere */
+.heart-spinner { /* This might be used by the dynamic transition preloader */
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    transform: rotate(45deg);
+    animation: heartBeat 1.2s infinite ease-in-out;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
+}
+.heart-spinner div {
+    top: 32px;
+    left: 32px;
+    position: absolute;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
+}
+.heart-spinner div:after,
+.heart-spinner div:before {
+    content: " ";
+    position: absolute;
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
+    box-shadow: 0 0 20px #FFD1DC, 0 0 40px rgba(255, 105, 180, 0.7);
+}
+.heart-spinner div:before {
+    left: -24px;
+    border-radius: 50% 0 0 50%;
+}
+.heart-spinner div:after {
+    top: -24px;
+    border-radius: 50% 50% 0 0;
+}
+
+
+/* --- New CSS for Falling Chocolates --- */
+.falling-chocolate {
+    position: absolute;
+    font-size: 2em; /* Adjust size of chocolate emojis */
+    opacity: 0;
+    animation: fallAndFade 8s linear forwards;
+    pointer-events: none; /* Make sure they don't interfere with clicks */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Small shadow for depth */
+    z-index: 999; /* Above other background elements but below UI */
+}
+
+@keyframes fallAndFade {
+    0% {
+        transform: translate(var(--start-x), var(--start-y)) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% {
+        transform: translate(var(--end-x), 105vh) rotate(var(--rotate-deg)) scale(1.2);
+        opacity: 0;
+}
+/* Add this to your existing CSS file, or create a new section for transition preloader styles */
+
+/* For the overall transition preloader container */
+.transition-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Dark overlay */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    color: #fff;
+    font-family: 'Georgia', serif; /* Or your preferred elegant font */
+    font-size: 1.5em;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.transition-preloader.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.transition-preloader-message {
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s; /* Fade in message after hearts */
+}
+
+/* Dual Hearts Container */
+.preloader-dual-hearts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    position: relative;
+}
+
+/* Individual Heart Styling */
+.preloader-dual-hearts .heart {
+    width: 40px; /* Size of the heart */
+    height: 40px; /* Size of the heart */
+    background-color: #ff69b4; /* Hot pink */
+    position: absolute;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+    animation: heartPulse 1.5s infinite alternate ease-in-out; /* Main pulse animation */
+}
+
+.preloader-dual-hearts .heart:before,
+.preloader-dual-hearts .heart:after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    background-color: #ff69b4;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.preloader-dual-hearts .heart:before {
+    top: -20px;
+    left: 0;
+}
+
+.preloader-dual-hearts .heart:after {
+    top: 0;
+    left: 20px;
+}
+
+/* Positioning for dual hearts */
+.preloader-dual-hearts .heart-left {
+    left: calc(50% - 50px); /* Adjust to position the hearts */
+    transform: translateX(-100%) rotate(-45deg); /* Initial position for slide-in */
+    opacity: 0;
+    z-index: 2; /* Ensure left heart is on top during initial slide */
+}
+
+.preloader-dual-hearts .heart-right {
+    left: calc(50% + 10px); /* Adjust to position the hearts */
+    transform: translateX(100%) rotate(-45deg); /* Initial position for slide-in */
+    opacity: 0;
+    animation-delay: 0.2s; /* Stagger the pulse animation slightly */
+}
+
+/* Keyframes for animations */
+@keyframes heartPulse {
+    0% {
+        transform: rotate(-45deg) scale(0.9);
+        box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+    100% {
+        transform: rotate(-45deg) scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 105, 180, 1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
