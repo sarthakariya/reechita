@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style3.css">
-</head>
+    </head>
 <body>
     <div id="preloader">
         <div class="preloader-content">
@@ -37,18 +37,32 @@
     </div>
 
     <div class="hearts-bg"></div>
-    <div id="music-play-button">&#9654;</div> 
+    
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="music-play-button">
+        🎶
+    </div>
 
     <script src="script.js"></script>
+    
     <script>
-    for(let i=0;i<18;i++){
-        const heart=document.createElement('div');
-        heart.className='heart';
-        heart.style.left=Math.random()*100+'vw';
-        heart.style.animationDelay=(Math.random()*8)+'s';
-        heart.style.top=(Math.random()*80)+'vh';
-        document.querySelector('.hearts-bg').appendChild(heart);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const heartsBg = document.querySelector('.hearts-bg');
+        if (heartsBg) { // Ensure the container exists
+            for(let i=0; i<18; i++){
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = (Math.random() * 8) + 's';
+                heart.style.top = (Math.random() * 80) + 'vh'; // Adjusted to stay within view
+                heartsBg.appendChild(heart);
+            }
+        }
+    });
     </script>
 </body>
 </html>
