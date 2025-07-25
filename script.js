@@ -20,9 +20,10 @@ window.showTransitionPreloader = function(targetPage) {
     preloaderDiv.classList.add('active'); // Activate CSS transition
 
     // Redirect after the preloader animation has had time to play
+    // ADJUSTED DELAY: Increased from 1200ms to 4700ms to match CSS animation duration (4.5s) + buffer
     setTimeout(() => {
         window.location.href = targetPage;
-    }, 1200); // Adjust this delay to match your preloader animation duration if needed
+    }, 4700); // This delay is crucial for the heart animation to complete!
 };
 
 // NEW Function: Create and Animate Dual Hearts for Transition Preloader
@@ -31,24 +32,30 @@ function createDualHearts(container) {
     const rightHeart = container.querySelector('.heart-right');
 
     // Initial positions for animation, includes the -45deg rotation from CSS
-    leftHeart.style.transform = 'translateX(-100%) rotate(-45deg)';
-    rightHeart.style.transform = 'translateX(100%) rotate(-45deg)';
+    leftHeart.style.transform = 'translateX(0) rotate(-45deg)'; // Starting position for the animation defined in CSS
+    rightHeart.style.transform = 'translateX(0) rotate(-45deg)'; // Starting position for the animation defined in CSS
     leftHeart.style.opacity = '0';
     rightHeart.style.opacity = '0';
 
-    // Animate them into view
+    // Animate them into view (fade in and slight initial movement if needed)
     setTimeout(() => {
-        leftHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-        rightHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-        leftHeart.style.transform = 'translateX(0) rotate(-45deg)';
-        rightHeart.style.transform = 'translateX(0) rotate(-45deg)';
+        leftHeart.style.transition = 'opacity 0.8s ease-out';
+        rightHeart.style.transition = 'opacity 0.8s ease-out';
         leftHeart.style.opacity = '1';
-        rightHeart.style.opacity = '1'; // Ensure both hearts become visible
+        rightHeart.style.opacity = '1';
     }, 50);
 
-    // Further animation: subtle pulse
-    leftHeart.style.animation = 'heartMergeLeft 1.5s infinite alternate ease-in-out';
-    rightHeart.style.animation = 'heartMergeRight 1.5s infinite alternate ease-in-out 0.2s';
+    // Apply the main "come closer" animation defined in style3.css
+    // The animation property should trigger the keyframes directly
+    leftHeart.style.animation = 'heartComeCloserLeft 4.5s ease-in-out forwards';
+    rightHeart.style.animation = 'heartComeCloserRight 4.5s ease-in-out forwards';
+
+    // Add subtle pulse animations if desired, *after* the initial come-closer animation
+    // These will loop indefinitely once the primary animation completes
+    setTimeout(() => {
+        leftHeart.style.animation += ', heartPulse 1.5s infinite alternate ease-in-out';
+        rightHeart.style.animation += ', heartPulse 1.5s infinite alternate ease-in-out 0.2s';
+    }, 4500); // Start pulse after come-closer animation finishes
 }
 
 
@@ -59,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
     const backgroundAudio = document.getElementById('backgroundMusic'); // Correctly reference the HTML audio element
-    
+
     // Ensure backgroundAudio exists before setting properties
     if (backgroundAudio) {
         backgroundAudio.loop = true;
