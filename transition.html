@@ -4,23 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transitioning...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    <div class="background-elements"></div>
 
-    <div id="preloader">
-        <div class="preloader-content">
-            <div class="preloader-message" id="animatedPreloaderMessage"></div>
-            <div class="progress-bar-container">
-                <div id="progressBar">
-                    <span id="progressText">0%</span>
-                </div>
-            </div>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="music-play-button">🎵</button>
+
+    <div class="background-elements">
+        </div>
+
+    <div class="container transition-container">
+        <div class="heart-animation-wrapper">
+            <div class="css-heart beating-heart"></div>
+        </div>
+        <h1 id="transitionMessage" class="transition-message-text">Preparing the next confession...</h1>
+        <div class="progress-bar-container transition-progress-bar">
+            <div id="progressBar"></div>
+            <div id="progressText">0%</div>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const transitionMessage = document.getElementById('transitionMessage');
+            const transitionDuration = 3500; // Adjusted for a slightly faster transition
+            let progress = 0;
+            const intervalTime = 40; // Update every 40ms for smoother progress
+
+            const updateProgress = () => {
+                progress += (intervalTime / transitionDuration) * 100;
+                if (progress > 100) progress = 100;
+
+                if (progressBar) progressBar.style.width = `${progress}%`;
+                if (progressText) progressText.textContent = `${Math.floor(progress)}%`;
+
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    window.location.href = 'page2.html'; // Redirect to page2.html after the transition
+                }
+            };
+
+            const progressInterval = setInterval(updateProgress, intervalTime);
+
+            // Animate transition message when it appears
+            if (transitionMessage) {
+                transitionMessage.classList.add('visible-content'); // Trigger fadeInSlideUp
+                if (!transitionMessage.textContent) {
+                    transitionMessage.textContent = 'One moment, loading something special...';
+                }
+            }
+
+            // Ensure the container is visible on DOMContentLoaded
+            const mainContainer = document.querySelector('.transition-container');
+            if (mainContainer) {
+                mainContainer.classList.add('visible-content');
+            }
+        });
+    </script>
 </body>
 </html>
+
