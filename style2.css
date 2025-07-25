@@ -4,7 +4,7 @@ body {
     padding: 0;
     min-height: 100vh;
     /* Removed the pink linear-gradient background */
-    background: #ffffff; /* Changed to white or you can use 'none' */
+    background: #dc8dbe; 
     font-family: 'Lora', serif;
     color: #b8004c;
     overflow-x: hidden;
@@ -23,7 +23,7 @@ body {
 #preloader {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(255, 224, 236, 0.95);
+    background: none; /* Removed the pink overlay */
     display: flex;
     align-items: center;
     justify-content: center;
