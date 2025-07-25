@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarthak's Cosmic Journey</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@400;700&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Journey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="background-elements">
-        </div>
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-message">
+                <span class="word-animated">Loading</span>
+                <span class="word-animated">Magic...</span>
+            </div>
+            <div class="progress-bar-container">
+                <div id="indexProgressBar">
+                    <span id="indexProgressText">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div id="preloader">
-        <div class="preloader-content">
-            <div class="preloader-single-heart"></div> <div class="preloader-message" id="animatedPreloaderMessage">
-                </div>
-            <div class="progress-bar-container">
-                <div id="indexProgressBar">
-                    <span id="indexProgressText">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="background-elements">
+        <div class="moon" style="width: 150px; height: 150px; top: 10%; right: 15%;"></div>
+        
+        <div class="distant-scenery"></div>
+        
+        <div class="water-shimmer"></div>
+        
+        </div>
 
-    <audio id="backgroundMusic" loop>
-        <source src="perfect_instrumental.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <div class="container">
+        <h1>Welcome to Our Journey ✨</h1>
+        <p class="glowing-text">Dear Reechita,</p>
+        <p>I've created this special space, a digital realm imbued with a touch of magic, just for you. As you navigate through, I hope you feel the depth of my feelings and the warmth of our connection.</p>
+        <p class="highlight">Every pixel, every line of code, holds a piece of my heart, woven with memories and dreams we share.</p>
+        
+        <div class="section-break"></div>
 
-    <button id="music-play-button" aria-label="Toggle background music">🎵</button>
+        <h2>A Question for You 💖</h2>
+        <p>As we embark on this digital adventure, there's something I've been wanting to ask. It's a question that holds much meaning for me, a reflection of my deepest wishes.</p>
+        <p class="glowing-purple">Will you be my girlfriend? <span class="beating-heart">❤️</span></p>
 
-    <div class="container">
-        <h1>A Special Confession for you, Miss Reechita! 💗✨</h1>
+        <div class="button-container">
+            <a href="page2.html" class="button" id="next-page-button">
+                Discover My Feelings... <span class="emoji">🌸</span>
+            </a>
+        </div>
+    </div>
 
-        <p>ahemmmm~ 🌚 So… Miss Reechita…, (deep breath)… there’s something I’ve been wanting to tell you for a while now. Not because I had to… but because it’s you. And saying things to you always feels different... 😅✨</p>
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-        <div class="section-break"></div>
+    <div id="music-play-button">
+        🎶
+    </div>
 
-        <p>I don’t know how to start, honestly… like, every time I think about it, my mind just freezes a little. And yeah, maybe you're already guessing what’s hidden behind this little heart of mine.👀 But... hmm… let me pretend like you don’t, okay? 😋</p>
-
-        <div class="section-break"></div>
-
-        <h2>Ahemmmm~ let’s see if you’re ready. 😳🌸</h2>
-
-        <div class="button-container">
-            <a href="transition.html" class="button">Begin the Adventure</a>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
