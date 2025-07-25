@@ -410,4 +410,31 @@ document.addEventListener('DOMContentLoaded', () => {
             container.appendChild(flare);
         }
     }
+
+    // Floating "NO" button logic
+    const noBtn = document.getElementById('noButton');
+    if (noBtn) {
+        noBtn.style.position = 'relative'; // Ensure position is set
+        noBtn.addEventListener('click', () => {
+            const parent = noBtn.parentElement;
+            parent.style.position = 'relative';
+
+            // Get parent/container dimensions
+            const parentRect = parent.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            // Calculate max left/top so button stays inside parent
+            const maxLeft = parentRect.width - btnRect.width;
+            const maxTop = parentRect.height - btnRect.height;
+
+            // Random position
+            const left = Math.random() * maxLeft;
+            const top = Math.random() * maxTop;
+
+            noBtn.style.transition = 'top 0.3s, left 0.3s';
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${left}px`;
+            noBtn.style.top = `${top}px`;
+        });
+    }
 });
