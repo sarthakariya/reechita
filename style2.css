@@ -54,37 +54,6 @@ body {
     margin-bottom: 12px;
 }
 
-/* Progress Bar Styles */
-.progress-bar-container {
-    width: 220px;
-    margin: 24px auto 0 auto;
-    height: 22px;
-    background: #fff0f6;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px #ffd6e0;
-    position: relative;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    background: linear-gradient(90deg, #ff85a1 0%, #ffb6c1 100%);
-    height: 100%;
-    width: 0%;
-    border-radius: 14px;
-    transition: width 0.4s;
-}
-
-.progress-bar-text {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    color: #e75480;
-    font-weight: bold;
-    font-size: 1rem;
-    pointer-events: none;
-    user-select: none;
-}
-
 /* Music Button */
 .music-button {
     position: fixed;
