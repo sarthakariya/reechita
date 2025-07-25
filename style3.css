@@ -56,15 +56,16 @@ body {
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 10; /* Above background elements */
-    opacity: 0; /* Hidden by default for animation */
+    /* opacity and visibility controlled by JS for initial display */
     transform: translateY(20px);
     transition: opacity 1s ease-out, transform 1s ease-out;
 }
 
 /* Animation for the main container */
 .container.active {
-    opacity: 1;
+    opacity: 1 !important; /* Override initial hidden state */
     transform: translateY(0);
+    visibility: visible !important; /* Override initial hidden state */
 }
 
 /* Text Elements */
@@ -81,21 +82,30 @@ p {
     font-size: 1.1em;
 }
 
+/* Cursive Text Styles */
+.confession-prelude,
+.confession-main,
+.question-text {
+    font-family: 'Great Vibes', cursive; /* Apply cursive font */
+    font-weight: 400; /* Great Vibes usually has a single weight */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Subtle glow for elegance */
+}
+
 .confession-prelude {
-    font-size: 1.2em;
+    font-size: 1.8em; /* Larger size for cursive */
     font-style: italic;
     color: var(--primary-accent);
 }
 
 .confession-main {
-    font-size: 1.3em;
+    font-size: 2.2em; /* Even larger for the main confession */
     margin-bottom: 30px;
 }
 
 .question-text {
-    font-size: 2.2em;
+    font-size: 3em; /* Very large for the question */
     color: var(--text-heading);
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.3); /* Enhanced glow */
     margin-top: 30px;
     margin-bottom: 40px;
 }
@@ -457,8 +467,123 @@ p {
     50% { opacity: 0.2; transform: scale(1.1); }
 }
 
+/* --- NEW: Page Entrance Preloader (for page3.html load) --- */
+.entrance-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Below the main transition preloader, but above everything else */
+    color: var(--text-light);
+    font-size: 1.5em;
+    font-weight: bold;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease-out, visibility 1s ease-out;
+}
 
-/* Preloader for page transitions */
+.entrance-preloader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.entrance-preloader .preloader-message {
+    font-family: 'Lora', serif; /* Keep message text clear */
+    margin-top: 20px;
+    opacity: 0; /* Hidden initially, shown after hearts */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.entrance-preloader .preloader-treats {
+    display: flex;
+    margin-top: 20px;
+    opacity: 0; /* Hidden initially, shown after message */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.entrance-preloader .treat-emoji {
+    font-size: 3em;
+    margin: 0 10px;
+    transform: translateY(20px) scale(0);
+    opacity: 0;
+    animation: treatPopIn 0.5s ease-out forwards; /* Applied by JS with delays */
+    animation-delay: var(--delay);
+}
+
+@keyframes treatPopIn {
+    0% { transform: translateY(20px) scale(0); opacity: 0; }
+    70% { transform: translateY(-5px) scale(1.2); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.entrance-preloader .preloader-hearts {
+    position: relative;
+    width: 200px; /* Larger heart container */
+    height: 100px;
+    margin-bottom: 20px;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.entrance-preloader .heart {
+    position: absolute;
+    width: 80px; /* Larger hearts */
+    height: 80px;
+    background-color: var(--primary-accent);
+    transform: rotate(-45deg);
+    border-radius: 50% 50% 0 0;
+    box-shadow: 0 0 20px rgba(255, 105, 181, 0.8);
+}
+
+.entrance-preloader .heart::before,
+.entrance-preloader .heart::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 105, 181, 0.8);
+}
+
+.entrance-preloader .heart::before {
+    top: -40px; /* Adjust for larger heart */
+    left: 0;
+}
+
+.entrance-preloader .heart::after {
+    top: 0;
+    left: 40px; /* Adjust for larger heart */
+}
+
+.entrance-preloader .heart-left {
+    left: 0;
+    animation: heartsComeCloserLeft 5s ease-in-out forwards; /* 5 seconds animation */
+}
+
+.entrance-preloader .heart-right {
+    right: 0;
+    animation: heartsComeCloserRight 5s ease-in-out forwards; /* 5 seconds animation */
+}
+
+@keyframes heartsComeCloserLeft {
+    0% { transform: translateX(0) rotate(-45deg); }
+    100% { transform: translateX(30px) rotate(-45deg); } /* Move left heart 30px to the right */
+}
+
+@keyframes heartsComeCloserRight {
+    0% { transform: translateX(0) rotate(-45deg); }
+    100% { transform: translateX(-30px) rotate(-45deg); } /* Move right heart 30px to the left */
+}
+
+
+/* --- Standard Transition Preloader (for page OUT) --- */
 .transition-preloader {
     position: fixed;
     top: 0;
@@ -584,8 +709,17 @@ p {
         font-size: 1em;
     }
 
-    .question-text {
+    /* Cursive font adjustments for smaller screens */
+    .confession-prelude {
+        font-size: 1.5em;
+    }
+
+    .confession-main {
         font-size: 1.8em;
+    }
+
+    .question-text {
+        font-size: 2.2em;
     }
 
     .button {
@@ -604,6 +738,25 @@ p {
         height: 40px;
         font-size: 1.2em;
     }
+
+    /* Entrance Preloader adjustments */
+    .entrance-preloader .preloader-hearts {
+        width: 150px;
+        height: 75px;
+    }
+    .entrance-preloader .heart {
+        width: 60px;
+        height: 60px;
+    }
+    .entrance-preloader .heart::before {
+        top: -30px;
+    }
+    .entrance-preloader .heart::after {
+        left: 30px;
+    }
+    .entrance-preloader .treat-emoji {
+        font-size: 2.5em;
+    }
 }
 
 @media (max-width: 480px) {
@@ -614,9 +767,17 @@ p {
     h1 {
         font-size: 1.5em;
     }
+    /* Cursive font adjustments for very small screens */
+    .confession-prelude {
+        font-size: 1.2em;
+    }
+
+    .confession-main {
+        font-size: 1.5em;
+    }
 
     .question-text {
-        font-size: 1.5em;
+        font-size: 1.8em;
     }
 
     p {
@@ -627,5 +788,27 @@ p {
         padding: 10px 20px;
         font-size: 1em;
         min-width: 100px;
+    }
+
+    /* Entrance Preloader adjustments */
+    .entrance-preloader .preloader-hearts {
+        width: 120px;
+        height: 60px;
+    }
+    .entrance-preloader .heart {
+        width: 48px;
+        height: 48px;
+    }
+    .entrance-preloader .heart::before {
+        top: -24px;
+    }
+    .entrance-preloader .heart::after {
+        left: 24px;
+    }
+    .entrance-preloader .treat-emoji {
+        font-size: 2em;
+    }
+    .entrance-preloader .preloader-message p {
+        font-size: 0.9em;
     }
 }
