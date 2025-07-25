@@ -1,29 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
     const backgroundElementsContainer = document.querySelector('.background-elements');
+    // Select all relevant text elements for staggering animations
+    const paragraphsAndHeadings = document.querySelectorAll('.confession-section p, .confession-section h1');
+    const sections = document.querySelectorAll('.confession-section, .choice-buttons'); // Define sections to animate
+    
     const musicPlayButton = document.getElementById('music-play-button');
-    // MODIFIED: Get existing audio element instead of creating a new one
-    const backgroundAudio = document.getElementById('backgroundMusic'); 
+    const backgroundAudio = new Audio('perfect_instrumental.mp3'); // Ensure this path is correct
     backgroundAudio.loop = true;
-    // Set volume if not already set by HTML attributes, or to ensure consistency
-    if (backgroundAudio.volume === 1) { // Check if default browser volume
-        backgroundAudio.volume = 0.5; // Set desired starting volume
-    }
-
-    // NEW: Page Entrance Preloader elements (for page3.html only)
-    const entrancePreloader = document.getElementById('page3-entrance-preloader');
-    const preloaderHearts = entrancePreloader ? entrancePreloader.querySelector('.preloader-hearts') : null;
-    const preloaderMessage = entrancePreloader ? entrancePreloader.querySelector('.preloader-message') : null;
-    const preloaderTreatsContainer = entrancePreloader ? entrancePreloader.querySelector('.preloader-treats') : null;
-    const treatEmojis = preloaderTreatsContainer ? preloaderTreatsContainer.querySelectorAll('.treat-emoji') : null;
-
-    // Get relevant text elements for staggering animations on *non-page3* pages
-    // Adjusted selector to include .question-text, .choice-buttons if applicable on other pages
-    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h1, .container h2, .container .question-text');
-    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons'); // Adjusted for common sections
-
+    backgroundAudio.volume = 0.5;
 
     // --- Dynamic Background Elements Initialization ---
+    // Ensure the background container exists
     if (backgroundElementsContainer) {
         createStars(backgroundElementsContainer);
         createEtherealGlows(backgroundElementsContainer);
@@ -34,17 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
         createNebulaClouds(backgroundElementsContainer);
         createWindGusts(backgroundElementsContainer);
         createFlyingWings(backgroundElementsContainer);
-        createShootingStars(backgroundElementsContainer);
-        createCosmicDust(backgroundElementsContainer);
-        createFlickeringMotes(backgroundElementsContainer);
-        createSwirlingWisps(backgroundElementsContainer);
-        createGentleFlares(backgroundElementsContainer);
-        createMoonAndScenery(backgroundElementsContainer);
+        createShootingStars(backgroundElementsContainer); // Shooting Stars
+        createCosmicDust(backgroundElementsContainer);    // Cosmic Dust
+        createFlickeringMotes(backgroundElementsContainer); // Flickering Motes
+        createSwirlingWisps(backgroundElementsContainer); // Swirling Wisps
+        createGentleFlares(backgroundElementsContainer);  // Gentle Flares
+        createMoonAndScenery(backgroundElementsContainer); // Dynamic Moon and Scenery
     }
 
 
     // --- Music Playback Logic ---
-    if (musicPlayButton && backgroundAudio) { // Ensure both elements exist
+    // Only set up music button if it exists on the page
+    if (musicPlayButton) {
         musicPlayButton.addEventListener('click', () => {
             if (backgroundAudio.paused) {
                 backgroundAudio.play().catch(error => console.error("Music play failed:", error));
@@ -57,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Set initial state of the button based on audio
+        // Initialize button state
         backgroundAudio.addEventListener('play', () => {
             musicPlayButton.classList.remove('paused');
             musicPlayButton.classList.add('playing');
@@ -66,73 +55,41 @@ document.addEventListener('DOMContentLoaded', () => {
             musicPlayButton.classList.remove('playing');
             musicPlayButton.classList.add('paused');
         });
-        // Initial check for button state (e.g., if page refreshes while playing)
-        if (!backgroundAudio.paused) {
-            musicPlayButton.classList.add('playing');
-        } else {
+        // Set initial state based on current audio state or default to paused
+        if (backgroundAudio.paused) {
             musicPlayButton.classList.add('paused');
+        } else {
+            musicPlayButton.classList.add('playing');
         }
     }
 
 
-    // --- Page Load Logic (Conditional based on page) ---
+    // --- Stagger Animations for sections and text on certain pages ---
+    // Check if it's page3.html or any other page that needs this animation
+    // current page is determined by checking for specific elements unique to page3, or by URL
     const isPage3 = window.location.pathname.includes('page3.html');
 
-    if (isPage3 && entrancePreloader && mainContainer) {
-        // Logic specific to page3's entrance preloader
-        mainContainer.style.opacity = '0';
-        mainContainer.style.visibility = 'hidden';
-        mainContainer.style.transform = 'translateY(20px)';
-
-        entrancePreloader.style.opacity = '1';
-        entrancePreloader.style.visibility = 'visible';
-
-        setTimeout(() => {
-            if (preloaderHearts) preloaderHearts.style.opacity = '0';
-            if (preloaderMessage) preloaderMessage.style.opacity = '1';
-            
-            setTimeout(() => {
-                if (preloaderTreatsContainer) preloaderTreatsContainer.style.opacity = '1';
-                if (treatEmojis) {
-                    treatEmojis.forEach((emoji) => {
-                        emoji.style.animationName = 'treatPopIn'; 
-                    });
-                }
-
-                setTimeout(() => {
-                    entrancePreloader.classList.add('fade-out');
-                    entrancePreloader.addEventListener('transitionend', () => {
-                        if (mainContainer) {
-                            mainContainer.style.display = 'flex'; 
-                            mainContainer.classList.add('active');
-                        }
-                    }, { once: true });
-
-                }, 2000);
-
-            }, 500);
-
-        }, 5000);
-
-    } else if (mainContainer) {
-        // Logic for index.html and other non-page3 pages
-        // The CSS for .container and .stagger-fade-in will handle initial hidden state
-        // and the transition when 'active' class is added.
-
-        // Small delay to ensure initial hidden state from CSS is applied before JS adds 'active'
-        setTimeout(() => {
+    if (isPage3) {
+        // Only main container fades in, text and buttons are part of this main container
+        if (mainContainer) {
+            mainContainer.classList.add('active'); // Apply the fade-in to the main container
+        }
+        // No individual text/section staggering needed for page3 as it's a single block
+    } else {
+        // For other pages like index.html or page2.html that might have multiple sections
+        if (mainContainer) {
             mainContainer.classList.add('active'); // General container fade-in
-        }, 100); 
-
-        // Stagger animations for paragraphs, headings, and sections for non-page3 pages
+        }
+        // Stagger animations for paragraphs and headings for non-page3 pages
         paragraphsAndHeadings.forEach((element, index) => {
             element.style.animationDelay = `${0.5 + index * 0.2}s`;
-            element.classList.add('stagger-fade-in'); 
+            element.classList.add('stagger-fade-in'); // Assuming CSS for this class
         });
 
+        // Stagger animations for sections
         sections.forEach((section, index) => {
             section.style.animationDelay = `${1 + index * 0.3}s`;
-            section.classList.add('stagger-fade-in');
+            section.classList.add('stagger-fade-in'); // Assuming CSS for this class
         });
     }
 
@@ -140,20 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesButton = document.getElementById('yesButton');
     if (yesButton) {
         yesButton.addEventListener('click', () => {
-            if (!backgroundAudio.paused) {
-                const fadeAudioOut = setInterval(() => {
-                    if (backgroundAudio.volume > 0.1) {
-                        backgroundAudio.volume -= 0.1;
-                    } else {
-                        backgroundAudio.volume = 0;
-                        backgroundAudio.pause();
-                        clearInterval(fadeAudioOut);
-                        window.showTransitionPreloader('acknowledgement.html?response=yes');
-                    }
-                }, 100);
-            } else {
-                window.showTransitionPreloader('acknowledgement.html?response=yes');
-            }
+            window.showTransitionPreloader('acknowledgement.html?response=yes');
         });
     }
 
@@ -165,17 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const maxX = window.innerWidth - buttonRect.width;
             const maxY = window.innerHeight - buttonRect.height;
 
+            // Get random position within the viewport, ensuring button stays fully visible
             const newX = Math.random() * maxX;
             const newY = Math.random() * maxY;
 
             noButton.style.position = 'absolute';
             noButton.style.left = `${newX}px`;
             noButton.style.top = `${newY}px`;
-            noButton.style.transition = 'all 0.1s ease-out';
+            noButton.style.transition = 'all 0.1s ease-out'; // Make movement smooth
         });
+
+        // Optional: Reset position on mouse leave if you want it to jump back
+        // noButton.addEventListener('mouseleave', () => {
+        //     noButton.style.position = 'static'; // Or return to a default relative position
+        //     noButton.style.transition = 'none'; // Remove transition for instant reset
+        // });
     }
 
-    // --- Transition Preloader Logic (Global - for page OUT) ---
+    // --- Transition Preloader Logic (Global) ---
     window.showTransitionPreloader = function(targetPage) {
         let preloader = document.getElementById('dynamic-transition-preloader');
         if (!preloader) {
@@ -193,17 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         preloader.classList.add('active');
+        // Apply heart animations
         const dualHearts = preloader.querySelector('.preloader-dual-hearts');
         if (dualHearts) {
-            dualHearts.classList.add('active');
+            dualHearts.classList.add('active'); // Activates CSS animations
         }
 
         setTimeout(() => {
             window.location.href = targetPage;
-        }, 1000);
+        }, 1000); // Wait 1 second before redirecting
     };
 
     // --- Helper Functions for Dynamic Background Elements ---
+
     function createMoonAndScenery(container) {
         const moon = document.createElement('div');
         moon.classList.add('moon');
@@ -219,12 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numStars; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            const size = Math.random() * 3 + 1;
+            const size = Math.random() * 3 + 1; // 1px to 4px
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
             star.style.left = `${Math.random() * 100}vw`;
             star.style.top = `${Math.random() * 100}vh`;
-            star.style.animationDelay = `${Math.random() * 4}s`;
+            star.style.animationDelay = `${Math.random() * 4}s`; // Stagger animation
             container.appendChild(star);
         }
     }
@@ -234,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numGlows; i++) {
             const glow = document.createElement('div');
             glow.classList.add('ethereal-glow');
-            const size = Math.random() * 100 + 50;
+            const size = Math.random() * 100 + 50; // 50px to 150px
             glow.style.width = `${size}px`;
             glow.style.height = `${size}px`;
             glow.style.left = `${Math.random() * 100}vw`;
@@ -249,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numParticles; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            const size = Math.random() * 2 + 0.5;
+            const size = Math.random() * 2 + 0.5; // 0.5px to 2.5px
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}vw`;
@@ -266,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numAuras; i++) {
             const aura = document.createElement('div');
             aura.classList.add('aura-glow');
-            const size = Math.random() * 200 + 100;
+            const size = Math.random() * 200 + 100; // 100px to 300px
             aura.style.width = `${size}px`;
             aura.style.height = `${size}px`;
             aura.style.left = `${Math.random() * 100}vw`;
@@ -285,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numStreaks; i++) {
             const streak = document.createElement('div');
             streak.classList.add('streak');
-            const length = Math.random() * 150 + 50;
+            const length = Math.random() * 150 + 50; // 50px to 200px
             streak.style.width = `${length}px`;
             streak.style.left = `${Math.random() * 100}vw`;
             streak.style.top = `${Math.random() * 100}vh`;
@@ -302,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numOrbs; i++) {
             const orb = document.createElement('div');
             orb.classList.add('floating-orb');
-            const size = Math.random() * 80 + 40;
+            const size = Math.random() * 80 + 40; // 40px to 120px
             orb.style.width = `${size}px`;
             orb.style.height = `${size}px`;
             orb.style.left = `${Math.random() * 100}vw`;
@@ -321,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numNebulas; i++) {
             const nebula = document.createElement('div');
             nebula.classList.add('nebula-cloud');
-            const size = Math.random() * 400 + 200;
+            const size = Math.random() * 400 + 200; // 200px to 600px
             nebula.style.width = `${size}px`;
             nebula.style.height = `${size}px`;
             nebula.style.left = `${Math.random() * 100}vw`;
@@ -365,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wing.style.setProperty('--end-x', `${Math.random() * 100}vw`);
             wing.style.setProperty('--end-y', `${Math.random() * 100}vh`);
             wing.style.setProperty('--rotation', `${Math.random() * 360}deg`);
-            wing.style.setProperty('--scale', `${Math.random() * 0.5 + 0.7}`);
+            wing.style.setProperty('--scale', `${Math.random() * 0.5 + 0.7}`); // 0.7 to 1.2
             container.appendChild(wing);
         }
     }
@@ -377,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
             star.classList.add('shooting-star');
             const length = Math.random() * 200 + 100;
             star.style.width = `${length}px`;
-            star.style.height = `2px`; // Assuming it's a streak
             star.style.left = `${Math.random() * 100}vw`;
             star.style.top = `${Math.random() * 100}vh`;
             star.style.animationDelay = `${Math.random() * 10}s`;
@@ -393,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numDust; i++) {
             const dust = document.createElement('div');
             dust.classList.add('cosmic-dust');
-            const size = Math.random() * 1.5 + 0.5;
+            const size = Math.random() * 1.5 + 0.5; // 0.5px to 2px
             dust.style.width = `${size}px`;
             dust.style.height = `${size}px`;
             dust.style.left = `${Math.random() * 100}vw`;
@@ -410,10 +362,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createFlickeringMotes(container) {
         const numMotes = 40;
-        for (let i = 0; i = 0; i++) { // Corrected loop condition from 'i = 0' to 'i < numMotes'
+        for (let i = 0; i < numMotes; i++) {
             const mote = document.createElement('div');
             mote.classList.add('flickering-mote');
-            const size = Math.random() * 2 + 0.5;
+            const size = Math.random() * 2 + 0.5; // 0.5px to 2.5px
             mote.style.width = `${size}px`;
             mote.style.height = `${size}px`;
             mote.style.left = `${Math.random() * 100}vw`;
@@ -428,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numWisps; i++) {
             const wisp = document.createElement('div');
             wisp.classList.add('swirling-wisp');
-            const size = Math.random() * 150 + 80;
+            const size = Math.random() * 150 + 80; // 80px to 230px
             wisp.style.width = `${size}px`;
             wisp.style.height = `${size}px`;
             wisp.style.left = `${Math.random() * 100}vw`;
@@ -442,12 +394,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // NEW FUNCTION: Gentle Flares
     function createGentleFlares(container) {
         const numFlares = 5;
         for (let i = 0; i < numFlares; i++) {
             const flare = document.createElement('div');
             flare.classList.add('gentle-flare');
-            const size = Math.random() * 400 + 300;
+            const size = Math.random() * 400 + 300; // 300px to 700px, very large
             flare.style.width = `${size}px`;
             flare.style.height = `${size}px`;
             flare.style.left = `${Math.random() * 100}vw`;
