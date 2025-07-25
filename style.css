@@ -1253,3 +1253,4 @@ body.success-theme {
         transform: translate(var(--end-x), 105vh) rotate(var(--rotate-deg)) scale(1.2);
         opacity: 0;
 }
+}
