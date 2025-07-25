@@ -6,12 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     backgroundAudio.loop = true;
     backgroundAudio.volume = 0.5;
 
-    // NEW: Page Entrance Preloader elements
+    // NEW: Page Entrance Preloader elements (for page3.html only)
     const entrancePreloader = document.getElementById('page3-entrance-preloader');
     const preloaderHearts = entrancePreloader ? entrancePreloader.querySelector('.preloader-hearts') : null;
     const preloaderMessage = entrancePreloader ? entrancePreloader.querySelector('.preloader-message') : null;
-    const preloaderTreats = entrancePreloader ? entrancePreloader.querySelector('.preloader-treats') : null;
-    const treatEmojis = entrancePreloader ? entrancePreloader.querySelectorAll('.treat-emoji') : null;
+    // Corrected selector for treatEmojis to ensure it targets within the preloader's treats div
+    const preloaderTreatsContainer = entrancePreloader ? entrancePreloader.querySelector('.preloader-treats') : null;
+    const treatEmojis = preloaderTreatsContainer ? preloaderTreatsContainer.querySelectorAll('.treat-emoji') : null;
+
+    // Get relevant text elements for staggering animations on *non-page3* pages
+    // Ensure these selectors match elements present on index.html, page2.html etc.
+    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h2, .container .welcome-message, .container .call-to-action');
+    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
 
 
     // --- Dynamic Background Elements Initialization ---
@@ -64,39 +70,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Page 3 Entrance Preloader Logic ---
+    // --- Page Load Logic (Conditional based on page) ---
     const isPage3 = window.location.pathname.includes('page3.html');
 
     if (isPage3 && entrancePreloader && mainContainer) {
-        // Initially hide main content by removing its styles on load
+        // Logic specific to page3's entrance preloader
         mainContainer.style.opacity = '0';
         mainContainer.style.visibility = 'hidden';
-        mainContainer.style.transform = 'translateY(20px)'; // Reset for re-animation
+        mainContainer.style.transform = 'translateY(20px)'; // Reset for re-animation on page3 fade-in
+
+        // Ensure preloader is visible initially
+        entrancePreloader.style.opacity = '1';
+        entrancePreloader.style.visibility = 'visible';
 
         // Phase 1: Hearts animation (5 seconds)
         setTimeout(() => {
             if (preloaderHearts) preloaderHearts.style.opacity = '0'; // Fade out hearts
             if (preloaderMessage) preloaderMessage.style.opacity = '1'; // Fade in message
             
-            // Phase 2: Show treats and message (2 seconds after hearts start fading)
+            // Phase 2: Show treats and message (0.5 seconds after hearts start fading)
             setTimeout(() => {
-                if (preloaderTreats) preloaderTreats.style.opacity = '1'; // Fade in treats container
+                if (preloaderTreatsContainer) preloaderTreatsContainer.style.opacity = '1'; // Fade in treats container
                 if (treatEmojis) {
                     treatEmojis.forEach((emoji) => {
-                        // The CSS `animation-delay` for treatPopIn is handled by '--delay'
-                        // We just need to ensure the animation plays
-                        emoji.style.animationName = 'treatPopIn'; 
+                        emoji.style.animationName = 'treatPopIn'; // Trigger CSS animation
                     });
                 }
 
-                // Phase 3: Hide preloader and show main content (after treats animation)
+                // Phase 3: Hide preloader and show main content (after treats animation, 2 seconds)
                 setTimeout(() => {
                     entrancePreloader.classList.add('fade-out'); // Fade out the entire preloader
                     
                     // After preloader fades out, show main content
                     entrancePreloader.addEventListener('transitionend', () => {
-                        mainContainer.style.display = 'flex'; // Ensure flex layout is applied
-                        mainContainer.classList.add('active'); // Trigger main content fade-in
+                        // Ensure main container is set to flex before activating
+                        if (mainContainer) {
+                            mainContainer.style.display = 'flex'; 
+                            mainContainer.classList.add('active'); // Trigger main content fade-in
+                        }
                     }, { once: true }); // Ensure this listener only runs once
 
                 }, 2000); // Treats animation duration (2 seconds)
@@ -106,9 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000); // Hearts animation duration (5 seconds)
 
     } else if (mainContainer) {
-        // For other pages (like index.html or page2.html) - immediate fade in
-        mainContainer.classList.add('active');
-        // No individual text/section staggering for page3, removed from here.
+        // Logic for index.html and other non-page3 pages
+        // Apply initial styles to ensure they are ready for animation
+        mainContainer.style.opacity = '0';
+        mainContainer.style.transform = 'translateY(20px)';
+        mainContainer.style.visibility = 'hidden';
+
+        // Add 'active' class to main container after a slight delay for general page load
+        setTimeout(() => {
+            mainContainer.classList.add('active'); // General container fade-in
+        }, 100); // Small delay to ensure initial hidden state is applied
+
+        // Stagger animations for paragraphs, headings, and sections for non-page3 pages
+        paragraphsAndHeadings.forEach((element, index) => {
+            element.style.animationDelay = `${0.5 + index * 0.2}s`;
+            element.classList.add('stagger-fade-in'); // Assuming CSS for this class
+        });
+
+        sections.forEach((section, index) => {
+            section.style.animationDelay = `${1 + index * 0.3}s`;
+            section.classList.add('stagger-fade-in'); // Assuming CSS for this class
+        });
     }
 
     // --- YES Button Logic (specific to page3.html) ---
@@ -353,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
             star.classList.add('shooting-star');
             const length = Math.random() * 200 + 100;
             star.style.width = `${length}px`;
+            star.style.height = `2px`; // Assuming it's a streak
             star.style.left = `${Math.random() * 100}vw`;
             star.style.top = `${Math.random() * 100}vh`;
             star.style.animationDelay = `${Math.random() * 10}s`;
