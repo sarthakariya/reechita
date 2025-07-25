@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Response 💝</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <style>
+    <link rel="stylesheet" href="style.css">
+    <style>
         /* Specific styles for acknowledgement.html */
+        body {
+            overflow: hidden; /* Prevent scrollbars from falling chocolates */
+        }
+
         .container {
             text-align: center;
+            z-index: 10; /* Ensure content is above background and falling items */
+            position: relative;
         }
 
         .response-heading {
@@ -37,6 +44,184 @@
             opacity: 0;
             animation: fadeInScaleButtons 1.5s ease-out forwards 1.5s;
         }
+
+        /* Animations for Container Elements */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInScaleButtons {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Background Scenery Elements - Ensuring animations and visibility */
+        .background-scenery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1; /* Behind content */
+            pointer-events: none;
+        }
+
+        .moon {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #f0f0f0, #ccc, #888);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4), 0 0 80px rgba(255, 255, 255, 0.2);
+            top: 10%;
+            right: 10%;
+            opacity: 0.9;
+            animation: moonDrift 30s infinite alternate ease-in-out, moonPulse 5s infinite alternate;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+            animation: twinkle 3s infinite alternate, starDrift 20s infinite linear alternate;
+        }
+
+        .ethereal-glow {
+            position: absolute;
+            background: radial-gradient(circle, var(--secondary-accent) 0%, rgba(138, 43, 226, 0) 70%);
+            border-radius: 50%;
+            opacity: 0.4;
+            filter: blur(40px);
+            animation: glowFloat 15s infinite alternate, glowPulse 4s infinite alternate;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            animation: particleFloat 10s infinite linear forwards;
+        }
+
+        .distant-scenery {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            background: url('https://i.imgur.com/example-distant-mountains.png') no-repeat bottom center / cover; /* REPLACE with your actual image */
+            /* Placeholder for a suitable distant scenery image. Use a transparent PNG for best results. */
+            opacity: 0.3;
+            animation: sceneryParallax 40s infinite linear alternate;
+        }
+        /* Fallback for distant-scenery if image not found/desired */
+        .distant-scenery::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)); /* Gradient to blend with background */
+            mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+        }
+
+
+        .water-shimmer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px; /* Adjust height as needed */
+            background: radial-gradient(ellipse at center, rgba(30,15,50,0.8) 0%, rgba(10,7,18,0.9) 100%);
+            background-size: 200% 200%;
+            opacity: 0.6;
+            animation: waterFlow 30s infinite linear, waterRipple 5s infinite alternate ease-in-out;
+        }
+
+
+        /* NEW: Falling Chocolates */
+        .falling-chocolate {
+            position: fixed;
+            font-size: 2.5em; /* Larger emoji size */
+            animation: chocolateFall linear forwards;
+            pointer-events: none;
+            z-index: 999; /* Above background, below preloader */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* Subtle shadow for depth */
+        }
+
+        @keyframes chocolateFall {
+            0% {
+                transform: translate(var(--start-x), var(--start-y)) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(var(--start-x) + var(--end-x)), 100vh) rotate(var(--rotate-deg)) scale(0.6);
+                opacity: 0;
+            }
+        }
+
+        /* Background Animation Keyframes (ensure these are here) */
+        @keyframes moonDrift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(10vw, 5vh); }
+        }
+
+        @keyframes moonPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.5); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes starDrift {
+            0% { transform: translate(var(--star-drift-x, 0), var(--star-drift-y, 0)); }
+            100% { transform: translate(calc(var(--star-drift-x, 0) * -1), calc(var(--star-drift-y, 0) * -1)); }
+        }
+
+        @keyframes glowFloat {
+            0% { transform: translate(0, 0) scale(var(--glow-scale, 1)); }
+            100% { transform: translate(var(--dx, 0)px, var(--dy, 0)px) scale(calc(var(--glow-scale, 1) * 1.1)); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translate(0, 0) scale(var(--p-scale, 1)); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(var(--p-dx, 0), var(--p-dy, 0)) scale(calc(var(--p-scale, 1) * 1.2)); opacity: 0; }
+        }
+
+        @keyframes sceneryParallax {
+            0% { background-position: 0 0; }
+            100% { background-position: -10% 0; }
+        }
+
+        @keyframes waterFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: -200px 0; }
+        }
+
+        @keyframes waterRipple {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
     </style>
 </head>
 <body>
@@ -48,21 +233,30 @@
 
     <div class="background-scenery">
         <div class="moon"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star" style="top: 15%; left: 20%; width: 5px; height: 5px; --star-drift-x: 50px; --star-drift-y: -30px;"></div>
+        <div class="star" style="top: 5%; left: 50%; width: 3px; height: 3px; --star-drift-x: -20px; --star-drift-y: 40px;"></div>
+        <div class="star" style="top: 30%; left: 80%; width: 4px; height: 4px; --star-drift-x: 60px; --star-drift-y: 20px;"></div>
+        <div class="star" style="top: 40%; left: 10%; width: 2px; height: 2px; --star-drift-x: -40px; --star-drift-y: -10px;"></div>
+        <div class="star" style="top: 70%; left: 90%; width: 6px; height: 6px; --star-drift-x: 30px; --star-drift-y: 50px;"></div>
+        <div class="star" style="top: 85%; left: 40%; width: 3px; height: 3px; --star-drift-x: -10px; --star-drift-y: 30px;"></div>
+        <div class="star" style="top: 25%; left: 70%; width: 4px; height: 4px; --star-drift-x: 20px; --star-drift-y: -50px;"></div>
+        <div class="star" style="top: 55%; left: 30%; width: 5px; height: 5px; --star-drift-x: -70px; --star-drift-y: 10px;"></div>
+        <div class="star" style="top: 10%; left: 95%; width: 2.5px; height: 2.5px; --star-drift-x: 10px; --star-drift-y: -20px;"></div>
+        <div class="star" style="top: 90%; left: 5%; width: 3.5px; height: 3.5px; --star-drift-x: -25px; --star-drift-y: -5px;"></div>
+        <div class="star" style="top: 60%; left: 65%; width: 4.5px; height: 4.5px; --star-drift-x: 45px; --star-drift-y: 35px;"></div>
+
         <div class="distant-scenery"></div>
         <div class="water-shimmer"></div>
+
+        <div class="ethereal-glow" style="--x: 10; --y: 20; width: 150px; height: 150px; animation-delay: 0s; --glow-scale: 1;"></div>
+        <div class="ethereal-glow" style="--x: 70; --y: 50; width: 200px; height: 200px; animation-delay: 5s; --glow-scale: 1.2;"></div>
+        <div class="ethereal-glow" style="--x: 30; --y: 80; width: 100px; height: 100px; animation-delay: 10s; --glow-scale: 0.8;"></div>
+        <div class="particle" style="top: 20%; left: 15%; width: 3px; height: 3px; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
+        <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
+        <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
+        <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
+
     </div>
-
-    <div class="ethereal-glow" style="--x: 10; --y: 20; width: 150px; height: 150px; animation-delay: 0s;"></div>
-    <div class="ethereal-glow" style="--x: 70; --y: 50; width: 200px; height: 200px; animation-delay: 5s;"></div>
-    <div class="ethereal-glow" style="--x: 30; --y: 80; width: 100px; height: 100px; animation-delay: 10s;"></div>
-
-    <div class="particle" style="top: 20%; left: 15%; width: 3px; height: 3px; --p-x: 15vw; --p-y: 20vh; --p-dx: 10vw; --p-dy: 10vh; --p-scale: 1.2; animation-delay: 0.5s;"></div>
-    <div class="particle" style="top: 50%; left: 80%; width: 4px; height: 4px; --p-x: 80vw; --p-y: 50vh; --p-dx: -15vw; --p-dy: 5vh; --p-scale: 1.5; animation-delay: 1.5s;"></div>
-    <div class="particle" style="top: 70%; left: 30%; width: 2px; height: 2px; --p-x: 30vw; --p-y: 70vh; --p-dx: 5vw; --p-dy: -10vh; --p-scale: 0.8; animation-delay: 2.5s;"></div>
-    <div class="particle" style="top: 10%; left: 50%; width: 3.5px; height: 3.5px; --p-x: 50vw; --p-y: 10vh; --p-dx: -8vw; --p-dy: 12vh; --p-scale: 1.3; animation-delay: 3.5s;"></div>
 
     <div class="container">
         <div class="response-heading" id="responseHeading"></div>
@@ -72,8 +266,9 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
-        // This script is specific to acknowledgement.html and should remain here
+        // This script is specific to acknowledgement.html
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const response = urlParams.get('response');
@@ -81,17 +276,123 @@
             const responseMessage = document.getElementById('responseMessage');
 
             if (response === 'yes') {
-                responseHeading.textContent = "My Promise to You ✨"; [cite: 38]
-                responseMessage.innerHTML = "Thank you for being you, Reechita. You are truly perfect in every way. ✨"; [cite: 38]
+                responseHeading.textContent = "My Promise to You ✨";
+                responseMessage.innerHTML = `
+                    Thank you, thank you, thank you for being you, Reechita! 💖
+                    You are truly perfect in every single way, and I'm the luckiest Sarthak in the universe.
+                    Every day with you is a dream come true. ✨ My heart is overflowing with joy!
+                `;
+                // Trigger chocolate fall only on "yes"
+                startChocolateFall();
+
             } else if (response === 'no') {
-                responseHeading.textContent = "It's Okay 💜"; [cite: 39]
-                responseMessage.innerHTML = "I understand and respect your decision. Our connection truly means a lot, and I cherish our friendship. Your happiness is what matters most. 😊"; [cite: 39]
+                responseHeading.textContent = "It's Okay 💜";
+                responseMessage.innerHTML = "I understand and respect your decision. Our connection truly means a lot, and I cherish our friendship. Your happiness is what matters most. 😊";
             } else {
-                responseHeading.textContent = "Oops!"; [cite: 40]
-                responseMessage.innerHTML = "Something went wrong, or you landed here directly. But thank you for being here! 😊"; [cite: 40]
+                responseHeading.textContent = "Oops!";
+                responseMessage.innerHTML = "Something went wrong, or you landed here directly. But thank you for being here! 😊";
             }
         });
+
+        // Function to create and animate falling chocolates
+        function startChocolateFall() {
+            const chocolateEmojis = ['🍫', '🍬', '🍩', '🍪', '💖', '✨']; // Add more as desired
+            const backgroundScenery = document.querySelector('.background-scenery'); // Or body
+
+            // Fall for a few seconds after page load
+            let chocolateInterval = setInterval(() => {
+                const chocolate = document.createElement('span');
+                chocolate.classList.add('falling-chocolate');
+                chocolate.textContent = chocolateEmojis[Math.floor(Math.random() * chocolateEmojis.length)];
+
+                const startX = Math.random() * window.innerWidth;
+                const startY = -50; // Start above the viewport
+                const endXOffset = (Math.random() - 0.5) * 200; // Drift left/right
+                const rotateDeg = Math.random() * 720 - 360; // Random rotation
+
+                chocolate.style.setProperty('--start-x', `${startX}px`);
+                chocolate.style.setProperty('--start-y', `${startY}px`);
+                chocolate.style.setProperty('--end-x', `${endXOffset}px`);
+                chocolate.style.setProperty('--rotate-deg', `${rotateDeg}deg`);
+
+                chocolate.style.left = `${startX}px`;
+                chocolate.style.top = `${startY}px`;
+
+                backgroundScenery.appendChild(chocolate);
+
+                // Remove the chocolate after its animation finishes
+                chocolate.addEventListener('animationend', () => {
+                    chocolate.remove();
+                });
+            }, 100); // Spawn a chocolate every 100ms
+
+            // Stop spawning after a duration (e.g., 5 seconds)
+            setTimeout(() => {
+                clearInterval(chocolateInterval);
+            }, 5000); // Adjust duration of chocolate fall as needed
+        }
+
+        // Functions to create dynamic background elements (if not handled by script.js globally)
+        // These are examples. Your global script.js should handle dynamic creation for all pages.
+        // If your script.js already does this for 'background-elements' class, you can remove this.
+        function createDynamicStars(count) {
+            const container = document.querySelector('.background-scenery');
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = star.style.height = `${Math.random() * 4 + 2}px`;
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                star.style.setProperty('--star-drift-x', `${(Math.random() - 0.5) * 100}px`);
+                star.style.setProperty('--star-drift-y', `${(Math.random() - 0.5) * 100}px`);
+                container.appendChild(star);
+            }
+        }
+
+        function createDynamicGlows(count) {
+            const container = document.querySelector('.background-scenery');
+            for (let i = 0; i < count; i++) {
+                const glow = document.createElement('div');
+                glow.classList.add('ethereal-glow');
+                const size = Math.random() * 150 + 50;
+                glow.style.width = glow.style.height = `${size}px`;
+                glow.style.left = `${Math.random() * 100}vw`;
+                glow.style.top = `${Math.random() * 100}vh`;
+                glow.style.animationDelay = `${Math.random() * 10}s`;
+                glow.style.setProperty('--glow-scale', `${Math.random() * 0.5 + 0.8}`);
+                glow.style.setProperty('--dx', `${(Math.random() - 0.5) * 200}`);
+                glow.style.setProperty('--dy', `${(Math.random() - 0.5) * 200}`);
+                container.appendChild(glow);
+            }
+        }
+
+        function createDynamicParticles(count) {
+            const container = document.querySelector('.background-scenery');
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 3 + 1;
+                particle.style.width = particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.setProperty('--p-scale', `${Math.random() * 0.5 + 0.5}`);
+                particle.style.setProperty('--p-dx', `${(Math.random() - 0.5) * 100}vw`);
+                particle.style.setProperty('--p-dy', `${(Math.random() - 0.5) * 100}vh`);
+                container.appendChild(particle);
+            }
+        }
+
+        // Call these functions on DOMContentLoaded if your global script.js doesn't handle them for this page.
+        // If your script.js uses a `background-elements` class that *it populates*, ensure acknowledgement.html uses that class.
+        // For now, I've left the hardcoded elements in the HTML and provided CSS for them, and added JS to dynamically add more.
+        // If you prefer full JS generation, remove the hardcoded background divs from the HTML and rely on these calls.
+        // Example:
+        // createDynamicStars(20);
+        // createDynamicGlows(5);
+        // createDynamicParticles(30);
+
     </script>
-    <script src="script.js"></script>
 </body>
 </html>
