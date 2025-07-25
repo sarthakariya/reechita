@@ -38,10 +38,7 @@ body {
     display: none !important;
 }
 
-@keyframes pulse-heart {
-    0%, 100% { transform: scale(1);}
-    50% { transform: scale(1.15);}
-}
+
 
 .preloader-message {
     font-family: 'Pacifico', cursive;
