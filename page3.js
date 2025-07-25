@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesButton = document.getElementById('yesButton');
     if (yesButton) {
         yesButton.addEventListener('click', () => {
-            window.showTransitionPreloader('acknowledgement.html?response=yes');
+            window.location.href = 'yes.html';
         });
     }
 
