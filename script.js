@@ -2,26 +2,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
     const backgroundElementsContainer = document.querySelector('.background-elements');
     const musicPlayButton = document.getElementById('music-play-button');
-    const backgroundAudio = new Audio('perfect_instrumental.mp3'); // Ensure this path is correct
+    // MODIFIED: Get existing audio element instead of creating a new one
+    const backgroundAudio = document.getElementById('backgroundMusic'); 
     backgroundAudio.loop = true;
-    backgroundAudio.volume = 0.5;
+    // Set volume if not already set by HTML attributes, or to ensure consistency
+    if (backgroundAudio.volume === 1) { // Check if default browser volume
+        backgroundAudio.volume = 0.5; // Set desired starting volume
+    }
 
     // NEW: Page Entrance Preloader elements (for page3.html only)
     const entrancePreloader = document.getElementById('page3-entrance-preloader');
     const preloaderHearts = entrancePreloader ? entrancePreloader.querySelector('.preloader-hearts') : null;
     const preloaderMessage = entrancePreloader ? entrancePreloader.querySelector('.preloader-message') : null;
-    // Corrected selector for treatEmojis to ensure it targets within the preloader's treats div
     const preloaderTreatsContainer = entrancePreloader ? entrancePreloader.querySelector('.preloader-treats') : null;
     const treatEmojis = preloaderTreatsContainer ? preloaderTreatsContainer.querySelectorAll('.treat-emoji') : null;
 
     // Get relevant text elements for staggering animations on *non-page3* pages
-    // Ensure these selectors match elements present on index.html, page2.html etc.
-    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h2, .container .welcome-message, .container .call-to-action');
-    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
+    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h1, .container h2'); // Added h1 to selectors
+    const sections = document.querySelectorAll('.section-break, .button-container'); // Adjusted for common sections
 
 
     // --- Dynamic Background Elements Initialization ---
-    // Ensure the background container exists
     if (backgroundElementsContainer) {
         createStars(backgroundElementsContainer);
         createEtherealGlows(backgroundElementsContainer);
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Music Playback Logic ---
-    if (musicPlayButton) {
+    if (musicPlayButton && backgroundAudio) { // Ensure both elements exist
         musicPlayButton.addEventListener('click', () => {
             if (backgroundAudio.paused) {
                 backgroundAudio.play().catch(error => console.error("Music play failed:", error));
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Set initial state of the button based on audio
         backgroundAudio.addEventListener('play', () => {
             musicPlayButton.classList.remove('paused');
             musicPlayButton.classList.add('playing');
@@ -63,12 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
             musicPlayButton.classList.remove('playing');
             musicPlayButton.classList.add('paused');
         });
-        if (backgroundAudio.paused) {
-            musicPlayButton.classList.add('paused');
-        } else {
+        // Initial check for button state (e.g., if page refreshes while playing)
+        if (!backgroundAudio.paused) {
             musicPlayButton.classList.add('playing');
+        } else {
+            musicPlayButton.classList.add('paused');
         }
     }
+
 
     // --- Page Load Logic (Conditional based on page) ---
     const isPage3 = window.location.pathname.includes('page3.html');
@@ -77,66 +81,57 @@ document.addEventListener('DOMContentLoaded', () => {
         // Logic specific to page3's entrance preloader
         mainContainer.style.opacity = '0';
         mainContainer.style.visibility = 'hidden';
-        mainContainer.style.transform = 'translateY(20px)'; // Reset for re-animation on page3 fade-in
+        mainContainer.style.transform = 'translateY(20px)';
 
-        // Ensure preloader is visible initially
         entrancePreloader.style.opacity = '1';
         entrancePreloader.style.visibility = 'visible';
 
-        // Phase 1: Hearts animation (5 seconds)
         setTimeout(() => {
-            if (preloaderHearts) preloaderHearts.style.opacity = '0'; // Fade out hearts
-            if (preloaderMessage) preloaderMessage.style.opacity = '1'; // Fade in message
+            if (preloaderHearts) preloaderHearts.style.opacity = '0';
+            if (preloaderMessage) preloaderMessage.style.opacity = '1';
             
-            // Phase 2: Show treats and message (0.5 seconds after hearts start fading)
             setTimeout(() => {
-                if (preloaderTreatsContainer) preloaderTreatsContainer.style.opacity = '1'; // Fade in treats container
+                if (preloaderTreatsContainer) preloaderTreatsContainer.style.opacity = '1';
                 if (treatEmojis) {
                     treatEmojis.forEach((emoji) => {
-                        emoji.style.animationName = 'treatPopIn'; // Trigger CSS animation
+                        emoji.style.animationName = 'treatPopIn'; 
                     });
                 }
 
-                // Phase 3: Hide preloader and show main content (after treats animation, 2 seconds)
                 setTimeout(() => {
-                    entrancePreloader.classList.add('fade-out'); // Fade out the entire preloader
-                    
-                    // After preloader fades out, show main content
+                    entrancePreloader.classList.add('fade-out');
                     entrancePreloader.addEventListener('transitionend', () => {
-                        // Ensure main container is set to flex before activating
                         if (mainContainer) {
                             mainContainer.style.display = 'flex'; 
-                            mainContainer.classList.add('active'); // Trigger main content fade-in
+                            mainContainer.classList.add('active');
                         }
-                    }, { once: true }); // Ensure this listener only runs once
+                    }, { once: true });
 
-                }, 2000); // Treats animation duration (2 seconds)
+                }, 2000);
 
-            }, 500); // Message and treats appear slightly after hearts start fading (0.5s)
+            }, 500);
 
-        }, 5000); // Hearts animation duration (5 seconds)
+        }, 5000);
 
     } else if (mainContainer) {
         // Logic for index.html and other non-page3 pages
-        // Apply initial styles to ensure they are ready for animation
-        mainContainer.style.opacity = '0';
-        mainContainer.style.transform = 'translateY(20px)';
-        mainContainer.style.visibility = 'hidden';
+        // The CSS for .container and .stagger-fade-in will handle initial hidden state
+        // and the transition when 'active' class is added.
 
-        // Add 'active' class to main container after a slight delay for general page load
+        // Small delay to ensure initial hidden state from CSS is applied before JS adds 'active'
         setTimeout(() => {
             mainContainer.classList.add('active'); // General container fade-in
-        }, 100); // Small delay to ensure initial hidden state is applied
+        }, 100); 
 
         // Stagger animations for paragraphs, headings, and sections for non-page3 pages
         paragraphsAndHeadings.forEach((element, index) => {
             element.style.animationDelay = `${0.5 + index * 0.2}s`;
-            element.classList.add('stagger-fade-in'); // Assuming CSS for this class
+            element.classList.add('stagger-fade-in'); 
         });
 
         sections.forEach((section, index) => {
             section.style.animationDelay = `${1 + index * 0.3}s`;
-            section.classList.add('stagger-fade-in'); // Assuming CSS for this class
+            section.classList.add('stagger-fade-in');
         });
     }
 
@@ -144,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesButton = document.getElementById('yesButton');
     if (yesButton) {
         yesButton.addEventListener('click', () => {
-            // Check if audio is playing, if so, fade out over 1 sec
             if (!backgroundAudio.paused) {
                 const fadeAudioOut = setInterval(() => {
                     if (backgroundAudio.volume > 0.1) {
@@ -155,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         clearInterval(fadeAudioOut);
                         window.showTransitionPreloader('acknowledgement.html?response=yes');
                     }
-                }, 100); // Adjust interval for smoother fade (e.g., every 100ms for 1 sec total)
+                }, 100);
             } else {
                 window.showTransitionPreloader('acknowledgement.html?response=yes');
             }
