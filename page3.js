@@ -1,17 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Element Selectors ---
     const mainContainer = document.querySelector('.container');
     const backgroundElementsContainer = document.querySelector('.background-elements');
-    // Select all relevant text elements for staggering animations
     const paragraphsAndHeadings = document.querySelectorAll('.confession-section p, .confession-section h1');
-    const sections = document.querySelectorAll('.confession-section, .choice-buttons'); // Define sections to animate
-    
+    const sections = document.querySelectorAll('.confession-section, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+
+    // --- Audio Setup ---
     const backgroundAudio = new Audio('perfect_instrumental.mp3'); // Ensure this path is correct
     backgroundAudio.loop = true;
     backgroundAudio.volume = 0.5;
 
     // --- Dynamic Background Elements Initialization ---
-    // Ensure the background container exists
     if (backgroundElementsContainer) {
         createStars(backgroundElementsContainer);
         createEtherealGlows(backgroundElementsContainer);
@@ -22,79 +24,61 @@ document.addEventListener('DOMContentLoaded', () => {
         createNebulaClouds(backgroundElementsContainer);
         createWindGusts(backgroundElementsContainer);
         createFlyingWings(backgroundElementsContainer);
-        createShootingStars(backgroundElementsContainer); // Shooting Stars
-        createCosmicDust(backgroundElementsContainer);    // Cosmic Dust
-        createFlickeringMotes(backgroundElementsContainer); // Flickering Motes
-        createSwirlingWisps(backgroundElementsContainer); // Swirling Wisps
-        createGentleFlares(backgroundElementsContainer);  // Gentle Flares
-        createMoonAndScenery(backgroundElementsContainer); // Dynamic Moon and Scenery
+        createShootingStars(backgroundElementsContainer);
+        createCosmicDust(backgroundElementsContainer);
+        createFlickeringMotes(backgroundElementsContainer);
+        createSwirlingWisps(backgroundElementsContainer);
+        createGentleFlares(backgroundElementsContainer);
+        createMoonAndScenery(backgroundElementsContainer);
     }
 
-
     // --- Music Playback Logic ---
-    // Only set up music button if it exists on the page
     if (musicPlayButton) {
         musicPlayButton.addEventListener('click', () => {
             if (backgroundAudio.paused) {
                 backgroundAudio.play().catch(error => console.error("Music play failed:", error));
-                musicPlayButton.classList.remove('paused');
-                musicPlayButton.classList.add('playing');
             } else {
                 backgroundAudio.pause();
-                musicPlayButton.classList.remove('playing');
-                musicPlayButton.classList.add('paused');
             }
         });
 
-        // Initialize button state
+        // Update button state based on audio events
         backgroundAudio.addEventListener('play', () => {
             musicPlayButton.classList.remove('paused');
             musicPlayButton.classList.add('playing');
         });
+
         backgroundAudio.addEventListener('pause', () => {
             musicPlayButton.classList.remove('playing');
             musicPlayButton.classList.add('paused');
         });
-        // Set initial state based on current audio state or default to paused
-        if (backgroundAudio.paused) {
-            musicPlayButton.classList.add('paused');
-        } else {
-            musicPlayButton.classList.add('playing');
-        }
+
+        // Set initial button state
+        musicPlayButton.classList.add(backgroundAudio.paused ? 'paused' : 'playing');
     }
 
-
-    // --- Stagger Animations for sections and text on certain pages ---
-    // Check if it's page3.html or any other page that needs this animation
-    // current page is determined by checking for specific elements unique to page3, or by URL
+    // --- Stagger Animations for sections and text ---
     const isPage3 = window.location.pathname.includes('page3.html');
 
-    if (isPage3) {
-        // Only main container fades in, text and buttons are part of this main container
-        if (mainContainer) {
-            mainContainer.classList.add('active'); // Apply the fade-in to the main container
-        }
-        // No individual text/section staggering needed for page3 as it's a single block
-    } else {
-        // For other pages like index.html or page2.html that might have multiple sections
-        if (mainContainer) {
-            mainContainer.classList.add('active'); // General container fade-in
-        }
-        // Stagger animations for paragraphs and headings for non-page3 pages
+    if (mainContainer) {
+        mainContainer.classList.add('active'); // General container fade-in
+    }
+
+    if (!isPage3) {
+        // Stagger animations for paragraphs and headings on non-page3 pages
         paragraphsAndHeadings.forEach((element, index) => {
             element.style.animationDelay = `${0.5 + index * 0.2}s`;
-            element.classList.add('stagger-fade-in'); // Assuming CSS for this class
+            element.classList.add('stagger-fade-in');
         });
 
         // Stagger animations for sections
         sections.forEach((section, index) => {
             section.style.animationDelay = `${1 + index * 0.3}s`;
-            section.classList.add('stagger-fade-in'); // Assuming CSS for this class
+            section.classList.add('stagger-fade-in');
         });
     }
 
     // --- YES Button Logic (specific to page3.html) ---
-    const yesButton = document.getElementById('yesButton');
     if (yesButton) {
         yesButton.addEventListener('click', () => {
             window.location.href = 'yes.html';
@@ -102,28 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- NO Button Logic (specific to page3.html) ---
-    const noButton = document.getElementById('noButton');
     if (noButton) {
         noButton.addEventListener('mouseover', () => {
             const buttonRect = noButton.getBoundingClientRect();
             const maxX = window.innerWidth - buttonRect.width;
             const maxY = window.innerHeight - buttonRect.height;
 
-            // Get random position within the viewport, ensuring button stays fully visible
+            // Get a random position within the viewport
             const newX = Math.random() * maxX;
             const newY = Math.random() * maxY;
 
+            // Apply new position
             noButton.style.position = 'absolute';
             noButton.style.left = `${newX}px`;
             noButton.style.top = `${newY}px`;
             noButton.style.transition = 'all 0.1s ease-out'; // Make movement smooth
         });
-
-        // Optional: Reset position on mouse leave if you want it to jump back
-        // noButton.addEventListener('mouseleave', () => {
-        //     noButton.style.position = 'static'; // Or return to a default relative position
-        //     noButton.style.transition = 'none'; // Remove transition for instant reset
-        // });
     }
 
     // --- Transition Preloader Logic (Global) ---
@@ -144,10 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         preloader.classList.add('active');
-        // Apply heart animations
         const dualHearts = preloader.querySelector('.preloader-dual-hearts');
         if (dualHearts) {
-            dualHearts.classList.add('active'); // Activates CSS animations
+            dualHearts.classList.add('active');
         }
 
         setTimeout(() => {
@@ -156,7 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Helper Functions for Dynamic Background Elements ---
-
+    // (All helper functions like createStars, createEtherealGlows, etc., remain the same)
+    // ... [Your helper functions go here] ...
+    
     function createMoonAndScenery(container) {
         const moon = document.createElement('div');
         moon.classList.add('moon');
@@ -172,12 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numStars; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            const size = Math.random() * 3 + 1; // 1px to 4px
+            const size = Math.random() * 3 + 1;
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
             star.style.left = `${Math.random() * 100}vw`;
             star.style.top = `${Math.random() * 100}vh`;
-            star.style.animationDelay = `${Math.random() * 4}s`; // Stagger animation
+            star.style.animationDelay = `${Math.random() * 4}s`;
             container.appendChild(star);
         }
     }
@@ -187,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numGlows; i++) {
             const glow = document.createElement('div');
             glow.classList.add('ethereal-glow');
-            const size = Math.random() * 100 + 50; // 50px to 150px
+            const size = Math.random() * 100 + 50;
             glow.style.width = `${size}px`;
             glow.style.height = `${size}px`;
             glow.style.left = `${Math.random() * 100}vw`;
@@ -202,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numParticles; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            const size = Math.random() * 2 + 0.5; // 0.5px to 2.5px
+            const size = Math.random() * 2 + 0.5;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}vw`;
@@ -219,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numAuras; i++) {
             const aura = document.createElement('div');
             aura.classList.add('aura-glow');
-            const size = Math.random() * 200 + 100; // 100px to 300px
+            const size = Math.random() * 200 + 100;
             aura.style.width = `${size}px`;
             aura.style.height = `${size}px`;
             aura.style.left = `${Math.random() * 100}vw`;
@@ -238,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numStreaks; i++) {
             const streak = document.createElement('div');
             streak.classList.add('streak');
-            const length = Math.random() * 150 + 50; // 50px to 200px
+            const length = Math.random() * 150 + 50;
             streak.style.width = `${length}px`;
             streak.style.left = `${Math.random() * 100}vw`;
             streak.style.top = `${Math.random() * 100}vh`;
@@ -255,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numOrbs; i++) {
             const orb = document.createElement('div');
             orb.classList.add('floating-orb');
-            const size = Math.random() * 80 + 40; // 40px to 120px
+            const size = Math.random() * 80 + 40;
             orb.style.width = `${size}px`;
             orb.style.height = `${size}px`;
             orb.style.left = `${Math.random() * 100}vw`;
@@ -274,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numNebulas; i++) {
             const nebula = document.createElement('div');
             nebula.classList.add('nebula-cloud');
-            const size = Math.random() * 400 + 200; // 200px to 600px
+            const size = Math.random() * 400 + 200;
             nebula.style.width = `${size}px`;
             nebula.style.height = `${size}px`;
             nebula.style.left = `${Math.random() * 100}vw`;
@@ -318,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wing.style.setProperty('--end-x', `${Math.random() * 100}vw`);
             wing.style.setProperty('--end-y', `${Math.random() * 100}vh`);
             wing.style.setProperty('--rotation', `${Math.random() * 360}deg`);
-            wing.style.setProperty('--scale', `${Math.random() * 0.5 + 0.7}`); // 0.7 to 1.2
+            wing.style.setProperty('--scale', `${Math.random() * 0.5 + 0.7}`);
             container.appendChild(wing);
         }
     }
@@ -345,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numDust; i++) {
             const dust = document.createElement('div');
             dust.classList.add('cosmic-dust');
-            const size = Math.random() * 1.5 + 0.5; // 0.5px to 2px
+            const size = Math.random() * 1.5 + 0.5;
             dust.style.width = `${size}px`;
             dust.style.height = `${size}px`;
             dust.style.left = `${Math.random() * 100}vw`;
@@ -365,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numMotes; i++) {
             const mote = document.createElement('div');
             mote.classList.add('flickering-mote');
-            const size = Math.random() * 2 + 0.5; // 0.5px to 2.5px
+            const size = Math.random() * 2 + 0.5;
             mote.style.width = `${size}px`;
             mote.style.height = `${size}px`;
             mote.style.left = `${Math.random() * 100}vw`;
@@ -380,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numWisps; i++) {
             const wisp = document.createElement('div');
             wisp.classList.add('swirling-wisp');
-            const size = Math.random() * 150 + 80; // 80px to 230px
+            const size = Math.random() * 150 + 80;
             wisp.style.width = `${size}px`;
             wisp.style.height = `${size}px`;
             wisp.style.left = `${Math.random() * 100}vw`;
@@ -394,13 +373,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // NEW FUNCTION: Gentle Flares
     function createGentleFlares(container) {
         const numFlares = 5;
         for (let i = 0; i < numFlares; i++) {
             const flare = document.createElement('div');
             flare.classList.add('gentle-flare');
-            const size = Math.random() * 400 + 300; // 300px to 700px, very large
+            const size = Math.random() * 400 + 300;
             flare.style.width = `${size}px`;
             flare.style.height = `${size}px`;
             flare.style.left = `${Math.random() * 100}vw`;
@@ -409,32 +387,5 @@ document.addEventListener('DOMContentLoaded', () => {
             flare.style.setProperty('--flare-duration', `${Math.random() * 10 + 5}s`);
             container.appendChild(flare);
         }
-    }
-
-    // Floating "NO" button logic
-    const noBtn = document.getElementById('noButton');
-    if (noBtn) {
-        noBtn.style.position = 'relative'; // Ensure position is set
-        noBtn.addEventListener('click', () => {
-            const parent = noBtn.parentElement;
-            parent.style.position = 'relative';
-
-            // Get parent/container dimensions
-            const parentRect = parent.getBoundingClientRect();
-            const btnRect = noBtn.getBoundingClientRect();
-
-            // Calculate max left/top so button stays inside parent
-            const maxLeft = parentRect.width - btnRect.width;
-            const maxTop = parentRect.height - btnRect.height;
-
-            // Random position
-            const left = Math.random() * maxLeft;
-            const top = Math.random() * maxTop;
-
-            noBtn.style.transition = 'top 0.3s, left 0.3s';
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = `${left}px`;
-            noBtn.style.top = `${top}px`;
-        });
     }
 });
