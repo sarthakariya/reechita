@@ -1253,3 +1253,60 @@ body.success-theme {
         transform: translate(var(--end-x), 105vh) rotate(var(--rotate-deg)) scale(1.2);
         opacity: 0;
 }
+/* --- NEW: Aura Glow Effect (for 'aura baroli') --- */
+.aura-glow {
+    position: absolute;
+    background: radial-gradient(circle, rgba(135, 206, 235, 0.4) 0%, rgba(0, 0, 0, 0) 70%); /* Soft blue-ish glow */
+    border-radius: 50%;
+    filter: blur(50px); /* Heavy blur for ethereal look */
+    pointer-events: none; /* Allows clicks to pass through */
+    animation: auraPulse 15s infinite ease-in-out alternate, auraDrift var(--aura-drift-duration, 25s) infinite ease-in-out alternate;
+    z-index: 0; /* Ensures it's behind main content */
+    opacity: 0.6;
+}
+
+@keyframes auraPulse {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 0.9; }
+    100% { transform: scale(0.8); opacity: 0.6; }
+}
+
+@keyframes auraDrift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(var(--adx, 10vw), var(--ady, 10vh)); }
+}
+
+/* --- NEW: Streaks Effect --- */
+.streak {
+    position: absolute;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.0) 100%);
+    height: 2px; /* Thin line */
+    width: 200px; /* Length of the streak */
+    filter: blur(1px); /* Soft blur */
+    pointer-events: none;
+    animation: streakFlow var(--streak-duration, 8s) infinite linear;
+    z-index: 1; /* Above background, below main content */
+    opacity: 0; /* Starts invisible */
+}
+
+@keyframes streakFlow {
+    0% { transform: translateX(-100vw); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(200vw); opacity: 0; }
+}
+
+/* --- Heart Enhancements --- */
+.beating-heart {
+    /* Existing beat animation */
+    /* Add a soft glow effect */
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7), /* Inner glow */
+                0 0 30px rgba(255, 105, 180, 0.4); /* Outer glow */
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for glow changes */
+}
+
+/* Ensure pseudo-elements also get some glow */
+.beating-heart:after, .beating-heart:before {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7),
+                0 0 30px rgba(255, 105, 180, 0.4);
+}
