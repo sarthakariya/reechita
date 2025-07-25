@@ -1,13 +1,13 @@
 /* style3.css - Dedicated styles for page3.html */
 
-/* Import Google Fonts - Lora and others if needed */
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
+/* Import Google Fonts - Lora, Playfair Display, and Oxanium */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Oxanium:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
     /* Inherit/Override Dark Elegant Theme Colors */
     --bg-gradient-start: #07020f; /* Even darker start */
     --bg-gradient-end: #1a082b;   /* Slightly adjusted end */
-    --container-bg: rgba(25, 10, 45, 0.88); /* More opaque for focus on Page 3 */
+    --container-bg: rgba(25, 10, 45, 0.85); /* More opaque for focus on Page 3 */
     --text-light: #f0f0f0;
     --text-heading: #FFD700; /* Gold */
     --primary-accent: #FF69B1; /* Pink */
@@ -110,14 +110,35 @@ p {
     animation: fadeInSlideUp 0.8s ease-out forwards;
 }
 
-/* Specific styling for the confession text */
-.confession-prelude, .confession-main {
+/* Specific styling for the question text */
+.question-text {
     font-size: 1.6em;
     font-weight: 700;
     color: var(--primary-accent);
     margin-bottom: 40px;
     text-shadow: 0 0 15px var(--primary-accent);
     animation: sparkleText 1.5s infinite alternate;
+}
+
+/* Style for confession prelude */
+.confession-prelude {
+    font-size: 1.4em;
+    font-style: italic;
+    color: var(--text-heading);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Confession Main Text - 'Car Seats Font' and Larger */
+.confession-main {
+    font-family: 'Oxanium', sans-serif; /* 'Car Seats Font' */
+    font-size: 2.6em; /* Significantly larger text */
+    font-weight: 700; /* Bold */
+    color: var(--primary-accent);
+    text-shadow: 0 0 25px var(--primary-accent), 0 0 40px rgba(255, 105, 180, 0.8); /* More prominent glow */
+    animation: sparkleText 2s infinite alternate; /* Enhanced sparkle */
+    line-height: 1.2; /* Tighter line height for large text */
 }
 
 /* Buttons */
@@ -232,72 +253,25 @@ p {
     pointer-events: none; /* Allows clicks to pass through */
 }
 
-/* Base style for all dynamic background elements */
+/* Add/Enhance some background elements for page3 if different */
 .star, .ethereal-glow, .particle, .aura-glow, .streak,
 .floating-orb, .nebula-cloud, .wind-gust, .flying-wing,
-.shooting-star, .moon, .distant-scenery, .water-shimmer,
-.flickering-mote, .swirling-wisp, .gentle-flare { /* Added new elements */
+.shooting-star, .moon, .distant-scenery, .water-shimmer, .cosmic-dust {
     position: absolute;
-    opacity: 0; /* Default hidden */
+    opacity: 0.8; /* Ensure visibility for background elements */
     animation-fill-mode: forwards; /* Keep final state */
     pointer-events: none;
 }
 
-/* NEW BACKGROUND ELEMENTS STYLES */
-
-.flickering-mote {
-    background-color: rgba(255, 255, 255, 0.6); /* Brighter for motes */
+/* NEW: Cosmic Dust animation - Ensure this is created in script.js */
+.cosmic-dust {
+    background-color: rgba(255, 255, 255, 0.15); /* Slightly brighter */
     border-radius: 50%;
-    animation: moteDrift var(--mote-duration) linear infinite alternate, moteFlicker var(--mote-flicker-duration) infinite alternate;
-    filter: blur(0.5px);
-}
-
-@keyframes moteDrift {
-    0% { transform: translate(var(--mote-start-x), var(--mote-start-y)); }
-    100% { transform: translate(var(--mote-end-x), var(--mote-end-y)); }
-}
-
-@keyframes moteFlicker {
-    0%, 100% { opacity: 0.1; }
-    50% { opacity: 0.8; }
-}
-
-.swirling-wisp {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-    border-radius: 50%; /* Make it more organic blob-like */
-    filter: blur(15px);
-    animation: wispDrift var(--wisp-duration) linear infinite alternate, wispPulse var(--wisp-pulse-duration) infinite alternate;
-}
-
-@keyframes wispDrift {
-    0% { transform: translate(var(--wisp-start-x), var(--wisp-start-y)) rotate(0deg); }
-    100% { transform: translate(var(--wisp-end-x), var(--wisp-end-y)) rotate(360deg); }
-}
-
-@keyframes wispPulse {
-    0%, 100% { opacity: 0.05; transform: scale(1); }
-    50% { opacity: 0.15; transform: scale(1.1); }
-}
-
-.gentle-flare {
-    background: radial-gradient(circle at center, rgba(255, 105, 180, 0.15), rgba(138, 43, 226, 0.1), transparent 70%);
-    border-radius: 50%;
-    filter: blur(50px);
-    animation: flarePulse var(--flare-duration) ease-in-out infinite alternate, flareDrift var(--flare-drift-duration) linear infinite alternate;
-}
-
-@keyframes flarePulse {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.2); }
-}
-
-@keyframes flareDrift {
-    0% { transform: translate(var(--flare-start-x), var(--flare-start-y)); }
-    100% { transform: translate(var(--flare-end-x), var(--flare-end-y)); }
+    animation: dustFloat 20s infinite linear alternate, dustFade 5s infinite alternate;
 }
 
 
-/* Preloader for Page 3 - Refined Heart Animation */
+/* Preloader for Page 3 - Enhanced */
 .transition-preloader {
     position: fixed;
     top: 0;
@@ -322,54 +296,62 @@ p {
 
 .preloader-dual-hearts {
     position: relative;
-    width: 100px; /* Adjusted size for the heart pair */
-    height: 50px;
+    width: 120px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 25px;
-    transform-style: preserve-3d; /* For better 3D transform */
+    perspective: 500px; /* Added perspective for 3D effect */
 }
 
+/* REFINED HEART STYLING (A lot Better Look) */
 .preloader-dual-hearts .heart {
-    width: 35px; /* Size of each heart component */
-    height: 35px;
-    background: #FF69B1; /* Solid pink for cleaner look */
+    width: 50px; /* Slightly larger hearts */
+    height: 50px;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493); /* Soft pink to magenta gradient */
     position: absolute;
     transform: rotate(-45deg);
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7), 0 0 30px rgba(255, 105, 180, 0.5); /* Softer glow */
-    border-radius: 5px; /* Slightly rounded edges for the square part */
+    /* Smoother, more ethereal glow */
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.7), /* Primary pink glow */
+                0 0 50px rgba(255, 105, 180, 0.3); /* Wider, softer pink glow */
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 0; /* Ensures the square base is pointed */
+    border-bottom-right-radius: 0;
 }
 
 .preloader-dual-hearts .heart::before,
 .preloader-dual-hearts .heart::after {
     content: '';
-    width: 35px;
-    height: 35px;
-    background: #FF69B1; /* Solid pink */
-    border-radius: 50%; /* Perfect circles */
+    width: 50px; /* Match main heart size */
+    height: 50px;
+    background: radial-gradient(circle at 70% 30%, #FFD1DC, #FF69B1, #FF1493);
+    border-radius: 50%; /* Fully rounded for circles */
     position: absolute;
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7), 0 0 30px rgba(255, 105, 180, 0.5); /* Softer glow */
+    /* Match the glow of the main heart part */
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.7),
+                0 0 50px rgba(255, 105, 180, 0.3);
 }
 
 .preloader-dual-hearts .heart::before {
-    top: -17.5px; /* Half of width/height for perfect alignment */
+    top: -25px; /* Adjust to half of height */
     left: 0;
 }
 
 .preloader-dual-hearts .heart::after {
     top: 0;
-    left: 17.5px; /* Half of width/height for perfect alignment */
+    left: 25px; /* Adjust to half of width */
 }
 
 .preloader-dual-hearts .heart-left {
     left: 0;
-    animation: heartMergeLeft 1.5s ease-in-out infinite alternate;
+    animation: heartMergeLeft 1.8s ease-in-out infinite alternate; /* Slightly longer and smoother */
 }
 
 .preloader-dual-hearts .heart-right {
     right: 0;
-    animation: heartMergeRight 1.5s ease-in-out infinite alternate 0.2s; /* Staggered pulse */
+    animation: heartMergeRight 1.8s ease-in-out infinite alternate 0.2s; /* Staggered and smoother */
 }
 
 .transition-preloader-message {
@@ -419,17 +401,17 @@ p {
     100% { left: 100%; }
 }
 
-/* NEW: Heart Merge Animation for Preloader */
+/* REFINED: Heart Merge Animation for Preloader (Smoother, more graceful) */
 @keyframes heartMergeLeft {
-    0% { transform: translateX(0) rotate(-45deg) scale(1); }
-    50% { transform: translateX(-20px) rotate(-45deg) scale(1.1); }
-    100% { transform: translateX(0) rotate(-45deg) scale(1); }
+    0% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
+    40% { transform: translateX(-40px) rotate(-60deg) scale(1.15); opacity: 0.9; } /* Wider swing, more scale */
+    100% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
 }
 
 @keyframes heartMergeRight {
-    0% { transform: translateX(0) rotate(-45deg) scale(1); }
-    50% { transform: translateX(20px) rotate(-45deg) scale(1.1); }
-    100% { transform: translateX(0) rotate(-45deg) scale(1); }
+    0% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
+    40% { transform: translateX(40px) rotate(-30deg) scale(1.15); opacity: 0.9; } /* Wider swing, more scale */
+    100% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
 }
 
 @keyframes textPulse {
@@ -437,25 +419,152 @@ p {
     50% { opacity: 1; transform: scale(1.05); }
 }
 
-/* Existing Background Animation Keyframes (ensure these are also present from your main style.css if not here) */
-@keyframes backgroundShift { /* ... definition ... */ }
-@keyframes twinkle { /* ... definition ... */ }
-@keyframes starDrift { /* ... definition ... */ }
-@keyframes glowFloat { /* ... definition ... */ }
-@keyframes glowPulse { /* ... definition ... */ }
-@keyframes particleFloat { /* ... definition ... */ }
-@keyframes auraDrift { /* ... definition ... */ }
-@keyframes streakMove { /* ... definition ... */ }
-@keyframes orbFloat { /* ... definition ... */ }
-@keyframes orbPulse { /* ... definition ... */ }
-@keyframes cloudDrift { /* ... definition ... */ }
-@keyframes gustFlow { /* ... definition ... */ }
-@keyframes wingFly { /* ... definition ... */ }
-@keyframes shoot { /* ... definition ... */ }
-@keyframes moonDrift { /* ... definition ... */ }
-@keyframes moonPulse { /* ... definition ... */ }
-@keyframes moonGlow { /* ... definition ... */ }
-@keyframes sceneryParallax { /* ... definition ... */ }
-@keyframes waterFlow { /* ... definition ... }
-@keyframes waterRipple { /* ... definition ... */ }
-@keyframes fallAndFade { /* ... definition ... */ }
+/* NEW: Cosmic Dust animation */
+@keyframes dustFloat {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(var(--dust-dx), var(--dust-dy)); }
+}
+
+@keyframes dustFade {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+}
+
+
+/* Animations for existing background elements - ensure these match script.js */
+@keyframes backgroundShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+@keyframes starDrift {
+    0% { transform: translate(var(--star-drift-x), var(--star-drift-y)); }
+    100% { transform: translate(calc(var(--star-drift-x) * -1), calc(var(--star-drift-y) * -1)); }
+}
+
+@keyframes glowFloat {
+    0% { transform: translate(0, 0) scale(var(--glow-scale)); }
+    100% { transform: translate(var(--dx)px, var(--dy)px) scale(calc(var(--glow-scale) * 1.1)); }
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes particleFloat {
+    0% { transform: translate(0, 0) scale(var(--p-scale)); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translate(var(--p-dx), var(--p-dy)) scale(calc(var(--p-scale) * 1.2)); opacity: 0; }
+}
+
+@keyframes auraDrift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(var(--adx), var(--ady)); }
+}
+
+@keyframes streakMove {
+    from { transform: translateX(0); opacity: 0.1; }
+    to { transform: translateX(120vw); opacity: 0; }
+}
+
+@keyframes orbFloat {
+    0% { transform: translate(0, 0) scale(var(--orb-scale)); }
+    100% { transform: translate(var(--orb-dx), var(--orb-dy)) scale(calc(var(--orb-scale) * 1.1)); }
+}
+
+@keyframes orbPulse {
+    0%, 100% { opacity: var(--orb-opacity); }
+    50% { opacity: calc(var(--orb-opacity) + 0.2); }
+}
+
+@keyframes cloudDrift {
+    0% { transform: translate(0, 0); opacity: var(--cloud-opacity); }
+    100% { transform: translate(var(--cloud-dx), var(--cloud-dy)); opacity: calc(var(--cloud-opacity) - 0.05); }
+}
+
+@keyframes gustFlow {
+    from { transform: translateX(0); opacity: var(--gust-opacity); }
+    to { transform: translateX(120vw); opacity: 0; }
+}
+
+@keyframes wingFly {
+    0% { transform: translate(0, 0) rotate(var(--wing-rotation)); opacity: var(--wing-opacity); }
+    100% { transform: translate(var(--wing-dx), var(--wing-dy)) rotate(calc(var(--wing-rotation) + 90deg)); opacity: calc(var(--wing-opacity) - 0.05); }
+}
+
+@keyframes shoot {
+    0% {
+        left: var(--start-x);
+        top: var(--start-y);
+        opacity: 0;
+        transform: rotate(var(--shoot-angle)) translateX(0);
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        left: var(--end-x);
+        top: var(--end-y);
+        opacity: 0;
+        transform: rotate(var(--shoot-angle)) translateX(var(--distance)); /* Adjust distance dynamically in JS */
+    }
+}
+
+@keyframes moonDrift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(10vw, 5vh); }
+}
+
+@keyframes moonPulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.4); }
+    50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.5); }
+}
+
+@keyframes moonGlow {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+@keyframes sceneryParallax {
+    0% { background-position: 0 0; }
+    100% { background-position: -10% 0; }
+}
+
+@keyframes waterFlow {
+    0% { background-position: 0 0; }
+    100% { background-position: -200px 0; }
+}
+
+@keyframes waterRipple {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* Falling hearts and chocolates - ensure these are defined in script.js as well */
+.falling-heart, .falling-chocolate {
+    position: fixed;
+    animation: fallAndFade linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallAndFade {
+    0% {
+        transform: translate(var(--start-x), var(--start-y)) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(var(--start-x) + var(--end-x)), 100vh) rotate(var(--rotate-deg)) scale(0.5);
+        opacity: 0;
+    }
+}
