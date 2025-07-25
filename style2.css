@@ -1,5 +1,5 @@
 /* Modern Minimalist Love Theme */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
 
 /* Base Styles */
 :root {
@@ -219,6 +219,32 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Music button play/pause state */
+.music-button .play-path {
+    display: block; /* Show play icon by default */
+}
+
+.music-button .pause-path {
+    display: none; /* Hide pause icon by default */
+}
+
+.music-button.paused .play-path {
+    display: block; /* Show play icon when paused */
+}
+
+.music-button.paused .pause-path {
+    display: none; /* Hide pause icon when paused */
+}
+
+.music-button:not(.paused) .play-path {
+    display: none; /* Hide play icon when not paused (i.e., playing) */
+}
+
+.music-button:not(.paused) .pause-path {
+    display: block; /* Show pause icon when playing */
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container {
@@ -262,7 +288,7 @@ body {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .music-button {
     width: 45px;
     height: 45px;
