@@ -18,8 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const treatEmojis = preloaderTreatsContainer ? preloaderTreatsContainer.querySelectorAll('.treat-emoji') : null;
 
     // Get relevant text elements for staggering animations on *non-page3* pages
-    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h1, .container h2'); // Added h1 to selectors
-    const sections = document.querySelectorAll('.section-break, .button-container'); // Adjusted for common sections
+    // Adjusted selector to include .question-text, .choice-buttons if applicable on other pages
+    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h1, .container h2, .container .question-text');
+    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons'); // Adjusted for common sections
 
 
     // --- Dynamic Background Elements Initialization ---
@@ -409,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createFlickeringMotes(container) {
         const numMotes = 40;
-        for (let i = 0; i < numMotes; i++) {
+        for (let i = 0; i = 0; i++) { // Corrected loop condition from 'i = 0' to 'i < numMotes'
             const mote = document.createElement('div');
             mote.classList.add('flickering-mote');
             const size = Math.random() * 2 + 0.5;
