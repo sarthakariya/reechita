@@ -1,413 +1,513 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainContainer = document.querySelector('.container');
-    const backgroundElementsContainer = document.querySelector('.background-elements');
-    // Select all relevant text elements for staggering animations
-    const paragraphsAndHeadings = document.querySelectorAll('.confession-section p, .confession-section h1');
-    const sections = document.querySelectorAll('.confession-section, .choice-buttons'); // Define sections to animate
-    
-    const musicPlayButton = document.getElementById('music-play-button');
-    const backgroundAudio = new Audio('perfect_instrumental.mp3'); // Ensure this path is correct
-    backgroundAudio.loop = true;
-    backgroundAudio.volume = 0.5;
+    // Function to generate a random number within a range
+    const getRandom = (min, max) => Math.random() * (max - min) + min;
 
-    // --- Dynamic Background Elements Initialization ---
-    // Ensure the background container exists
-    if (backgroundElementsContainer) {
-        createStars(backgroundElementsContainer);
-        createEtherealGlows(backgroundElementsContainer);
-        createParticles(backgroundElementsContainer);
-        createAuraGlows(backgroundElementsContainer);
-        createStreaks(backgroundElementsContainer);
-        createFloatingOrbs(backgroundElementsContainer);
-        createNebulaClouds(backgroundElementsContainer);
-        createWindGusts(backgroundElementsContainer);
-        createFlyingWings(backgroundElementsContainer);
-        createShootingStars(backgroundElementsContainer); // Shooting Stars
-        createCosmicDust(backgroundElementsContainer);    // Cosmic Dust
-        createFlickeringMotes(backgroundElementsContainer); // Flickering Motes
-        createSwirlingWisps(backgroundElementsContainer); // Swirling Wisps
-        createGentleFlares(backgroundElementsContainer);  // Gentle Flares
-        createMoonAndScenery(backgroundElementsContainer); // Dynamic Moon and Scenery
-    }
-
-
-    // --- Music Playback Logic ---
-    // Only set up music button if it exists on the page
-    if (musicPlayButton) {
-        musicPlayButton.addEventListener('click', () => {
-            if (backgroundAudio.paused) {
-                backgroundAudio.play().catch(error => console.error("Music play failed:", error));
-                musicPlayButton.classList.remove('paused');
-                musicPlayButton.classList.add('playing');
-            } else {
-                backgroundAudio.pause();
-                musicPlayButton.classList.remove('playing');
-                musicPlayButton.classList.add('paused');
-            }
-        });
-
-        // Initialize button state
-        backgroundAudio.addEventListener('play', () => {
-            musicPlayButton.classList.remove('paused');
-            musicPlayButton.classList.add('playing');
-        });
-        backgroundAudio.addEventListener('pause', () => {
-            musicPlayButton.classList.remove('playing');
-            musicPlayButton.classList.add('paused');
-        });
-        // Set initial state based on current audio state or default to paused
-        if (backgroundAudio.paused) {
-            musicPlayButton.classList.add('paused');
+    // Background Elements Initialization (dynamic generation based on CSS)
+    function initializeBackgroundEffects() {
+        // Ensure background-elements container exists or create it
+        let backgroundElements = document.querySelector('.background-elements');
+        if (!backgroundElements) {
+            backgroundElements = document.createElement('div');
+            backgroundElements.className = 'background-elements';
+            document.body.prepend(backgroundElements); // Add to the beginning of the body
         } else {
-            musicPlayButton.classList.add('playing');
-        }
-    }
-
-
-    // --- Stagger Animations for sections and text on certain pages ---
-    // Check if it's page3.html or any other page that needs this animation
-    // current page is determined by checking for specific elements unique to page3, or by URL
-    const isPage3 = window.location.pathname.includes('page3.html');
-
-    if (isPage3) {
-        // Only main container fades in, text and buttons are part of this main container
-        if (mainContainer) {
-            mainContainer.classList.add('active'); // Apply the fade-in to the main container
-        }
-        // No individual text/section staggering needed for page3 as it's a single block
-    } else {
-        // For other pages like index.html or page2.html that might have multiple sections
-        if (mainContainer) {
-            mainContainer.classList.add('active'); // General container fade-in
-        }
-        // Stagger animations for paragraphs and headings for non-page3 pages
-        paragraphsAndHeadings.forEach((element, index) => {
-            element.style.animationDelay = `${0.5 + index * 0.2}s`;
-            element.classList.add('stagger-fade-in'); // Assuming CSS for this class
-        });
-
-        // Stagger animations for sections
-        sections.forEach((section, index) => {
-            section.style.animationDelay = `${1 + index * 0.3}s`;
-            section.classList.add('stagger-fade-in'); // Assuming CSS for this class
-        });
-    }
-
-    // --- YES Button Logic (specific to page3.html) ---
-    const yesButton = document.getElementById('yesButton');
-    if (yesButton) {
-        yesButton.addEventListener('click', () => {
-            window.showTransitionPreloader('acknowledgement.html?response=yes');
-        });
-    }
-
-    // --- NO Button Logic (specific to page3.html) ---
-    const noButton = document.getElementById('noButton');
-    if (noButton) {
-        noButton.addEventListener('mouseover', () => {
-            const buttonRect = noButton.getBoundingClientRect();
-            const maxX = window.innerWidth - buttonRect.width;
-            const maxY = window.innerHeight - buttonRect.height;
-
-            // Get random position within the viewport, ensuring button stays fully visible
-            const newX = Math.random() * maxX;
-            const newY = Math.random() * maxY;
-
-            noButton.style.position = 'absolute';
-            noButton.style.left = `${newX}px`;
-            noButton.style.top = `${newY}px`;
-            noButton.style.transition = 'all 0.1s ease-out'; // Make movement smooth
-        });
-
-        // Optional: Reset position on mouse leave if you want it to jump back
-        // noButton.addEventListener('mouseleave', () => {
-        //     noButton.style.position = 'static'; // Or return to a default relative position
-        //     noButton.style.transition = 'none'; // Remove transition for instant reset
-        // });
-    }
-
-    // --- Transition Preloader Logic (Global) ---
-    window.showTransitionPreloader = function(targetPage) {
-        let preloader = document.getElementById('dynamic-transition-preloader');
-        if (!preloader) {
-            preloader = document.createElement('div');
-            preloader.id = 'dynamic-transition-preloader';
-            preloader.classList.add('transition-preloader');
-            preloader.innerHTML = `
-                <div class="preloader-dual-hearts">
-                    <div class="heart heart-left"></div>
-                    <div class="heart heart-right"></div>
-                </div>
-                <div class="loading-text">Transitioning...</div>
-            `;
-            document.body.appendChild(preloader);
+            // Clear existing elements if function is called multiple times
+            backgroundElements.innerHTML = '';
         }
 
-        preloader.classList.add('active');
-        // Apply heart animations
-        const dualHearts = preloader.querySelector('.preloader-dual-hearts');
-        if (dualHearts) {
-            dualHearts.classList.add('active'); // Activates CSS animations
-        }
-
-        setTimeout(() => {
-            window.location.href = targetPage;
-        }, 1000); // Wait 1 second before redirecting
-    };
-
-    // --- Helper Functions for Dynamic Background Elements ---
-
-    function createMoonAndScenery(container) {
-        const moon = document.createElement('div');
-        moon.classList.add('moon');
-        container.appendChild(moon);
-
-        const scenery = document.createElement('div');
-        scenery.classList.add('distant-scenery');
-        container.appendChild(scenery);
-    }
-
-    function createStars(container) {
-        const numStars = 100;
+        // --- Stars ---
+        const numStars = 150; // Increased stars for more density
         for (let i = 0; i < numStars; i++) {
             const star = document.createElement('div');
-            star.classList.add('star');
-            const size = Math.random() * 3 + 1; // 1px to 4px
+            star.className = 'star';
+            const size = getRandom(1, 4); // Slightly larger stars
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
-            star.style.left = `${Math.random() * 100}vw`;
-            star.style.top = `${Math.random() * 100}vh`;
-            star.style.animationDelay = `${Math.random() * 4}s`; // Stagger animation
-            container.appendChild(star);
+            star.style.left = `${getRandom(0, 100)}vw`;
+            star.style.top = `${getRandom(0, 100)}vh`;
+            star.style.animationDelay = `${getRandom(0, 8)}s`; // More varied delays
+            star.style.setProperty('--star-drift-duration', `${getRandom(25, 50)}s`); // Longer drift durations
+            star.style.setProperty('--star-drift-x', `${getRandom(-30, 30)}vw`);
+            star.style.setProperty('--star-drift-y', `${getRandom(-30, 30)}vh`);
+            backgroundElements.appendChild(star);
         }
-    }
 
-    function createEtherealGlows(container) {
-        const numGlows = 5;
+        // --- Ethereal Glows ---
+        const numGlows = 10; // More glows
         for (let i = 0; i < numGlows; i++) {
             const glow = document.createElement('div');
-            glow.classList.add('ethereal-glow');
-            const size = Math.random() * 100 + 50; // 50px to 150px
+            glow.className = 'ethereal-glow';
+            const size = getRandom(150, 400); // Larger glows
             glow.style.width = `${size}px`;
             glow.style.height = `${size}px`;
-            glow.style.left = `${Math.random() * 100}vw`;
-            glow.style.top = `${Math.random() * 100}vh`;
-            glow.style.animationDelay = `${Math.random() * 10}s`;
-            container.appendChild(glow);
+            glow.style.left = `${getRandom(0, 100)}vw`;
+            glow.style.top = `${getRandom(0, 100)}vh`;
+            glow.style.animationDelay = `${getRandom(0, 7)}s`;
+            glow.style.setProperty('--glow-duration', `${getRandom(20, 40)}s`);
+            glow.style.setProperty('--glow-scale', `${getRandom(0.9, 1.3)}`);
+            glow.style.setProperty('--x', `${getRandom(0, 100)}`);
+            glow.style.setProperty('--y', `${getRandom(0, 100)}`);
+            glow.style.setProperty('--dx', `${getRandom(-40, 40)}`);
+            glow.style.setProperty('--dy', `${getRandom(-40, 40)}`);
+            backgroundElements.appendChild(glow);
         }
-    }
 
-    function createParticles(container) {
-        const numParticles = 30;
+        // --- Particles ---
+        const numParticles = 80; // More particles
         for (let i = 0; i < numParticles; i++) {
             const particle = document.createElement('div');
-            particle.classList.add('particle');
-            const size = Math.random() * 2 + 0.5; // 0.5px to 2.5px
+            particle.className = 'particle';
+            const size = getRandom(2, 6); // Slightly larger particles
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.top = `${Math.random() * 100}vh`;
-            particle.style.animationDelay = `${Math.random() * 15}s`;
-            particle.style.setProperty('--end-x', `${(Math.random() - 0.5) * 50}vw`);
-            particle.style.setProperty('--end-y', `${(Math.random() - 0.5) * 50}vh`);
-            container.appendChild(particle);
+            particle.style.setProperty('--p-x', `${getRandom(0, 100)}vw`);
+            particle.style.setProperty('--p-y', `${getRandom(0, 100)}vh`);
+            particle.style.setProperty('--p-dx', `${getRandom(-70, 70)}px`); // Wider drift
+            particle.style.setProperty('--p-dy', `${getRandom(-70, 70)}px`);
+            particle.style.setProperty('--p-scale', `${getRandom(0.7, 1.8)}`);
+            particle.style.setProperty('--p-duration', `${getRandom(7, 18)}s`); // Longer durations
+            particle.style.animationDelay = `${getRandom(0, 12)}s`;
+            backgroundElements.appendChild(particle);
         }
-    }
 
-    function createAuraGlows(container) {
-        const numAuras = 4;
-        for (let i = 0; i < numAuras; i++) {
-            const aura = document.createElement('div');
-            aura.classList.add('aura-glow');
-            const size = Math.random() * 200 + 100; // 100px to 300px
-            aura.style.width = `${size}px`;
-            aura.style.height = `${size}px`;
-            aura.style.left = `${Math.random() * 100}vw`;
-            aura.style.top = `${Math.random() * 100}vh`;
-            aura.style.animationDelay = `${Math.random() * 20}s`;
-            aura.style.setProperty('--start-x', `${(Math.random() - 0.5) * 10}vw`);
-            aura.style.setProperty('--start-y', `${(Math.random() - 0.5) * 10}vh`);
-            aura.style.setProperty('--end-x', `${(Math.random() - 0.5) * 20}vw`);
-            aura.style.setProperty('--end-y', `${(Math.random() - 0.5) * 20}vh`);
-            container.appendChild(aura);
+        // --- Moon ---
+        const moon = document.querySelector('.moon'); // Select existing moon
+        if (moon) {
+            moon.style.width = '180px'; // Slightly larger moon
+            moon.style.height = '180px';
+            moon.style.left = `5vw`; // Explicitly top-left corner
+            moon.style.top = `5vh`;  // Explicitly top-left corner
+            // Existing moon will be picked up by CSS, no need to append again
+        } else {
+            // Fallback if moon wasn't in HTML, create it (though it is in the provided HTML)
+            const newMoon = document.createElement('div');
+            newMoon.className = 'moon';
+            newMoon.style.width = '180px';
+            newMoon.style.height = '180px';
+            newMoon.style.left = `5vw`;
+            newMoon.style.top = `5vh`;
+            backgroundElements.appendChild(newMoon);
         }
-    }
 
-    function createStreaks(container) {
-        const numStreaks = 8;
-        for (let i = 0; i < numStreaks; i++) {
-            const streak = document.createElement('div');
-            streak.classList.add('streak');
-            const length = Math.random() * 150 + 50; // 50px to 200px
-            streak.style.width = `${length}px`;
-            streak.style.left = `${Math.random() * 100}vw`;
-            streak.style.top = `${Math.random() * 100}vh`;
-            streak.style.animationDelay = `${Math.random() * 8}s`;
-            streak.style.setProperty('--start-x', `${Math.random() * 100}vw`);
-            streak.style.setProperty('--end-x', `${Math.random() * 100}vw`);
-            streak.style.setProperty('--angle', `${Math.random() * 360}deg`);
-            container.appendChild(streak);
-        }
-    }
 
-    function createFloatingOrbs(container) {
-        const numOrbs = 7;
+        // --- Distant Scenery ---
+        // Assuming .distant-scenery is already in HTML as per provided code
+        // const scenery = document.querySelector('.distant-scenery'); // No need to create if exists
+        // if (!scenery) { /* create it */ }
+
+        // --- Water Shimmer ---
+        // Assuming .water-shimmer is already in HTML as per provided code
+        // const waterShimmer = document.querySelector('.water-shimmer'); // No need to create if exists
+        // if (!waterShimmer) { /* create it */ }
+
+
+        // --- Floating Orbs ---
+        const numOrbs = 10; // More orbs
+        const orbColors = ['#FF69B1', '#8A2BE2', '#FFD700', '#ADD8E6', '#e0e0e0']; // Added white/light
         for (let i = 0; i < numOrbs; i++) {
             const orb = document.createElement('div');
-            orb.classList.add('floating-orb');
-            const size = Math.random() * 80 + 40; // 40px to 120px
+            orb.className = 'floating-orb';
+            const size = getRandom(100, 250); // Larger orbs
             orb.style.width = `${size}px`;
             orb.style.height = `${size}px`;
-            orb.style.left = `${Math.random() * 100}vw`;
-            orb.style.top = `${Math.random() * 100}vh`;
-            orb.style.animationDelay = `${Math.random() * 25}s`;
-            orb.style.setProperty('--start-x', `${(Math.random() - 0.5) * 15}vw`);
-            orb.style.setProperty('--start-y', `${(Math.random() - 0.5) * 15}vh`);
-            orb.style.setProperty('--end-x', `${(Math.random() - 0.5) * 25}vw`);
-            orb.style.setProperty('--end-y', `${(Math.random() - 0.5) * 25}vh`);
-            container.appendChild(orb);
+            orb.style.left = `${getRandom(0, 100)}vw`;
+            orb.style.top = `${getRandom(0, 100)}vh`;
+            orb.style.animationDelay = `${getRandom(0, 9)}s`;
+            orb.style.setProperty('--orb-color', orbColors[Math.floor(getRandom(0, orbColors.length))]);
+            orb.style.setProperty('--orb-blur', `${getRandom(40, 80)}px`); // Stronger blur
+            orb.style.setProperty('--orb-opacity', `${getRandom(0.15, 0.5)}`); // More visible
+            orb.style.setProperty('--orb-duration', `${getRandom(25, 50)}s`);
+            orb.style.setProperty('--orb-pulse-duration', `${getRandom(4, 8)}s`);
+            orb.style.setProperty('--orb-x', `${getRandom(0, 100)}`);
+            orb.style.setProperty('--orb-y', `${getRandom(0, 100)}`);
+            orb.style.setProperty('--orb-dx', `${getRandom(-50, 50)}`);
+            orb.style.setProperty('--orb-dy', `${getRandom(-50, 50)}`);
+            orb.style.setProperty('--orb-scale', `${getRandom(0.9, 1.5)}`);
+            backgroundElements.appendChild(orb);
         }
-    }
 
-    function createNebulaClouds(container) {
-        const numNebulas = 3;
-        for (let i = 0; i < numNebulas; i++) {
-            const nebula = document.createElement('div');
-            nebula.classList.add('nebula-cloud');
-            const size = Math.random() * 400 + 200; // 200px to 600px
-            nebula.style.width = `${size}px`;
-            nebula.style.height = `${size}px`;
-            nebula.style.left = `${Math.random() * 100}vw`;
-            nebula.style.top = `${Math.random() * 100}vh`;
-            nebula.style.animationDelay = `${Math.random() * 30}s`;
-            nebula.style.setProperty('--start-x', `${(Math.random() - 0.5) * 20}vw`);
-            nebula.style.setProperty('--start-y', `${(Math.random() - 0.5) * 20}vh`);
-            nebula.style.setProperty('--end-x', `${(Math.random() - 0.5) * 40}vw`);
-            nebula.style.setProperty('--end-y', `${(Math.random() - 0.5) * 40}vh`);
-            container.appendChild(nebula);
+        // --- Nebula Clouds ---
+        const numClouds = 7; // More clouds
+        const cloudColors = ['rgba(138,43,226,0.7)', 'rgba(255,105,180,0.7)', 'rgba(255,215,0,0.7)', 'rgba(173,216,230,0.7)']; // Brighter, added light blue
+        for (let i = 0; i < numClouds; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'nebula-cloud';
+            const size = getRandom(300, 600); // Larger clouds
+            cloud.style.width = `${size}px`;
+            cloud.style.height = `${size * 0.7}px`; // More elliptical
+            cloud.style.left = `${getRandom(0, 100)}vw`;
+            cloud.style.top = `${getRandom(0, 100)}vh`;
+            cloud.style.animationDelay = `${getRandom(0, 12)}s`;
+            cloud.style.setProperty('--cloud-color', cloudColors[Math.floor(getRandom(0, cloudColors.length))]);
+            cloud.style.setProperty('--cloud-blur', `${getRandom(100, 200)}px`); // Stronger blur
+            cloud.style.setProperty('--cloud-opacity', `${getRandom(0.2, 0.4)}`); // More visible
+            cloud.style.setProperty('--cloud-duration', `${getRandom(40, 80)}s`);
+            cloud.style.setProperty('--cloud-x', `${getRandom(-70, 70)}vw`);
+            cloud.style.setProperty('--cloud-y', `${getRandom(-70, 70)}vh`);
+            cloud.style.setProperty('--cloud-dx', `${getRandom(-120, 120)}vw`);
+            cloud.style.setProperty('--cloud-dy', `${getRandom(-120, 120)}vh`);
+            cloud.style.setProperty('--cloud-scale', `${getRandom(1, 1.8)}`);
+            backgroundElements.appendChild(cloud);
         }
-    }
 
-    function createWindGusts(container) {
-        const numGusts = 10;
+        // --- Wind Gusts ---
+        const numGusts = 8; // More gusts
         for (let i = 0; i < numGusts; i++) {
             const gust = document.createElement('div');
-            gust.classList.add('wind-gust');
-            const length = Math.random() * 300 + 100;
-            gust.style.width = `${length}px`;
-            gust.style.left = `${Math.random() * 100}vw`;
-            gust.style.top = `${Math.random() * 100}vh`;
-            gust.style.animationDelay = `${Math.random() * 10}s`;
-            container.appendChild(gust);
+            gust.className = 'wind-gust';
+            gust.style.top = `${getRandom(0, 100)}vh`;
+            gust.style.animationDelay = `${getRandom(0, 18)}s`;
+            gust.style.setProperty('--gust-opacity', `${getRandom(0.1, 0.3)}`); // More visible
+            gust.style.setProperty('--gust-height', `${getRandom(2, 4)}px`); // Thicker gusts
+            gust.style.setProperty('--gust-width', `${getRandom(300, 700)}px`); // Longer gusts
+            gust.style.setProperty('--gust-blur', `${getRandom(1, 3)}px`);
+            gust.style.setProperty('--gust-duration', `${getRandom(15, 30)}s`);
+            backgroundElements.appendChild(gust);
         }
-    }
 
-    function createFlyingWings(container) {
-        const numWings = 5;
+        // --- Flying Wings (simple abstract shapes) ---
+        const numWings = 10; // More wings
+        const wingColors = ['#fff', '#FFD1DC', '#FFB6C1']; // White, Light Pink, Hot Pink
         for (let i = 0; i < numWings; i++) {
             const wing = document.createElement('div');
-            wing.classList.add('flying-wing');
-            const size = Math.random() * 40 + 20;
+            wing.className = 'flying-wing';
+            const size = getRandom(30, 70); // Larger wings
             wing.style.width = `${size}px`;
-            wing.style.height = `${size}px`;
-            wing.style.left = `${Math.random() * 100}vw`;
-            wing.style.top = `${Math.random() * 100}vh`;
-            wing.style.animationDelay = `${Math.random() * 18}s`;
-            wing.style.setProperty('--start-x', `${Math.random() * 100}vw`);
-            wing.style.setProperty('--start-y', `${Math.random() * 100}vh`);
-            wing.style.setProperty('--end-x', `${Math.random() * 100}vw`);
-            wing.style.setProperty('--end-y', `${Math.random() * 100}vh`);
-            wing.style.setProperty('--rotation', `${Math.random() * 360}deg`);
-            wing.style.setProperty('--scale', `${Math.random() * 0.5 + 0.7}`); // 0.7 to 1.2
-            container.appendChild(wing);
+            wing.style.height = `${size * 0.6}px`;
+            wing.style.animationDelay = `${getRandom(0, 25)}s`;
+            wing.style.setProperty('--wing-color', wingColors[Math.floor(getRandom(0, wingColors.length))]);
+            wing.style.setProperty('--wing-opacity', `${getRandom(0.3, 0.7)}`); // More visible
+            wing.style.setProperty('--wing-duration', `${getRandom(20, 40)}s`);
+            wing.style.setProperty('--wing-scale', `${getRandom(0.9, 1.5)}`);
+            wing.style.setProperty('--wing-rotation', `${getRandom(0, 360)}deg`);
+            wing.style.setProperty('--wing-x', `${getRandom(0, 100)}vw`);
+            wing.style.setProperty('--wing-y', `${getRandom(0, 100)}vh`);
+            wing.style.setProperty('--wing-dx', `${getRandom(-100, 100)}vw`);
+            wing.style.setProperty('--wing-dy', `${getRandom(-100, 100)}vh`);
+            backgroundElements.appendChild(wing);
         }
-    }
 
-    function createShootingStars(container) {
-        const numShootingStars = 3;
+        // --- Shooting Stars ---
+        const numShootingStars = 5; // More shooting stars
         for (let i = 0; i < numShootingStars; i++) {
-            const star = document.createElement('div');
-            star.classList.add('shooting-star');
-            const length = Math.random() * 200 + 100;
-            star.style.width = `${length}px`;
-            star.style.left = `${Math.random() * 100}vw`;
-            star.style.top = `${Math.random() * 100}vh`;
-            star.style.animationDelay = `${Math.random() * 10}s`;
-            star.style.setProperty('--start-x', `${Math.random() * 100}vw`);
-            star.style.setProperty('--end-x', `${Math.random() * 100}vw`);
-            star.style.setProperty('--angle', `${Math.random() * 360}deg`);
-            container.appendChild(star);
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.animationDelay = `${getRandom(0, 25)}s`;
+            shootingStar.style.setProperty('--shoot-duration', `${getRandom(3, 6)}s`); // Longer duration
+            shootingStar.style.setProperty('--start-x', `${getRandom(10, 90)}vw`);
+            shootingStar.style.setProperty('--start-y', `${getRandom(10, 90)}vh`);
+            shootingStar.style.setProperty('--shoot-angle', `${getRandom(-60, 60)}deg`); // Wider angle
+            shootingStar.style.setProperty('--end-x', `${getRandom(-30, 130)}vw`);
+            shootingStar.style.setProperty('--end-y', `${getRandom(-30, 130)}vh`);
+            backgroundElements.appendChild(shootingStar);
         }
     }
 
-    function createCosmicDust(container) {
-        const numDust = 50;
-        for (let i = 0; i < numDust; i++) {
-            const dust = document.createElement('div');
-            dust.classList.add('cosmic-dust');
-            const size = Math.random() * 1.5 + 0.5; // 0.5px to 2px
-            dust.style.width = `${size}px`;
-            dust.style.height = `${size}px`;
-            dust.style.left = `${Math.random() * 100}vw`;
-            dust.style.top = `${Math.random() * 100}vh`;
-            dust.style.animationDelay = `${Math.random() * 25}s`;
-            dust.style.setProperty('--start-x', `${(Math.random() - 0.5) * 10}vw`);
-            dust.style.setProperty('--start-y', `${(Math.random() - 0.5) * 10}vh`);
-            dust.style.setProperty('--end-x', `${(Math.random() - 0.5) * 20}vw`);
-            dust.style.setProperty('--end-y', `${(Math.random() - 0.5) * 20}vh`);
-            dust.style.setProperty('--size', `${size}px`);
-            container.appendChild(dust);
+    // Preloader and Content Reveal Logic
+    const preloader = document.getElementById('preloader'); // Targeting the updated preloader ID
+    const mainContainer = document.querySelector('.container');
+    const indexProgressBar = document.getElementById('indexProgressBar');
+    const indexProgressText = document.getElementById('indexProgressText');
+    const preloaderMessage = document.querySelector('.preloader-message');
+
+    let loadProgress = 0;
+
+    // Function to update the preloader progress bar
+    function updateProgressBar() {
+        if (indexProgressBar && indexProgressText) {
+            loadProgress += getRandom(2, 7); // Simulate loading faster
+            if (loadProgress > 100) loadProgress = 100;
+            indexProgressBar.style.width = `${loadProgress}%`;
+            indexProgressText.textContent = `${Math.floor(loadProgress)}%`;
+
+            if (loadProgress < 100) {
+                requestAnimationFrame(updateProgressBar);
+            } else {
+                // Once loading is complete, reveal content
+                setTimeout(revealContent, 500); // Small delay after 100%
+            }
+        } else {
+            // If preloader elements are not found, reveal content immediately
+            revealContent();
         }
     }
 
-    function createFlickeringMotes(container) {
-        const numMotes = 40;
-        for (let i = 0; i < numMotes; i++) {
-            const mote = document.createElement('div');
-            mote.classList.add('flickering-mote');
-            const size = Math.random() * 2 + 0.5; // 0.5px to 2.5px
-            mote.style.width = `${size}px`;
-            mote.style.height = `${size}px`;
-            mote.style.left = `${Math.random() * 100}vw`;
-            mote.style.top = `${Math.random() * 100}vh`;
-            mote.style.animationDelay = `${Math.random() * 3}s`;
-            container.appendChild(mote);
+    // Function to animate preloader message words
+    function animatePreloaderMessage() {
+        if (!preloaderMessage) return;
+
+        const text = preloaderMessage.textContent;
+        preloaderMessage.innerHTML = ''; // Clear original text
+
+        // Split text into words and wrap them in spans
+        text.split(' ').forEach((word, wordIndex) => {
+            const wordSpan = document.createElement('span');
+            wordSpan.textContent = word + ' '; // Add space back
+            wordSpan.classList.add('word-animated');
+            wordSpan.style.animationDelay = `${0.2 + wordIndex * 0.1}s`; // Stagger words
+            preloaderMessage.appendChild(wordSpan);
+        });
+
+        // Make the container visible after words are added
+        preloaderMessage.style.opacity = 1;
+        // Trigger reflow for animation to apply
+        void preloaderMessage.offsetWidth;
+    }
+
+
+    // Function to reveal main content and handle text animations
+    function revealContent() {
+        if (preloader) {
+            // Stop any ongoing progress bar animation
+            if (indexProgressBar) {
+                indexProgressBar.style.transition = 'none'; // Stop transition for immediate width set
+                indexProgressBar.style.width = '100%';
+            }
+            if (indexProgressText) {
+                indexProgressText.textContent = '100%';
+            }
+
+            preloader.classList.add('hidden');
+            // Remove preloader from DOM after transition for performance
+            preloader.addEventListener('transitionend', () => {
+                preloader.remove();
+                document.body.style.overflow = ''; // Restore scroll if it was hidden
+            }, { once: true });
+        }
+
+        if (mainContainer) {
+            mainContainer.classList.add('visible-content');
+
+            // === STAGGERED TEXT REVEAL FOR ALL PAGES ===
+            // Target specific text and button elements for staggered animation.
+            // This selector covers elements on both index.html and page3.html
+            const contentElements = mainContainer.querySelectorAll('h1, h2, p, .confession-prelude, .confession-main, .section-break, .button-container .button');
+
+            contentElements.forEach((el, index) => {
+                // Ensure elements are initially hidden by CSS, then animate in
+                // If they are already hidden by default CSS, no need to set inline style
+                el.style.animation = 'none'; // Reset animation
+                void el.offsetWidth; // Trigger reflow
+
+                // Apply fadeIn or fadeInSlideUp with a staggered delay
+                const delay = 0.8 + index * 0.18; // Increased initial delay and stagger for smoother reveal
+
+                if (el.tagName === 'H1' || el.tagName === 'H2') {
+                    el.style.animation = `fadeInSlideUp 1s ease-out forwards ${delay}s`;
+                } else if (el.classList.contains('confession-main')) {
+                    el.style.animation = `fadeIn 1s ease-out forwards ${delay}s, pulseGlow 3s ease-in-out infinite alternate ${delay + 1}s`;
+                } else if (el.classList.contains('button') || el.closest('.button-container')) { // Target buttons and their container
+                     el.style.animation = `buttonPopIn 1s ease-out forwards ${delay}s`;
+                }
+                else {
+                    el.style.animation = `fadeIn 1s ease-out forwards ${delay}s`;
+                }
+            });
         }
     }
 
-    function createSwirlingWisps(container) {
-        const numWisps = 4;
-        for (let i = 0; i < numWisps; i++) {
-            const wisp = document.createElement('div');
-            wisp.classList.add('swirling-wisp');
-            const size = Math.random() * 150 + 80; // 80px to 230px
-            wisp.style.width = `${size}px`;
-            wisp.style.height = `${size}px`;
-            wisp.style.left = `${Math.random() * 100}vw`;
-            wisp.style.top = `${Math.random() * 100}vh`;
-            wisp.style.animationDelay = `${Math.random() * 15}s`;
-            wisp.style.setProperty('--wisp-start-x', `${(Math.random() - 0.5) * 30}vw`);
-            wisp.style.setProperty('--wisp-start-y', `${(Math.random() - 0.5) * 30}vh`);
-            wisp.style.setProperty('--wisp-end-x', `${(Math.random() - 0.5) * 50}vw`);
-            wisp.style.setProperty('--wisp-end-y', `${(Math.random() - 0.5) * 50}vh`);
-            container.appendChild(wisp);
+    // Start the preloader and background effects when content is loaded
+    initializeBackgroundEffects(); // Generate background elements immediately
+
+    // Only start preloader animation if preloader element exists
+    if (preloaderMessage && indexProgressBar && indexProgressText) {
+        animatePreloaderMessage(); // Start preloader message animation
+        updateProgressBar(); // Start preloader animation
+    } else {
+        // If preloader elements are missing, reveal content instantly
+        revealContent();
+    }
+
+
+    // Music Play/Pause Button Logic
+    const musicPlayButton = document.getElementById('music-play-button');
+    const backgroundMusic = document.getElementById('backgroundMusic'); // Get the audio element
+
+    if (musicPlayButton && backgroundMusic) {
+        musicPlayButton.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play()
+                    .then(() => {
+                        musicPlayButton.textContent = '❚❚'; // Pause icon
+                        musicPlayButton.classList.add('playing');
+                    })
+                    .catch(error => {
+                        console.error("Autoplay prevented:", error);
+                        alert("Music autoplay was prevented by the browser. Please interact with the page first.");
+                    });
+            } else {
+                backgroundMusic.pause();
+                musicPlayButton.textContent = '🎵'; // Play icon (using a note now for clarity)
+                musicPlayButton.classList.remove('playing');
+            }
+        });
+        // Attempt to play music automatically, but handle browser autoplay policies
+        // This might not work without user interaction, so the button is essential
+        // backgroundMusic.play().catch(e => console.log("Autoplay blocked:", e));
+    }
+    // Removed the button evasion logic as requested.
+});
+
+// Function to generate a random number within a range
+function getRandom(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// Function to create and append a star element
+function createStar() {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.width = star.style.height = `${getRandom(1, 3)}px`;
+    star.style.left = `${getRandom(0, 100)}vw`;
+    star.style.top = `${getRandom(0, 100)}vh`;
+    star.style.setProperty('--star-drift-duration', `${getRandom(50, 150)}s`);
+    star.style.setProperty('--star-drift-x', `${getRandom(-10, 10)}vw`);
+    star.style.setProperty('--star-drift-y', `${getRandom(-10, 10)}vh`);
+    star.style.animationDelay = `${getRandom(0, 4)}s`;
+    document.querySelector('.background-elements').appendChild(star);
+}
+
+// Function to generate multiple stars
+function generateStars(count) {
+    for (let i = 0; i < count; i++) {
+        createStar();
+    }
+}
+
+// Function to handle preloader animation and hide it
+function setupPreloader() {
+    const preloader = document.getElementById('preloader');
+    const indexProgressBar = document.getElementById('indexProgressBar');
+    const indexProgressText = document.getElementById('indexProgressText');
+    const mainContainer = document.querySelector('.container');
+    const preloaderMessage = document.querySelector('.preloader-message');
+    const animatedWords = preloaderMessage ? preloaderMessage.querySelectorAll('.word-animated') : [];
+
+    if (!preloader) return; // Only run if preloader exists
+
+    // Animate preloader message words
+    if (preloaderMessage) {
+        preloaderMessage.style.opacity = 1; // Make container visible
+        animatedWords.forEach((word, index) => {
+            setTimeout(() => {
+                word.style.opacity = 1;
+                word.style.transform = 'scale(1)';
+            }, index * 200); // Stagger animation
+        });
+    }
+
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += getRandom(5, 10); // Simulate loading
+        if (progress > 100) progress = 100;
+
+        if (indexProgressBar) indexProgressBar.style.width = `${progress}%`;
+        if (indexProgressText) indexProgressText.textContent = `${Math.floor(progress)}%`;
+
+        if (progress === 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                if (mainContainer) {
+                    mainContainer.classList.add('visible-content');
+                }
+            }, 500); // Small delay before hiding preloader
+        }
+    }, 100); // Update every 100ms
+}
+
+// Function to handle smooth page transitions
+function setupPageTransitions() {
+    const buttons = document.querySelectorAll('.button, .choice-button');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            if (button.href && !button.href.includes('#')) { // Ensure it's a valid link and not an anchor
+                event.preventDefault(); // Prevent default link behavior
+                const targetPage = button.href;
+
+                // Fade out the current page body
+                document.body.style.opacity = 0;
+                document.body.style.transition = 'opacity 0.7s ease-out'; // Use a consistent transition duration
+
+                // Navigate after the fade-out
+                setTimeout(() => {
+                    window.location.href = targetPage;
+                }, 700); // Match transition duration
+            }
+        });
+    });
+}
+
+// Music Playback functionality
+function setupMusicPlayer() {
+    const musicButton = document.getElementById('music-play-button');
+    const backgroundMusic = document.getElementById('background-music');
+
+    if (musicButton && backgroundMusic) {
+        let isPlaying = false;
+
+        // Try to play immediately (might be blocked by browser policies)
+        const playPromise = backgroundMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // Autoplay started
+                isPlaying = true;
+                musicButton.classList.add('playing');
+            }).catch(error => {
+                // Autoplay was prevented. Show play button.
+                console.log("Autoplay prevented:", error);
+                isPlaying = false;
+                musicButton.classList.remove('playing');
+            });
+        }
+
+        musicButton.addEventListener('click', () => {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicButton.classList.remove('playing');
+            } else {
+                backgroundMusic.play().then(() => {
+                    musicButton.classList.add('playing');
+                }).catch(error => {
+                    console.log("Failed to play music:", error);
+                });
+            }
+            isPlaying = !isPlaying;
+        });
+    }
+}
+
+
+// Run functions on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Generate background stars
+    generateStars(200); // You can adjust the number of stars
+
+    // Setup preloader for index.html only
+    if (document.getElementById('preloader')) {
+        setupPreloader();
+    } else {
+        // If no preloader, make content visible immediately
+        const mainContainer = document.querySelector('.container');
+        if (mainContainer) {
+            mainContainer.classList.add('visible-content');
         }
     }
 
-    // NEW FUNCTION: Gentle Flares
-    function createGentleFlares(container) {
-        const numFlares = 5;
-        for (let i = 0; i < numFlares; i++) {
-            const flare = document.createElement('div');
-            flare.classList.add('gentle-flare');
-            const size = Math.random() * 400 + 300; // 300px to 700px, very large
-            flare.style.width = `${size}px`;
-            flare.style.height = `${size}px`;
-            flare.style.left = `${Math.random() * 100}vw`;
-            flare.style.top = `${Math.random() * 100}vh`;
-            flare.style.animationDelay = `${Math.random() * 20}s`;
-            flare.style.setProperty('--flare-duration', `${Math.random() * 10 + 5}s`);
-            container.appendChild(flare);
-        }
-    }
+    // Set up smooth page transitions for buttons
+    setupPageTransitions();
+
+    // Set up background music player
+    setupMusicPlayer();
+
+    // Staggered animation for paragraphs and section breaks
+    const animatedElements = document.querySelectorAll('p, .section-break');
+    animatedElements.forEach((el, index) => {
+        setTimeout(() => {
+            el.style.opacity = 1; // Make element visible
+            // If you have specific translateY animations, add them here
+            // e.g., el.style.transform = 'translateY(0)';
+        }, index * 100 + (document.getElementById('preloader') ? 1200 : 0)); // Delay after preloader if present
+    });
 });
