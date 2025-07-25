@@ -3,37 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Confession</title>
-    <link rel="stylesheet" href="style3.css"> 
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <title>A Special Question</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes:wght@400;700&family=Lora:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="style3.css"> <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-    <div class="background-elements"></div>
 
-    <div class="container main-content-area">
-        <div class="music-player">
-            <button id="music-play-button" aria-label="Play/Pause Music">
-                <span class="play-icon">▶️</span>
-                <span class="pause-icon">⏸️</span>
-            </button>
-            <audio id="backgroundMusic" src="perfect_instrumental.mp3"></audio> 
+    <div class="background-elements">
         </div>
 
-        <div class="confession-section">
-            <p class="confession-prelude">Soo, Uk what i am going to say u dont u...</p>
-            <p class="confession-main">
-                Every day with "YOU" is a cherished moment, beautiful and true...
-                Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....
-            </p>
-            <h1 class="question-text">So, with all my heart and soul... ✨<br>Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?</h1>
-        </div>
-
-        <div class="choice-buttons">
-            <button id="yesButton" class="button yes-button">Yes, of course! ❤️</button>
-            <button id="noButton" class="button no-button">No 💔</button>
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-single-heart"></div>
+            <div class="preloader-message" id="animatedPreloaderMessage"></div>
+            <div class="progress-bar-container">
+                <div id="page3ProgressBar">
+                    <span id="page3ProgressText">0%</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <button id="music-play-button" class="music-button paused">
+        <svg class="music-icon" viewBox="0 0 24 24">
+            <path class="play-path" d="M8 5v14l11-7z"/>
+            <path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+
+    <div class="container confession-section">
+        <p>Soo, Uk what i am going to say u dont u...</p>
+        <p class="confession-main">
+            Every day with "YOU" is a cherished moment, beautiful and true...
+            Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....
+        </p>
+        <h1 class="question-text">So, with all my heart and soul... ✨<br>Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?</h1>
+        <div class="choice-buttons">
+            <button id="yesButton" class="glow-on-hover" type="button">YES</button>
+            <button id="noButton" class="glow-on-hover" type="button">NO</button>
+        </div>
+    </div>
+
+    <script src="page3.js"></script>
 </body>
 </html>
