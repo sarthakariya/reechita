@@ -1,12 +1,71 @@
+// Ensure showTransitionPreloader is globally accessible immediately
+window.showTransitionPreloader = function(targetPage) {
+    const preloaderDiv = document.createElement('div');
+    preloaderDiv.id = 'dynamic-transition-preloader'; // Use a unique ID to avoid conflict with static HTML element
+    preloaderDiv.classList.add('transition-preloader');
+    preloaderDiv.innerHTML = `
+        <div class="preloader-dual-hearts">
+            <div class="heart heart-left"></div>
+            <div class="heart heart-right"></div>
+        </div>
+        <div class="transition-preloader-message">Transitioning...</div>
+    `;
+    document.body.appendChild(preloaderDiv);
+
+    preloaderDiv.offsetWidth; // Force reflow to apply initial styles before transition
+
+    // Call the function to animate the dual hearts
+    createDualHearts(preloaderDiv.querySelector('.preloader-dual-hearts'));
+
+    preloaderDiv.classList.add('active'); // Activate CSS transition
+
+    // Redirect after the preloader animation has had time to play
+    setTimeout(() => {
+        window.location.href = targetPage;
+    }, 1200); // Adjust this delay to match your preloader animation duration if needed
+};
+
+// NEW Function: Create and Animate Dual Hearts for Transition Preloader
+function createDualHearts(container) {
+    const leftHeart = container.querySelector('.heart-left');
+    const rightHeart = container.querySelector('.heart-right');
+
+    // Initial positions for animation, includes the -45deg rotation from CSS
+    leftHeart.style.transform = 'translateX(-100%) rotate(-45deg)';
+    rightHeart.style.transform = 'translateX(100%) rotate(-45deg)';
+    leftHeart.style.opacity = '0';
+    rightHeart.style.opacity = '0';
+
+    // Animate them into view
+    setTimeout(() => {
+        leftHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+        rightHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+        leftHeart.style.transform = 'translateX(0) rotate(-45deg)';
+        rightHeart.style.transform = 'translateX(0) rotate(-45deg)';
+        leftHeart.style.opacity = '1';
+        rightHeart.style.opacity = '1'; // Ensure both hearts become visible
+    }, 50);
+
+    // Further animation: subtle pulse
+    leftHeart.style.animation = 'heartMergeLeft 1.5s infinite alternate ease-in-out';
+    rightHeart.style.animation = 'heartMergeRight 1.5s infinite alternate ease-in-out 0.2s';
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.querySelector('.container');
     const backgroundElementsContainer = document.querySelector('.background-elements');
     const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h1, .container h2, .container .question-text, .container .confession-prelude, .container .confession-main');
     const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
-    const backgroundAudio = new Audio('perfect_instrumental.mp3');
-    backgroundAudio.loop = true;
-    backgroundAudio.volume = 0.5;
+    const backgroundAudio = document.getElementById('backgroundMusic'); // Correctly reference the HTML audio element
+    
+    // Ensure backgroundAudio exists before setting properties
+    if (backgroundAudio) {
+        backgroundAudio.loop = true;
+        backgroundAudio.volume = 0.5;
+    }
+
 
     // --- Dynamic Background Elements Initialization ---
     // Ensure the background container exists
@@ -20,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         createNebulaClouds(backgroundElementsContainer);
         createWindGusts(backgroundElementsContainer);
         createFlyingWings(backgroundElementsContainer);
-        createShootingStars(backgroundElementsContainer);
-        createMoonAndScenery(backgroundElementsContainer);
+        createShootingStars(backgroundElementsContainer); // NEW: Shooting Stars
+        createMoonAndScenery(backgroundElementsContainer); // NEW: Dynamic Moon and Scenery
         createCosmicDust(backgroundElementsContainer); // NEW: Cosmic Dust
         createFlickeringMotes(backgroundElementsContainer); // NEW: Flickering Motes
         createSwirlingWisps(backgroundElementsContainer); // NEW: Swirling Wisps
@@ -29,43 +88,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Music Playback Logic ---
-    const savedTime = localStorage.getItem('musicCurrentTime');
-    let isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
+    if (musicPlayButton && backgroundAudio) { // Only proceed if both elements exist
+        const savedTime = localStorage.getItem('musicCurrentTime');
+        let isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
 
-    if (savedTime) {
-        backgroundAudio.currentTime = parseFloat(savedTime);
-    }
-
-    const playMusic = () => {
-        backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
-        musicPlayButton.classList.add('playing');
-        localStorage.setItem('musicIsPlaying', 'true');
-        isPlaying = true;
-    };
-
-    const pauseMusic = () => {
-        backgroundAudio.pause();
-        musicPlayButton.classList.remove('playing');
-        localStorage.setItem('musicIsPlaying', 'false');
-        isPlaying = false;
-    };
-
-    if (isPlaying) {
-        playMusic();
-    }
-
-    musicPlayButton.addEventListener('click', () => {
-        if (backgroundAudio.paused) {
-            playMusic();
-        } else {
-            pauseMusic();
+        if (savedTime) {
+            backgroundAudio.currentTime = parseFloat(savedTime);
         }
-    });
 
-    window.addEventListener('beforeunload', () => {
-        localStorage.setItem('musicCurrentTime', backgroundAudio.currentTime);
-        localStorage.setItem('musicIsPlaying', isPlaying);
-    });
+        const playMusic = () => {
+            backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
+            musicPlayButton.classList.add('playing');
+            localStorage.setItem('musicIsPlaying', 'true');
+            isPlaying = true;
+        };
+
+        const pauseMusic = () => {
+            backgroundAudio.pause();
+            musicPlayButton.classList.remove('playing');
+            localStorage.setItem('musicIsPlaying', 'false');
+            isPlaying = false;
+        };
+
+        if (isPlaying) {
+            playMusic();
+        }
+
+        musicPlayButton.addEventListener('click', () => {
+            if (backgroundAudio.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('musicCurrentTime', backgroundAudio.currentTime);
+            localStorage.setItem('musicIsPlaying', isPlaying);
+        });
+    }
+
 
     // --- Preloader & Main Content Visibility (for index.html) ---
     const preloader = document.getElementById('preloader');
@@ -258,58 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Button stays in new position
         });
     }
-
-    // --- UPDATED Function: Show Transition Preloader (for page2 to page3) ---
-    window.showTransitionPreloader = function(targetPage) {
-        const preloaderDiv = document.createElement('div');
-        preloaderDiv.id = 'dynamic-transition-preloader';
-        preloaderDiv.classList.add('transition-preloader');
-        preloaderDiv.innerHTML = `
-            <div class="preloader-dual-hearts">
-                <div class="heart heart-left"></div>
-                <div class="heart heart-right"></div>
-            </div>
-            <div class="transition-preloader-message">Transitioning...</div>
-        `;
-        document.body.appendChild(preloaderDiv);
-
-        preloaderDiv.offsetWidth; // Force reflow
-
-        createDualHearts(preloaderDiv.querySelector('.preloader-dual-hearts'));
-
-        preloaderDiv.classList.add('active');
-
-
-        setTimeout(() => {
-            window.location.href = targetPage;
-        }, 1200);
-    };
-
-    // --- NEW Function: Create and Animate Dual Hearts for Transition Preloader ---
-    function createDualHearts(container) {
-        const leftHeart = container.querySelector('.heart-left');
-        const rightHeart = container.querySelector('.heart-right');
-
-        // Initial positions for animation, includes the -45deg rotation from CSS
-        leftHeart.style.transform = 'translateX(-100%) rotate(-45deg)';
-        rightHeart.style.transform = 'translateX(100%) rotate(-45deg)';
-        leftHeart.style.opacity = '0';
-        rightHeart.style.opacity = '0';
-
-        // Animate them into view
-        setTimeout(() => {
-            leftHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-            rightHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-            leftHeart.style.transform = 'translateX(0) rotate(-45deg)';
-            rightHeart.style.transform = 'translateX(0) rotate(-45deg)';
-            leftHeart.style.opacity = '1';
-        }, 50);
-
-        // Further animation: subtle pulse
-        leftHeart.style.animation = 'heartMergeLeft 1.5s infinite alternate ease-in-out';
-        rightHeart.style.animation = 'heartMergeRight 1.5s infinite alternate ease-in-out 0.2s';
-    }
-
 }); // End DOMContentLoaded for main script
 
 // --- Function for falling hearts animation ---
