@@ -3,15 +3,15 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    /* Removed the pink linear-gradient background */
-    background: #dc8dbe; 
+    /* New: Enchanted Starlight background */
+    background: linear-gradient(135deg, #2c0a3d 0%, #0a0520 100%); /* Deep purple to dark blue/black */
     font-family: 'Lora', serif;
-    color: #b8004c;
+    color: #e0d0f0; /* Soft light purple for general text */
     overflow-x: hidden;
     position: relative;
 }
 
-/* Background floating hearts (optional, for extra beauty) */
+/* Background floating elements (from page.js) */
 .background-elements {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -23,7 +23,8 @@ body {
 #preloader {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: none; /* Removed the pink overlay */
+    /* New: Preloader background matching new theme */
+    background: rgba(20, 10, 40, 0.95); /* Darker, mysterious preloader */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,20 +37,18 @@ body {
 }
 
 .preloader-single-heart {
-    display: none !important;
+    display: none !important; /* Kept hidden as before */
 }
-
-
 
 .preloader-message {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.5em;
-    color: #ff69b4;
+    font-size: 2.8em; /* Slightly larger */
+    color: #ffd700; /* Golden color for preloader message */
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInRise 1s forwards;
     animation-delay: 0.5s;
-    text-shadow: 0 0 15px rgba(255,105,180,0.5);
+    text-shadow: 0 0 20px rgba(255,215,0,0.6); /* Golden glow */
 }
 
 @keyframes fadeInRise {
@@ -59,21 +58,24 @@ body {
     }
 }
 
-
 /* Main Container */
 .container {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 1.5s ease-out, transform 1.5s ease-out;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    max-width: 850px; /* Slightly wider container */
+    margin: 60px auto; /* More vertical margin */
+    padding: 40px; /* More padding */
+    /* New: Elegant container background */
+    background-color: rgba(255, 255, 255, 0.08); /* Very subtle translucent white */
+    border-radius: 25px; /* Softer rounded corners */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), /* Deeper shadow */
+                0 0 30px rgba(170, 0, 255, 0.2); /* Subtle purple glow */
     text-align: center;
     position: relative;
     z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    backdrop-filter: blur(5px); /* Soft blur effect */
 }
 
 .container.show {
@@ -83,57 +85,61 @@ body {
 
 /* Confession Section */
 .confession-section p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #66002c;
+    font-size: 1.15em; /* Slightly larger text */
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #e0d0f0; /* Light purple */
 }
 
 .confession-main {
     font-family: 'Pacifico', cursive;
-    font-size: 1.6em;
-    color: #ff69b4;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 5px rgba(255,105,180,0.3);
+    font-size: 1.8em; /* Larger and more prominent */
+    color: #ffcc00; /* Golden yellow for main confession */
+    margin-bottom: 40px;
+    text-shadow: 0 0 15px rgba(255,204,0,0.6); /* Golden glow */
+    line-height: 1.4;
 }
 
 .question-text {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.8em;
-    color: #ff1493; /* Deep pink for emphasis */
-    margin-top: 40px;
-    margin-bottom: 50px;
-    line-height: 1.3;
-    text-shadow: 0 0 20px rgba(255,20,147,0.7);
+    font-size: 3.2em; /* Even larger and grander */
+    color: #ff66ff; /* A vibrant magical pink/purple */
+    margin-top: 50px;
+    margin-bottom: 60px;
+    line-height: 1.25;
+    text-shadow: 0 0 25px rgba(255,102,255,0.8); /* Intense magical glow */
 }
 
 /* Buttons */
 .choice-buttons {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-top: 40px;
+    gap: 40px; /* Increased gap between buttons */
+    margin-top: 50px;
 }
 
 .glow-on-hover {
-    padding: 15px 35px;
-    font-size: 1.5em;
+    padding: 18px 40px; /* Larger padding */
+    font-size: 1.6em; /* Larger font size */
     font-family: 'Lora', serif;
     font-weight: bold;
     border: none;
-    border-radius: 50px;
-    background: linear-gradient(90deg, #ff69b4 0%, #ff1493 100%);
+    border-radius: 60px; /* More rounded, pill-like */
+    /* New: Enchanted button gradient */
+    background: linear-gradient(90deg, #aa00ff 0%, #ff00aa 100%); /* Purple to vibrant pink */
     color: #fff;
-    box-shadow: 0 2px 16px #ffd6e0;
+    box-shadow: 0 4px 20px rgba(170, 0, 255, 0.4); /* Purple glow shadow */
     cursor: pointer;
-    transition: box-shadow 0.2s, transform 0.2s, background 0.3s;
+    transition: box-shadow 0.3s, transform 0.3s, background 0.4s;
     outline: none;
     position: relative;
+    letter-spacing: 1px;
 }
 .glow-on-hover:hover {
-    box-shadow: 0 4px 32px #ff69b4;
-    background: linear-gradient(90deg, #ffb6c1 0%, #ff85a1 100%);
-    transform: scale(1.07);
+    box-shadow: 0 6px 40px rgba(255, 0, 170, 0.6), /* Stronger pink glow */
+                0 0 50px rgba(255, 0, 170, 0.3); /* Wider pink glow */
+    background: linear-gradient(90deg, #ff00aa 0%, #aa00ff 100%); /* Reverse gradient on hover */
+    transform: scale(1.1); /* More pronounced scale effect */
 }
 
 /* Floating Hearts (from hearts.js) */
@@ -144,24 +150,25 @@ body {
     pointer-events: none;
     animation: floatHeart linear forwards;
     will-change: transform, opacity;
-    filter: drop-shadow(0 2px 8px rgba(255,105,180,0.2));
+    filter: drop-shadow(0 2px 10px rgba(255,105,180,0.4)); /* Slightly stronger shadow */
     transition: opacity 0.3s;
 }
 .floating-heart svg {
     display: block;
-    width: 2em;
-    height: 2em;
+    width: 2.2em; /* Slightly larger hearts */
+    height: 2.2em;
+    fill: #ff66ff; /* New: Magical pink for floating hearts */
 }
 @keyframes floatHeart {
     0% {
-        transform: translateY(0) scale(1) rotate(-10deg);
-        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg); /* Smoother initial rotation */
+        opacity: 0.8; /* Start slightly visible */
     }
-    60% {
-        opacity: 1;
+    50% {
+        opacity: 0.9; /* More opaque mid-flight */
     }
     100% {
-        transform: translateY(-100vh) scale(0) rotate(10deg);
+        transform: translateY(-120vh) scale(0.2) rotate(360deg); /* Float higher and spin more */
         opacity: 0;
     }
 }
@@ -169,32 +176,34 @@ body {
 /* Music Play Button */
 .music-button {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 2px solid #ff69b4;
+    bottom: 30px; /* Slightly higher */
+    right: 30px; /* Slightly inward */
+    /* New: Music button styling */
+    background: rgba(255, 255, 255, 0.15); /* More translucent */
+    border: 2px solid #ff66ff; /* Magical pink border */
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 55px; /* Slightly larger */
+    height: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 12px rgba(255, 102, 255, 0.4); /* Pink glow shadow */
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s;
     z-index: 100;
     outline: none;
 }
 
 .music-button:hover {
-    background: rgba(255, 255, 255, 0.9);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.25); /* More translucent on hover */
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(255, 102, 255, 0.6); /* Stronger glow on hover */
 }
 
 .music-icon {
-    fill: #ff69b4;
-    width: 24px;
-    height: 24px;
+    fill: #ff66ff; /* Magical pink fill for icon */
+    width: 28px; /* Slightly larger icon */
+    height: 28px;
     transition: fill 0.3s ease;
 }
 
@@ -217,58 +226,63 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .container {
-        margin: 20px;
-        padding: 20px;
+        margin: 40px 20px;
+        padding: 30px;
     }
 
     .confession-section p {
-        font-size: 1em;
+        font-size: 1.05em;
     }
 
     .confession-main {
-        font-size: 1.4em;
+        font-size: 1.5em;
     }
 
     .question-text {
-        font-size: 2em;
+        font-size: 2.5em;
     }
 
     .glow-on-hover {
-        padding: 12px 25px;
-        font-size: 1.2em;
+        padding: 15px 30px;
+        font-size: 1.3em;
     }
 
     .music-button {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
     }
 
     .music-icon {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 15px;
+        padding: 25px;
+        margin: 30px 15px;
     }
 
     .confession-main {
-        font-size: 1.2em;
+        font-size: 1.3em;
     }
 
     .question-text {
-        font-size: 1.8em;
+        font-size: 2em;
+        margin-top: 30px;
+        margin-bottom: 40px;
     }
 
     .glow-on-hover {
-        padding: 10px 20px;
-        font-size: 1em;
+        padding: 12px 25px;
+        font-size: 1.1em;
     }
 
     .choice-buttons {
         flex-direction: column;
-        gap: 15px;
+        gap: 20px;
     }
 }
