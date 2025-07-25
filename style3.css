@@ -1,7 +1,7 @@
 /* style3.css - Dedicated styles for page3.html */
 
-/* Import Google Fonts - Lora, Playfair Display, and Oxanium */
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Oxanium:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
+/* Import Google Fonts - Lora, Playfair Display, Oxanium, and Dancing Script */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Oxanium:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
     /* Inherit/Override Dark Elegant Theme Colors */
@@ -26,7 +26,7 @@
 }
 
 body {
-    font-family: 'Lora', serif; /* Elegant serif font for body */
+    font-family: 'Dancing Script', cursive; /* Elegant cursive font for body */
     color: var(--text-light);
     margin: 0;
     padding: 0;
@@ -56,7 +56,7 @@ body {
     opacity: 0; /* Hidden by default, animated in by JS */
     transform: translateY(20px);
     animation: fadeInSlideUp 1s ease-out forwards;
-    animation-delay: 0.8s; /* Delay after preloader */
+    animation-delay: 4.5s; /* Delay after preloader animation */
 }
 
 /* Responsive adjustments for container padding and width */
@@ -108,6 +108,7 @@ p {
     opacity: 0;
     transform: translateY(10px);
     animation: fadeInSlideUp 0.8s ease-out forwards;
+    animation-delay: 5s; /* Delay after preloader and container fade in */
 }
 
 /* Specific styling for the question text */
@@ -151,6 +152,7 @@ p {
     position: relative;
     opacity: 0;
     animation: buttonPopIn 1s ease-out forwards;
+    animation-delay: 5.5s; /* Delay after preloader and content fade in */
 }
 
 .button, .choice-buttons button {
@@ -271,7 +273,7 @@ p {
 }
 
 
-/* Preloader for Page 3 - Enhanced */
+/* Preloader for Page 3 - Enhanced for two hearts coming closer */
 .transition-preloader {
     position: fixed;
     top: 0;
@@ -284,25 +286,26 @@ p {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    opacity: 1; /* Start visible */
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* For fading out */
 }
 
-.transition-preloader.active {
-    opacity: 1;
-    visibility: visible;
+.transition-preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .preloader-dual-hearts {
     position: relative;
-    width: 120px;
-    height: 60px;
+    width: 180px; /* Wider container for hearts to move */
+    height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 25px;
-    perspective: 500px; /* Added perspective for 3D effect */
+    perspective: 500px;
+    overflow: hidden; /* Hide hearts initially if outside */
 }
 
 /* REFINED HEART STYLING (A lot Better Look) */
@@ -345,13 +348,13 @@ p {
 }
 
 .preloader-dual-hearts .heart-left {
-    left: 0;
-    animation: heartMergeLeft 1.8s ease-in-out infinite alternate; /* Slightly longer and smoother */
+    left: -60px; /* Start further left */
+    animation: heartComeCloserLeft 4.5s ease-in-out forwards;
 }
 
 .preloader-dual-hearts .heart-right {
-    right: 0;
-    animation: heartMergeRight 1.8s ease-in-out infinite alternate 0.2s; /* Staggered and smoother */
+    right: -60px; /* Start further right */
+    animation: heartComeCloserRight 4.5s ease-in-out forwards;
 }
 
 .transition-preloader-message {
@@ -401,18 +404,17 @@ p {
     100% { left: 100%; }
 }
 
-/* REFINED: Heart Merge Animation for Preloader (Smoother, more graceful) */
-@keyframes heartMergeLeft {
-    0% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
-    40% { transform: translateX(-40px) rotate(-60deg) scale(1.15); opacity: 0.9; } /* Wider swing, more scale */
-    100% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
+/* NEW: Heart Come Closer Animation for Preloader */
+@keyframes heartComeCloserLeft {
+    0% { transform: translateX(0) rotate(-45deg); }
+    100% { transform: translateX(60px) rotate(-45deg); } /* Move towards center */
 }
 
-@keyframes heartMergeRight {
-    0% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
-    40% { transform: translateX(40px) rotate(-30deg) scale(1.15); opacity: 0.9; } /* Wider swing, more scale */
-    100% { transform: translateX(0) rotate(-45deg) scale(1); opacity: 1; }
+@keyframes heartComeCloserRight {
+    0% { transform: translateX(0) rotate(-45deg); }
+    100% { transform: translateX(-60px) rotate(-45deg); } /* Move towards center */
 }
+
 
 @keyframes textPulse {
     0%, 100% { opacity: 0.8; transform: scale(1); }
