@@ -3,37 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Big Question! 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style3.css"> <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>My Confession</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="background-elements"></div>
 
-    <audio id="backgroundMusic" loop>
-        <source src="perfect_instrumental.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <button id="music-play-button">🎵</button>
-
-    <div class="background-elements">
-        <div class="moon"></div>
-        <div class="distant-scenery"></div>
-        <div class="water-shimmer"></div>
-    </div>
-
-    <div class="container">
-        <div class="confession-box">
-            <h1 class="question-text">Soo, <span style="font-family: 'Dancing Script', cursive;">Uk what i am going to say u dont u...</span></h1>
-            <p><span style="font-family: 'Dancing Script', cursive;">Every day with "YOU" is a cherished moment, beautiful and true...</span></p>
-            <p><span style="font-family: 'Dancing Script', cursive;">Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</span></p>
-            <p class="confession-prelude">So, with all my heart and soul... ✨</p>
-            <p class="confession-main">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) <strong>*forever*</strong>?</p>
+    <div class="container main-content-area">
+        <div class="music-player">
+            <button id="music-play-button" aria-label="Play/Pause Music">
+                <span class="play-icon">▶️</span>
+                <span class="pause-icon">⏸️</span>
+            </button>
+            <audio id="backgroundMusic" src="perfect_instrumental.mp3"></audio> 
         </div>
 
+        <div class="confession-section">
+            <p class="confession-prelude">Soo, Uk what i am going to say u dont u...</p>
+            <p class="confession-main">
+                Every day with "YOU" is a cherished moment, beautiful and true...
+                Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....
+            </p>
+            <h1 class="question-text">So, with all my heart and soul... ✨<br>Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?</h1>
+        </div>
         <div class="choice-buttons">
-            <a href="#" class="button yes-button" id="yesButton">YES! <span class="emoji">💖</span></a>
-            <a href="#" class="button no-button" id="noButton">NO! <span class="emoji">💔</span></a>
+            <button id="yesButton" class="button yes-button">Yes, of course! ❤️</button>
+            <button id="noButton" class="button no-button">No 💔</button>
         </div>
     </div>
 
