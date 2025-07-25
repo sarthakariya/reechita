@@ -3,54 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Confession</title>
-    <link rel="stylesheet" href="style3.css">
-    <link rel="stylesheet" href="style.css"> </head>
+    <title>The Big Question! 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lora:wght@400;700&family=Pacifico&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
 <body>
-    <div class="transition-preloader" id="preloader">
-        <div class="preloader-dual-hearts">
-            <div class="heart heart-left"></div>
-            <div class="heart heart-right"></div>
-        </div>
-        <div class="transition-preloader-message">Loading the magic...</div>
-    </div>
 
-    <div class="background-elements">
-        </div>
-
-    <button id="music-play-button">🎵</button>
     <audio id="backgroundMusic" loop>
         <source src="perfect_instrumental.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
+    <button id="music-play-button">🎵</button>
+
+    <div class="background-elements">
+        <div class="moon"></div>
+        <div class="distant-scenery"></div>
+        <div class="water-shimmer"></div>
+    </div>
+
+    <div id="transition-preloader" class="transition-preloader">
+        <div class="heart-spinner"></div>
+    </div>
+
     <div class="container">
-        <p class="confession-prelude">My dearest Reechita,</p>
-        <p class="confession-main">
-            Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?
-        </p>
+        <div class="confession-box">
+            <h1 class="question-text">Soo, <span style="font-family: 'Dancing Script', cursive;">Uk what i am going to say u dont u...</span></h1>
+            <p><span style="font-family: 'Dancing Script', cursive;">Every day with "YOU" is a cherished moment, beautiful and true...</span></p>
+            <p><span style="font-family: 'Dancing Script', cursive;">Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</span></p>
+            <p class="confession-prelude">So, with all my heart and soul... ✨</p>
+            <p class="confession-main">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) <strong>*forever*</strong>?</p>
+        </div>
 
         <div class="choice-buttons">
-            <button class="button f-button" id="yesButton">Yes! <span class="emoji">💖</span></button>
-            <button class="button" id="noButton">No. <span class="emoji">💔</span></button>
+            <a href="#" class="button yes-button" id="yesButton">YES! <span class="emoji">💖</span></a>
+            <a href="#" class="button no-button" id="noButton">NO! <span class="emoji">💔</span></a>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Any specific script for page3.html, if needed.
-        // For example, if script.js loads page content, it should only do so AFTER preloader fades.
-
-        // Ensure the preloader hides after 4-5 seconds
-        document.addEventListener('DOMContentLoaded', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.classList.add('hidden'); // This triggers the CSS fade-out
-                // You can also ensure the body/container content becomes visible here if not already
-                // document.querySelector('.container').style.opacity = '1';
-                // document.querySelector('.container').style.transform = 'translateY(0)';
-            }, 4500); // 4.5 seconds for the heart animation + a small buffer
-        });
-    </script>
 </body>
 </html>
