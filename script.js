@@ -20,7 +20,6 @@ window.showTransitionPreloader = function(targetPage) {
     preloaderDiv.classList.add('active'); // Activate CSS transition
 
     // Redirect after the preloader animation has had time to play
-    // ADJUSTED DELAY: Increased from 1200ms to 4700ms to match CSS animation duration (4.5s) + buffer
     setTimeout(() => {
         window.location.href = targetPage;
     }, 4700); // This delay is crucial for the heart animation to complete!
@@ -45,7 +44,7 @@ function createDualHearts(container) {
         rightHeart.style.opacity = '1';
     }, 50);
 
-    // Apply the main "come closer" animation defined in style3.css
+    // Apply the main "come closer" animation defined in style3.css (assuming style.css now)
     // The animation property should trigger the keyframes directly
     leftHeart.style.animation = 'heartComeCloserLeft 4.5s ease-in-out forwards';
     rightHeart.style.animation = 'heartComeCloserRight 4.5s ease-in-out forwards';
@@ -66,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
     const musicPlayButton = document.getElementById('music-play-button');
     const backgroundAudio = document.getElementById('backgroundMusic'); // Correctly reference the HTML audio element
+
+    // Determine if it's the confession page to control text animation
+    const isConfessionPage = window.location.pathname.includes('confession.html');
 
     // Ensure backgroundAudio exists before setting properties
     if (backgroundAudio) {
@@ -204,18 +206,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 preloader.addEventListener('transitionend', () => preloader.remove());
                 if (mainContainer) {
                     mainContainer.classList.add('visible-content');
-                    staggerAnimations();
+                    staggerAnimations(); // Full stagger for index page
                 }
             }
         }, intervalTime);
     } else if (mainContainer) {
         // If no preloader (e.g., on page2.html, page3.html, acknowledgement.html)
         mainContainer.classList.add('visible-content');
-        staggerAnimations();
+        if (isConfessionPage) {
+            staggerSectionsAnimations(); // Only buttons/sections animate on confession page
+        } else {
+            staggerAnimations(); // Full stagger for other content pages
+        }
     }
 
     // --- Staggered Paragraph and Section Animations (for various pages) ---
-    // Make this function globally accessible for page3.html's inline script
+    // Make this function globally accessible for consistency
     window.staggerAnimations = function() {
         // Reset opacity/transform to allow re-animation if needed, or ensure initial hidden state
         paragraphsAndHeadings.forEach(el => {
@@ -248,38 +254,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // NEW FUNCTION: Staggered Section Animations (for pages like confession.html that don't need text animation)
+    window.staggerSectionsAnimations = function() {
+        // Reset styles for sections only
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'scale(0.8)'; // Reset for buttons
+            section.style.animation = 'none';
+        });
+
+        if (sections.length > 0) {
+            sections.forEach((section, index) => {
+                const isButtonSection = section.classList.contains('button-container') || section.classList.contains('choice-buttons');
+                const baseDelay = 0.5; // Start delay from 0.5s as there's no preceding text animation
+                if (isButtonSection) {
+                    section.style.animation = `buttonPopIn 1s ease-out forwards ${baseDelay + index * 0.2}s`;
+                } else {
+                    // For other sections that might not be buttons but still exist on the page
+                    section.style.animation = `fadeInSlideUp 0.8s ease-out forwards ${baseDelay + index * 0.15}s`;
+                }
+            });
+        }
+    }
+
+
     // --- page3.html (Confession Page) Specific Logic ---
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
-    // Helper function to move the no button
-    function moveNoButton(buttonElement, containerElement) {
-        const moveRange = 120;
+    // Helper function to move the no button away from the mouse
+    function moveNoButton(buttonElement, containerElement, mouseEvent) {
+        const moveDistance = 150; // How far to push the button away from the mouse pointer
         const containerRect = containerElement ? containerElement.getBoundingClientRect() : document.body.getBoundingClientRect();
         const buttonRect = buttonElement.getBoundingClientRect();
 
         let newX, newY;
-        let attempts = 0;
-        const maxAttempts = 50;
 
-        do {
-            let deltaX = (Math.random() - 0.5) * 2 * moveRange;
-            let deltaY = (Math.random() - 0.5) * 2 * moveRange;
+        // Calculate direction vector from button center to mouse pointer
+        const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+        const buttonCenterY = buttonRect.top + buttonRect.height / 2;
 
-            newX = buttonRect.left + deltaX;
-            newY = buttonRect.top + deltaY;
+        const deltaX = mouseEvent.clientX - buttonCenterX;
+        const deltaY = mouseEvent.clientY - buttonCenterY;
 
-            const padding = 20;
-            newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
-            newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
+        // Normalize the vector (make its length 1)
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        // Avoid division by zero if mouse is exactly at button center
+        const normalizedDeltaX = distance === 0 ? 0 : deltaX / distance;
+        const normalizedDeltaY = distance === 0 ? 0 : deltaY / distance;
 
-            attempts++;
-            if (attempts >= maxAttempts) {
-                console.warn("Could not find a valid new position for the 'No' button.");
-                return;
-            }
-        } while (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5);
+        // Move in the *opposite* direction of the mouse
+        newX = buttonRect.left - normalizedDeltaX * moveDistance;
+        newY = buttonRect.top - normalizedDeltaY * moveDistance;
 
+        // Boundary checks to keep button within container (or a reasonable area)
+        const padding = 20; // Keep button 20px from container edges
+        newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
+        newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
+
+        // Get current transform values to apply relative movement
         const currentTransform = getComputedStyle(buttonElement).transform;
         let currentTx = 0, currentTy = 0;
         if (currentTransform && currentTransform !== 'none') {
@@ -291,6 +324,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Calculate the translation needed from its current rendered position to the new desired position
+        // This makes sure it moves relative to where it *currently* is, not just its original HTML position
         const transformX = (newX - buttonRect.left) + currentTx;
         const transformY = (newY - buttonRect.top) + currentTy;
 
@@ -299,33 +334,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (yesButton && noButton) {
-        // Removed redundant style resets here, allowing staggerAnimations to handle them
-        // yesButton.style.animation = 'none';
-        // noButton.style.animation = 'none';
-        // yesButton.style.opacity = '1';
-        // noButton.style.opacity = '1';
-
         yesButton.addEventListener('click', (event) => {
             event.preventDefault();
             document.body.classList.add('success-theme');
             createFallingHearts();
             createFallingChocolates();
             setTimeout(() => {
-                window.location.href = 'acknowledgement.html?response=yes';
-            }, 1000);
+                window.location.href = 'acknowledgement.html?response=yes'; // Redirect to acknowledgement.html
+            }, 1000); // Small delay for animations
         });
 
+        // Event listeners for "No" button
         noButton.addEventListener('click', (event) => {
             event.preventDefault();
-            moveNoButton(noButton, mainContainer);
+            moveNoButton(noButton, mainContainer, event);
         });
 
-        noButton.addEventListener('mouseover', () => {
-            moveNoButton(noButton, mainContainer);
+        noButton.addEventListener('mouseover', (event) => {
+            moveNoButton(noButton, mainContainer, event);
         });
 
         noButton.addEventListener('mouseout', () => {
-            // Button stays in new position
+            // Button stays in new position after mouse leaves.
+            // You could add a slight bounce back here if desired, but "running away" implies it stays away.
         });
     }
 }); // End DOMContentLoaded for main script
