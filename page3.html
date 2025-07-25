@@ -3,56 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Question from Sarthak's Heart</title>
-    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="style3.css"> <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-</head>
+    <title>My Confession</title>
+    <link rel="stylesheet" href="style3.css">
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <div id="dynamic-transition-preloader" class="transition-preloader">
+    <div class="transition-preloader" id="preloader">
         <div class="preloader-dual-hearts">
             <div class="heart heart-left"></div>
             <div class="heart heart-right"></div>
         </div>
-        <div class="transition-preloader-message">Preparing the Universe for Your Answer...</div>
+        <div class="transition-preloader-message">Loading the magic...</div>
     </div>
 
     <div class="background-elements">
         </div>
 
+    <button id="music-play-button">🎵</button>
+    <audio id="backgroundMusic" loop>
+        <source src="perfect_instrumental.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div class="container">
-        <h1 class="sparkle-text">Soo, U know what I am going to say don't U...</h1>
-        <p>Every day with "YOU" is a cherished moment, beautiful and true...</p>
-        <p>Sooo may I just say, my heart has found its rhythm with yours, a melody I wish to listen to forever....</p>
-        <p class="confession-prelude">So, with all my heart and soul... ✨</p>
-        <p class="confession-main">Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) <strong>*forever*</strong>?</p>
+        <p class="confession-prelude">My dearest Reechita,</p>
+        <p class="confession-main">
+            Will you do me the honor of being my Girlfriend (Tungsten Iodine Iron) *forever*?
+        </p>
 
         <div class="choice-buttons">
-            <button id="yesButton" class="button">Yes, Sarthak! ✨</button>
-            <button id="noButton" class="button">No</button>
+            <button class="button f-button" id="yesButton">Yes! <span class="emoji">💖</span></button>
+            <button class="button" id="noButton">No. <span class="emoji">💔</span></button>
         </div>
-    </div>
-
-    <div id="music-play-button">
-        <span class="music-icon">🎵</span>
     </div>
 
     <script src="script.js"></script>
     <script>
+        // Any specific script for page3.html, if needed.
+        // For example, if script.js loads page content, it should only do so AFTER preloader fades.
+
+        // Ensure the preloader hides after 4-5 seconds
         document.addEventListener('DOMContentLoaded', () => {
-            const preloader = document.getElementById('dynamic-transition-preloader');
-            if (preloader) {
-                preloader.classList.add('active'); // Activate preloader on load
-                setTimeout(() => {
-                    preloader.classList.remove('active');
-                    preloader.addEventListener('transitionend', () => preloader.remove());
-                    const mainContainer = document.querySelector('.container');
-                    if (mainContainer) {
-                        mainContainer.classList.add('visible-content');
-                        if (typeof staggerAnimations === 'function') {
-                            staggerAnimations();
-                        }
-                    }
-                }, 1500); // Adjust this duration to match your preloader animation
-            }
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('hidden'); // This triggers the CSS fade-out
+                // You can also ensure the body/container content becomes visible here if not already
+                // document.querySelector('.container').style.opacity = '1';
+                // document.querySelector('.container').style.transform = 'translateY(0)';
+            }, 4500); // 4.5 seconds for the heart animation + a small buffer
         });
     </script>
 </body>
