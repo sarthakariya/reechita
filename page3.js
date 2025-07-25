@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- YES Button Logic (specific to page3.html) ---
     if (yesButton) {
         yesButton.addEventListener('click', () => {
-            window.location.href = 'yes.html';
+            window.location.href = 'acknowledgement.html';
         });
     }
 
