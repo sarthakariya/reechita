@@ -609,3 +609,326 @@ function createMoonAndScenery(container) {
     water.classList.add('water-shimmer');
     container.appendChild(water);
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContainer = document.querySelector('.container');
+    const backgroundElementsContainer = document.querySelector('.background-elements');
+    const paragraphsAndHeadings = document.querySelectorAll('.container p, .container h1, .container h2, .container .question-text, .container .confession-prelude, .container .confession-main'); // UPDATED SELECTOR
+    const sections = document.querySelectorAll('.section-break, .button-container, .choice-buttons');
+    const musicPlayButton = document.getElementById('music-play-button');
+    const backgroundAudio = new Audio('perfect_instrumental.mp3');
+    backgroundAudio.loop = true;
+    backgroundAudio.volume = 0.5;
+
+    // --- Dynamic Background Elements Initialization ---
+    if (backgroundElementsContainer) {
+        createStars(backgroundElementsContainer);
+        createEtherealGlows(backgroundElementsContainer);
+        createParticles(backgroundElementsContainer);
+        createAuraGlows(backgroundElementsContainer);
+        createStreaks(backgroundElementsContainer);
+        createFloatingOrbs(backgroundElementsContainer);
+        createNebulaClouds(backgroundElementsContainer);
+        createWindGusts(backgroundElementsContainer);
+        createFlyingWings(backgroundElementsContainer);
+        createShootingStars(backgroundElementsContainer);
+        createMoonAndScenery(backgroundElementsContainer);
+
+        // NEW: Add the calls for the new background animations
+        createFlickeringMotes(backgroundElementsContainer);
+        createSwirlingWisps(backgroundElementsContainer);
+        createGentleFlares(backgroundElementsContainer);
+    }
+
+    // --- Music Playback Logic (KEEP AS IS) ---
+    const savedTime = localStorage.getItem('musicCurrentTime');
+    let isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
+
+    if (savedTime) {
+        backgroundAudio.currentTime = parseFloat(savedTime);
+    }
+
+    const playMusic = () => {
+        backgroundAudio.play().catch(e => console.error("Autoplay prevented:", e));
+        musicPlayButton.classList.add('playing');
+        localStorage.setItem('musicIsPlaying', 'true');
+        isPlaying = true;
+    };
+
+    const pauseMusic = () => {
+        backgroundAudio.pause();
+        musicPlayButton.classList.remove('playing');
+        localStorage.setItem('musicIsPlaying', 'false');
+        isPlaying = false;
+    };
+
+    if (isPlaying) {
+        playMusic();
+    }
+
+    musicPlayButton.addEventListener('click', () => {
+        if (backgroundAudio.paused) {
+            playMusic();
+        } else {
+            pauseMusic();
+        }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        localStorage.setItem('musicCurrentTime', backgroundAudio.currentTime);
+        localStorage.setItem('musicIsPlaying', isPlaying);
+    });
+
+    // --- Preloader & Main Content Visibility (for index.html, handled by page3.html script for page 3) ---
+    // Keep this section if index.html still uses it. For page3.html, the inline script handles initial load.
+    const preloader = document.getElementById('preloader'); // This is for index.html's specific preloader
+    if (preloader) { /* ... original index.html preloader logic ... */ }
+    else if (mainContainer) {
+        // This block will execute for pages without the specific #preloader,
+        // allowing staggerAnimations to run after main content is visible.
+        // For page3.html, the inline script manages `visible-content` and calls staggerAnimations.
+        // mainContainer.classList.add('visible-content'); // Managed by page3.html inline script now
+        // staggerAnimations(); // Called by page3.html inline script now
+    }
+
+
+    // --- Staggered Paragraph and Section Animations (for various pages) ---
+    // Make this function globally accessible for page3.html's inline script
+    window.staggerAnimations = function() {
+        // Reset opacity/transform to allow re-animation if needed, or ensure initial hidden state
+        paragraphsAndHeadings.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(10px)'; // Reset to initial state
+            el.style.animation = 'none'; // Clear any previous animation
+        });
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'scale(0.8)'; // Reset for buttons
+            section.style.animation = 'none';
+        });
+
+        if (paragraphsAndHeadings.length > 0) {
+            paragraphsAndHeadings.forEach((el, index) => {
+                el.style.animation = `fadeInSlideUp 0.8s ease-out forwards ${0.5 + index * 0.15}s`; // Slightly faster stagger
+            });
+        }
+
+        if (sections.length > 0) {
+            sections.forEach((section, index) => {
+                const isButtonSection = section.classList.contains('button-container') || section.classList.contains('choice-buttons');
+                const baseDelay = paragraphsAndHeadings.length > 0 ? 0.5 + paragraphsAndHeadings.length * 0.15 : 0.5;
+                if (isButtonSection) {
+                    section.style.animation = `buttonPopIn 1s ease-out forwards ${baseDelay + index * 0.2}s`;
+                } else {
+                    section.style.animation = `fadeInSlideUp 0.8s ease-out forwards ${baseDelay + index * 0.15}s`;
+                }
+            });
+        }
+    }
+
+
+    // --- page3.html (Confession Page) Specific Logic ---
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+
+    // Helper function to move the no button (KEEP AS IS)
+    function moveNoButton(buttonElement, containerElement) {
+        const moveRange = 120;
+        const containerRect = containerElement ? containerElement.getBoundingClientRect() : document.body.getBoundingClientRect();
+        const buttonRect = buttonElement.getBoundingClientRect();
+
+        let newX, newY;
+        let attempts = 0;
+        const maxAttempts = 50;
+
+        do {
+            let deltaX = (Math.random() - 0.5) * 2 * moveRange;
+            let deltaY = (Math.random() - 0.5) * 2 * moveRange;
+
+            newX = buttonRect.left + deltaX;
+            newY = buttonRect.top + deltaY;
+
+            const padding = 20;
+            newX = Math.max(containerRect.left + padding, Math.min(newX, containerRect.right - buttonRect.width - padding));
+            newY = Math.max(containerRect.top + padding, Math.min(newY, containerRect.bottom - buttonRect.height - padding));
+
+            attempts++;
+            if (attempts >= maxAttempts) {
+                console.warn("Could not find a valid new position for the 'No' button.");
+                return;
+            }
+        } while (Math.abs(newX - buttonRect.left) < 5 && Math.abs(newY - buttonRect.top) < 5);
+
+        const currentTransform = getComputedStyle(buttonElement).transform;
+        let currentTx = 0, currentTy = 0;
+        if (currentTransform && currentTransform !== 'none') {
+            const matrix = currentTransform.match(/matrix.*\((.+)\)/);
+            if (matrix) {
+                const values = matrix[1].split(', ').map(Number);
+                currentTx = values[4];
+                currentTy = values[5];
+            }
+        }
+
+        const transformX = (newX - buttonRect.left) + currentTx;
+        const transformY = (newY - buttonRect.top) + currentTy;
+
+        buttonElement.style.transition = 'transform 0.3s ease-out';
+        buttonElement.style.transform = `translate(${transformX}px, ${transformY}px)`;
+    }
+
+    if (yesButton && noButton) {
+        yesButton.style.animation = 'none';
+        noButton.style.animation = 'none';
+        yesButton.style.opacity = '1';
+        noButton.style.opacity = '1';
+
+        yesButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            document.body.classList.add('success-theme');
+            createFallingHearts();
+            createFallingChocolates();
+            setTimeout(() => {
+                window.location.href = 'acknowledgement.html?response=yes';
+            }, 1000);
+        });
+
+        noButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            moveNoButton(noButton, mainContainer);
+        });
+
+        noButton.addEventListener('mouseover', () => {
+            moveNoButton(noButton, mainContainer);
+        });
+
+        noButton.addEventListener('mouseout', () => {
+            // Button stays in new position
+        });
+    }
+
+    // --- showTransitionPreloader Function (KEEP AS IS) ---
+    window.showTransitionPreloader = function(targetPage) {
+        const preloaderDiv = document.createElement('div');
+        preloaderDiv.id = 'dynamic-transition-preloader';
+        preloaderDiv.classList.add('transition-preloader');
+        preloaderDiv.innerHTML = `
+            <div class="preloader-dual-hearts">
+                <div class="heart heart-left"></div>
+                <div class="heart heart-right"></div>
+            </div>
+            <div class="transition-preloader-message">Transitioning...</div>
+        `;
+        document.body.appendChild(preloaderDiv);
+        preloaderDiv.offsetWidth;
+        createDualHearts(preloaderDiv.querySelector('.preloader-dual-hearts'));
+        preloaderDiv.classList.add('active');
+        setTimeout(() => {
+            window.location.href = targetPage;
+        }, 1200);
+    };
+
+    // --- createDualHearts Function (KEEP AS IS, CSS handles the look) ---
+    function createDualHearts(container) {
+        const leftHeart = container.querySelector('.heart-left');
+        const rightHeart = container.querySelector('.heart-right');
+        leftHeart.style.transform = 'translateX(-100%) rotate(-45deg)'; // Ensure initial state reflects CSS
+        rightHeart.style.transform = 'translateX(100%) rotate(-45deg)';
+        leftHeart.style.opacity = '0';
+        rightHeart.style.opacity = '0';
+        setTimeout(() => {
+            leftHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+            rightHeart.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+            leftHeart.style.transform = 'translateX(0) rotate(-45deg)';
+            rightHeart.style.transform = 'translateX(0) rotate(-45deg)';
+            leftHeart.style.opacity = '1';
+        }, 50);
+        leftHeart.style.animation = 'heartMergeLeft 1.5s infinite alternate ease-in-out';
+        rightHeart.style.animation = 'heartMergeRight 1.5s infinite alternate ease-in-out 0.2s';
+    }
+
+}); // End DOMContentLoaded
+
+// --- Functions for falling hearts/chocolates (KEEP AS IS) ---
+function createFallingHearts() { /* ... definition ... */ }
+function createFallingChocolates() { /* ... definition ... */ }
+
+
+// --- Functions to create dynamic background elements (ADD NEW ONES) ---
+
+function createStars(container) { /* ... definition ... */ }
+function createEtherealGlows(container) { /* ... definition ... */ }
+function createParticles(container) { /* ... definition ... */ }
+function createAuraGlows(container) { /* ... definition ... */ }
+function createStreaks(container) { /* ... definition ... */ }
+function createFloatingOrbs(container) { /* ... definition ... */ }
+function createNebulaClouds(container) { /* ... definition ... */ }
+function createWindGusts(container) { /* ... definition ... */ }
+function createFlyingWings(container) { /* ... definition ... */ }
+function createShootingStars(container) { /* ... definition ... */ }
+function createMoonAndScenery(container) { /* ... definition ... */ }
+
+// NEW FUNCTION: Flickering Motes
+function createFlickeringMotes(container) {
+    const numMotes = 150;
+    for (let i = 0; i < numMotes; i++) {
+        const mote = document.createElement('div');
+        mote.classList.add('flickering-mote');
+        const size = Math.random() * 1.5 + 0.5; // 0.5px to 2px
+        mote.style.width = `${size}px`;
+        mote.style.height = `${size}px`;
+        mote.style.left = `${Math.random() * 100}vw`;
+        mote.style.top = `${Math.random() * 100}vh`;
+        mote.style.animationDelay = `${Math.random() * 8}s`;
+        mote.style.setProperty('--mote-duration', `${Math.random() * 15 + 5}s`);
+        mote.style.setProperty('--mote-flicker-duration', `${Math.random() * 3 + 1}s`);
+        mote.style.setProperty('--mote-start-x', `${(Math.random() - 0.5) * 10}vw`);
+        mote.style.setProperty('--mote-start-y', `${(Math.random() - 0.5) * 10}vh`);
+        mote.style.setProperty('--mote-end-x', `${(Math.random() - 0.5) * 20}vw`);
+        mote.style.setProperty('--mote-end-y', `${(Math.random() - 0.5) * 20}vh`);
+        container.appendChild(mote);
+    }
+}
+
+// NEW FUNCTION: Swirling Wisps
+function createSwirlingWisps(container) {
+    const numWisps = 10;
+    for (let i = 0; i < numWisps; i++) {
+        const wisp = document.createElement('div');
+        wisp.classList.add('swirling-wisp');
+        const size = Math.random() * 200 + 100; // 100px to 300px
+        wisp.style.width = `${size}px`;
+        wisp.style.height = `${size * 0.5}px`; // Elongated
+        wisp.style.left = `${Math.random() * 100}vw`;
+        wisp.style.top = `${Math.random() * 100}vh`;
+        wisp.style.animationDelay = `${Math.random() * 12}s`;
+        wisp.style.setProperty('--wisp-duration', `${Math.random() * 25 + 15}s`);
+        wisp.style.setProperty('--wisp-pulse-duration', `${Math.random() * 7 + 3}s`);
+        wisp.style.setProperty('--wisp-start-x', `${(Math.random() - 0.5) * 30}vw`);
+        wisp.style.setProperty('--wisp-start-y', `${(Math.random() - 0.5) * 30}vh`);
+        wisp.style.setProperty('--wisp-end-x', `${(Math.random() - 0.5) * 50}vw`);
+        wisp.style.setProperty('--wisp-end-y', `${(Math.random() - 0.5) * 50}vh`);
+        container.appendChild(wisp);
+    }
+}
+
+// NEW FUNCTION: Gentle Flares
+function createGentleFlares(container) {
+    const numFlares = 5;
+    for (let i = 0; i < numFlares; i++) {
+        const flare = document.createElement('div');
+        flare.classList.add('gentle-flare');
+        const size = Math.random() * 400 + 300; // 300px to 700px, very large
+        flare.style.width = `${size}px`;
+        flare.style.height = `${size}px`;
+        flare.style.left = `${Math.random() * 100}vw`;
+        flare.style.top = `${Math.random() * 100}vh`;
+        flare.style.animationDelay = `${Math.random() * 20}s`;
+        flare.style.setProperty('--flare-duration', `${Math.random() * 10 + 5}s`);
+        flare.style.setProperty('--flare-drift-duration', `${Math.random() * 30 + 20}s`);
+        flare.style.setProperty('--flare-start-x', `${(Math.random() - 0.5) * 20}vw`);
+        flare.style.setProperty('--flare-start-y', `${(Math.random() - 0.5) * 20}vh`);
+        flare.style.setProperty('--flare-end-x', `${(Math.random() - 0.5) * 40}vw`);
+        flare.style.setProperty('--flare-end-y', `${(Math.random() - 0.5) * 40}vh`);
+        container.appendChild(flare);
+    }
+}
