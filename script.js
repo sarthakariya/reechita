@@ -299,10 +299,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (yesButton && noButton) {
-        yesButton.style.animation = 'none';
-        noButton.style.animation = 'none';
-        yesButton.style.opacity = '1';
-        noButton.style.opacity = '1';
+        // Removed redundant style resets here, allowing staggerAnimations to handle them
+        // yesButton.style.animation = 'none';
+        // noButton.style.animation = 'none';
+        // yesButton.style.opacity = '1';
+        // noButton.style.opacity = '1';
 
         yesButton.addEventListener('click', (event) => {
             event.preventDefault();
